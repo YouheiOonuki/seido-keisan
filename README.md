@@ -2,7 +2,7 @@
 
 公開 URL: **https://yorozu-craft.com/seido-keisan/**
 
-年末調整など、税の制度の計算を国税庁の資料どおりに。出典と確認日つき。
+年末調整・住民税など、税の制度の計算を国税庁・総務省の資料や法令どおりに。出典と確認日つき。
 yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github.io の README](https://github.com/YouheiOonuki/youheioonuki.github.io) を参照）。
 
 制度の計算機は 1 つのリポジトリに複数のページで持ちます（yorozu-plans の ROADMAP 7.3.1 の決定 D36）。控除の表と計算は `lib/` に置き、住民税などのページを足すときも使い回します。
@@ -12,6 +12,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 制度の計算機（一覧） | https://yorozu-craft.com/seido-keisan/ |
 | 年末調整の計算（令和8年分） | https://yorozu-craft.com/seido-keisan/nenmatsu/ |
 | 年末調整の計算の使い方 | https://yorozu-craft.com/seido-keisan/nenmatsu/guide.html |
+| 住民税の計算・非課税判定（令和9年度） | https://yorozu-craft.com/seido-keisan/juminzei/ |
+| 住民税の計算の使い方 | https://yorozu-craft.com/seido-keisan/juminzei/guide.html |
 
 ## 機能（年末調整の計算）
 
@@ -23,7 +25,29 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 
 対象外（画面と使い方ページに明記）: 給与の収入 2,000 万円超、課税給与所得金額 1,805 万円超、所得金額調整控除、特定支出控除、非居住者、2 か所以上の給与の合算、住宅ローン控除額そのものの計算。給与のほかに所得がない前提。
 
-## 計算の仕様・根拠
+## 機能（住民税の計算・非課税判定）
+
+- 令和8年の給与の収入・社会保険料・生命保険料・地震保険料・配偶者・扶養親族（16歳未満を含む）・障害者などと、住んでいる市区町村（指定都市か・級地）を入れると、**令和9年度**（令和8年の所得にかかり、令和9年6月から納める分）の住民税を出す
+- 均等割・所得割それぞれの非課税／課税の判定と理由、家族の人数に応じた非課税の限度額と「給与だけなら収入いくらまで」の目安
+- 所得割（道府県民税・市町村民税の内訳、調整控除、住宅ローン控除、非課税限度額のすぐ上の減額）、均等割・森林環境税、年税額
+- 特別徴収（6月〜翌年5月の12回。100円未満の端数は6月）と普通徴収（4回。1,000円未満は6月）の目安
+- ふるさと納税の上限の目安（総務省ポータルの式。特例分が所得割の2割まで）
+- 同じ入力を令和8年度の制度で計算した場合との比較
+- 税率・均等割を自分で直せる（名古屋市・横浜市など標準と違う市区町村向け）。市区町村ごとのデータベースは持たない
+- 年末調整の計算の入力（`seido-keisan_nenmatsu_draft`）を読み込んで使える（読むだけ）
+- 入力はブラウザにだけ自動保存（`seido-keisan_juminzei_draft`）。ファイルへの書き出し・読み込み（`{ tool: 'seido-keisan-juminzei', version: 1, exportedAt, data }`、`seido-keisan-juminzei-backup-YYYYMMDD.json`）
+
+対象外（画面と使い方ページに明記）: 給与以外の所得（公的年金・事業・配当など）、所得金額調整控除、医療費控除・雑損控除、ふるさと納税以外の寄附金税額控除、配当控除、分離課税、退職所得、国外居住の親族、市区町村ごとの減免。
+
+### 住民税の仕様・根拠
+
+地方税法（e-Gov 法令検索。令和8年度は 2026-09-24 時点の施行版、令和9年度は 2027-01-01 施行版）、同施行令・同施行規則、森林環境税法、総務省の資料（令和8年度改正の概要・要綱、やさしい地方税、個人住民税均等割の概要、ふるさと納税ポータル）を 2026-09-24 に読んで値を入れた。値と出典は `lib/juminzei-values.js` の `SOURCES` にまとめ、使い方ページの「根拠と確認日」にも出す。
+
+- 給与所得は所得税の計算の例による（地方税法 32 条・313 条）ので、年末調整と同じ `lib/kyuyo-table-<年>.js` を使う（令和9年度 → 2026 年の表、令和8年度 → 2025 年の表）
+- 住宅ローン控除の「所得税から引ききれなかった額」とふるさと納税の「所得税の基礎控除」は `lib/nenmatsu.js` の所得税の計算を使い回す
+- 横浜市・名古屋市の令和8年度の公式の計算例を、テストで 1 円まで再現している
+
+## 計算の仕様・根拠（年末調整）
 
 国税庁「令和8年分 年末調整のしかた」（比較は「令和7年分」）の原文 PDF を 2026-09-24 に読んで値を入れた。値と出典（PDF の URL と冊子のページ）は `lib/tax2026.js` の `SOURCES` にまとめ、画面の確認日と使い方ページの「根拠と確認日」にも出す。
 
@@ -49,8 +73,9 @@ node --test tests/*.test.js
 | 時期 | 確認すること | 直す場所 |
 |------|------------|---------|
 | 毎年 9 月ごろ | 国税庁の翌年分「年末調整のしかた」の公開。変わった点（102.pdf）と各表 | `lib/tax2026.js` に年を足す（または新しいファイル）、`lib/kyuyo-table-<年>.js` を取り出し直す、テストの期待値、画面の年の表記、`guide.html` の最終確認日と更新履歴 |
+| 毎年 1〜4 月ごろ | 総務省の地方税制改正（法律の概要・要綱）と、e-Gov の地方税法の次の年度の施行版 | `lib/juminzei-values.js` に年度を足す（`CURRENT` / `PREVIOUS`）、テストの期待値、`juminzei/` の年度の表記、`juminzei/guide.html` の最終確認日と更新履歴 |
 
-値や計算を直したら、`nenmatsu/guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
+値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
 
 ## ファイル
 
@@ -62,13 +87,16 @@ node --test tests/*.test.js
 | `lib/tax2026.js` | 所得税（年末調整）の値の表（令和8年分・令和7年分。値・出典・確認日） |
 | `lib/kyuyo-table-2026.js` / `lib/kyuyo-table-2025.js` | 給与所得控除後の給与等の金額の表（PDF から自動生成。手で直さない） |
 | `lib/nenmatsu.js` | 年末調整の計算（画面から切り離した純粋関数）と、入力の正規化・ファイル形式 |
+| `juminzei/index.html` / `juminzei/app.js` / `juminzei/guide.html` | 住民税の計算の画面・制御・使い方ページ |
+| `lib/juminzei-values.js` | 住民税の値の表（令和9年度・令和8年度。値・出典・確認日） |
+| `lib/juminzei.js` | 住民税の計算・非課税判定（純粋関数）と、入力の正規化・ファイル形式 |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
-| `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630）。`nenmatsu/og-image.png` は年末調整のページ用 |
+| `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630）。`nenmatsu/og-image.png`・`juminzei/og-image.png` は各ページ用 |
 | `sitemap.xml` | サイトマップ（robots.txt はドメイン直下で管理） |
 | `tests/*.test.js` | テスト（`node --test tests/*.test.js`。`.github/workflows/test.yml` で push・PR のたびに自動実行） |
 
 ## ライセンス
 
-MIT License（`LICENSE`）。表の値は国税庁「年末調整のしかた」から写したもの。
+MIT License（`LICENSE`）。表の値は国税庁「年末調整のしかた」、地方税法など（e-Gov 法令検索）と総務省の資料から写したもの。

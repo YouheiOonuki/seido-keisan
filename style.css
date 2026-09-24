@@ -210,3 +210,20 @@ details.rels ul { padding-left: 1.2rem; margin-top: 0.3rem; }
 @media print {
   .app-header, .app-footer, .no-print { display: none !important; }
 }
+
+/* ===========================
+   住民税の計算（juminzei）: 均等割・所得割の判定の箱と、納める時期の一覧
+   =========================== */
+.judge { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.4rem; }
+.judge-box { border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.7rem; background: var(--card); min-height: 7.5rem; }
+.judge-title { font-size: 0.82rem; color: var(--muted); }
+.judge-tag { font-size: 1.15rem; font-weight: 700; color: var(--accent); }
+.judge-box.is-hikazei .judge-tag { color: var(--ok); }
+.judge-why { font-size: 0.78rem; color: var(--muted); line-height: 1.55; overflow-wrap: anywhere; }
+@media (max-width: 420px) { .judge { grid-template-columns: 1fr; } .judge-box { min-height: 0; } }
+.pay { list-style: none; font-size: 0.9rem; }
+.pay li { padding: 0.35rem 0; border-bottom: 1px dashed var(--border); }
+.pay li:last-child { border-bottom: 0; }
+.pay .pay-name { font-weight: 700; display: block; }
+.field-label { display: block; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+#nenmatsu-msg:empty { display: none; }
