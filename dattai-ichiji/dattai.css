@@ -1,0 +1,28 @@
+/* ===========================
+   脱退一時金の計算（dattai-ichiji・en/pension-refund）だけの見た目。色は ../style.css のトークンだけを使う
+   骨組みは style.css の SCREEN.md 1.1 の部品（.req・.fixbar・.layout-2col・details.card.opt）
+   =========================== */
+.lang-switch { font-size: 0.85rem; margin-top: 0.4rem; }
+.lang-switch a { display: inline-block; padding: 0.5rem 0.4rem; }
+.field input[type="month"], .field input[type="date"] {
+  width: 100%; max-width: 16rem; padding: 0.4rem 0.5rem; font-size: 1rem; font-family: inherit;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text);
+}
+.field .num { display: flex; align-items: center; gap: 0.4rem; }
+.field .num input { max-width: 8rem !important; text-align: right; }
+/* 必須が空の欄は薄く強調する（エラー文は出さない） */
+.field.is-missing input { border-color: var(--accent); background: var(--accent-soft); }
+
+.refund { font-weight: 700; color: var(--ok); text-align: center; font-size: 0.98rem; }
+.refund:empty, #r-refund-note:empty, #r-deadline:empty { display: none; }
+.msgs { list-style: none; margin: 0.4rem 0; }
+.msgs:empty { display: none; }
+.msgs li { font-size: 0.85rem; border-radius: 6px; padding: 0.45rem 0.7rem; margin-bottom: 0.4rem; background: var(--accent-soft); }
+.msgs li.warn { background: var(--warn-bg); border: 1px solid var(--warn-border); }
+.sum th { font-weight: 600; }
+.sum tr.total th, .sum tr.total td { color: var(--accent); font-weight: 700; }
+.deadline { font-size: 0.85rem; margin-top: 0.6rem; }
+.opt .hint { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+.opt ul { padding-left: 1.2rem; }
+.opt li + li { margin-top: 0.3rem; }
+.btn-row .btn { min-height: 44px; }

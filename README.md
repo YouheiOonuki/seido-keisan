@@ -2,7 +2,7 @@
 
 公開 URL: **https://yorozu-craft.com/seido-keisan/**
 
-年末調整・住民税・育休・医療費控除など、税と社会保険の制度の計算を国税庁・総務省・厚生労働省の資料や法令どおりに。出典と確認日つき。
+年末調整・住民税・育休・医療費控除・脱退一時金など、税と社会保険の制度の計算を国税庁・総務省・厚生労働省の資料や法令どおりに。出典と確認日つき。
 yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github.io の README](https://github.com/YouheiOonuki/youheioonuki.github.io) を参照）。
 
 制度の計算機は 1 つのリポジトリに複数のページで持ちます（yorozu-plans の ROADMAP 7.3.1 の決定 D36）。控除の表と計算は `lib/` に置き、住民税などのページを足すときも使い回します。
@@ -18,6 +18,10 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 育休・産休の計算の使い方 | https://yorozu-craft.com/seido-keisan/ikukyu/guide.html |
 | 医療費控除の計算（令和8年分） | https://yorozu-craft.com/seido-keisan/iryohi/ |
 | 医療費控除の計算の使い方 | https://yorozu-craft.com/seido-keisan/iryohi/guide.html |
+| 脱退一時金の計算 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/ |
+| 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
+| Japan Pension Refund Calculator（英語版） | https://yorozu-craft.com/seido-keisan/en/pension-refund/ |
+| Japan Pension Refund Calculator: guide | https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html |
 
 ## 機能（年末調整の計算）
 
@@ -98,6 +102,28 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - セルフメディケーション税制は、令和8年分は措置法の「平成29年から令和8年まで」の範囲。令和9年分からは令和8年法律第12号でスイッチOTC医薬品は期限なし・それ以外は令和13年まで（額は同じ）。住民税は地方税法附則 4 条の 5 で、令和8年分に当たる令和9年度分まで。2027-01-01 施行版（令和8年法律第2号）で「平成30年度以後の各年度分」に延長されている（e-Gov で確認）
 - 令和9年分から復興特別所得税は 1.1% ＋ 防衛特別所得税 1%（合計 2.1% は同じ）。令和9年分に更新するときに確かめる
 
+## 機能（脱退一時金の計算・Japan Pension Refund Calculator）
+
+yorozu-plans の企画書 16（K62）。オーナー決定 D75〜D80（2026-09-24）: 置き場はこのリポジトリ、英語 `/seido-keisan/en/pension-refund/` と日本語 `/seido-keisan/dattai-ichiji/` を同時に公開し、hreflang で対にする。値は日本語側の `lib/dattai-values.js` だけに持ち、英語ページも同じファイルを読む。
+
+- 日本国籍のない人が日本を離れたときの脱退一時金を、厚生年金と国民年金で**別々に**判定（それぞれ 6 月以上。合算しない）
+  - 国民年金: 基準月（最後に保険料を納めた月）の年度の表の額（平成25〜令和8年度）。一部免除の月は 3/4・1/2・1/4 で数える。上限は基準月が 2021-04 以降なら 60 月、前は 36 月
+  - 厚生年金: 平均標準報酬額 × 支給率（最終月 2021-04 以降は 0.5〜5.5、2017-09〜2021-03 は 3.3 まで）。月給は等級表（88,000〜650,000円）で標準報酬月額にし、賞与は 1 回ごとに 1,000円未満切り捨て・150万円まで。平均標準報酬額を直接入れることもできる
+  - 20.42% の源泉徴収は厚生年金の分だけ（1円未満切り捨て）
+- 還付の目安: 退職所得の選択課税（控除 40万円 × 勤続年数・最低 80万円、(収入 − 控除) ÷ 2、勤続 5 年以下は 300万円を超える部分を 1/2 にしない、速算表 ＋ 2.1%）。勤続年数は上限までの月数を 1 年単位に切り上げ。上限を超える人は「上限まで」と「全期間」の 2 通りを幅で出す（企画書 16 の開いた問い 1 が解けるまで・D77）。同じ年にほかの退職金がある人には出さない
+- 請求の期限（日本に住所を有しなくなった日から 2 年）、上限を超えた期間が消える注意、日本国籍・障害給付・120 月以上で請求できない判定、出身国を入れた人だけ社会保障協定の注意（通算できる 20 か国・できない 4 か国。額は変えない。D79）
+- 未施行の改正（上限 8 年・再入国許可）は使い方ページに 1 文だけ。計算には入れない（D78）
+- 画面は SCREEN.md 1.1（必須 6 項目 → 結果 → くわしく入れる、上端の固定バー、PC 2 カラム）。日英で `dattai-ichiji/app.js` を共用し、変わる文言は `lib/pension-refund-text.js` の `en`・`ja`（キーはテストでそろえる）
+- 入力はブラウザにだけ自動保存（`seido-keisan_dattai_draft`。日英で共通）。ファイルへの書き出し・読み込み（`{ tool: 'seido-keisan-dattai', version: 1, exportedAt, data }`、`seido-keisan-dattai-backup-YYYYMMDD.json`）。給与を含むため共有リンクは作らない
+
+対象外（画面と使い方ページに明記）: 共済組合の期間、2003年3月以前の期間、厚生年金の最終月が 2017-08 以前、国民年金の基準月が 2013-03 以前、未施行の改正、租税条約、住民税、為替換算。
+
+### 脱退一時金の仕様・根拠
+
+日本年金機構「脱退一時金の制度」「国民年金の脱退一時金額」（どちらも 2026-04-01 更新）、年金Q&A、脱退一時金請求書（英語、2026年3月現在）、保険料額表（令和8年度版）、「協定を結んでいる国との協定発効時期…」（2025-10-27 更新）、国税庁「退職所得の選択課税の記載例」・質疑応答事例（租税条約）、厚生労働省の改正法の資料を 2026-09-24 に読んで値を入れた。値と出典は `lib/dattai-values.js` の `SOURCES`。
+
+- テストで、国税庁の記載例①（1,000万円・10 年 → 税 206,752円・還付 1,222,648円）と記載例②（291,478円 → 源泉 59,519円）、企画書 16 の 6 章の 5 例、国民年金の 14 年度分の表、支給率の 2 つの表（18.3% × 1/2 × 数 の四捨五入）を再現している
+
 ## 計算の仕様・根拠（年末調整）
 
 国税庁「令和8年分 年末調整のしかた」（比較は「令和7年分」）の原文 PDF を 2026-09-24 に読んで値を入れた。値と出典（PDF の URL と冊子のページ）は `lib/tax2026.js` の `SOURCES` にまとめ、画面の確認日と使い方ページの「根拠と確認日」にも出す。
@@ -129,6 +155,11 @@ node --test tests/*.test.js
 | 毎年 9〜12 月 | 国税庁のタックスアンサー No.1120・1129（翌年分の法令等）、措置法 41 条の 17 の期限、復興特別所得税・防衛特別所得税の率 | `lib/iryohi-values.js`（`year`・`label`・`shinkoku`・`jumindo`・値・`CHECKED`）、テスト、`iryohi/` の年の表記、`iryohi/guide.html` の確認日と更新履歴 |
 | 毎年 1〜4 月ごろ | 総務省の地方税制改正（法律の概要・要綱）と、e-Gov の地方税法の次の年度の施行版 | `lib/juminzei-values.js` に年度を足す（`CURRENT` / `PREVIOUS`）、テストの期待値、`juminzei/` の年度の表記、`juminzei/guide.html` の最終確認日と更新履歴 |
 
+| **毎年 4 月 1 日ごろ** | 日本年金機構「国民年金の脱退一時金額」に新年度の表。請求書（英語）の改訂 | `lib/dattai-values.js` の `kokunen` に年度を足す（表が出るまで、その年度の基準月は「まだ公表されていない」と出る。画面の確認日の注意も新年度に入ると出る）、`CHECKED`、テスト、両方の `guide.html` の更新履歴 |
+| 2027-09 から毎年 9 月（2029 年まで） | 厚生年金の標準報酬月額の上限（68万・71万・75万円）の等級表 | `lib/dattai-values.js` の `grades`・`gradeTableTo`（最終月で表を選ぶ形にする） |
+| 3 か月ごと | e-Gov の厚生年金保険法の未施行版と施行令、機構の「脱退一時金の制度」。上限 8 年・再入国許可の施行日が決まったか | 決まったら計算・判定・文言を足す（企画書 16 に追記） |
+| 半年ごと | 社会保障協定の一覧（ページの更新日） | `lib/dattai-values.js` の `kyotei`・`KYOTEI_ASOF` |
+
 値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
 
 ## ファイル
@@ -150,14 +181,20 @@ node --test tests/*.test.js
 | `iryohi/index.html` / `iryohi/app.js` / `iryohi/iryohi.css` / `iryohi/guide.html` | 医療費控除の計算の画面・制御・画面だけの見た目・使い方ページ |
 | `lib/iryohi-values.js` | 医療費控除の値の表（5%・10万円・200万円、セルフメディケーション税制、速算表の 4,000 万円超まで。値・出典・確認日） |
 | `lib/iryohi.js` | 医療費控除と戻る税金の計算（純粋関数）と、入力の正規化・ファイル形式 |
+| `dattai-ichiji/index.html` / `dattai-ichiji/guide.html` | 脱退一時金の計算の画面と使い方ページ（日本語。値の持ち主で hreflang の対） |
+| `en/pension-refund/index.html` / `en/pension-refund/guide.html` | Japan Pension Refund Calculator の画面と使い方ページ（英語。同じ値・同じ計算を読む） |
+| `dattai-ichiji/app.js` / `dattai-ichiji/guide.js` / `dattai-ichiji/dattai.css` | 日英で共用する画面の制御（言語は `<html lang>`）、使い方ページの確認日・出典の差し込み、画面だけの見た目 |
+| `lib/dattai-values.js` | 脱退一時金の値の表（国民年金の年度の表、支給率、等級、賞与の上限、20.42%、選択課税、協定国。値・出典・確認日） |
+| `lib/pension-refund.js` | 脱退一時金・還付の目安・期限の計算（純粋関数）と、入力の正規化・ファイル形式 |
+| `lib/pension-refund-text.js` | 結果に合わせて変わる文言（`en`・`ja`。キーは同じ） |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
-| `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630）。`nenmatsu/og-image.png`・`juminzei/og-image.png`・`ikukyu/og-image.png`・`iryohi/og-image.png` は各ページ用 |
+| `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630）。`nenmatsu/og-image.png`・`juminzei/og-image.png`・`ikukyu/og-image.png`・`iryohi/og-image.png` は各ページ用（脱退一時金は共通の `og-image.png`） |
 | `sitemap.xml` | サイトマップ（robots.txt はドメイン直下で管理） |
 | `tests/*.test.js` | テスト（`node --test tests/*.test.js`。`.github/workflows/test.yml` で push・PR のたびに自動実行） |
 
 ## ライセンス
 
-MIT License（`LICENSE`）。表の値は国税庁「年末調整のしかた」、地方税法・健康保険法・雇用保険法など（e-Gov 法令検索）と総務省・厚生労働省・協会けんぽの資料から写したもの。
+MIT License（`LICENSE`）。表の値は国税庁「年末調整のしかた」、日本年金機構の脱退一時金の資料、地方税法・健康保険法・雇用保険法など（e-Gov 法令検索）と総務省・厚生労働省・協会けんぽの資料から写したもの。
