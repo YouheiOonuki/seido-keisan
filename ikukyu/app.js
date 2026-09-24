@@ -120,6 +120,10 @@
 
   function render() {
     var r = I.calc(state);
+    // 「くわしく入れる」の summary に今の状態を出す（SCREEN.md 1.1 の 4）
+    updateSummaries(I.normalizeInput(state));
+    // 固定バーの文言は結果の大きな数字に名前を付けたもの
+    setBar(r.ok ? '受け取る給付の合計 ' + yen(r.totalWithIchiji) : '');
     var box = $('msgs');
     box.textContent = '';
     var list = $('benefits');
@@ -249,6 +253,27 @@
       row(st, [frag, s.amount === null ? s.days + '日' : yen(s.amount)]);
     });
   }
+
+  // --- 「くわしく入れる」の summary（入力の状態） ---
+  var setText = window.ScreenParts.setText, optText = window.ScreenParts.optText;
+  function updateSummaries(d) {
+    var mother = d.role === 'mother';
+    setText('sum-kyuyo', d.hyojun || d.wage6 || (mother && d.under12) ? '入力あり' : '入力なし');
+    var birth = [optText($('babies'))];
+    if (d.birthDate) birth.push('生まれた日 ' + jp(I.parseDate(d.birthDate)));
+    if (!d.sanka) birth.push('産科医療補償制度に入っていない');
+    setText('sum-birth', birth.join('・'));
+    setText('sum-leave', d.leaveEnd || (!mother && (d.leaveStart || d.papa.use)) ? '入力あり' : '入力なし');
+    setText('sum-spouse', optText($('spouse')));
+    var net = [d.pref === 'custom' ? '健康保険組合など（' + d.customRate + '%）' : optText($('pref'))];
+    if (d.over40) net.push('40歳以上');
+    if (d.juminzei || d.tedori) net.push('住民税・手取りの入力あり');
+    setText('sum-net', net.join('・'));
+    setText('sum-jitan', d.jitan.use ? (d.jitan.salary ? yen(d.jitan.salary) : 'あり') : 'なし');
+  }
+
+  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen.js） ---
+  var setBar = window.ScreenParts.fixbar();
 
   // 中身が同じなら描き直さない
   var saveTimer = null, lastSig = '';

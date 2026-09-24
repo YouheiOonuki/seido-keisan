@@ -239,8 +239,7 @@
     // 「くわしく入れる」の summary に今の状態を出す（SCREEN.md 1.1 の 4）
     updateSummaries(d);
     // 固定バーの文言は結果の大きな数字と同じ。年調年税額だけのときは名前を付ける
-    fixbarText = !r.ok || !d.income ? '' : d.withheld ? $('r-big').textContent : '年調年税額 ' + yen(r.nenzei);
-    updateBar();
+    setBar(!r.ok || !d.income ? '' : d.withheld ? $('r-big').textContent : '年調年税額 ' + yen(r.nenzei));
 
     var box = $('msgs');
     box.textContent = '';
@@ -320,8 +319,7 @@
   }
 
   // --- 「くわしく入れる」の summary（入力の状態。控除が付くかどうかは結果の「途中の計算」で見る） ---
-  function setText(id, t) { var e = $(id); if (e.textContent !== t) e.textContent = t; }
-  function optText(sel) { return sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].textContent : ''; }
+  var setText = window.ScreenParts.setText, optText = window.ScreenParts.optText;
   function updateSummaries(d) {
     var hoken = ['newIppan', 'oldIppan', 'kaigo', 'newNenkin', 'oldNenkin'].some(function (k) { return d.seimei[k] > 0; }) ||
       d.jishin.jishin > 0 || d.jishin.oldLong > 0;
@@ -337,35 +335,8 @@
     setText('sum-jutaku', d.jutaku > 0 ? yen(d.jutaku) : 'なし');
   }
 
-  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す ---
-  // 読み込み時は hidden（位置は fixed なのでレイアウトはずれない）。スクリーンリーダーには最初に出たときの 1 回だけ読ませる
-  var fixbar = $('fixbar'), fixbarText = '', resultInView = true, barAnnounced = false;
-  function updateBar() {
-    var show = !!fixbarText && !resultInView;
-    if (show && !barAnnounced) {
-      barAnnounced = true;
-      setText('fixbar-text', '');
-      fixbar.hidden = false;
-      // 見えるようにしてから文字を入れると読み上げられる。そのあとは読み上げを止める（結果の aria-live と重ねない）
-      setTimeout(function () { setText('fixbar-text', fixbarText); setTimeout(function () { fixbar.setAttribute('aria-live', 'off'); }, 1000); }, 50);
-      return;
-    }
-    setText('fixbar-text', fixbarText);
-    fixbar.hidden = !show;
-  }
-  if ('IntersectionObserver' in window) {
-    // バーの高さ（44px）の分だけ上を狭めて、バーに隠れている結果は「画面の外」とみなす
-    new IntersectionObserver(function (es) {
-      resultInView = es[es.length - 1].isIntersecting;
-      updateBar();
-    }, { rootMargin: '-44px 0px 0px 0px' }).observe($('result-main'));
-  }
-  $('fixbar-link').addEventListener('click', function (e) {
-    e.preventDefault();
-    var card = $('result-card');
-    card.scrollIntoView({ block: 'start' });   // style.css の scroll-margin-top でバーの下に見出しが来る
-    try { card.focus({ preventScroll: true }); } catch (err) { card.focus(); }
-  });
+  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen.js） ---
+  var setBar = window.ScreenParts.fixbar();
 
   // 入力欄から離れたときの change でも呼ばれるので、中身が同じなら描き直さない
   // （描き直すと結果の表が作り直されてスクロール位置がずれ、直後のボタンの押下が外れることがある）
