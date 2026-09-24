@@ -68,15 +68,18 @@
             <option value="mother">出産する本人（産休のあと育休）</option>
             <option value="father">配偶者が出産する（産後パパ育休・育休）</option>
           </select>
-          <p class="hint">会社員など、勤め先の健康保険・厚生年金・雇用保険に入っている人の計算です。自営業・フリーランス（国民健康保険）、公務員の共済組合は対象外です。</p>
         </div>
+        <details class="rels">
+          <summary>対象になる人</summary>
+          <p class="hint">会社員など、勤め先の健康保険・厚生年金・雇用保険に入っている人の計算です。自営業・フリーランス（国民健康保険）、公務員の共済組合は対象外です。</p>
+        </details>
       </section>
 
       <section class="card" aria-labelledby="h-pay">
         <h2 id="h-pay">お給料</h2>
         <div class="field">
           <label for="salary">毎月の給与（額面）</label>
-          <p class="hint">基本給に残業代・通勤手当などの手当を足した、税や保険料を引く前の額です。賞与（ボーナス）は含めません。</p>
+          <p class="hint">残業代・手当を含む、税や保険料を引く前の額。賞与は除く。</p>
           <div class="money"><input type="number" id="salary" data-k="salary" inputmode="numeric" min="0" step="1" placeholder="例：300000"><span class="unit">円</span><output class="yomi" for="salary"></output></div>
         </div>
         <details class="rels">
@@ -126,11 +129,11 @@
 
       <section class="card" aria-labelledby="h-leave">
         <h2 id="h-leave">育休の予定</h2>
-        <p class="small mother-only">産休は、予定日を含む42日前（双子以上は98日前）から、生まれた日の翌日から8週間まで休む前提で計算します。育休は産休の翌日からです。</p>
+        <p class="small mother-only">産休は予定日の42日前から産後8週まで、育休はその翌日から。</p>
         <div class="father-only">
           <label class="inline"><input type="checkbox" id="papa-use" data-k="papa.use"> 産後パパ育休（出生時育児休業）を取る</label>
           <div class="sub-block" id="papa-block">
-            <p class="small">生まれてから8週間の中で、合わせて28日まで。育休とは別の休みです。</p>
+            <p class="small">生まれてから8週間の中で28日まで。育休とは別です。</p>
             <div class="grid2">
               <div class="field"><label for="papa-start">産後パパ育休の開始日</label><input type="date" id="papa-start" data-k="papa.start"></div>
               <div class="field"><label for="papa-end">産後パパ育休の終了日</label><input type="date" id="papa-end" data-k="papa.end"></div>
@@ -157,7 +160,7 @@
             <option value="notEmployee">専業主婦（主夫）・自営業・フリーランスなど</option>
             <option value="none">配偶者がいない（ひとり親など）</option>
           </select>
-          <p class="hint">出生後休業支援給付金（13%の上乗せ）の要件の判定に使います。</p>
+          <p class="hint">13%の上乗せの判定に使います。</p>
         </div>
       </section>
 
@@ -228,12 +231,12 @@
         <div class="grid2">
           <div class="field">
             <label for="juminzei">毎月の住民税</label>
-            <p class="hint">給与明細の「住民税」の額。休業中も前の年の所得にかかります。</p>
+            <p class="hint">給与明細の「住民税」の額。</p>
             <div class="money"><input type="number" id="juminzei" data-k="juminzei" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div>
           </div>
           <div class="field">
             <label for="tedori">休業前の毎月の手取り</label>
-            <p class="hint">給与明細の「差引支給額」。休業中と比べます。</p>
+            <p class="hint">給与明細の「差引支給額」。</p>
             <div class="money"><input type="number" id="tedori" data-k="tedori" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="tedori"></output></div>
           </div>
         </div>
@@ -279,7 +282,7 @@
       <p class="small" id="exempt"></p>
 
       <h3 class="sub">月ごとの受け取りの目安</h3>
-      <p class="small">給付は、休んだ期間が終わってから申請し、審査のあとに振り込まれます。育児休業給付金は2か月分ずつ申請するのが一般的です。下の「受け取り」は、申請がふつうに進んだときの<strong>目安</strong>で、勤め先の手続きの時期で前後します。</p>
+      <p class="small">申請がふつうに進んだときの時期で、勤め先の手続きで前後します。</p>
       <div class="table-wrap">
         <table class="cmp sched" id="sched">
           <thead><tr><th scope="col">月</th><th scope="col">休業</th><th scope="col">社会保険料</th><th scope="col">受け取り（目安）</th></tr></thead>
@@ -304,17 +307,17 @@
 
       <h3 class="sub">途中の計算</h3>
       <table class="steps" id="steps">
-        <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った式と規則です。根拠の資料は<a href="./guide.html#basis">使い方ページ</a>にまとめています。</caption>
+        <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った式と規則です。</caption>
         <tbody></tbody>
       </table>
 
-      <p class="small">この結果は目安です。実際の支給額は、出産手当金・出産育児一時金は加入している健康保険が、育児休業給付金などはハローワークが決めます。休業中に給与が出る場合や、会社独自の制度は計算に入れていません。</p>
-      <p class="small">休業中も、住民税は前の年の所得にかかります（給付は非課税なので、休業した年の分は翌年度の住民税が下がります） → <a href="../juminzei/">住民税の計算（令和9年度）</a></p>
+      <p class="small">この計算は目安です。実際の額は健康保険とハローワークが決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+      <p class="small">休業中も住民税はかかります → <a href="../juminzei/">住民税の計算（令和9年度）</a></p>
     </section>
 
     <section class="card no-print" aria-labelledby="h-file">
       <h2 id="h-file">入力の保存・書き出し</h2>
-      <p class="small">入力内容はこの端末のブラウザに自動で保存され、外部には送信されません。別の端末で使うときや控えを残すときは、ファイルに書き出してください。</p>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
       <div class="btn-row">
         <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
         <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
@@ -324,7 +327,7 @@
       <p class="small" id="file-msg" role="status"></p>
     </section>
 
-    <p class="small"><a href="./guide.html">使い方・計算の根拠・よくある質問（手取り・いつ振り込まれるか・上限額）・ご利用上の注意</a></p>
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（手取り・いつ振り込まれるか・上限額）</a></p>
 
   </main>
 
