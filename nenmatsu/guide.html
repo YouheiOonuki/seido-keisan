@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使い方・根拠・よくある質問｜年末調整の計算（令和8年分）｜yorozu-craft</title>
+  <meta name="description" content="年末調整の計算（令和8年分）の使い方、国税庁の資料による計算の根拠と確認日、計算の手順、よくある質問、ご利用上の注意。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/nenmatsu/guide.html">
+
+  <meta property="og:title" content="使い方・根拠・よくある質問｜年末調整の計算（令和8年分）">
+  <meta property="og:description" content="年末調整の計算（令和8年分）の使い方、国税庁の資料による計算の根拠と確認日、計算の手順、よくある質問、ご利用上の注意。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/nenmatsu/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/nenmatsu/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- よくある質問（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "無料で使えますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "はい。会員登録やインストールも不要で、ブラウザだけで使えます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "令和8年分の年末調整では何が変わりましたか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "基礎控除が合計所得金額489万円以下の人は104万円に引き上げられ、給与所得控除の最低保障額が74万円になりました。扶養親族などの所得要件は合計所得金額62万円以下（給与だけなら収入136万円以下）、特定親族は62万円超123万円以下、勤労学生は89万円以下に変わりました。また、23歳未満の扶養親族がいる人は、一般の生命保険料（新）の控除が最高6万円になりました（国税庁「令和8年分 年末調整のしかた」3〜4ページ）。" }
+      },
+      {
+        "@type": "Question",
+        "name": "計算結果が勤め先の源泉徴収票と違います。",
+        "acceptedAnswer": { "@type": "Answer", "text": "12月の給与・賞与の見込み、保険料の新旧や区分、前の勤め先の給与の含め忘れ、所得金額調整控除（このツールでは計算しません）などで差が出ます。途中の計算の表と源泉徴収票を1行ずつ見比べ、わからない点は勤め先に確認してください。" }
+      },
+      {
+        "@type": "Question",
+        "name": "住宅ローン控除の額も計算できますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "いいえ。控除額そのものは計算しません。住宅借入金等特別控除申告書に書かれている控除額を入れると、算出所得税額を上限として差し引きます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "入力した内容はどこに保存されますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "お使いのブラウザの中にだけ保存され、外部のサーバーには送信されません。別の端末で使うときは「ファイルに書き出す」で JSON ファイルにして、読み込んでください。年収や家族の情報を含むため、共有リンクは作りません。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>年末調整の計算（令和8年分）の使い方</h1>
+    <p class="subtitle">使い方・根拠と確認日・計算の手順・よくある質問・ご利用上の注意</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ 年末調整の計算（令和8年分）を使う</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>1年間の給与の収入金額（賞与を含む。12月分の見込みも）と、給与から源泉徴収された所得税の合計を入れます。</li>
+        <li>社会保険料、生命保険料・地震保険料（控除証明書の金額）を入れます。</li>
+        <li>配偶者と、扶養している親族を1人ずつ入れます。親族は年齢の区分と、その人の給与の収入（または合計所得金額）を入れると、扶養控除・特定親族特別控除のどちらになるかを自動で判定します。</li>
+        <li>本人の障害・寡婦・ひとり親・勤労学生と、住宅ローン控除の額（申告書の金額）を入れます。</li>
+        <li>「計算の結果」に、戻る見込み（還付）か足りない見込み（不足）の金額と、途中の計算がすべて出ます。令和7年分の制度で計算した場合との違いも出ます。</li>
+      </ol>
+      <p>入力は自動で保存されます。控えを残すときや別の端末で使うときは「ファイルに書き出す」を使ってください。</p>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <dl class="info-list">
+        <dt>根拠</dt>
+        <dd>国税庁「令和8年分 年末調整のしかた」（比較には「令和7年分 年末調整のしかた」）</dd>
+        <dt>最終確認日</dt>
+        <dd><time datetime="2026-09-24">2026年9月24日</time>（下の PDF の原文で確認）</dd>
+      </dl>
+      <h3>令和8年分</h3>
+      <ul>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/01.htm" target="_blank" rel="noopener noreferrer">国税庁「令和8年分 年末調整のしかた」</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/102.pdf" target="_blank" rel="noopener noreferrer">昨年と比べて変わった点（3〜4ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/105.pdf" target="_blank" rel="noopener noreferrer">扶養親族・障害者・寡婦・ひとり親・勤労学生の要件（8〜15ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/106.pdf" target="_blank" rel="noopener noreferrer">基礎控除・配偶者控除等・特定親族特別控除（16〜20ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/107.pdf" target="_blank" rel="noopener noreferrer">生命保険料控除・地震保険料控除（24〜26ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/109.pdf" target="_blank" rel="noopener noreferrer">年税額の計算（35〜39ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/114.pdf" target="_blank" rel="noopener noreferrer">給与所得控除後の給与等の金額の表（47〜54ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/115.pdf" target="_blank" rel="noopener noreferrer">速算表・配偶者控除等・基礎控除・扶養控除等・特定親族特別控除の表（55〜56ページ）</a></li>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/110rei.pdf" target="_blank" rel="noopener noreferrer">設例（57〜59ページ。このツールのテストで数字を再現しています）</a></li>
+      </ul>
+      <h3>令和7年分（比較用）</h3>
+      <ul>
+        <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2025/01.htm" target="_blank" rel="noopener noreferrer">国税庁「令和7年分 年末調整のしかた」</a>（給与所得控除後の給与等の金額の表・速算表・各控除の表は同じ構成の PDF で確認）</li>
+      </ul>
+      <h3>主な値</h3>
+      <div class="table-wrap">
+        <table class="tbl">
+          <thead><tr><th scope="col">項目</th><th scope="col">令和8年分</th><th scope="col">令和7年分</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">基礎控除</th><td>合計所得 489万円以下 104万円、655万円以下 67万円、2,350万円以下 62万円</td><td>132万円以下 95万円、336万円以下 88万円、489万円以下 68万円、655万円以下 63万円、2,350万円以下 58万円</td></tr>
+            <tr><th scope="row">給与所得控除の最低額</th><td>74万円（収入 69.1万円以上 220万円未満は特例の金額）</td><td>65万円</td></tr>
+            <tr><th scope="row">扶養親族・同一生計配偶者の所得要件</th><td>62万円以下（給与だけなら 136万円以下）</td><td>58万円以下（123万円以下）</td></tr>
+            <tr><th scope="row">特定親族</th><td>62万円超 123万円以下（控除 63万〜3万円）</td><td>58万円超 123万円以下（同）</td></tr>
+            <tr><th scope="row">配偶者特別控除の対象</th><td>62万円超 133万円以下</td><td>58万円超 133万円以下</td></tr>
+            <tr><th scope="row">勤労学生</th><td>89万円以下（163万円以下）</td><td>85万円以下（150万円以下）</td></tr>
+            <tr><th scope="row">一般の生命保険料（23歳未満の扶養親族あり）</th><td>新は最高6万円、新旧合計も6万円まで</td><td>特例なし（新は最高4万円）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">給与所得控除後の給与等の金額の表は、国税庁の PDF から機械で取り出した全行（令和8年分 1,103 行・令和7年分 1,175 行）をそのまま使い、計算の規則と全行が一致することを確かめています。制度は変わることがあります。最終確認日から時間がたっている場合は、国税庁の最新の案内をご確認ください。</p>
+    </article>
+
+    <article class="card content" id="steps">
+      <h2>計算の手順</h2>
+      <ol>
+        <li><strong>給与所得控除後の給与等の金額</strong>：給与の収入金額を「令和8年分の年末調整等のための給与所得控除後の給与等の金額の表」に当てはめます（660万円以上は表の式、1円未満切り捨て）。</li>
+        <li><strong>所得控除の合計</strong>：社会保険料・小規模企業共済等掛金（全額）、生命保険料（一般・介護医療・個人年金で各4万円、合計12万円まで。23歳未満の扶養親族がいれば一般は6万円まで）、地震保険料（5万円まで）、配偶者（特別）控除、特定親族特別控除、扶養控除、障害者・寡婦・ひとり親・勤労学生控除、基礎控除を足します。本人の合計所得金額は、給与所得控除後の金額（給与のほかに所得がない前提）です。</li>
+        <li><strong>課税給与所得金額</strong>：1 − 2。1,000円未満は切り捨てます。</li>
+        <li><strong>算出所得税額</strong>：速算表で、課税給与所得金額 × 税率 − 控除額（5%〜40%）。</li>
+        <li><strong>年調所得税額</strong>：算出所得税額 − 住宅借入金等特別控除額（算出所得税額まで。引ききれない分は切り捨て）。</li>
+        <li><strong>年調年税額</strong>：年調所得税額 × 102.1%（復興特別所得税を含む）。100円未満は切り捨てます。</li>
+        <li><strong>過不足</strong>：源泉徴収された税額の合計 − 年調年税額。プラスなら戻る見込み（還付）、マイナスなら足りない見込み（不足）です。</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>無料で使えますか？</dt>
+        <dd>はい。会員登録やインストールも不要で、ブラウザだけで使えます。</dd>
+        <dt>令和8年分の年末調整では何が変わりましたか？</dt>
+        <dd>基礎控除が合計所得金額489万円以下の人は104万円に引き上げられ、給与所得控除の最低保障額が74万円になりました。扶養親族などの所得要件は合計所得金額62万円以下（給与だけなら収入136万円以下）、特定親族は62万円超123万円以下、勤労学生は89万円以下に変わりました。また、23歳未満の扶養親族がいる人は、一般の生命保険料（新）の控除が最高6万円になりました（国税庁「令和8年分 年末調整のしかた」3〜4ページ）。</dd>
+        <dt>計算結果が勤め先の源泉徴収票と違います。</dt>
+        <dd>12月の給与・賞与の見込み、保険料の新旧や区分、前の勤め先の給与の含め忘れ、所得金額調整控除（このツールでは計算しません）などで差が出ます。途中の計算の表と源泉徴収票を1行ずつ見比べ、わからない点は勤め先に確認してください。</dd>
+        <dt>住宅ローン控除の額も計算できますか？</dt>
+        <dd>いいえ。控除額そのものは計算しません。住宅借入金等特別控除申告書に書かれている控除額を入れると、算出所得税額を上限として差し引きます。</dd>
+        <dt>入力した内容はどこに保存されますか？</dt>
+        <dd>お使いのブラウザの中にだけ保存され、外部のサーバーには送信されません。別の端末で使うときは「ファイルに書き出す」で JSON ファイルにして、読み込んでください。年収や家族の情報を含むため、共有リンクは作りません。</dd>
+      </dl>
+    </article>
+
+    <!-- README「ツールを追加するとき」8: ツール固有の注意・データの扱いはここに書く -->
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li><strong>結果は目安</strong>：この計算は概算です。実際の年末調整は勤め先が行います。申告書の内容や源泉徴収票と違う場合は、勤め先に確認してください。税の助言ではありません。</li>
+        <li><strong>対象外のもの</strong>：給与の収入が2,000万円を超える人、課税給与所得金額が1,805万円を超える人（どちらも年末調整の対象外）、所得金額調整控除、特定支出控除、非居住者、2か所以上からの給与の合算、住宅ローン控除額そのものの計算。給与のほかに所得がない前提で計算します。</li>
+        <li><strong>保存されるデータ</strong>：入力内容を、このブラウザの localStorage（キー <code>seido-keisan_nenmatsu_draft</code>）に保存します。外部には送信しません。「入力を消す」で消せます。</li>
+        <li><strong>ファイルへの書き出し</strong>：書き出した JSON ファイルには年収や家族の情報が入ります。取り扱いにご注意ください。</li>
+        <li><strong>共有リンク</strong>：年収や家族構成を含むため、共有リンクの機能はありません。</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-09-24">2026年9月24日</time> 公開（令和8年分。国税庁「令和8年分 年末調整のしかた」で確認）</li>
+      </ul>
+      <p class="small">制度の値や計算を直したときは、ここに日付と内容を残します。</p>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./">年末調整の計算</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
