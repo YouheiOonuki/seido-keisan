@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>制度の計算機（年末調整など）｜yorozu-craft</title>
-  <meta name="description" content="年末調整など、税の制度の計算を国税庁の資料どおりに。出典と確認日つき。登録不要・無料で、入力はブラウザの外に送信しません。">
+  <title>制度の計算機（年末調整・住民税など）｜yorozu-craft</title>
+  <meta name="description" content="年末調整・住民税など、税の制度の計算を国税庁・総務省の資料や法令どおりに。出典と確認日つき。登録不要・無料で、入力はブラウザの外に送信しません。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/">
 
   <meta property="og:title" content="制度の計算機｜yorozu-craft">
-  <meta property="og:description" content="年末調整など、税の制度の計算を国税庁の資料どおりに。出典と確認日つき。">
+  <meta property="og:description" content="年末調整・住民税など、税の制度の計算を国税庁・総務省の資料や法令どおりに。出典と確認日つき。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/">
   <meta property="og:site_name" content="yorozu-craft">
@@ -26,7 +26,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "制度の計算機",
-    "description": "年末調整など、税の制度の計算を国税庁の資料どおりに。出典と確認日つき。",
+    "description": "年末調整・住民税など、税の制度の計算を国税庁・総務省の資料や法令どおりに。出典と確認日つき。",
     "url": "https://yorozu-craft.com/seido-keisan/",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "All",
@@ -48,7 +48,7 @@
 
   <header class="app-header">
     <h1>制度の計算機</h1>
-    <p class="subtitle">年末調整など、税の制度の計算を国税庁の資料どおりに。出典と確認日つき。</p>
+    <p class="subtitle">年末調整・住民税など、税の制度の計算を国税庁・総務省の資料や法令どおりに。出典と確認日つき。</p>
   </header>
 
   <main class="app-main">
@@ -62,14 +62,20 @@
             <span class="desc">年末調整で税金がいくら戻るか・足りないかを計算。基礎控除104万円・特定親族特別控除・23歳未満の扶養親族がいる場合の生命保険料控除に対応し、令和7年分との違いも出します。</span>
           </a>
         </li>
+        <li>
+          <a href="./juminzei/">
+            <span class="name">住民税の計算・非課税判定（令和9年度）</span>
+            <span class="desc">令和8年の収入から、令和9年6月から納める住民税を計算。均等割・所得割がそれぞれ非課税になるかの判定と理由、所得割の内訳、毎月の目安、ふるさと納税の上限の目安。令和8年度との違いも出します。</span>
+          </a>
+        </li>
       </ul>
-      <p class="small">住民税など、ほかの制度の計算機も順に追加します。</p>
+      <p class="small">育休・産休など、ほかの制度の計算機も順に追加します。</p>
     </section>
 
     <section class="card content" aria-labelledby="h-policy">
       <h2 id="h-policy">この計算機の決まりごと</h2>
       <ul>
-        <li><strong>公的な資料どおりに計算</strong>：国税庁などが公表している表や計算式をそのまま使い、画面に出典と確認日を出します。</li>
+        <li><strong>公的な資料どおりに計算</strong>：国税庁・総務省などが公表している表や計算式をそのまま使い、画面に出典と確認日を出します。</li>
         <li><strong>毎年更新</strong>：翌年分の資料が公表されたら値を見直し、確認日を更新します。</li>
         <li><strong>入力は外部に送信しない</strong>：年収や家族のことを入れても、この端末のブラウザの中だけで計算します。</li>
         <li><strong>結果は目安</strong>：実際の手続きは勤め先や役所が行います。税の助言ではありません。</li>
@@ -84,6 +90,7 @@
         <li><a href="../">yorozu-craft トップ</a></li>
         <li><a href="./" aria-current="page">制度の計算機</a></li>
         <li><a href="./nenmatsu/">年末調整の計算</a></li>
+        <li><a href="./juminzei/">住民税の計算</a></li>
         <li><a href="../about.html">運営者情報</a></li>
         <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>
       </ul>
