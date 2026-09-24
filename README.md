@@ -150,6 +150,7 @@ node --test tests/*.test.js
 | `iryohi/index.html` / `iryohi/app.js` / `iryohi/iryohi.css` / `iryohi/guide.html` | 医療費控除の計算の画面・制御・画面だけの見た目・使い方ページ |
 | `lib/iryohi-values.js` | 医療費控除の値の表（5%・10万円・200万円、セルフメディケーション税制、速算表の 4,000 万円超まで。値・出典・確認日） |
 | `lib/iryohi.js` | 医療費控除と戻る税金の計算（純粋関数）と、入力の正規化・ファイル形式 |
+| `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |

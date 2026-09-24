@@ -53,14 +53,20 @@
     <p class="subtitle">令和8年の収入から、令和9年6月から納める住民税を計算します。非課税になるかの判定と理由、所得割の内訳、毎月の目安まで。途中の計算もすべて表示。登録不要。</p>
   </header>
 
-  <main class="app-main">
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す。読み込み時は無い（CLS を出さない） -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
 
     <p class="badge" id="asof">令和9年度の制度（地方税法・総務省の資料）で計算・確認日 <span id="asof-date">2026年9月24日</span>・入力は外部に送信しません</p>
 
     <form id="form" autocomplete="off" onsubmit="return false">
 
-      <section class="card" aria-labelledby="h-income">
-        <h2 id="h-income">令和8年の収入</h2>
+      <!-- 必須の入力（SCREEN.md 1.1 の 2）。一部の人だけの入力は結果の後ろの「くわしく入れる」へ -->
+      <fieldset class="card req" id="req">
+        <legend>令和8年の収入・社会保険料・住んでいる市区町村</legend>
         <div class="field">
           <label for="income">令和8年（1〜12月）の給与の収入金額（賞与を含む。見込みでも可）</label>
           <p class="hint">源泉徴収票の「支払金額」にあたる金額です。交通費（非課税分）は含めません。給与のほかに収入がない人向けです。</p>
@@ -68,143 +74,13 @@
         </div>
         <p class="small"><button type="button" class="btn btn-sub" id="from-nenmatsu">年末調整の計算の入力を使う</button></p>
         <p class="small" id="nenmatsu-msg" role="status"></p>
-      </section>
-
-      <section class="card" aria-labelledby="h-shakai">
-        <h2 id="h-shakai">社会保険料など</h2>
         <div class="field">
           <label for="shakai">社会保険料（給与から引かれた分＋自分で払った分）</label>
           <p class="hint">健康保険・厚生年金・雇用保険・介護保険の合計。</p>
           <details class="rels"><summary>自分で払った分</summary><p class="hint">国民年金・国民健康保険を自分で払った分も足します。</p></details>
           <div class="money"><input type="number" id="shakai" data-k="shakai" inputmode="numeric" min="0" step="1" placeholder="例：450000"><span class="unit">円</span><output class="yomi" for="shakai"></output></div>
         </div>
-        <div class="field">
-          <label for="shokibo">小規模企業共済等掛金（iDeCo など）</label>
-          <div class="money"><input type="number" id="shokibo" data-k="shokibo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="shokibo"></output></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="h-hoken">
-        <h2 id="h-hoken">生命保険料・地震保険料</h2>
-        <p class="small">控除証明書の「本年中に支払った保険料」を、区分ごとに入れます。</p>
-        <details class="rels">
-          <summary>新・旧の区別と、住民税の控除額</summary>
-          <p class="small">新＝平成24年以後の契約、旧＝平成23年以前の契約です。住民税の控除額は所得税より小さく、自動で住民税の式で計算します。</p>
-        </details>
-        <div class="grid2">
-          <div class="field"><label for="s-newIppan">一般の生命保険料（新）</label><div class="money"><input type="number" id="s-newIppan" data-k="seimei.newIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-          <div class="field"><label for="s-oldIppan">一般の生命保険料（旧）</label><div class="money"><input type="number" id="s-oldIppan" data-k="seimei.oldIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-          <div class="field"><label for="s-kaigo">介護医療保険料</label><div class="money"><input type="number" id="s-kaigo" data-k="seimei.kaigo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-          <div class="field"><label for="s-newNenkin">個人年金保険料（新）</label><div class="money"><input type="number" id="s-newNenkin" data-k="seimei.newNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-          <div class="field"><label for="s-oldNenkin">個人年金保険料（旧）</label><div class="money"><input type="number" id="s-oldNenkin" data-k="seimei.oldNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-        </div>
-        <div class="grid2">
-          <div class="field"><label for="j-jishin">地震保険料</label><div class="money"><input type="number" id="j-jishin" data-k="jishin.jishin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-          <div class="field"><label for="j-oldLong">旧長期損害保険料</label><div class="money"><input type="number" id="j-oldLong" data-k="jishin.oldLong" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="h-spouse">
-        <h2 id="h-spouse">配偶者</h2>
-        <label class="inline"><input type="checkbox" id="sp-has" data-k="spouse.has"> 生計を一にする配偶者がいる</label>
-        <div class="sub-block" id="sp-block">
-          <div class="field">
-            <label for="sp-type">配偶者の収入の入れ方</label>
-            <select id="sp-type" data-k="spouse.incomeType">
-              <option value="kyuyo">給与の収入金額（パート・会社員）</option>
-              <option value="shotoku">合計所得金額（給与以外の収入もある）</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="sp-amount" id="sp-amount-label">配偶者の令和8年の給与の収入金額</label>
-            <div class="money"><input type="number" id="sp-amount" data-k="spouse.amount" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="sp-amount"></output></div>
-          </div>
-          <label class="inline"><input type="checkbox" id="sp-over70" data-k="spouse.over70"> 70歳以上（昭和32年1月1日以前生まれ）</label>
-          <div class="field">
-            <label for="sp-shogai">配偶者の障害</label>
-            <select id="sp-shogai" data-k="spouse.shogai">
-              <option value="none">なし</option>
-              <option value="ippan">障害者</option>
-              <option value="tokubetsu">特別障害者（同居していない）</option>
-              <option value="dokyo">同居特別障害者</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="h-rel">
-        <h2 id="h-rel">扶養親族・特定親族</h2>
-        <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。<strong>16歳未満の子も入れてください</strong>（非課税になるかの判定で人数に入ります）。</p>
-        <details class="rels">
-          <summary>年齢の区分</summary>
-          <p class="small">16歳未満の子に扶養控除はありません。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。</p>
-        </details>
-        <div id="rels"></div>
-        <button type="button" class="btn btn-sub" id="add-rel">＋ 親族を足す</button>
-      </section>
-
-      <section class="card" aria-labelledby="h-self">
-        <h2 id="h-self">本人のこと</h2>
-        <div class="grid2">
-          <div class="field">
-            <label for="self-shogai">本人の障害</label>
-            <select id="self-shogai" data-k="self.shogai">
-              <option value="none">なし</option>
-              <option value="ippan">障害者</option>
-              <option value="tokubetsu">特別障害者</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="self-kafu">寡婦・ひとり親</label>
-            <select id="self-kafu" data-k="self.kafu">
-              <option value="none">該当しない</option>
-              <option value="kafu">寡婦</option>
-              <option value="hitorioya">ひとり親</option>
-            </select>
-          </div>
-        </div>
-        <div class="field" id="parent-block">
-          <label for="self-parent">ひとり親の場合（調整控除の額が違います）</label>
-          <select id="self-parent" data-k="self.parent">
-            <option value="mother">母</option>
-            <option value="father">父</option>
-          </select>
-        </div>
-        <label class="inline"><input type="checkbox" id="self-kinro" data-k="self.kinro"> 勤労学生</label>
-        <label class="inline"><input type="checkbox" id="self-minor" data-k="self.minor"> 未成年者（令和9年1月1日時点で18歳未満）</label>
-        <label class="inline"><input type="checkbox" id="self-hogo" data-k="self.seikatsuhogo"> 生活保護の生活扶助を受けている（令和9年1月1日時点）</label>
-      </section>
-
-      <section class="card" aria-labelledby="h-jutaku">
-        <h2 id="h-jutaku">住宅ローン控除</h2>
-        <div class="field">
-          <label for="jutaku">令和8年分の住宅借入金等特別控除額（所得税の控除額）</label>
-          <p class="hint">年末調整の申告書・確定申告書の「住宅借入金等特別控除額」をそのまま入れます。</p>
-        <details class="rels">
-          <summary>住民税から引かれる分</summary>
-          <p class="hint">所得税から引ききれなかった分が、上限まで住民税から引かれます（この計算機が所得税の額を計算して求めます）。</p>
-        </details>
-          <div class="money"><input type="number" id="jutaku" data-k="jutaku.amount" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="jutaku"></output></div>
-        </div>
-        <div class="grid2">
-          <div class="field">
-            <label for="jutaku-year">住み始めた年</label>
-            <select id="jutaku-year" data-k="jutaku.year">
-              <option value="h26_27">平成26年・27年</option>
-              <option value="h28_r3">平成28年〜令和3年</option>
-              <option value="r4_r7">令和4年〜令和7年</option>
-              <option value="r8">令和8年</option>
-            </select>
-          </div>
-          <div class="field">
-            <span class="field-label">消費税8%・10%の住宅（特定取得）</span>
-            <label class="inline"><input type="checkbox" id="jutaku-tokutei" data-k="jutaku.tokutei"> 特定取得・特別特定取得にあたる</label>
-          </div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="h-city">
-        <h2 id="h-city">住んでいる市区町村（令和9年1月1日の住所）</h2>
+        <span class="field-label">住んでいる市区町村（令和9年1月1日の住所）</span>
         <label class="inline"><input type="checkbox" id="city-shitei" data-k="city.shitei"> 政令指定都市（札幌市・横浜市・名古屋市・大阪市・福岡市など20市）に住んでいる</label>
         <details class="rels"><summary>指定都市の税率</summary><p class="small">指定都市では、税率が道府県民税2%・市民税8%に、調整控除の割合も変わります（合計は同じ10%）。</p></details>
         <div class="field">
@@ -216,8 +92,198 @@
           </select>
           <p class="hint">お住まいの市区町村の「均等割の非課税」の案内で確かめられます。</p>
         </div>
-        <details class="rels" id="custom-block">
-          <summary>税率・均等割を自分で直す（市区町村で違う場合）</summary>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">計算の結果（令和9年度）</h2>
+        <div id="msgs" class="msg msg-warn" hidden></div>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">令和9年度の住民税（年額）</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+
+        <div class="judge" id="judge">
+          <div class="judge-box" id="j-kinto"><p class="judge-title">均等割</p><p class="judge-tag">—</p><p class="judge-why"></p></div>
+          <div class="judge-box" id="j-shotoku"><p class="judge-title">所得割</p><p class="judge-tag">—</p><p class="judge-why"></p></div>
+        </div>
+        <p class="small" id="line-note"></p>
+
+        <details class="rels">
+          <summary>内訳</summary>
+          <div class="table-wrap">
+            <table class="cmp" id="breakdown">
+              <thead><tr><th scope="col">税</th><th scope="col">所得割</th><th scope="col">均等割</th><th scope="col">計</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+
+        <details class="rels">
+          <summary>納める時期と毎月の目安</summary>
+          <ul class="pay" id="pay"></ul>
+        </details>
+        <details class="rels">
+          <summary>ふるさと納税の上限の目安</summary>
+          <p id="furusato" class="small"></p>
+        </details>
+        <details class="rels">
+          <summary>途中の計算</summary>
+          <table class="steps" id="steps">
+            <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った規則です。</caption>
+            <tbody></tbody>
+          </table>
+        </details>
+        <details class="rels" id="rel-detail" hidden>
+          <summary>親族ごとの判定</summary>
+          <ul id="rel-list"></ul>
+        </details>
+
+        <details class="rels">
+          <summary>令和8年度の制度との比較</summary>
+          <p class="small">同じ入力を、今納めている令和8年度の制度（令和7年の所得にかかる住民税）で計算した場合との違いです。</p>
+          <div class="table-wrap">
+            <table class="cmp" id="cmp">
+              <thead><tr><th scope="col">項目</th><th scope="col">令和9年度</th><th scope="col">令和8年度</th><th scope="col">差</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+        <p class="small">この計算は目安です。実際の税額は、お住まいの市区町村が決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+        <p class="small">所得税がいくら戻るか → <a href="../nenmatsu/">年末調整の計算（令和8年分）</a></p>
+      </section>
+
+      <!-- くわしく入れる（SCREEN.md 1.1 の 4）。summary に今の状態を出す。開いた状態は保存しない -->
+      <div class="opts" id="opts">
+        <details class="card opt" id="opt-shokibo">
+          <summary>小規模企業共済等掛金（iDeCo など）: <span class="opt-state" id="sum-shokibo">入力なし</span></summary>
+          <div class="field">
+            <label for="shokibo">小規模企業共済等掛金（iDeCo など）</label>
+            <div class="money"><input type="number" id="shokibo" data-k="shokibo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="shokibo"></output></div>
+          </div>
+        </details>
+
+        <details class="card opt" id="opt-hoken">
+          <summary>生命保険料・地震保険料: <span class="opt-state" id="sum-hoken">入力なし</span></summary>
+          <p class="small">控除証明書の「本年中に支払った保険料」を、区分ごとに入れます。</p>
+          <details class="rels">
+            <summary>新・旧の区別と、住民税の控除額</summary>
+            <p class="small">新＝平成24年以後の契約、旧＝平成23年以前の契約です。住民税の控除額は所得税より小さく、自動で住民税の式で計算します。</p>
+          </details>
+          <div class="grid2">
+            <div class="field"><label for="s-newIppan">一般の生命保険料（新）</label><div class="money"><input type="number" id="s-newIppan" data-k="seimei.newIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+            <div class="field"><label for="s-oldIppan">一般の生命保険料（旧）</label><div class="money"><input type="number" id="s-oldIppan" data-k="seimei.oldIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+            <div class="field"><label for="s-kaigo">介護医療保険料</label><div class="money"><input type="number" id="s-kaigo" data-k="seimei.kaigo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+            <div class="field"><label for="s-newNenkin">個人年金保険料（新）</label><div class="money"><input type="number" id="s-newNenkin" data-k="seimei.newNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+            <div class="field"><label for="s-oldNenkin">個人年金保険料（旧）</label><div class="money"><input type="number" id="s-oldNenkin" data-k="seimei.oldNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="j-jishin">地震保険料</label><div class="money"><input type="number" id="j-jishin" data-k="jishin.jishin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+            <div class="field"><label for="j-oldLong">旧長期損害保険料</label><div class="money"><input type="number" id="j-oldLong" data-k="jishin.oldLong" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          </div>
+        </details>
+
+        <details class="card opt" id="opt-spouse">
+          <summary>配偶者: <span class="opt-state" id="sum-spouse">なし</span></summary>
+          <label class="inline"><input type="checkbox" id="sp-has" data-k="spouse.has"> 生計を一にする配偶者がいる</label>
+          <div class="sub-block" id="sp-block">
+            <div class="field">
+              <label for="sp-type">配偶者の収入の入れ方</label>
+              <select id="sp-type" data-k="spouse.incomeType">
+                <option value="kyuyo">給与の収入金額（パート・会社員）</option>
+                <option value="shotoku">合計所得金額（給与以外の収入もある）</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sp-amount" id="sp-amount-label">配偶者の令和8年の給与の収入金額</label>
+              <div class="money"><input type="number" id="sp-amount" data-k="spouse.amount" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="sp-amount"></output></div>
+            </div>
+            <label class="inline"><input type="checkbox" id="sp-over70" data-k="spouse.over70"> 70歳以上（昭和32年1月1日以前生まれ）</label>
+            <div class="field">
+              <label for="sp-shogai">配偶者の障害</label>
+              <select id="sp-shogai" data-k="spouse.shogai">
+                <option value="none">なし</option>
+                <option value="ippan">障害者</option>
+                <option value="tokubetsu">特別障害者（同居していない）</option>
+                <option value="dokyo">同居特別障害者</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <details class="card opt" id="opt-rel">
+          <summary>扶養親族・特定親族: <span class="opt-state" id="sum-rel">0 人</span></summary>
+          <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。<strong>16歳未満の子も入れてください</strong>（非課税になるかの判定で人数に入ります）。</p>
+          <details class="rels">
+            <summary>年齢の区分</summary>
+            <p class="small">16歳未満の子に扶養控除はありません。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。</p>
+          </details>
+          <div id="rels"></div>
+          <button type="button" class="btn btn-sub" id="add-rel">＋ 親族を足す</button>
+        </details>
+
+        <details class="card opt" id="opt-self">
+          <summary>本人のこと: <span class="opt-state" id="sum-self">なし</span></summary>
+          <div class="grid2">
+            <div class="field">
+              <label for="self-shogai">本人の障害</label>
+              <select id="self-shogai" data-k="self.shogai">
+                <option value="none">なし</option>
+                <option value="ippan">障害者</option>
+                <option value="tokubetsu">特別障害者</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="self-kafu">寡婦・ひとり親</label>
+              <select id="self-kafu" data-k="self.kafu">
+                <option value="none">該当しない</option>
+                <option value="kafu">寡婦</option>
+                <option value="hitorioya">ひとり親</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="parent-block">
+            <label for="self-parent">ひとり親の場合（調整控除の額が違います）</label>
+            <select id="self-parent" data-k="self.parent">
+              <option value="mother">母</option>
+              <option value="father">父</option>
+            </select>
+          </div>
+          <label class="inline"><input type="checkbox" id="self-kinro" data-k="self.kinro"> 勤労学生</label>
+          <label class="inline"><input type="checkbox" id="self-minor" data-k="self.minor"> 未成年者（令和9年1月1日時点で18歳未満）</label>
+          <label class="inline"><input type="checkbox" id="self-hogo" data-k="self.seikatsuhogo"> 生活保護の生活扶助を受けている（令和9年1月1日時点）</label>
+        </details>
+
+        <details class="card opt" id="opt-jutaku">
+          <summary>住宅ローン控除: <span class="opt-state" id="sum-jutaku">なし</span></summary>
+          <div class="field">
+            <label for="jutaku">令和8年分の住宅借入金等特別控除額（所得税の控除額）</label>
+            <p class="hint">年末調整の申告書・確定申告書の「住宅借入金等特別控除額」をそのまま入れます。</p>
+          <details class="rels">
+            <summary>住民税から引かれる分</summary>
+            <p class="hint">所得税から引ききれなかった分が、上限まで住民税から引かれます（この計算機が所得税の額を計算して求めます）。</p>
+          </details>
+            <div class="money"><input type="number" id="jutaku" data-k="jutaku.amount" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="jutaku"></output></div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="jutaku-year">住み始めた年</label>
+              <select id="jutaku-year" data-k="jutaku.year">
+                <option value="h26_27">平成26年・27年</option>
+                <option value="h28_r3">平成28年〜令和3年</option>
+                <option value="r4_r7">令和4年〜令和7年</option>
+                <option value="r8">令和8年</option>
+              </select>
+            </div>
+            <div class="field">
+              <span class="field-label">消費税8%・10%の住宅（特定取得）</span>
+              <label class="inline"><input type="checkbox" id="jutaku-tokutei" data-k="jutaku.tokutei"> 特定取得・特別特定取得にあたる</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="card opt" id="custom-block">
+          <summary>税率・均等割を自分で直す（市区町村で違う場合）: <span class="opt-state" id="sum-city">標準の値</span></summary>
           <p class="small">多くの市区町村は標準の税率ですが、独自に上乗せや減税をしているところがあります（例：名古屋市は市民税の所得割7.7%・均等割2,800円、横浜市は市民税の均等割3,900円・神奈川県の県民税の所得割2.025%・均等割1,300円。どちらも令和8年度の各市の案内による）。お住まいの市区町村の案内の値を入れてください。</p>
           <label class="inline"><input type="checkbox" id="city-custom" data-k="city.custom"> 下の値で計算する</label>
           <div class="grid2">
@@ -228,63 +294,12 @@
           </div>
           <button type="button" class="btn btn-sub" id="city-reset">標準の値に戻す</button>
         </details>
-      </section>
+      </div>
 
     </form>
 
-    <section class="card" aria-labelledby="h-result" id="result-card">
-      <h2 id="h-result">計算の結果（令和9年度）</h2>
-      <div id="msgs" class="msg msg-warn" hidden></div>
-      <div class="result-main" id="result-main" aria-live="polite">
-        <p class="lead" id="r-lead">令和9年度の住民税（年額）</p>
-        <p class="big" id="r-big">—</p>
-        <p class="detail" id="r-detail"></p>
-      </div>
-
-      <div class="judge" id="judge">
-        <div class="judge-box" id="j-kinto"><p class="judge-title">均等割</p><p class="judge-tag">—</p><p class="judge-why"></p></div>
-        <div class="judge-box" id="j-shotoku"><p class="judge-title">所得割</p><p class="judge-tag">—</p><p class="judge-why"></p></div>
-      </div>
-      <p class="small" id="line-note"></p>
-
-      <h3 class="sub">内訳</h3>
-      <div class="table-wrap">
-        <table class="cmp" id="breakdown">
-          <thead><tr><th scope="col">税</th><th scope="col">所得割</th><th scope="col">均等割</th><th scope="col">計</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <h3 class="sub">納める時期と毎月の目安</h3>
-      <ul class="pay" id="pay"></ul>
-
-      <h3 class="sub">ふるさと納税の上限の目安</h3>
-      <p id="furusato" class="small"></p>
-
-      <h3 class="sub">途中の計算</h3>
-      <table class="steps" id="steps">
-        <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った規則です。</caption>
-        <tbody></tbody>
-      </table>
-      <details class="rels" id="rel-detail" hidden>
-        <summary>親族ごとの判定</summary>
-        <ul id="rel-list"></ul>
-      </details>
-
-      <h3 class="sub">令和8年度の制度との比較</h3>
-      <p class="small">同じ入力を、今納めている令和8年度の制度（令和7年の所得にかかる住民税）で計算した場合との違いです。</p>
-      <div class="table-wrap">
-        <table class="cmp" id="cmp">
-          <thead><tr><th scope="col">項目</th><th scope="col">令和9年度</th><th scope="col">令和8年度</th><th scope="col">差</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <p class="small">この計算は目安です。実際の税額は、お住まいの市区町村が決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
-      <p class="small">所得税がいくら戻るか → <a href="../nenmatsu/">年末調整の計算（令和8年分）</a></p>
-    </section>
-
-    <section class="card no-print" aria-labelledby="h-file">
-      <h2 id="h-file">入力の保存・書き出し</h2>
+    <details class="card opt no-print" id="file-box">
+      <summary>入力の保存・書き出し</summary>
       <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
       <div class="btn-row">
         <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
@@ -293,9 +308,9 @@
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="small" id="file-msg" role="status"></p>
-    </section>
+    </details>
 
-    <p class="small"><a href="./guide.html">使い方・根拠・非課税の基準・よくある質問</a></p>
+    <p class="small guide-link"><a href="./guide.html">使い方・根拠・非課税の基準・よくある質問</a></p>
 
   </main>
 
@@ -322,6 +337,7 @@
   <script src="../lib/nenmatsu.js"></script>
   <script src="../lib/juminzei-values.js"></script>
   <script src="../lib/juminzei.js"></script>
+  <script src="../lib/screen.js"></script>
   <script src="./app.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

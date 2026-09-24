@@ -250,6 +250,11 @@
     msgs.forEach(function (m) { var p0 = document.createElement('p'); p0.textContent = m; box.appendChild(p0); });
     box.hidden = msgs.length === 0;
 
+    // 「くわしく入れる」の summary に今の状態を出す（SCREEN.md 1.1 の 4）
+    updateSummaries(d);
+    // 固定バーの文言は結果の大きな数字に名前を付けたもの
+    setBar(!has ? '' : r.total === 0 ? '住民税 ' + $('r-big').textContent : '住民税（年額） ' + $('r-big').textContent);
+
     // 均等割・所得割の判定
     judge('j-kinto', r.kintoHikazei, r.reasons.kinto, has);
     judge('j-shotoku', r.shotokuHikazei, r.reasons.shotoku, has);
@@ -353,6 +358,29 @@
       tr2.appendChild(td2); cb.appendChild(tr2);
     }
   }
+
+  // --- 「くわしく入れる」の summary（入力の状態。控除が付くかどうかは結果の「途中の計算」で見る） ---
+  var setText = window.ScreenParts.setText, optText = window.ScreenParts.optText;
+  function updateSummaries(d) {
+    var hoken = ['newIppan', 'oldIppan', 'kaigo', 'newNenkin', 'oldNenkin'].some(function (k) { return d.seimei[k] > 0; }) ||
+      d.jishin.jishin > 0 || d.jishin.oldLong > 0;
+    setText('sum-shokibo', d.shokibo > 0 ? yen(d.shokibo) : '入力なし');
+    setText('sum-hoken', hoken ? '入力あり' : '入力なし');
+    setText('sum-spouse', d.spouse.has ? 'あり' : 'なし');
+    setText('sum-rel', d.relatives.length ? d.relatives.length + ' 人を入力' : '0 人');
+    var self = [];
+    if (d.self.shogai !== 'none') self.push(optText($('self-shogai')));
+    if (d.self.kafu !== 'none') self.push(optText($('self-kafu')));
+    if (d.self.kinro) self.push('勤労学生');
+    if (d.self.minor) self.push('未成年者');
+    if (d.self.seikatsuhogo) self.push('生活保護');
+    setText('sum-self', self.length ? self.join('・') + 'を選択' : 'なし');
+    setText('sum-jutaku', d.jutaku.amount > 0 ? yen(d.jutaku.amount) : 'なし');
+    setText('sum-city', d.city.custom ? '入力した値で計算' : '標準の値');
+  }
+
+  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen.js） ---
+  var setBar = window.ScreenParts.fixbar();
 
   // 入力欄から離れたときの change でも呼ばれるので、中身が同じなら描き直さない
   var saveTimer = null, lastSig = '';
