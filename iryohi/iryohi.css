@@ -1,0 +1,49 @@
+/* ===========================
+   医療費控除の計算（iryohi）だけの見た目。色は ../style.css のトークンだけを使う
+   SCREEN.md 1.1: 必須の入力 → 結果 → くわしく入れる（details）。固定バーは上端（D59）、PC は 2 カラム（D63）
+   =========================== */
+fieldset.req { border: 1px solid var(--border); }
+fieldset.req legend {
+  font-size: 1.02rem; font-weight: 700; color: var(--accent);
+  padding: 0 0.3rem; margin-left: -0.3rem;
+}
+/* 必須が空の欄は薄く強調する（エラー文は出さない） */
+.field.is-missing input { border-color: var(--accent); background: var(--accent-soft); }
+
+.sum th { font-weight: 600; }
+.sum td { font-size: 0.95rem; }
+.sum tr.is-best th, .sum tr.is-best td { color: var(--accent); font-weight: 700; }
+.result-card .note:empty { display: none; }
+.steps tr.total th, .steps tr.total td { color: var(--accent); }
+
+details.opt { padding: 0.8rem 1.2rem; }
+details.opt > summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 0.95rem; min-height: 44px; display: flex; align-items: center; }
+details.opt[open] > summary { margin-bottom: 0.6rem; }
+details.opt .state { color: var(--text); font-weight: normal; margin-left: 0.3em; }
+details.opt ul { padding-left: 1.2rem; }
+details.opt li + li { margin-top: 0.3rem; }
+.btn-row .btn { min-height: 44px; }
+
+/* 固定バー（結果が画面の外のときだけ） */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 44px;
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  background: var(--card); border-bottom: 1px solid var(--border); box-shadow: 0 2px 6px var(--shadow);
+  font-size: 0.9rem;
+}
+.topbar strong { color: var(--accent); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.topbar a { color: var(--accent); font-weight: 600; padding: 0.6rem 0.4rem; }
+
+/* PC（幅 900px 以上）: 左に入力、右に結果（sticky）。固定バーは出さない */
+@media (min-width: 900px) {
+  .iryohi-main { max-width: 1040px; display: grid; grid-template-columns: minmax(0, 1fr) 400px; grid-template-rows: auto auto 1fr; gap: 0 1.2rem; align-items: start; }
+  .iryohi-main > .badge { grid-column: 1 / -1; }
+  .iryohi-main > .iryohi-form, .iryohi-main > .iryohi-more { grid-column: 1; }
+  .iryohi-main > .result-card { grid-column: 2; grid-row: 2 / 4; position: sticky; top: 1rem; }
+  .topbar { display: none !important; }
+}
+
+@media print {
+  .topbar, details.opt:not([open]) { display: none !important; }
+  ins.adsbygoogle, .google-auto-placed, iframe[id^="aswift"], iframe[id^="google_ads"] { display: none !important; }
+}
