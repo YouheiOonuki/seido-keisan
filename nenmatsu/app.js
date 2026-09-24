@@ -233,6 +233,9 @@
       if (r.choseiMaybe) msgs.push('給与が850万円を超え、23歳未満の扶養親族か特別障害者がいるため「所得金額調整控除」の対象になる可能性があります。このツールでは計算に入れていないので、実際の税額はこれより少なくなることがあります。');
     }
 
+    // 配偶者の収入を入れたときだけ、社会保険の加入判定（shaho-check）への導線を出す
+    $('to-shaho').hidden = !(r.ok && d.income && d.spouse.has && d.spouse.amount > 0);
+
     var box = $('msgs');
     box.textContent = '';
     msgs.forEach(function (m) { var p0 = document.createElement('p'); p0.textContent = m; box.appendChild(p0); });
