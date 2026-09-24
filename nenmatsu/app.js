@@ -236,6 +236,12 @@
     // 配偶者の収入を入れたときだけ、社会保険の加入判定（shaho-check）への導線を出す
     $('to-shaho').hidden = !(r.ok && d.income && d.spouse.has && d.spouse.amount > 0);
 
+    // 「くわしく入れる」の summary に今の状態を出す（SCREEN.md 1.1 の 4）
+    updateSummaries(d);
+    // 固定バーの文言は結果の大きな数字と同じ。年調年税額だけのときは名前を付ける
+    fixbarText = !r.ok || !d.income ? '' : d.withheld ? $('r-big').textContent : '年調年税額 ' + yen(r.nenzei);
+    updateBar();
+
     var box = $('msgs');
     box.textContent = '';
     msgs.forEach(function (m) { var p0 = document.createElement('p'); p0.textContent = m; box.appendChild(p0); });
@@ -312,6 +318,54 @@
       tr2.appendChild(td2); cb.appendChild(tr2);
     }
   }
+
+  // --- 「くわしく入れる」の summary（入力の状態。控除が付くかどうかは結果の「途中の計算」で見る） ---
+  function setText(id, t) { var e = $(id); if (e.textContent !== t) e.textContent = t; }
+  function optText(sel) { return sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].textContent : ''; }
+  function updateSummaries(d) {
+    var hoken = ['newIppan', 'oldIppan', 'kaigo', 'newNenkin', 'oldNenkin'].some(function (k) { return d.seimei[k] > 0; }) ||
+      d.jishin.jishin > 0 || d.jishin.oldLong > 0;
+    setText('sum-hoken', hoken ? '入力あり' : '入力なし');
+    setText('sum-shokibo', d.shokibo > 0 ? yen(d.shokibo) : '入力なし');
+    setText('sum-spouse', d.spouse.has ? 'あり' : 'なし');
+    setText('sum-rel', d.relatives.length ? d.relatives.length + ' 人を入力' : '0 人');
+    var self = [];
+    if (d.self.shogai !== 'none') self.push(optText($('self-shogai')));
+    if (d.self.kafu !== 'none') self.push(optText($('self-kafu')));
+    if (d.self.kinro) self.push('勤労学生');
+    setText('sum-self', self.length ? self.join('・') + 'を選択' : 'なし');
+    setText('sum-jutaku', d.jutaku > 0 ? yen(d.jutaku) : 'なし');
+  }
+
+  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す ---
+  // 読み込み時は hidden（位置は fixed なのでレイアウトはずれない）。スクリーンリーダーには最初に出たときの 1 回だけ読ませる
+  var fixbar = $('fixbar'), fixbarText = '', resultInView = true, barAnnounced = false;
+  function updateBar() {
+    var show = !!fixbarText && !resultInView;
+    if (show && !barAnnounced) {
+      barAnnounced = true;
+      setText('fixbar-text', '');
+      fixbar.hidden = false;
+      // 見えるようにしてから文字を入れると読み上げられる。そのあとは読み上げを止める（結果の aria-live と重ねない）
+      setTimeout(function () { setText('fixbar-text', fixbarText); setTimeout(function () { fixbar.setAttribute('aria-live', 'off'); }, 1000); }, 50);
+      return;
+    }
+    setText('fixbar-text', fixbarText);
+    fixbar.hidden = !show;
+  }
+  if ('IntersectionObserver' in window) {
+    // バーの高さ（44px）の分だけ上を狭めて、バーに隠れている結果は「画面の外」とみなす
+    new IntersectionObserver(function (es) {
+      resultInView = es[es.length - 1].isIntersecting;
+      updateBar();
+    }, { rootMargin: '-44px 0px 0px 0px' }).observe($('result-main'));
+  }
+  $('fixbar-link').addEventListener('click', function (e) {
+    e.preventDefault();
+    var card = $('result-card');
+    card.scrollIntoView({ block: 'start' });   // style.css の scroll-margin-top でバーの下に見出しが来る
+    try { card.focus({ preventScroll: true }); } catch (err) { card.focus(); }
+  });
 
   // 入力欄から離れたときの change でも呼ばれるので、中身が同じなら描き直さない
   // （描き直すと結果の表が作り直されてスクロール位置がずれ、直後のボタンの押下が外れることがある）
