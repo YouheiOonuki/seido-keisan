@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使い方・根拠・よくある質問｜医療費控除の計算（令和8年分）｜yorozu-craft</title>
+  <meta name="description" content="医療費控除の計算（令和8年分）の使い方、所得税法と国税庁の資料による計算の根拠と確認日、計算の手順、よくある質問（いくら戻るか・10万円以下でも受けられるか・セルフメディケーション税制とどっちが得か）、ご利用上の注意。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/iryohi/guide.html">
+
+  <meta property="og:title" content="使い方・根拠・よくある質問｜医療費控除の計算（令和8年分）">
+  <meta property="og:description" content="医療費控除の計算（令和8年分）の使い方、計算の根拠と確認日、よくある質問、ご利用上の注意。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/iryohi/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/iryohi/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- よくある質問（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "医療費控除でいくら戻りますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "戻る所得税は、おおよそ「医療費控除額 × 所得税率 × 102.1%」です。所得税率10%で控除額が10万円なら約1万円で、所得割がかかる人は翌年度の住民税も控除額の10%ほど減ります。" }
+      },
+      {
+        "@type": "Question",
+        "name": "医療費が10万円以下でも医療費控除は受けられますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "総所得金額等が200万円未満の人は、10万円ではなく総所得金額等の5%を超えた分が控除になります。令和8年分で給与だけなら、給与の収入が297万2千円未満の人です。" }
+      },
+      {
+        "@type": "Question",
+        "name": "セルフメディケーション税制と医療費控除はどっちが得ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "控除額が大きいほうが多く戻ります。併用はできず、申告したあとで選び直すこともできないので、このツールは両方を計算して多いほうを出します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "年末調整で医療費控除は受けられますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "受けられません。年末調整で引く控除に医療費控除は入っていないので、確定申告（還付申告なら翌年1月1日から5年間提出できます）で受けます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "家族の医療費も合算できますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "自分と生計を一にする配偶者やその他の親族のために支払った医療費は合計できます。当てはまるかどうかは、このツールでは判定しません。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>医療費控除の計算（令和8年分）の使い方</h1>
+    <p class="subtitle">使い方・計算の前提・根拠と確認日・よくある質問・ご利用上の注意</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ 医療費控除の計算（令和8年分）を使う</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>令和8年に支払った医療費の合計を入れます（家族の分も）。</li>
+        <li>高額療養費や保険の給付金など、補てんされる金額を入れます。</li>
+        <li>源泉徴収票の「支払金額」を入れます（見込みでも可）。</li>
+        <li>源泉徴収票の「所得控除の額の合計額」を入れます。</li>
+        <li>対象の市販薬を買った人は、セルフメディケーション税制も入れます。</li>
+      </ol>
+      <details class="rels">
+        <summary>給与以外の所得がある人・所得控除がわからない人</summary>
+        <ul>
+          <li>「所得の入れ方」で「所得の金額」を選び、確定申告書の所得金額の合計（退職所得・山林所得・申告分離課税の所得があれば足す）を入れます。所得控除の合計は、医療費控除を入れる前の額です。</li>
+          <li>源泉徴収票がまだ無いときは、結果の下の「所得控除の合計がわからないとき」に社会保険料を入れると、社会保険料と基礎控除だけで見積もります。<a href="../nenmatsu/">年末調整の計算</a>で所得控除の合計を出してもかまいません。</li>
+          <li>税率がわかっている人は「所得税率」で税率を選べます。そのときは 控除額 × 税率 × 102.1% で計算します。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>計算の前提</h2>
+      <ul>
+        <li>令和8年（2026年1〜12月）に支払った医療費で、令和9年2〜3月の確定申告で受ける分です。</li>
+        <li>給与だけの人は、年末調整どおりに源泉徴収されている前提で、戻る所得税を出します。</li>
+        <li>戻る所得税は、医療費控除を入れる前と後の税額の差（復興特別所得税を含む）です。</li>
+        <li>住民税は、控除額に所得割の標準税率 10% を掛けた目安で、令和9年度の住民税で減ります。</li>
+        <li>セルフメディケーション税制を入れたときは、控除額が多いほうで計算します。</li>
+      </ul>
+      <details class="rels">
+        <summary>対象外のもの</summary>
+        <ul>
+          <li>どの支払いが医療費控除の対象になるかの判定（<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1122.htm" target="_blank" rel="noopener noreferrer">国税庁 No.1122</a>）、医療費通知の読み方の細部、家族の医療費を合計してよいかの判定。</li>
+          <li>保険金などの補てん額は、その給付の目的になった医療費が限度で、ほかの医療費からは引きません。入力は合計なので、補てん額が医療費を超える項目がある人は、その医療費までにして入れてください。</li>
+          <li>所得金額調整控除、住宅ローン控除などの税額控除、年末調整を受けていない人の源泉徴収税額との精算、住民税の調整控除の変化。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>根拠: 所得税法73条・租税特別措置法41条の17・地方税法、国税庁の資料。最終確認日 <time datetime="2026-09-24">2026-09-24</time>。値は令和8年分（2026年1〜12月の支払い）のもの。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul>
+          <li><a href="https://laws.e-gov.go.jp/law/340AC0000000033" target="_blank" rel="noopener noreferrer">所得税法</a>（73条 医療費控除、89条 税率、190条 年末調整。190条で引く控除に73条は入りません）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/332AC0000000026" target="_blank" rel="noopener noreferrer">租税特別措置法</a>（41条の17 セルフメディケーション税制。令和8年分は「平成29年から令和8年までの各年」）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/332AC0000000026/20270101_508AC0000000012" target="_blank" rel="noopener noreferrer">租税特別措置法（令和9年1月1日施行版）</a>（令和8年法律第12号による改正後: スイッチOTC医薬品は期限なし、それ以外は令和13年12月31日まで。1万2千円・8万8千円は同じ）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/423AC0000000117" target="_blank" rel="noopener noreferrer">復興財源確保法</a>（13条 基準所得税額の2.1%。令和9年分からは1.1%と防衛特別所得税1%で、合計は同じ）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/325AC0000000226" target="_blank" rel="noopener noreferrer">地方税法</a>（34条1項2号・314条の2第1項2号 住民税の医療費控除、附則4条の5 セルフメディケーション税制（令和9年度分まで）、35条・314条の3 標準税率）</li>
+          <li>国税庁 タックスアンサー <a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1120.htm" target="_blank" rel="noopener noreferrer">No.1120</a>・<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1129.htm" target="_blank" rel="noopener noreferrer">No.1129</a>・<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1131.htm" target="_blank" rel="noopener noreferrer">No.1131</a>・<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/2260.htm" target="_blank" rel="noopener noreferrer">No.2260</a>・<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/2030.htm" target="_blank" rel="noopener noreferrer">No.2030</a>（令和8年4月1日現在法令等）</li>
+          <li>国税庁「<a href="https://www.nta.go.jp/taxes/shiraberu/shinkoku/yoshiki/02/xlsx/ref1.xlsx" target="_blank" rel="noopener noreferrer">医療費控除の明細書</a>」（総所得金額等 × 5% は1円未満切り捨て）、「<a href="https://www.nta.go.jp/publication/pamph/koho/kurashi/html/04_1.htm" target="_blank" rel="noopener noreferrer">暮らしの税情報</a>」（令和8年度版）</li>
+          <li>計算例の確認: 国税庁「<a href="https://www.nta.go.jp/taxes/shiraberu/shinkoku/kisairei/2020/pdf/001.pdf" target="_blank" rel="noopener noreferrer">医療費控除を受ける方の記載例</a>」（給与 714万円・医療費 50万円・補てん 20万円 → 控除 20万円・還付 15,552円）を、このツールのテストで1円まで再現しています。</li>
+        </ul>
+      </details>
+      <h3>主な値</h3>
+      <div class="table-wrap">
+        <table class="tbl">
+          <thead><tr><th scope="col">項目</th><th scope="col">値</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">医療費控除</th><td>補てん後の医療費 − 10万円（総所得金額等200万円未満は5%）。最高200万円</td></tr>
+            <tr><th scope="row">セルフメディケーション税制</th><td>補てん後の購入費 − 1万2千円。最高8万8千円</td></tr>
+            <tr><th scope="row">所得税率</th><td>5%・10%・20%・23%・33%・40%・45%（課税所得で決まる）</td></tr>
+            <tr><th scope="row">復興特別所得税</th><td>所得税額の2.1%</td></tr>
+            <tr><th scope="row">住民税（所得割）</th><td>10%（標準税率）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="steps">計算の手順</h3>
+      <ol>
+        <li><strong>総所得金額等</strong>：給与の収入を令和8年分の表で給与所得にする</li>
+        <li><strong>医療費控除額</strong>：（医療費 − 補てん額）− min(10万円, 総所得金額等 × 5%)</li>
+        <li><strong>課税所得</strong>：総所得金額等 − 所得控除の合計（1,000円未満切り捨て）</li>
+        <li><strong>戻る所得税</strong>：控除を入れる前の税額 − 入れた後の税額（どちらも102.1%込み）</li>
+        <li><strong>住民税の減額</strong>：控除額 × 10%</li>
+      </ol>
+      <details class="rels">
+        <summary>端数と、給与だけの人の「前の税額」</summary>
+        <p>給与だけの人の「前の税額」は年末調整の年税額（所得税 × 102.1%、100円未満切り捨て）です。「後の税額」は確定申告の計算（所得税 ＋ 復興特別所得税（2.1%、1円未満切り捨て））で、還付は100円未満を切り捨てません。所得の金額で入れた人は、前後とも確定申告の計算です。</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>医療費控除でいくら戻りますか？</dt>
+        <dd>戻る所得税は、おおよそ「医療費控除額 × 所得税率 × 102.1%」です。所得税率10%で控除額が10万円なら約1万円で、所得割がかかる人は翌年度の住民税も控除額の10%ほど減ります。</dd>
+        <dt>医療費が10万円以下でも医療費控除は受けられますか？</dt>
+        <dd>総所得金額等が200万円未満の人は、10万円ではなく総所得金額等の5%を超えた分が控除になります。令和8年分で給与だけなら、給与の収入が297万2千円未満の人です。</dd>
+        <dt>セルフメディケーション税制と医療費控除はどっちが得ですか？</dt>
+        <dd>控除額が大きいほうが多く戻ります。併用はできず、申告したあとで選び直すこともできないので、このツールは両方を計算して多いほうを出します。</dd>
+        <dt>年末調整で医療費控除は受けられますか？</dt>
+        <dd>受けられません。年末調整で引く控除に医療費控除は入っていないので、確定申告（還付申告なら翌年1月1日から5年間提出できます）で受けます。</dd>
+        <dt>家族の医療費も合算できますか？</dt>
+        <dd>自分と生計を一にする配偶者やその他の親族のために支払った医療費は合計できます。当てはまるかどうかは、このツールでは判定しません。</dd>
+      </dl>
+    </article>
+
+    <!-- README「ツールを追加するとき」8: ツール固有の注意・データの扱いはここに書く -->
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。実際の額は、税務署（所得税）とお住まいの市区町村（住民税）が決めます。</li>
+        <li>入力内容はこの端末のブラウザ（localStorage、キー <code>seido-keisan_iryohi_draft</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去は計算の画面のボタンから。</li>
+        <li>書き出したファイル（<code>seido-keisan-iryohi-backup-年月日.json</code>）には医療費や収入が入ります。共有リンクの機能はありません。</li>
+        <li>税の助言ではありません。</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-09-24">2026年9月24日</time> 公開（令和8年分。所得税法・租税特別措置法・地方税法と国税庁の資料で確認）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="../ikukyu/">育休・産休の計算</a></li>
+        <li><a href="./">医療費控除の計算</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

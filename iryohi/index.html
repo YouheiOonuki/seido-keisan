@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医療費控除でいくら戻るかの計算（令和8年分・セルフメディケーション税制と比較）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="医療費控除でいくら戻るかを計算。支払った医療費と給与の収入（源泉徴収票）から、医療費控除額・戻る所得税・翌年度の住民税の減額の目安を出し、セルフメディケーション税制とどちらが得かも比べます。令和8年分、出典と途中の計算つき。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/iryohi/">
+
+  <meta property="og:title" content="医療費控除でいくら戻るかの計算（令和8年分）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="支払った医療費と源泉徴収票の金額から、医療費控除額・戻る所得税・住民税の減額の目安を計算。セルフメディケーション税制との比較つき。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/iryohi/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/iryohi/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "医療費控除の計算（令和8年分）",
+    "description": "支払った医療費と源泉徴収票の金額から、医療費控除額・戻る所得税・住民税の減額の目安を計算。セルフメディケーション税制との比較つき。",
+    "url": "https://yorozu-craft.com/seido-keisan/iryohi/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./iryohi.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <!-- 固定バー（SCREEN 0 章の 3・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="topbar" id="topbar" role="status" hidden>
+    <span>戻る税金の目安 <strong id="topbar-num">—</strong></span>
+    <a href="#result">結果へ</a>
+  </div>
+
+  <header class="app-header">
+    <h1>医療費控除の計算（令和8年分）</h1>
+    <p class="subtitle">医療費控除で戻る所得税と、減る住民税の目安を出します。</p>
+  </header>
+
+  <main class="app-main iryohi-main">
+
+    <p class="badge" id="asof">令和8年に払った医療費（令和9年2〜3月の確定申告）・確認日 <span id="asof-date">2026年9月24日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false" class="iryohi-form">
+      <fieldset class="card req">
+        <legend>令和8年（1〜12月）の医療費と所得</legend>
+        <div class="field" data-need="hiyo">
+          <label for="hiyo">支払った医療費の合計</label>
+          <p class="hint">家族の分も合わせる。治療のための市販薬も含む。</p>
+          <div class="money"><input type="number" id="hiyo" data-k="hiyo" inputmode="numeric" min="0" step="1" placeholder="例：300000"><span class="unit">円</span><output class="yomi" for="hiyo"></output></div>
+        </div>
+        <div class="field">
+          <label for="hoten">保険金などで補てんされる金額</label>
+          <p class="hint">高額療養費・医療保険の入院給付金など。なければ空欄。</p>
+          <div class="money"><input type="number" id="hoten" data-k="hoten" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="hoten"></output></div>
+        </div>
+        <div class="field">
+          <label for="mode">所得の入れ方</label>
+          <select id="mode" data-k="mode">
+            <option value="kyuyo">給与だけ（源泉徴収票の金額）</option>
+            <option value="shotoku">所得の金額（確定申告書など）</option>
+          </select>
+        </div>
+        <div class="field mode-kyuyo" data-need="income">
+          <label for="income">給与の収入金額</label>
+          <p class="hint">源泉徴収票の「支払金額」。見込みでも可。</p>
+          <div class="money"><input type="number" id="income" data-k="income" inputmode="numeric" min="0" step="1" placeholder="例：5000000"><span class="unit">円</span><output class="yomi" for="income"></output></div>
+        </div>
+        <div class="field mode-shotoku" data-need="shotoku" hidden>
+          <label for="shotoku">総所得金額等</label>
+          <p class="hint">確定申告書の「所得金額等」の合計（退職・山林所得も足す）。</p>
+          <div class="money"><input type="number" id="shotoku" data-k="shotoku" inputmode="numeric" min="0" step="1" placeholder="例：3500000"><span class="unit">円</span><output class="yomi" for="shotoku"></output></div>
+        </div>
+        <div class="field" data-need="kojo">
+          <label for="kojo">所得控除の額の合計額</label>
+          <p class="hint" id="kojo-hint">源泉徴収票の同じ名前の欄。不明なら結果の下で見積もる。</p>
+          <div class="money"><input type="number" id="kojo" data-k="kojo" inputmode="numeric" min="0" step="1" placeholder="例：1800000"><span class="unit">円</span><output class="yomi" for="kojo"></output></div>
+        </div>
+      </fieldset>
+    </form>
+
+    <section class="card result-card" id="result" aria-labelledby="h-result">
+      <h2 id="h-result">戻る税金の目安</h2>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead" id="r-lead">所得税（確定申告で戻る）＋ 住民税（令和9年度に減る）</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail">必須の欄を入れると出ます。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="cmp sum" id="sum">
+          <tbody>
+            <tr><th scope="row">医療費控除額</th><td id="s-iryohi">—</td></tr>
+            <tr id="s-self-row" hidden><th scope="row">セルフメディケーション税制の控除額</th><td id="s-self">—</td></tr>
+            <tr><th scope="row">戻る所得税</th><td id="s-tax">—</td></tr>
+            <tr id="s-jumin-row"><th scope="row">住民税の減額（令和9年度）</th><td id="s-jumin">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small note" id="r-note"></p>
+      <details class="rels" id="steps-box">
+        <summary>内訳と途中の計算</summary>
+        <table class="steps" id="steps"><tbody></tbody></table>
+      </details>
+      <p class="small">この計算は目安です。実際の額は税務署と市区町村が決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+      <p class="small">医療費控除は年末調整では引かれず、確定申告で受けます。所得控除の合計は → <a href="../nenmatsu/">年末調整の計算</a>でも出せます</p>
+    </section>
+
+    <div class="iryohi-more">
+      <details class="card opt" id="d-self">
+        <summary>セルフメディケーション税制: <span class="state">入力なし</span></summary>
+        <label class="inline"><input type="checkbox" id="self-use" data-k="self.use"> 対象の市販薬（スイッチOTC医薬品など）を買った</label>
+        <div class="sub-block" id="self-block">
+          <label class="inline"><input type="checkbox" id="self-torikumi" data-k="self.torikumi"> 令和8年に健康診断・予防接種などを受けた</label>
+          <div class="field">
+            <label for="self-amount">対象の医薬品の購入額の合計</label>
+            <p class="hint">レシートに対象の印がある分。家族の分も合わせる。</p>
+            <div class="money"><input type="number" id="self-amount" data-k="self.amount" inputmode="numeric" min="0" step="1" placeholder="例：30000"><span class="unit">円</span><output class="yomi" for="self-amount"></output></div>
+          </div>
+          <div class="field">
+            <label for="self-hoten">そのうち保険金などで補てんされる金額</label>
+            <div class="money"><input type="number" id="self-hoten" data-k="self.hoten" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div>
+          </div>
+          <p class="small">通常の医療費控除とどちらか一方だけ。多く戻るほうを結果に出します。</p>
+        </div>
+      </details>
+
+      <details class="card opt" id="d-kojo">
+        <summary>所得控除の合計がわからないとき: <span class="state">入力なし</span></summary>
+        <div class="field">
+          <label for="shakai">社会保険料</label>
+          <p class="hint">源泉徴収票の「社会保険料等の金額」や給与明細の合計。</p>
+          <div class="money"><input type="number" id="shakai" data-k="shakai" inputmode="numeric" min="0" step="1" placeholder="例：700000"><span class="unit">円</span><output class="yomi" for="shakai"></output></div>
+        </div>
+        <p class="small">所得控除を「社会保険料＋基礎控除」だけで見積もります。生命保険料・扶養などを入れないので、戻る所得税は多めに出ることがあります。</p>
+      </details>
+
+      <details class="card opt" id="d-rate">
+        <summary>所得税率: <span class="state">課税所得から自動</span></summary>
+        <label class="inline"><input type="radio" name="rateMode" value="auto" data-k="rateMode"> 課税所得から自動で決める</label>
+        <label class="inline"><input type="radio" name="rateMode" value="manual" data-k="rateMode"> 税率を自分で選ぶ</label>
+        <div class="field" id="rate-block">
+          <label for="rate">所得税率</label>
+          <select id="rate" data-k="rate">
+            <option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="23">23%</option>
+            <option value="33">33%</option><option value="40">40%</option><option value="45">45%</option>
+          </select>
+        </div>
+      </details>
+
+      <details class="card opt" id="d-jumin">
+        <summary>住民税: <span class="state">含める</span></summary>
+        <label class="inline"><input type="checkbox" id="jumin" data-k="jumin"> 翌年度の住民税の減額も足す</label>
+        <p class="small">控除額 × 10%（所得割の標準税率）の目安です。</p>
+      </details>
+
+      <details class="card opt">
+        <summary>このツールで判定しないこと</summary>
+        <ul class="small">
+          <li>どの支払いが医療費控除の対象になるか。一覧は<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1122.htm" target="_blank" rel="noopener noreferrer">国税庁 No.1122</a>へ。</li>
+          <li>医療費通知（医療費のお知らせ）の読み方の細部。</li>
+          <li>家族の医療費を合計してよいか。生計を一にする配偶者・親族の分は合計できますが、当てはまるかは判定しません。</li>
+        </ul>
+      </details>
+
+      <details class="card opt no-print" id="d-file">
+        <summary>入力の保存・書き出し</summary>
+        <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small" id="file-msg" role="status"></p>
+      </details>
+
+      <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（10万円以下でも戻るか・どっちが得か）</a></p>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="../ikukyu/">育休・産休の計算</a></li>
+        <li><a href="./" aria-current="page">医療費控除の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/kyuyo-table-2026.js"></script>
+  <script src="../lib/tax2026.js"></script>
+  <script src="../lib/nenmatsu.js"></script>
+  <script src="../lib/iryohi-values.js"></script>
+  <script src="../lib/iryohi.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
