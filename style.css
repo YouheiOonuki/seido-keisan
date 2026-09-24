@@ -227,3 +227,20 @@ details.rels ul { padding-left: 1.2rem; margin-top: 0.3rem; }
 .pay .pay-name { font-weight: 700; display: block; }
 .field-label { display: block; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
 #nenmatsu-msg:empty { display: none; }
+
+/* ===========================
+   育休・産休の計算（ikukyu）: 給付ごとの一覧と、月ごとの表
+   =========================== */
+.field input[type="date"] {
+  width: 100%; max-width: 16rem; padding: 0.4rem 0.5rem; font-size: 1rem; font-family: inherit;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text);
+}
+.benefits { list-style: none; }
+.benefits li { border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.7rem; margin-bottom: 0.5rem; background: var(--card); }
+.benefits .b-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; font-weight: 600; font-size: 0.92rem; }
+.benefits .b-head strong { color: var(--accent); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.benefits .b-rule { font-size: 0.8rem; color: var(--text); margin-top: 0.2rem; overflow-wrap: anywhere; }
+.benefits .b-src { font-size: 0.74rem; color: var(--muted); margin-top: 0.25rem; }
+.sched td:last-child { white-space: normal; text-align: left; min-width: 9rem; }
+.sched td:nth-child(2) { white-space: normal; text-align: left; }
+.sched tr.has-pay td:last-child { color: var(--accent); font-weight: 600; }

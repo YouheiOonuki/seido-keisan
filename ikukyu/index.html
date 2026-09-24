@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>育休・産休の給付金の計算（出産手当金・育児休業給付金・手取り）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="会社員の育休・産休でもらえるお金を計算。出産手当金・出産育児一時金・育児休業給付金（67%・50%）・出生後休業支援給付金（13%）・社会保険料の免除・休業中の手取りの目安と、月ごとの受け取りの目安。2026年8月1日からの上限額で、式と出典つき。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/ikukyu/">
+
+  <meta property="og:title" content="育休・産休の給付金の計算（出産手当金・育児休業給付金・手取り）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="出産手当金・育児休業給付金・出生後休業支援給付金・社会保険料の免除と、休業中の手取りの目安を、法令と厚生労働省・協会けんぽの資料どおりに計算。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/ikukyu/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/ikukyu/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "育休・産休の給付金の計算",
+    "description": "出産手当金・育児休業給付金・出生後休業支援給付金・社会保険料の免除と、休業中の手取りの目安を、法令と厚生労働省・協会けんぽの資料どおりに計算。",
+    "url": "https://yorozu-craft.com/seido-keisan/ikukyu/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <header class="app-header">
+    <h1>育休・産休の給付金の計算</h1>
+    <p class="subtitle">会社員の育休・産休でもらえるお金（出産手当金・出産育児一時金・育児休業給付金・出生後休業支援給付金）と、社会保険料の免除、休業中の手取りの目安を計算します。月ごとの受け取りの目安まで。登録不要。</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="badge" id="asof">2026年8月1日からの上限額・法令と厚生労働省・協会けんぽの資料で計算・確認日 <span id="asof-date">2026年9月24日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+
+      <section class="card" aria-labelledby="h-who">
+        <h2 id="h-who">休む人</h2>
+        <div class="field">
+          <label for="role">あなたは</label>
+          <select id="role" data-k="role">
+            <option value="mother">出産する本人（産休のあと育休）</option>
+            <option value="father">配偶者が出産する（産後パパ育休・育休）</option>
+          </select>
+          <p class="hint">会社員など、勤め先の健康保険・厚生年金・雇用保険に入っている人の計算です。自営業・フリーランス（国民健康保険）、公務員の共済組合は対象外です。</p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-pay">
+        <h2 id="h-pay">お給料</h2>
+        <div class="field">
+          <label for="salary">毎月の給与（額面）</label>
+          <p class="hint">基本給に残業代・通勤手当などの手当を足した、税や保険料を引く前の額です。賞与（ボーナス）は含めません。</p>
+          <div class="money"><input type="number" id="salary" data-k="salary" inputmode="numeric" min="0" step="1" placeholder="例：300000"><span class="unit">円</span><output class="yomi" for="salary"></output></div>
+        </div>
+        <details class="rels">
+          <summary>給与明細の額でくわしく入れる（任意）</summary>
+          <div class="field">
+            <label for="hyojun">標準報酬月額</label>
+            <p class="hint">「健康保険・厚生年金保険の標準報酬月額決定通知書」や給与明細の額。空なら毎月の給与から等級表で決めます。出産手当金と社会保険料に使います。</p>
+            <div class="money"><input type="number" id="hyojun" data-k="hyojun" inputmode="numeric" min="0" step="1" placeholder="自動"><span class="unit">円</span><output class="yomi" for="hyojun"></output></div>
+          </div>
+          <div class="field">
+            <label for="wage6">休業を始める前の6か月に支払われた給与の合計</label>
+            <p class="hint">賞与を除きます。出産する本人は、産休を始める前の6か月です。空なら「毎月の給与 × 6」で計算します。育児休業給付金に使います。</p>
+            <div class="money"><input type="number" id="wage6" data-k="wage6" inputmode="numeric" min="0" step="1" placeholder="自動"><span class="unit">円</span><output class="yomi" for="wage6"></output></div>
+          </div>
+          <label class="inline mother-only"><input type="checkbox" id="under12" data-k="under12"> 今の健康保険に入って12か月たっていない（出産手当金の計算が変わります）</label>
+        </details>
+      </section>
+
+      <section class="card" aria-labelledby="h-birth">
+        <h2 id="h-birth">出産</h2>
+        <div class="grid2">
+          <div class="field">
+            <label for="dueDate">出産予定日</label>
+            <input type="date" id="dueDate" data-k="dueDate">
+          </div>
+          <div class="field">
+            <label for="birthDate">生まれた日（生まれていれば）</label>
+            <input type="date" id="birthDate" data-k="birthDate">
+            <p class="hint">空なら予定日に生まれたとして計算します。</p>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="babies">生まれる子の数</label>
+            <select id="babies" data-k="babies">
+              <option value="1">1人</option>
+              <option value="2">2人（双子）</option>
+              <option value="3">3人</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="field-label">出産する病院など</span>
+            <label class="inline"><input type="checkbox" id="sanka" data-k="sanka"> 産科医療補償制度に入っている（多くの病院・産院が加入）</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-leave">
+        <h2 id="h-leave">育休の予定</h2>
+        <p class="small mother-only">産休は、予定日を含む42日前（双子以上は98日前）から、生まれた日の翌日から8週間まで休む前提で計算します。育休は産休の翌日からです。</p>
+        <div class="father-only">
+          <label class="inline"><input type="checkbox" id="papa-use" data-k="papa.use"> 産後パパ育休（出生時育児休業）を取る</label>
+          <div class="sub-block" id="papa-block">
+            <p class="small">生まれてから8週間の中で、合わせて28日まで。育休とは別の休みです。</p>
+            <div class="grid2">
+              <div class="field"><label for="papa-start">産後パパ育休の開始日</label><input type="date" id="papa-start" data-k="papa.start"></div>
+              <div class="field"><label for="papa-end">産後パパ育休の終了日</label><input type="date" id="papa-end" data-k="papa.end"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field father-only">
+            <label for="leaveStart">育休の開始日</label>
+            <input type="date" id="leaveStart" data-k="leaveStart">
+            <p class="hint" id="leaveStart-hint">空なら生まれた日から。</p>
+          </div>
+          <div class="field">
+            <label for="leaveEnd">育休の終了日</label>
+            <input type="date" id="leaveEnd" data-k="leaveEnd">
+            <p class="hint" id="leaveEnd-hint">空なら子が1歳になる前日まで。</p>
+          </div>
+        </div>
+        <div class="field mother-only">
+          <label for="spouse">配偶者（パートナー）の状況</label>
+          <select id="spouse" data-k="spouse">
+            <option value="leave14">会社員などで、生まれてから8週間の間に14日以上の育休を取る</option>
+            <option value="noLeave">会社員などで、育休を取らない・14日未満</option>
+            <option value="notEmployee">専業主婦（主夫）・自営業・フリーランスなど</option>
+            <option value="none">配偶者がいない（ひとり親など）</option>
+          </select>
+          <p class="hint">出生後休業支援給付金（13%の上乗せ）の要件の判定に使います。</p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-net">
+        <h2 id="h-net">保険料と手取り（任意）</h2>
+        <div class="grid2">
+          <div class="field">
+            <label for="pref">健康保険</label>
+            <select id="pref" data-k="pref">
+              <optgroup label="協会けんぽ（勤め先の都道府県・令和8年度の料率）">
+              <option value="hokkaido">北海道（10.28%）</option>
+              <option value="aomori">青森県（9.85%）</option>
+              <option value="iwate">岩手県（9.51%）</option>
+              <option value="miyagi">宮城県（10.10%）</option>
+              <option value="akita">秋田県（10.01%）</option>
+              <option value="yamagata">山形県（9.75%）</option>
+              <option value="fukushima">福島県（9.50%）</option>
+              <option value="ibaraki">茨城県（9.52%）</option>
+              <option value="tochigi">栃木県（9.82%）</option>
+              <option value="gunma">群馬県（9.68%）</option>
+              <option value="saitama">埼玉県（9.67%）</option>
+              <option value="chiba">千葉県（9.73%）</option>
+              <option value="tokyo">東京都（9.85%）</option>
+              <option value="kanagawa">神奈川県（9.92%）</option>
+              <option value="niigata">新潟県（9.21%）</option>
+              <option value="toyama">富山県（9.59%）</option>
+              <option value="ishikawa">石川県（9.70%）</option>
+              <option value="fukui">福井県（9.71%）</option>
+              <option value="yamanashi">山梨県（9.55%）</option>
+              <option value="nagano">長野県（9.63%）</option>
+              <option value="gifu">岐阜県（9.80%）</option>
+              <option value="shizuoka">静岡県（9.61%）</option>
+              <option value="aichi">愛知県（9.93%）</option>
+              <option value="mie">三重県（9.77%）</option>
+              <option value="shiga">滋賀県（9.88%）</option>
+              <option value="kyoto">京都府（9.89%）</option>
+              <option value="osaka">大阪府（10.13%）</option>
+              <option value="hyogo">兵庫県（10.12%）</option>
+              <option value="nara">奈良県（9.91%）</option>
+              <option value="wakayama">和歌山県（10.06%）</option>
+              <option value="tottori">鳥取県（9.86%）</option>
+              <option value="shimane">島根県（9.94%）</option>
+              <option value="okayama">岡山県（10.05%）</option>
+              <option value="hiroshima">広島県（9.78%）</option>
+              <option value="yamaguchi">山口県（10.15%）</option>
+              <option value="tokushima">徳島県（10.24%）</option>
+              <option value="kagawa">香川県（10.02%）</option>
+              <option value="ehime">愛媛県（9.98%）</option>
+              <option value="kochi">高知県（10.05%）</option>
+              <option value="fukuoka">福岡県（10.11%）</option>
+              <option value="saga">佐賀県（10.55%）</option>
+              <option value="nagasaki">長崎県（10.06%）</option>
+              <option value="kumamoto">熊本県（10.08%）</option>
+              <option value="oita">大分県（10.08%）</option>
+              <option value="miyazaki">宮崎県（9.77%）</option>
+              <option value="kagoshima">鹿児島県（10.13%）</option>
+              <option value="okinawa">沖縄県（9.44%）</option>
+              </optgroup>
+              <option value="custom">健康保険組合など（料率を入れる）</option>
+            </select>
+          </div>
+          <div class="field" id="custom-rate-block">
+            <label for="customRate">健康保険料率（労使の合計）</label>
+            <div class="money"><input type="number" id="customRate" data-k="customRate" inputmode="decimal" min="0" max="20" step="0.01"><span class="unit">%</span></div>
+          </div>
+        </div>
+        <label class="inline"><input type="checkbox" id="over40" data-k="over40"> 40歳以上（介護保険料もかかる）</label>
+        <div class="grid2">
+          <div class="field">
+            <label for="juminzei">毎月の住民税</label>
+            <p class="hint">給与明細の「住民税」の額。休業中も前の年の所得にかかります。</p>
+            <div class="money"><input type="number" id="juminzei" data-k="juminzei" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div>
+          </div>
+          <div class="field">
+            <label for="tedori">休業前の毎月の手取り</label>
+            <p class="hint">給与明細の「差引支給額」。休業中と比べます。</p>
+            <div class="money"><input type="number" id="tedori" data-k="tedori" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="tedori"></output></div>
+          </div>
+        </div>
+        <label class="inline"><input type="checkbox" id="jitan-use" data-k="jitan.use"> 育休のあと、時短勤務で復帰する（育児時短就業給付金も計算）</label>
+        <div class="sub-block" id="jitan-block">
+          <div class="field">
+            <label for="jitan-salary">時短勤務の毎月の給与（額面）</label>
+            <div class="money"><input type="number" id="jitan-salary" data-k="jitan.salary" inputmode="numeric" min="0" step="1" placeholder="例：220000"><span class="unit">円</span><output class="yomi" for="jitan-salary"></output></div>
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <section class="card" aria-labelledby="h-result" id="result-card">
+      <h2 id="h-result">計算の結果</h2>
+      <div id="msgs" class="msg msg-warn" hidden></div>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead" id="r-lead">受け取る給付の合計（目安）</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail"></p>
+      </div>
+
+      <h3 class="sub">給付ごとの額と計算</h3>
+      <ul class="benefits" id="benefits"></ul>
+
+      <h3 class="sub">出生後休業支援給付金（13%の上乗せ）の要件</h3>
+      <div class="judge" id="judge">
+        <div class="judge-box" id="j-days"><p class="judge-title">育休の日数（14日以上）</p><p class="judge-tag">—</p><p class="judge-why"></p></div>
+        <div class="judge-box" id="j-spouse"><p class="judge-title">配偶者の要件</p><p class="judge-tag">—</p><p class="judge-why"></p></div>
+      </div>
+
+      <h3 class="sub">休業中の手取りの目安（1か月）</h3>
+      <div class="table-wrap">
+        <table class="cmp" id="net">
+          <thead><tr><th scope="col">項目</th><th scope="col">金額</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="small" id="net-note"></p>
+
+      <h3 class="sub">社会保険料の免除</h3>
+      <p class="small" id="exempt"></p>
+
+      <h3 class="sub">月ごとの受け取りの目安</h3>
+      <p class="small">給付は、休んだ期間が終わってから申請し、審査のあとに振り込まれます。育児休業給付金は2か月分ずつ申請するのが一般的です。下の「受け取り」は、申請がふつうに進んだときの<strong>目安</strong>で、勤め先の手続きの時期で前後します。</p>
+      <div class="table-wrap">
+        <table class="cmp sched" id="sched">
+          <thead><tr><th scope="col">月</th><th scope="col">休業</th><th scope="col">社会保険料</th><th scope="col">受け取り（目安）</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <details class="rels" id="period-detail">
+        <summary>育児休業給付金の支給単位期間ごとの額</summary>
+        <div class="table-wrap">
+          <table class="cmp" id="periods">
+            <thead><tr><th scope="col">回</th><th scope="col">期間</th><th scope="col">日数</th><th scope="col">給付率</th><th scope="col">金額</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+
+      <div id="jitan-result" hidden>
+        <h3 class="sub">時短勤務で復帰した場合（育児時短就業給付金）</h3>
+        <p class="small" id="jitan-text"></p>
+      </div>
+
+      <h3 class="sub">途中の計算</h3>
+      <table class="steps" id="steps">
+        <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った式と規則です。根拠の資料は<a href="./guide.html#basis">使い方ページ</a>にまとめています。</caption>
+        <tbody></tbody>
+      </table>
+
+      <p class="small">この結果は目安です。実際の支給額は、出産手当金・出産育児一時金は加入している健康保険が、育児休業給付金などはハローワークが決めます。休業中に給与が出る場合や、会社独自の制度は計算に入れていません。</p>
+      <p class="small">休業中も、住民税は前の年の所得にかかります（給付は非課税なので、休業した年の分は翌年度の住民税が下がります） → <a href="../juminzei/">住民税の計算（令和9年度）</a></p>
+    </section>
+
+    <section class="card no-print" aria-labelledby="h-file">
+      <h2 id="h-file">入力の保存・書き出し</h2>
+      <p class="small">入力内容はこの端末のブラウザに自動で保存され、外部には送信されません。別の端末で使うときや控えを残すときは、ファイルに書き出してください。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </section>
+
+    <p class="small"><a href="./guide.html">使い方・計算の根拠・よくある質問（手取り・いつ振り込まれるか・上限額）・ご利用上の注意</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="./" aria-current="page">育休・産休の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/ikukyu-values.js"></script>
+  <script src="../lib/ikukyu.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
