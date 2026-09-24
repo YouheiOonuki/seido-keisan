@@ -68,7 +68,7 @@
         </div>
         <div class="field">
           <label for="withheld">給与・賞与から源泉徴収された所得税の合計</label>
-          <p class="hint">給与明細の「所得税」を1年分足した金額（12月分の見込みも）。入れると、戻るか足りないかがわかります。</p>
+          <p class="hint">給与明細の「所得税」を1年分足した金額（12月分の見込みも）。</p>
           <div class="money"><input type="number" id="withheld" data-k="withheld" inputmode="numeric" min="0" step="1" placeholder="例：120000"><span class="unit">円</span><output class="yomi" for="withheld"></output></div>
         </div>
       </section>
@@ -77,7 +77,8 @@
         <h2 id="h-shakai">社会保険料など</h2>
         <div class="field">
           <label for="shakai">社会保険料（給与から引かれた分＋自分で払った分）</label>
-          <p class="hint">健康保険・厚生年金・雇用保険・介護保険の合計。国民年金・国民健康保険を自分で払った分も足します。</p>
+          <p class="hint">健康保険・厚生年金・雇用保険・介護保険の合計。</p>
+          <details class="rels"><summary>自分で払った分</summary><p class="hint">国民年金・国民健康保険を自分で払った分も足します。</p></details>
           <div class="money"><input type="number" id="shakai" data-k="shakai" inputmode="numeric" min="0" step="1" placeholder="例：720000"><span class="unit">円</span><output class="yomi" for="shakai"></output></div>
         </div>
         <div class="field">
@@ -88,7 +89,11 @@
 
       <section class="card" aria-labelledby="h-hoken">
         <h2 id="h-hoken">生命保険料・地震保険料</h2>
-        <p class="small">保険会社から届く控除証明書の「本年中に支払った保険料（見込み）」を、区分ごとに入れます。新＝平成24年以後の契約、旧＝平成23年以前の契約です。</p>
+        <p class="small">控除証明書の「本年中に支払った保険料（見込み）」を、区分ごとに入れます。</p>
+        <details class="rels">
+          <summary>新・旧の区別と、23歳未満の扶養親族がいるとき</summary>
+          <p class="small">保険会社から届く控除証明書の金額です。新＝平成24年以後の契約、旧＝平成23年以前の契約です。</p>
+          </details>
         <div class="grid2">
           <div class="field"><label for="s-newIppan">一般の生命保険料（新）</label><div class="money"><input type="number" id="s-newIppan" data-k="seimei.newIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
           <div class="field"><label for="s-oldIppan">一般の生命保険料（旧）</label><div class="money"><input type="number" id="s-oldIppan" data-k="seimei.oldIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
@@ -96,7 +101,6 @@
           <div class="field"><label for="s-newNenkin">個人年金保険料（新）</label><div class="money"><input type="number" id="s-newNenkin" data-k="seimei.newNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
           <div class="field"><label for="s-oldNenkin">個人年金保険料（旧）</label><div class="money"><input type="number" id="s-oldNenkin" data-k="seimei.oldNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
         </div>
-        <p class="small">23歳未満の扶養親族（下の「扶養親族」で16歳未満・16〜18歳・19〜22歳の人）がいると、令和8年分から一般の生命保険料（新）の控除が最高6万円になります。</p>
         <div class="grid2">
           <div class="field"><label for="j-jishin">地震保険料</label><div class="money"><input type="number" id="j-jishin" data-k="jishin.jishin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
           <div class="field"><label for="j-oldLong">旧長期損害保険料</label><div class="money"><input type="number" id="j-oldLong" data-k="jishin.oldLong" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
@@ -133,7 +137,11 @@
 
       <section class="card" aria-labelledby="h-rel">
         <h2 id="h-rel">扶養親族・特定親族</h2>
-        <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。16歳未満の子も、23歳未満の判定と障害者控除のために入れてください。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。同居老親等は、本人か配偶者の父母・祖父母で、いつも同居している人です。</p>
+        <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。16歳未満の子も、23歳未満の判定と障害者控除のために入れてください。</p>
+        <details class="rels">
+          <summary>年齢の区分と同居老親等</summary>
+          <p class="small">年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。同居老親等は、本人か配偶者の父母・祖父母で、いつも同居している人です。</p>
+        </details>
         <div id="rels"></div>
         <button type="button" class="btn btn-sub" id="add-rel">＋ 親族を足す</button>
       </section>
@@ -165,7 +173,7 @@
         <h2 id="h-jutaku">住宅ローン控除</h2>
         <div class="field">
           <label for="jutaku">住宅借入金等特別控除額</label>
-          <p class="hint">「住宅借入金等特別控除申告書」の控除額の欄の金額をそのまま入れます（このツールでは控除額そのものは計算しません）。</p>
+          <p class="hint">「住宅借入金等特別控除申告書」の控除額の欄の金額をそのまま入れます。</p>
           <div class="money"><input type="number" id="jutaku" data-k="jutaku" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="jutaku"></output></div>
         </div>
       </section>
@@ -181,7 +189,6 @@
         <p class="detail" id="r-detail"></p>
       </div>
       <h3 class="sub">途中の計算</h3>
-      <p class="small">勤め先の源泉徴収票・源泉徴収簿と見比べられるように、国税庁の手順のとおりに並べています。</p>
       <table class="steps" id="steps">
         <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った表や規則です。</caption>
         <tbody></tbody>
@@ -192,21 +199,21 @@
       </details>
 
       <h3 class="sub">令和7年分の制度との比較</h3>
-      <p class="small">同じ入力を、令和7年分の制度（国税庁「令和7年分 年末調整のしかた」）で計算した場合との違いです。基礎控除の引上げなどで変わった分がわかります。</p>
+      <p class="small">同じ入力を、令和7年分の制度で計算した場合との違いです。</p>
       <div class="table-wrap">
         <table class="cmp" id="cmp">
           <thead><tr><th scope="col">項目</th><th scope="col">令和8年分</th><th scope="col">令和7年分</th><th scope="col">差</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-      <p class="small">この結果は目安です。実際の年末調整は勤め先が行います。申告書の内容や源泉徴収票と違う場合は、勤め先に確認してください。</p>
-      <p class="small">同じ収入から、令和9年6月から納める<a href="../juminzei/">住民税（令和9年度）と非課税になるか</a>も計算できます（この入力を読み込めます）。</p>
+      <p class="small">この計算は目安です。実際の年末調整は勤め先が行います。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+      <p class="small">同じ入力で → <a href="../juminzei/">住民税（令和9年度）と非課税になるか</a></p>
       <p class="small" id="to-shaho" hidden>配偶者がパートなら → <a href="../../shaho-check/">来年の社会保険の加入判定</a></p>
     </section>
 
     <section class="card no-print" aria-labelledby="h-file">
       <h2 id="h-file">入力の保存・書き出し</h2>
-      <p class="small">入力内容はこの端末のブラウザに自動で保存され、外部には送信されません。別の端末で使うときや控えを残すときは、ファイルに書き出してください。</p>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
       <div class="btn-row">
         <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
         <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
@@ -216,7 +223,7 @@
       <p class="small" id="file-msg" role="status"></p>
     </section>
 
-    <p class="small"><a href="./guide.html">使い方・計算の根拠・よくある質問・ご利用上の注意</a></p>
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問</a></p>
 
   </main>
 

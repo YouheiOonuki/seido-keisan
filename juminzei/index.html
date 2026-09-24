@@ -66,7 +66,7 @@
           <p class="hint">源泉徴収票の「支払金額」にあたる金額です。交通費（非課税分）は含めません。給与のほかに収入がない人向けです。</p>
           <div class="money"><input type="number" id="income" data-k="income" inputmode="numeric" min="0" step="1" placeholder="例：3000000"><span class="unit">円</span><output class="yomi" for="income"></output></div>
         </div>
-        <p class="small">年末調整の計算で入れた内容があれば、読み込んで使えます。<button type="button" class="btn btn-sub" id="from-nenmatsu">年末調整の計算の入力を使う</button></p>
+        <p class="small"><button type="button" class="btn btn-sub" id="from-nenmatsu">年末調整の計算の入力を使う</button></p>
         <p class="small" id="nenmatsu-msg" role="status"></p>
       </section>
 
@@ -74,7 +74,8 @@
         <h2 id="h-shakai">社会保険料など</h2>
         <div class="field">
           <label for="shakai">社会保険料（給与から引かれた分＋自分で払った分）</label>
-          <p class="hint">健康保険・厚生年金・雇用保険・介護保険の合計。国民年金・国民健康保険を自分で払った分も足します。</p>
+          <p class="hint">健康保険・厚生年金・雇用保険・介護保険の合計。</p>
+          <details class="rels"><summary>自分で払った分</summary><p class="hint">国民年金・国民健康保険を自分で払った分も足します。</p></details>
           <div class="money"><input type="number" id="shakai" data-k="shakai" inputmode="numeric" min="0" step="1" placeholder="例：450000"><span class="unit">円</span><output class="yomi" for="shakai"></output></div>
         </div>
         <div class="field">
@@ -85,7 +86,11 @@
 
       <section class="card" aria-labelledby="h-hoken">
         <h2 id="h-hoken">生命保険料・地震保険料</h2>
-        <p class="small">控除証明書の「本年中に支払った保険料」を、区分ごとに入れます。新＝平成24年以後の契約、旧＝平成23年以前の契約です。住民税の控除額は所得税より小さく、自動で住民税の式で計算します。</p>
+        <p class="small">控除証明書の「本年中に支払った保険料」を、区分ごとに入れます。</p>
+        <details class="rels">
+          <summary>新・旧の区別と、住民税の控除額</summary>
+          <p class="small">新＝平成24年以後の契約、旧＝平成23年以前の契約です。住民税の控除額は所得税より小さく、自動で住民税の式で計算します。</p>
+        </details>
         <div class="grid2">
           <div class="field"><label for="s-newIppan">一般の生命保険料（新）</label><div class="money"><input type="number" id="s-newIppan" data-k="seimei.newIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
           <div class="field"><label for="s-oldIppan">一般の生命保険料（旧）</label><div class="money"><input type="number" id="s-oldIppan" data-k="seimei.oldIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
@@ -129,7 +134,11 @@
 
       <section class="card" aria-labelledby="h-rel">
         <h2 id="h-rel">扶養親族・特定親族</h2>
-        <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。<strong>16歳未満の子も入れてください</strong>（扶養控除はありませんが、非課税になるかの判定で人数に入ります）。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。</p>
+        <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。<strong>16歳未満の子も入れてください</strong>（非課税になるかの判定で人数に入ります）。</p>
+        <details class="rels">
+          <summary>年齢の区分</summary>
+          <p class="small">16歳未満の子に扶養控除はありません。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。</p>
+        </details>
         <div id="rels"></div>
         <button type="button" class="btn btn-sub" id="add-rel">＋ 親族を足す</button>
       </section>
@@ -170,7 +179,11 @@
         <h2 id="h-jutaku">住宅ローン控除</h2>
         <div class="field">
           <label for="jutaku">令和8年分の住宅借入金等特別控除額（所得税の控除額）</label>
-          <p class="hint">年末調整の申告書・確定申告書の「住宅借入金等特別控除額」をそのまま入れます。所得税から引ききれなかった分が、上限まで住民税から引かれます（この計算機が所得税の額を計算して求めます）。</p>
+          <p class="hint">年末調整の申告書・確定申告書の「住宅借入金等特別控除額」をそのまま入れます。</p>
+        <details class="rels">
+          <summary>住民税から引かれる分</summary>
+          <p class="hint">所得税から引ききれなかった分が、上限まで住民税から引かれます（この計算機が所得税の額を計算して求めます）。</p>
+        </details>
           <div class="money"><input type="number" id="jutaku" data-k="jutaku.amount" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="jutaku"></output></div>
         </div>
         <div class="grid2">
@@ -193,7 +206,7 @@
       <section class="card" aria-labelledby="h-city">
         <h2 id="h-city">住んでいる市区町村（令和9年1月1日の住所）</h2>
         <label class="inline"><input type="checkbox" id="city-shitei" data-k="city.shitei"> 政令指定都市（札幌市・横浜市・名古屋市・大阪市・福岡市など20市）に住んでいる</label>
-        <p class="small">指定都市では、税率が道府県民税2%・市民税8%に、調整控除の割合も変わります（合計は同じ10%）。</p>
+        <details class="rels"><summary>指定都市の税率</summary><p class="small">指定都市では、税率が道府県民税2%・市民税8%に、調整控除の割合も変わります（合計は同じ10%）。</p></details>
         <div class="field">
           <label for="city-kyuchi">生活保護の級地（均等割の非課税の基準）</label>
           <select id="city-kyuchi" data-k="city.kyuchi">
@@ -201,7 +214,7 @@
             <option value="2">2級地（県庁所在市・一部の市など）</option>
             <option value="3">3級地（一般の市・町村）</option>
           </select>
-          <p class="hint">お住まいの市区町村の「均等割の非課税」の案内で確かめられます。所得割の非課税の基準は級地で変わりません。</p>
+          <p class="hint">お住まいの市区町村の「均等割の非課税」の案内で確かめられます。</p>
         </div>
         <details class="rels" id="custom-block">
           <summary>税率・均等割を自分で直す（市区町村で違う場合）</summary>
@@ -249,7 +262,6 @@
       <p id="furusato" class="small"></p>
 
       <h3 class="sub">途中の計算</h3>
-      <p class="small">市区町村から届く税額決定通知書と見比べられるように、地方税法の手順のとおりに並べています。</p>
       <table class="steps" id="steps">
         <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った規則です。</caption>
         <tbody></tbody>
@@ -260,20 +272,20 @@
       </details>
 
       <h3 class="sub">令和8年度の制度との比較</h3>
-      <p class="small">同じ入力を、今納めている令和8年度の制度（令和7年の所得にかかる住民税）で計算した場合との違いです。給与所得控除の最低額（65万円→74万円）や扶養親族の所得要件（58万円→62万円）の改正でいくら変わるかがわかります。</p>
+      <p class="small">同じ入力を、今納めている令和8年度の制度（令和7年の所得にかかる住民税）で計算した場合との違いです。</p>
       <div class="table-wrap">
         <table class="cmp" id="cmp">
           <thead><tr><th scope="col">項目</th><th scope="col">令和9年度</th><th scope="col">令和8年度</th><th scope="col">差</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-      <p class="small">この結果は目安です。実際の税額は、お住まいの市区町村が決めて通知します。条例による税率や非課税の基準、減免などで違う場合があります。</p>
-      <p class="small"><a href="../nenmatsu/">年末調整の計算（令和8年分）</a>で、所得税がいくら戻るかも計算できます。</p>
+      <p class="small">この計算は目安です。実際の税額は、お住まいの市区町村が決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+      <p class="small">所得税がいくら戻るか → <a href="../nenmatsu/">年末調整の計算（令和8年分）</a></p>
     </section>
 
     <section class="card no-print" aria-labelledby="h-file">
       <h2 id="h-file">入力の保存・書き出し</h2>
-      <p class="small">入力内容はこの端末のブラウザに自動で保存され、外部には送信されません。別の端末で使うときや控えを残すときは、ファイルに書き出してください。</p>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
       <div class="btn-row">
         <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
         <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
@@ -283,7 +295,7 @@
       <p class="small" id="file-msg" role="status"></p>
     </section>
 
-    <p class="small"><a href="./guide.html">使い方・計算の根拠・非課税の基準・よくある質問・ご利用上の注意</a></p>
+    <p class="small"><a href="./guide.html">使い方・根拠・非課税の基準・よくある質問</a></p>
 
   </main>
 
