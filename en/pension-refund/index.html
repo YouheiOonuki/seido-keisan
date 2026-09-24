@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan Pension Refund Calculator (Lump-sum Withdrawal Payment) | yorozu-craft</title>
+  <meta name="description" content="Estimate your Japan pension refund (Lump-sum Withdrawal Payment) from the Japan Pension Service tables: Employees' Pension and National Pension separately, the 20.42% tax, a tax refund estimate and your claim deadline. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/pension-refund/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/pension-refund/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/">
+
+  <meta property="og:title" content="Japan Pension Refund Calculator | yorozu-craft">
+  <meta property="og:description" content="Estimate your Japan pension refund from the Japan Pension Service tables, with the 20.42% tax, a tax refund estimate and your claim deadline.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/pension-refund/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan Pension Refund Calculator",
+    "description": "Estimate your Japan pension refund (Lump-sum Withdrawal Payment) from the Japan Pension Service tables, with the 20.42% tax, a tax refund estimate and your claim deadline.",
+    "url": "https://yorozu-craft.com/seido-keisan/en/pension-refund/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../dattai-ichiji/dattai.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Pension Refund Calculator</h1>
+    <p class="subtitle">Lump-sum Withdrawal Payment (dattai ichijikin): what you get back after leaving Japan, the 20.42% tax and your deadline.</p>
+    <p class="lang-switch"><a href="../../dattai-ichiji/" hreflang="ja" lang="ja">日本語</a></p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ Result</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">Japan Pension Service tables, checked <span id="asof-date">September 24, 2026</span>. Your inputs never leave this browser.</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>Your pension record in Japan</legend>
+        <div class="field" data-need="any">
+          <label for="ep-months">Employees’ Pension months</label>
+          <p class="hint">Months enrolled through an employer. 0 if none.</p>
+          <div class="num"><input type="number" id="ep-months" data-k="ep.months" inputmode="numeric" min="0" max="600" step="1" placeholder="e.g. 36"><span class="unit">months</span></div>
+        </div>
+        <div class="field" data-need="ep.last">
+          <label for="ep-last">Last month of Employees’ Pension</label>
+          <p class="hint">The month before the month your coverage ended.</p>
+          <input type="month" id="ep-last" data-k="ep.last" placeholder="2026-08">
+        </div>
+        <div class="field" data-need="ep.salary">
+          <label for="ep-salary">Average monthly salary</label>
+          <p class="hint">Before tax, including allowances. Bonuses go below the result.</p>
+          <div class="money"><span class="unit">¥</span><input type="number" id="ep-salary" data-k="ep.salary" inputmode="numeric" min="0" step="1" placeholder="e.g. 300000"></div>
+        </div>
+        <div class="field" data-need="any">
+          <label for="np-months">National Pension months paid</label>
+          <p class="hint">Months you paid in full yourself. 0 if none.</p>
+          <div class="num"><input type="number" id="np-months" data-k="np.months" inputmode="numeric" min="0" max="600" step="1" placeholder="e.g. 12"><span class="unit">months</span></div>
+        </div>
+        <div class="field" data-need="np.last">
+          <label for="np-last">Last month you paid National Pension</label>
+          <input type="month" id="np-last" data-k="np.last" placeholder="2026-05">
+        </div>
+        <div class="field">
+          <label for="left">Date you no longer have an address in Japan</label>
+          <p class="hint">Your moving-out date. A planned date is fine.</p>
+          <input type="date" id="left" data-k="left">
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">Your refund</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead">Paid to you (Employees’ Pension after the 20.42% tax)</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+        <p class="refund" id="r-refund"></p>
+        <p class="small" id="r-refund-note"></p>
+        <ul class="msgs" id="r-msgs"></ul>
+        <div class="table-wrap">
+          <table class="cmp sum">
+            <tbody>
+              <tr><th scope="row">Employees’ Pension</th><td id="s-ep">—</td></tr>
+              <tr><th scope="row">Tax withheld (20.42%)</th><td id="s-tax">—</td></tr>
+              <tr><th scope="row">National Pension (no tax)</th><td id="s-np">—</td></tr>
+              <tr class="total"><th scope="row">Paid to you</th><td id="s-total">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="deadline"><strong>Deadline:</strong> claim “within two years from the date you no longer had an address in Japan” (claim form). <span id="r-deadline"></span></p>
+        <details class="rels" id="steps-box">
+          <summary>Breakdown and steps</summary>
+          <table class="steps" id="steps"><tbody></tbody></table>
+          <p class="small">If your coverage ended after you had already left Japan, the two years count from the day it ended.</p>
+        </details>
+        <p class="small">This is an estimate. The final amount is decided by the Japan Pension Service, and any tax refund by the tax office. <a href="./guide.html">Guide, sources and FAQ</a></p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-bonus">
+      <summary>Bonuses and exact average: <span class="opt-state" id="st-bonus">none</span></summary>
+      <div class="field">
+        <label for="ep-bonus">Bonus per payment</label>
+        <p class="hint">Before tax. Capped at ¥1.5 million per payment.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="ep-bonus" data-k="ep.bonus" inputmode="numeric" min="0" step="1" placeholder="e.g. 400000"></div>
+      </div>
+      <div class="field">
+        <label for="ep-bonus-count">Number of bonuses while enrolled</label>
+        <div class="num"><input type="number" id="ep-bonus-count" data-k="ep.bonusCount" inputmode="numeric" min="0" step="1" placeholder="e.g. 4"></div>
+      </div>
+      <div class="field">
+        <label for="ep-avg">Average standard remuneration, if you know it</label>
+        <p class="hint">Replaces the salary and bonuses above.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="ep-avg" data-k="ep.avg" inputmode="numeric" min="0" step="1" placeholder="e.g. 320000"></div>
+      </div>
+      <p class="small">Salary is turned into a standard monthly amount with the grade table (¥88,000 to ¥650,000), as if it were the same every month.</p>
+    </details>
+
+    <details class="card opt" id="d-exempt">
+      <summary>National Pension partial exemptions: <span class="opt-state" id="st-exempt">none</span></summary>
+      <div class="field">
+        <label for="np-q1">Months with a quarter exemption (you paid ¾)</label>
+        <div class="num"><input type="number" id="np-q1" data-k="np.q1" inputmode="numeric" min="0" step="1" placeholder="0"></div>
+      </div>
+      <div class="field">
+        <label for="np-half">Months with a half exemption (you paid ½)</label>
+        <div class="num"><input type="number" id="np-half" data-k="np.half" inputmode="numeric" min="0" step="1" placeholder="0"></div>
+      </div>
+      <div class="field">
+        <label for="np-q3">Months with a three-quarter exemption (you paid ¼)</label>
+        <div class="num"><input type="number" id="np-q3" data-k="np.q3" inputmode="numeric" min="0" step="1" placeholder="0"></div>
+      </div>
+      <p class="small">They count as ¾, ½ and ¼ of a month. Unpaid and fully exempt months do not count.</p>
+    </details>
+
+    <details class="card opt" id="d-check">
+      <summary>Eligibility checks: <span class="opt-state" id="st-check">no issues entered</span></summary>
+      <label class="inline"><input type="checkbox" data-k="japanese"> I have Japanese nationality</label>
+      <label class="inline"><input type="checkbox" data-k="disability"> I have had the right to a disability pension or allowance</label>
+      <p class="small">You also cannot claim with 120 months or more in total; the calculator checks this from your months.</p>
+    </details>
+
+    <details class="card opt" id="d-country">
+      <summary>Home country: <span class="opt-state" id="st-country">not entered</span></summary>
+      <div class="field">
+        <label for="country">Country of your other pension</label>
+        <p class="hint">Only for the social security agreement note. The amount does not change.</p>
+        <select id="country" data-k="country"><option value="">Not listed / skip</option></select>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-tax">
+      <summary>Tax refund estimate: <span class="opt-state" id="st-tax">on</span></summary>
+      <label class="inline"><input type="checkbox" data-k="refund"> Show the tax refund estimate</label>
+      <div id="other-row">
+        <label class="inline"><input type="checkbox" data-k="otherRetirement"> I got other retirement pay in the same year</label>
+      </div>
+      <p class="small">Getting it back needs a retirement-income tax return and a tax agent in Japan. See the guide.</p>
+    </details>
+
+    <details class="card opt">
+      <summary>Not covered by this calculator</summary>
+      <ul class="small">
+        <li>Mutual aid association periods, periods before April 2003, and a last Employees’ Pension month before September 2017.</li>
+        <li>National Pension with a last paid month before April 2013.</li>
+        <li>The 2025 law change (8-year cap), which has no start date yet.</li>
+        <li>Tax treaties, resident tax and currency conversion.</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>Save and export</summary>
+      <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
+        <button type="button" class="btn btn-sub" id="import">Import a file</button>
+        <button type="button" class="btn btn-sub" id="clear">Clear</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">Guide, sources and FAQ (tax refund, more than 5 years, deadline)</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./" aria-current="page">Japan Pension Refund Calculator</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/screen.js"></script>
+  <script src="../../lib/dattai-values.js"></script>
+  <script src="../../lib/pension-refund.js"></script>
+  <script src="../../lib/pension-refund-text.js"></script>
+  <script src="../../dattai-ichiji/app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

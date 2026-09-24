@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide, sources and FAQ | Japan Pension Refund Calculator | yorozu-craft</title>
+  <meta name="description" content="How the Japan pension refund (Lump-sum Withdrawal Payment) is calculated, how to get the 20.42% tax back, what happens after 5 years, the claim deadline, and the Japan Pension Service sources used.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html">
+
+  <meta property="og:title" content="Guide, sources and FAQ | Japan Pension Refund Calculator">
+  <meta property="og:description" content="How the Japan pension refund is calculated, the 20.42% tax, the 5-year cap and the claim deadline, with sources.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- FAQ（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much is the Japan pension refund?",
+        "acceptedAnswer": { "@type": "Answer", "text": "National Pension pays a fixed amount set by the fiscal year of your last paid month: up to ¥537,600 for 60 months in fiscal 2026. Employees’ Pension pays your average standard remuneration times a rate from 0.5 to 5.5." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the Japan pension refund taxed?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Employees’ Pension refund to a non-resident has 20.42% income tax withheld when it is paid. The National Pension refund has no tax withheld." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get the 20.42% pension refund tax back?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You may get some or all of it back by filing a retirement-income tax return through a tax agent. The calculator estimates the amount; with a refund of ¥800,000 or less, the estimated tax is zero." }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I paid into the Japanese pension for more than 5 years?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each scheme pays at most 60 months, and all your months before the claim stop counting toward a Japanese pension. For repeated stays, the Japan Pension Service says you may need to claim each time you leave." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the deadline for the Japan pension refund?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Claim within two years from the date you no longer had an address in Japan. If nothing is missing, payment comes about four months after the claim is accepted." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../dattai-ichiji/dattai.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Pension Refund Calculator: guide</h1>
+    <p class="subtitle">How to use it, how the refund and tax are calculated, sources, FAQ</p>
+    <p class="lang-switch"><a href="../../dattai-ichiji/guide.html" hreflang="ja" lang="ja">日本語</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ Open the Japan Pension Refund Calculator</a></p>
+
+    <article class="card content" id="howto">
+      <h2>How to use it</h2>
+      <p>This page covers the Lump-sum Withdrawal Payment (dattai ichijikin) for people without Japanese nationality who leave Japan. It explains the calculation, the 20.42% tax and the deadline.</p>
+      <ol>
+        <li>Enter your Employees’ Pension months and last month, if any.</li>
+        <li>Enter your average monthly salary before tax.</li>
+        <li>Enter your National Pension months paid and last paid month, if any.</li>
+        <li>Enter the date you no longer have an address in Japan.</li>
+        <li>Below the result, add bonuses, exemptions or your home country.</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>How the refund is calculated</h2>
+      <ul>
+        <li>The two schemes are checked separately. Each needs 6 months or more, and they are never added together.</li>
+        <li>National Pension: the Japan Pension Service table for the fiscal year of your last paid month, by 6-month steps.</li>
+        <li>Employees’ Pension: average standard remuneration × payment rate (0.5 for 6 months to 5.5 for 60 months).</li>
+        <li>The cap is 60 months if the last month is April 2021 or later, 36 months if earlier.</li>
+        <li>Your salary is converted with the current grade table and treated as the same every month.</li>
+      </ul>
+      <details class="rels">
+        <summary>Average standard remuneration and the payment rate</summary>
+        <ul>
+          <li>Average standard remuneration = (standard monthly remuneration for every month + standard bonuses) ÷ all Employees’ Pension months. Bonuses are rounded down to ¥1,000 and capped at ¥1.5 million per payment.</li>
+          <li>The rate uses the contribution rate of October of the year before the last month (two years before if the last month is January to August) × ½ × the months used, rounded to one decimal. With the 18.3% rate fixed since September 2017, this gives 0.5, 1.1, 1.6, 2.2, 2.7, 3.3, 3.8, 4.4, 4.9 and 5.5.</li>
+          <li>“Last month” is the month before the month your coverage ended. For National Pension, quarter, half and three-quarter exemption months count as ¾, ½ and ¼ of a month.</li>
+          <li>A law passed in June 2025 will raise the cap to 8 years and stop payment while a re-entry permit is valid. Its start date is not set yet (checked <span data-v="checked">September 24, 2026</span>), so this calculator does not use it.</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="tax">
+      <h2>Getting the 20.42% tax back</h2>
+      <p>The Employees’ Pension refund has 20.42% withheld; the National Pension refund has none. You may get some or all of the tax back with a “Tax Return for Refund Due to Taxation on Retirement Income at the Taxpayer’s Option”.</p>
+      <ol>
+        <li>Before leaving, register a tax agent at the tax office for your last address (or file it with the return).</li>
+        <li>Send the original payment notice from the Japan Pension Service to your agent.</li>
+        <li>The agent files the return from January 1 of the year after payment.</li>
+      </ol>
+      <p>Tax = (refund − deduction) ÷ 2 at income tax rates, plus 2.1%. The deduction is ¥400,000 per year of service, at least ¥800,000. Years are the months used, rounded up.</p>
+      <details class="rels">
+        <summary>More than 60 months, and the worked example</summary>
+        <ul>
+          <li>With 5 years or less, the part above ¥3 million after the deduction is not halved.</li>
+          <li>If you have more months than the cap, it is not settled whether the years count all months or only the months paid. The calculator shows both as a range.</li>
+          <li>The estimate assumes no other retirement pay in the same year; with other pay, the amounts are added together, so no estimate is shown.</li>
+          <li>The National Tax Agency says tax treaties apply their employment-income article, so the refund is generally taxed in Japan too. Treaties are not used here.</li>
+          <li>Check: the tax part reproduces the National Tax Agency’s worked example (¥10 million, 10 years: tax ¥206,752, refund ¥1,222,648).</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>Sources and date checked</h2>
+      <p>Sources: Japan Pension Service, National Tax Agency and e-Gov law texts. Checked <time datetime="2026-09-24" data-v="checked">September 24, 2026</time>. National Pension amounts go up to fiscal <span data-v="fy">2026</span> (April <span data-v="fy">2026</span> to March <span data-v="fy1">2027</span>).</p>
+      <details class="rels">
+        <summary>All sources</summary>
+        <ul id="sources">
+          <li><a href="https://www.nenkin.go.jp/service/jukyu/seido/sonota-kyufu/dattai-ichiji/20150406.html" target="_blank" rel="noopener noreferrer">Japan Pension Service: Lump-sum Withdrawal Payment system</a></li>
+        </ul>
+        <p class="small">Social security agreements: 20 countries totalize periods and 4 do not (United Kingdom, South Korea, China, Italy), per the Japan Pension Service list updated October 27, 2025.</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        <dt>How much is the Japan pension refund?</dt>
+        <dd>National Pension pays a fixed amount set by the fiscal year of your last paid month: up to ¥537,600 for 60 months in fiscal 2026. Employees’ Pension pays your average standard remuneration times a rate from 0.5 to 5.5.</dd>
+        <dt>Is the Japan pension refund taxed?</dt>
+        <dd>The Employees’ Pension refund to a non-resident has 20.42% income tax withheld when it is paid. The National Pension refund has no tax withheld.</dd>
+        <dt>Can I get the 20.42% pension refund tax back?</dt>
+        <dd>You may get some or all of it back by filing a retirement-income tax return through a tax agent. The calculator estimates the amount; with a refund of ¥800,000 or less, the estimated tax is zero.</dd>
+        <dt>What if I paid into the Japanese pension for more than 5 years?</dt>
+        <dd>Each scheme pays at most 60 months, and all your months before the claim stop counting toward a Japanese pension. For repeated stays, the Japan Pension Service says you may need to claim each time you leave.</dd>
+        <dt>What is the deadline for the Japan pension refund?</dt>
+        <dd>Claim within two years from the date you no longer had an address in Japan. If nothing is missing, payment comes about four months after the claim is accepted.</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>Notes and your data</h2>
+      <ul>
+        <li>This is an estimate. The final amount is decided by the Japan Pension Service, and any tax refund by the tax office.</li>
+        <li>Your inputs are saved only in this browser (localStorage, key <code>seido-keisan_dattai_draft</code>) and are never sent anywhere.</li>
+        <li>This is not tax or pension advice.</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">Feedback form (Google Forms, in Japanese; you can write in English)</a>. We read every message but do not reply.</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>Changelog</h2>
+      <ul>
+        <li><time datetime="2026-09-24">September 24, 2026</time> Published (Japan Pension Service tables for fiscal 2026)</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./">Japan Pension Refund Calculator</a></li>
+        <li><a href="./guide.html" aria-current="page">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/dattai-values.js"></script>
+  <script src="../../lib/pension-refund-text.js"></script>
+  <script src="../../dattai-ichiji/guide.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

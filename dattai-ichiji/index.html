@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>脱退一時金の計算（厚生年金・国民年金、20.42%の還付の目安つき）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="脱退一時金がいくらになるかを日本年金機構の表どおりに計算。厚生年金と国民年金を別々に判定し、20.42%の源泉徴収、退職所得の選択課税で戻る税金の目安、請求の期限、社会保障協定の注意を出します。出典と確認日つき。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/pension-refund/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/dattai-ichiji/">
+
+  <meta property="og:title" content="脱退一時金の計算｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="厚生年金・国民年金の脱退一時金を日本年金機構の表どおりに計算。20.42%の源泉徴収と還付の目安、請求の期限つき。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/dattai-ichiji/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "脱退一時金の計算",
+    "description": "厚生年金・国民年金の脱退一時金を日本年金機構の表どおりに計算。20.42%の源泉徴収と還付の目安、請求の期限つき。",
+    "url": "https://yorozu-craft.com/seido-keisan/dattai-ichiji/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./dattai.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>脱退一時金の計算</h1>
+    <p class="subtitle">厚生年金・国民年金の脱退一時金と、20.42%の源泉徴収・戻る税金の目安・請求の期限を出します。</p>
+    <p class="lang-switch"><a href="../en/pension-refund/" hreflang="en" lang="en">English</a></p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">日本年金機構の表で計算・確認日 <span id="asof-date">2026年9月24日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>日本での年金の加入期間</legend>
+        <div class="field" data-need="any">
+          <label for="ep-months">厚生年金の月数</label>
+          <p class="hint">会社で加入していた月数。なければ 0。</p>
+          <div class="num"><input type="number" id="ep-months" data-k="ep.months" inputmode="numeric" min="0" max="600" step="1" placeholder="例：36"><span class="unit">月</span></div>
+        </div>
+        <div class="field" data-need="ep.last">
+          <label for="ep-last">厚生年金の最終月</label>
+          <p class="hint">資格を失った日の属する月の前月。</p>
+          <input type="month" id="ep-last" data-k="ep.last" placeholder="2026-08">
+        </div>
+        <div class="field" data-need="ep.salary">
+          <label for="ep-salary">平均の月給</label>
+          <p class="hint">額面・手当込み。賞与は結果の下で入れる。</p>
+          <div class="money"><input type="number" id="ep-salary" data-k="ep.salary" inputmode="numeric" min="0" step="1" placeholder="例：300000"><span class="unit">円</span></div>
+        </div>
+        <div class="field" data-need="any">
+          <label for="np-months">国民年金を納めた月数</label>
+          <p class="hint">自分で全額納めた月数。なければ 0。</p>
+          <div class="num"><input type="number" id="np-months" data-k="np.months" inputmode="numeric" min="0" max="600" step="1" placeholder="例：12"><span class="unit">月</span></div>
+        </div>
+        <div class="field" data-need="np.last">
+          <label for="np-last">国民年金を最後に納めた月</label>
+          <input type="month" id="np-last" data-k="np.last" placeholder="2026-05">
+        </div>
+        <div class="field">
+          <label for="left">日本に住所を有しなくなった日</label>
+          <p class="hint">転出の日。予定でもよい。</p>
+          <input type="date" id="left" data-k="left">
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">脱退一時金の目安</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead">振り込まれる額（厚生年金は20.42%の源泉徴収の後）</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+        <p class="refund" id="r-refund"></p>
+        <p class="small" id="r-refund-note"></p>
+        <ul class="msgs" id="r-msgs"></ul>
+        <div class="table-wrap">
+          <table class="cmp sum">
+            <tbody>
+              <tr><th scope="row">厚生年金の脱退一時金</th><td id="s-ep">—</td></tr>
+              <tr><th scope="row">源泉徴収（20.42%）</th><td id="s-tax">—</td></tr>
+              <tr><th scope="row">国民年金の脱退一時金（源泉徴収なし）</th><td id="s-np">—</td></tr>
+              <tr class="total"><th scope="row">振り込まれる額</th><td id="s-total">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="deadline"><strong>請求の期限:</strong> 「日本に住所を有しなくなった日から2年以内」（日本年金機構）。<span id="r-deadline"></span></p>
+        <details class="rels" id="steps-box">
+          <summary>内訳と途中の計算</summary>
+          <table class="steps" id="steps"><tbody></tbody></table>
+          <p class="small">資格を失った日に日本に住所がなかった場合は、その日から 2 年です。</p>
+        </details>
+        <p class="small">この計算は目安です。実際の額は日本年金機構が、税金の還付は税務署が決めます。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-bonus">
+      <summary>賞与・平均標準報酬額: <span class="opt-state" id="st-bonus">なし</span></summary>
+      <div class="field">
+        <label for="ep-bonus">賞与 1 回の額</label>
+        <p class="hint">額面。1 回 150万円までで計算。</p>
+        <div class="money"><input type="number" id="ep-bonus" data-k="ep.bonus" inputmode="numeric" min="0" step="1" placeholder="例：400000"><span class="unit">円</span></div>
+      </div>
+      <div class="field">
+        <label for="ep-bonus-count">加入中に賞与を受けた回数</label>
+        <div class="num"><input type="number" id="ep-bonus-count" data-k="ep.bonusCount" inputmode="numeric" min="0" step="1" placeholder="例：4"><span class="unit">回</span></div>
+      </div>
+      <div class="field">
+        <label for="ep-avg">平均標準報酬額（わかる人）</label>
+        <p class="hint">入れると月給・賞与より優先。</p>
+        <div class="money"><input type="number" id="ep-avg" data-k="ep.avg" inputmode="numeric" min="0" step="1" placeholder="例：320000"><span class="unit">円</span></div>
+      </div>
+      <p class="small">月給は等級表（88,000円〜650,000円）で標準報酬月額にし、全部の月で同じとみなします。</p>
+    </details>
+
+    <details class="card opt" id="d-exempt">
+      <summary>国民年金の一部免除: <span class="opt-state" id="st-exempt">なし</span></summary>
+      <div class="field">
+        <label for="np-q1">4分の1免除の月数</label>
+        <div class="num"><input type="number" id="np-q1" data-k="np.q1" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">月</span></div>
+      </div>
+      <div class="field">
+        <label for="np-half">半額免除の月数</label>
+        <div class="num"><input type="number" id="np-half" data-k="np.half" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">月</span></div>
+      </div>
+      <div class="field">
+        <label for="np-q3">4分の3免除の月数</label>
+        <div class="num"><input type="number" id="np-q3" data-k="np.q3" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">月</span></div>
+      </div>
+      <p class="small">4分の3・2分の1・4分の1 の月として数えます。未納と全額免除の月は数えません。</p>
+    </details>
+
+    <details class="card opt" id="d-check">
+      <summary>請求できるかの確認: <span class="opt-state" id="st-check">該当なし</span></summary>
+      <label class="inline"><input type="checkbox" data-k="japanese"> 日本国籍がある</label>
+      <label class="inline"><input type="checkbox" data-k="disability"> 障害年金など（障害手当金を含む）を受ける権利を有したことがある</label>
+      <p class="small">加入期間などが合わせて 120 月以上ある人も請求できません（入れた月数で判定します）。</p>
+    </details>
+
+    <details class="card opt" id="d-country">
+      <summary>出身国（社会保障協定）: <span class="opt-state" id="st-country">入力なし</span></summary>
+      <div class="field">
+        <label for="country">年金に加入していた国</label>
+        <p class="hint">協定の注意だけに使います。額は変わりません。</p>
+        <select id="country" data-k="country"><option value="">一覧にない・入れない</option></select>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-tax">
+      <summary>税金の還付の目安: <span class="opt-state" id="st-tax">出す</span></summary>
+      <label class="inline"><input type="checkbox" data-k="refund"> 還付の目安を出す</label>
+      <div id="other-row">
+        <label class="inline"><input type="checkbox" data-k="otherRetirement"> 同じ年に会社の退職金なども受けた</label>
+      </div>
+      <p class="small">戻すには、退職所得の選択課税の申告と納税管理人が要ります。手順は使い方ページに。</p>
+    </details>
+
+    <details class="card opt">
+      <summary>この計算機の対象外</summary>
+      <ul class="small">
+        <li>共済組合の期間、2003年3月以前の期間、厚生年金の最終月が2017年8月以前の人。</li>
+        <li>国民年金を最後に納めた月が2013年3月以前の人。</li>
+        <li>2025年の法改正（上限8年など。施行日は未定）。</li>
+        <li>租税条約、住民税、外貨への換算。</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（20.42%は戻るか・60月を超えたら）</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="../ikukyu/">育休・産休の計算</a></li>
+        <li><a href="../iryohi/">医療費控除の計算</a></li>
+        <li><a href="./" aria-current="page">脱退一時金の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/dattai-values.js"></script>
+  <script src="../lib/pension-refund.js"></script>
+  <script src="../lib/pension-refund-text.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
