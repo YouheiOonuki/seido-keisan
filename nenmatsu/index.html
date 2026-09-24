@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>年末調整の計算（令和8年分）いくら戻るか｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="令和8年分の年末調整で、税金がいくら戻るか・足りないかを計算。基礎控除104万円・特定親族特別控除・23歳未満の扶養親族がいる場合の生命保険料控除に対応。国税庁の表どおりに途中の計算をすべて表示。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/nenmatsu/">
+
+  <meta property="og:title" content="年末調整の計算（令和8年分）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="令和8年分の年末調整で、税金がいくら戻るか・足りないかを計算。国税庁の表どおりに途中の計算をすべて表示。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/nenmatsu/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/nenmatsu/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "年末調整の計算（令和8年分）",
+    "description": "令和8年分の年末調整で、税金がいくら戻るか・足りないかを計算。国税庁の表どおりに途中の計算をすべて表示。",
+    "url": "https://yorozu-craft.com/seido-keisan/nenmatsu/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <!-- 家族の行と結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>年末調整の計算（令和8年分）</h1>
+    <p class="subtitle">年末調整で税金がいくら戻るか・足りないかを、国税庁の表どおりに計算します。途中の計算もすべて表示。登録不要。</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="badge" id="asof">令和8年分の制度（国税庁『令和8年分 年末調整のしかた』）で計算・確認日 <span id="asof-date">2026年9月24日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+
+      <section class="card" aria-labelledby="h-income">
+        <h2 id="h-income">収入と源泉徴収税額</h2>
+        <div class="field">
+          <label for="income">1年間の給与の収入金額（賞与を含む。12月分の見込みも）</label>
+          <p class="hint">源泉徴収票の「支払金額」にあたる金額です。交通費（非課税分）は含めません。</p>
+          <div class="money"><input type="number" id="income" data-k="income" inputmode="numeric" min="0" step="1" placeholder="例：5000000"><span class="unit">円</span><output class="yomi" for="income"></output></div>
+        </div>
+        <div class="field">
+          <label for="withheld">給与・賞与から源泉徴収された所得税の合計</label>
+          <p class="hint">給与明細の「所得税」を1年分足した金額（12月分の見込みも）。入れると、戻るか足りないかがわかります。</p>
+          <div class="money"><input type="number" id="withheld" data-k="withheld" inputmode="numeric" min="0" step="1" placeholder="例：120000"><span class="unit">円</span><output class="yomi" for="withheld"></output></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-shakai">
+        <h2 id="h-shakai">社会保険料など</h2>
+        <div class="field">
+          <label for="shakai">社会保険料（給与から引かれた分＋自分で払った分）</label>
+          <p class="hint">健康保険・厚生年金・雇用保険・介護保険の合計。国民年金・国民健康保険を自分で払った分も足します。</p>
+          <div class="money"><input type="number" id="shakai" data-k="shakai" inputmode="numeric" min="0" step="1" placeholder="例：720000"><span class="unit">円</span><output class="yomi" for="shakai"></output></div>
+        </div>
+        <div class="field">
+          <label for="shokibo">小規模企業共済等掛金（iDeCo など）</label>
+          <div class="money"><input type="number" id="shokibo" data-k="shokibo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="shokibo"></output></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-hoken">
+        <h2 id="h-hoken">生命保険料・地震保険料</h2>
+        <p class="small">保険会社から届く控除証明書の「本年中に支払った保険料（見込み）」を、区分ごとに入れます。新＝平成24年以後の契約、旧＝平成23年以前の契約です。</p>
+        <div class="grid2">
+          <div class="field"><label for="s-newIppan">一般の生命保険料（新）</label><div class="money"><input type="number" id="s-newIppan" data-k="seimei.newIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          <div class="field"><label for="s-oldIppan">一般の生命保険料（旧）</label><div class="money"><input type="number" id="s-oldIppan" data-k="seimei.oldIppan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          <div class="field"><label for="s-kaigo">介護医療保険料</label><div class="money"><input type="number" id="s-kaigo" data-k="seimei.kaigo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          <div class="field"><label for="s-newNenkin">個人年金保険料（新）</label><div class="money"><input type="number" id="s-newNenkin" data-k="seimei.newNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          <div class="field"><label for="s-oldNenkin">個人年金保険料（旧）</label><div class="money"><input type="number" id="s-oldNenkin" data-k="seimei.oldNenkin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+        </div>
+        <p class="small">23歳未満の扶養親族（下の「扶養親族」で16歳未満・16〜18歳・19〜22歳の人）がいると、令和8年分から一般の生命保険料（新）の控除が最高6万円になります。</p>
+        <div class="grid2">
+          <div class="field"><label for="j-jishin">地震保険料</label><div class="money"><input type="number" id="j-jishin" data-k="jishin.jishin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+          <div class="field"><label for="j-oldLong">旧長期損害保険料</label><div class="money"><input type="number" id="j-oldLong" data-k="jishin.oldLong" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-spouse">
+        <h2 id="h-spouse">配偶者</h2>
+        <label class="inline"><input type="checkbox" id="sp-has" data-k="spouse.has"> 生計を一にする配偶者がいる</label>
+        <div class="sub-block" id="sp-block">
+          <div class="field">
+            <label for="sp-type">配偶者の収入の入れ方</label>
+            <select id="sp-type" data-k="spouse.incomeType">
+              <option value="kyuyo">給与の収入金額（パート・会社員）</option>
+              <option value="shotoku">合計所得金額（給与以外の収入もある）</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sp-amount" id="sp-amount-label">配偶者の1年間の給与の収入金額</label>
+            <div class="money"><input type="number" id="sp-amount" data-k="spouse.amount" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="sp-amount"></output></div>
+          </div>
+          <label class="inline"><input type="checkbox" id="sp-over70" data-k="spouse.over70"> 70歳以上（昭和32年1月1日以前生まれ）</label>
+          <div class="field">
+            <label for="sp-shogai">配偶者の障害</label>
+            <select id="sp-shogai" data-k="spouse.shogai">
+              <option value="none">なし</option>
+              <option value="ippan">障害者</option>
+              <option value="tokubetsu">特別障害者（同居していない）</option>
+              <option value="dokyo">同居特別障害者</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-rel">
+        <h2 id="h-rel">扶養親族・特定親族</h2>
+        <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。16歳未満の子も、23歳未満の判定と障害者控除のために入れてください。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。同居老親等は、本人か配偶者の父母・祖父母で、いつも同居している人です。</p>
+        <div id="rels"></div>
+        <button type="button" class="btn btn-sub" id="add-rel">＋ 親族を足す</button>
+      </section>
+
+      <section class="card" aria-labelledby="h-self">
+        <h2 id="h-self">障害者・寡婦・ひとり親・勤労学生（本人）</h2>
+        <div class="grid2">
+          <div class="field">
+            <label for="self-shogai">本人の障害</label>
+            <select id="self-shogai" data-k="self.shogai">
+              <option value="none">なし</option>
+              <option value="ippan">障害者</option>
+              <option value="tokubetsu">特別障害者</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="self-kafu">寡婦・ひとり親</label>
+            <select id="self-kafu" data-k="self.kafu">
+              <option value="none">該当しない</option>
+              <option value="kafu">寡婦</option>
+              <option value="hitorioya">ひとり親</option>
+            </select>
+          </div>
+        </div>
+        <label class="inline"><input type="checkbox" id="self-kinro" data-k="self.kinro"> 勤労学生</label>
+      </section>
+
+      <section class="card" aria-labelledby="h-jutaku">
+        <h2 id="h-jutaku">住宅ローン控除</h2>
+        <div class="field">
+          <label for="jutaku">住宅借入金等特別控除額</label>
+          <p class="hint">「住宅借入金等特別控除申告書」の控除額の欄の金額をそのまま入れます（このツールでは控除額そのものは計算しません）。</p>
+          <div class="money"><input type="number" id="jutaku" data-k="jutaku" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="jutaku"></output></div>
+        </div>
+      </section>
+
+    </form>
+
+    <section class="card" aria-labelledby="h-result" id="result-card">
+      <h2 id="h-result">計算の結果（令和8年分）</h2>
+      <div id="msgs" class="msg msg-warn" hidden></div>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead" id="r-lead">年末調整で</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail"></p>
+      </div>
+      <h3 class="sub">途中の計算</h3>
+      <p class="small">勤め先の源泉徴収票・源泉徴収簿と見比べられるように、国税庁の手順のとおりに並べています。</p>
+      <table class="steps" id="steps">
+        <caption class="small" style="caption-side:bottom;text-align:left">金額の下の小さな字は、使った表や規則です。</caption>
+        <tbody></tbody>
+      </table>
+      <details class="rels" id="rel-detail" hidden>
+        <summary>親族ごとの判定</summary>
+        <ul id="rel-list"></ul>
+      </details>
+
+      <h3 class="sub">令和7年分の制度との比較</h3>
+      <p class="small">同じ入力を、令和7年分の制度（国税庁「令和7年分 年末調整のしかた」）で計算した場合との違いです。基礎控除の引上げなどで変わった分がわかります。</p>
+      <div class="table-wrap">
+        <table class="cmp" id="cmp">
+          <thead><tr><th scope="col">項目</th><th scope="col">令和8年分</th><th scope="col">令和7年分</th><th scope="col">差</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="small">この結果は目安です。実際の年末調整は勤め先が行います。申告書の内容や源泉徴収票と違う場合は、勤め先に確認してください。</p>
+    </section>
+
+    <section class="card no-print" aria-labelledby="h-file">
+      <h2 id="h-file">入力の保存・書き出し</h2>
+      <p class="small">入力内容はこの端末のブラウザに自動で保存され、外部には送信されません。別の端末で使うときや控えを残すときは、ファイルに書き出してください。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </section>
+
+    <p class="small"><a href="./guide.html">使い方・計算の根拠・よくある質問・ご利用上の注意</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">年末調整の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/kyuyo-table-2026.js"></script>
+  <script src="../lib/kyuyo-table-2025.js"></script>
+  <script src="../lib/tax2026.js"></script>
+  <script src="../lib/nenmatsu.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
