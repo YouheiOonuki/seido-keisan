@@ -1,0 +1,36 @@
+/* 制度の改定カレンダーだけの見た目（色は style.css のトークンだけを使う） */
+.kt-controls .btn { width: 100%; margin: 0.6rem 0 0.2rem; }
+.kt-next { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.5rem; }
+.kt-next:empty { display: none; }
+.kt-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.3rem 0 0.5rem; }
+.kt-chip {
+  min-height: 44px; padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); font: inherit; font-size: 0.88rem; cursor: pointer;
+}
+.kt-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--card); font-weight: 600; }
+.kt-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kt-count { font-size: 0.85rem; color: var(--muted); }
+
+.kt-month { font-size: 1rem !important; margin: 1.1rem 0 0.4rem !important; color: var(--accent); }
+.kt-year .kt-month:first-of-type { margin-top: 0.4rem !important; }
+.kt-list { list-style: none; padding: 0 !important; margin: 0 !important; }
+.kt-item { border-top: 1px solid var(--border); padding: 0.7rem 0 0.8rem; }
+.kt-item p { font-size: 0.88rem; margin: 0.15rem 0; overflow-wrap: anywhere; }
+.kt-head { display: flex; flex-wrap: wrap; gap: 0.3rem 0.6rem; align-items: baseline; }
+.kt-head time { font-weight: 700; font-variant-numeric: tabular-nums; }
+.kt-cat, .kt-past, .kt-status {
+  font-size: 0.75rem; border: 1px solid var(--border); border-radius: 4px; padding: 0 0.4rem; color: var(--muted);
+}
+.kt-past { border-style: dashed; }
+.kt-status { color: var(--accent); border-color: var(--accent); }
+.kt-title { font-weight: 700; font-size: 0.98rem !important; }
+.kt-who, .kt-tools, .kt-src { color: var(--muted); }
+.kt-src { font-size: 0.8rem !important; }
+.kt-add { margin-top: 0.4rem; min-height: 44px; }
+.kt-item.is-past .kt-title { color: var(--muted); }
+.kt-simple li { margin: 0.5rem 0; overflow-wrap: anywhere; }
+
+@media print {
+  .kt-controls, .kt-add { display: none !important; }
+  .kt-item { break-inside: avoid; }
+}

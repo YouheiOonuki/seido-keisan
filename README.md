@@ -20,6 +20,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 医療費控除の計算の使い方 | https://yorozu-craft.com/seido-keisan/iryohi/guide.html |
 | 高校無償化の計算（2026年度） | https://yorozu-craft.com/seido-keisan/koko-mushoka/ |
 | 高校無償化の計算の使い方 | https://yorozu-craft.com/seido-keisan/koko-mushoka/guide.html |
+| 制度の改定カレンダー（施行日の一覧と .ics。データは `lib/kaitei-values.js`、一覧は `node tools/build-kaitei.mjs` で書き出す。企画書 24） | https://yorozu-craft.com/seido-keisan/kaitei/ |
 | 脱退一時金の計算 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/ |
 | 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
 | Japan Pension Refund Calculator（英語版） | https://yorozu-craft.com/seido-keisan/en/pension-refund/ |
