@@ -29,6 +29,10 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 2割特例の終了後の消費税の使い方 | https://yorozu-craft.com/seido-keisan/invoice/guide.html |
 | 子ども・子育て支援金 いくら引かれる（2026年度） | https://yorozu-craft.com/seido-keisan/shienkin/ |
 | 子ども・子育て支援金の計算の使い方 | https://yorozu-craft.com/seido-keisan/shienkin/guide.html |
+| 年金の繰上げ・繰下げの計算（広告なし: yorozu-plans D118） | https://yorozu-craft.com/seido-keisan/nenkin-kuriage/ |
+| 年金の繰上げ・繰下げの計算の使い方 | https://yorozu-craft.com/seido-keisan/nenkin-kuriage/guide.html |
+| 高額療養費の計算（広告なし: D118） | https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/ |
+| 高額療養費の計算の使い方 | https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html |
 
 ## 機能（年末調整の計算）
 
@@ -180,6 +184,9 @@ node --test tests/*.test.js
 | 3 か月ごと（2027 年中は毎月） | 国税庁「令和８年度税制改正特集」・消費税率引下げ特設サイト（飲食料品 1% の法案が成立したか）、3割特例・7・5・3割控除の Q&A の改訂 | `lib/invoice-values.js`（`years`・`keika`・`SOURCES`・`CHECKED`）、テスト、`invoice/guide.html` の確認日と更新履歴。令和12年分からは年分の選択肢を足す |
 | 毎年 2〜4 月（令和9年度の率は 2027 年春） | こども家庭庁「子ども・子育て支援金制度について」と協会けんぽの支援金率・保険料額表の新年度版。任意継続の標準報酬月額の上限 | `lib/shienkin-values.js`（`rate`・`fiscalYear`・`rateFrom`/`rateTo`・`ninkeiMax`・`MIKOMI`・`MODEL8`・`CHECKED`）、`lib/ikukyu-values.js` の `hoken.shienRate`（同じ率。テストで一致を確かめる）、`tests/shienkin.test.js` の額表の欄、`shienkin/guide.html` の早見表・FAQ・更新履歴。画面は 2027 年 4 月に入ると「令和9年度の率は反映していません」と出す |
 
+| 毎年4月ごろ | 日本年金機構「在職老齢年金の計算方法」の新年度の支給停止調整額（令和8年度65万円）と老齢基礎年金の満額 | `lib/kuriage-values.js`（`zairo`・`mangaku`・`CHECKED`）、`lib/kaitei-values.js` の在職の行、`nenkin-kuriage/guide.html` の基準額の記述と更新履歴。画面は新年度の4月に入ると注意を出す |
+| 毎年6〜8月（8月診療分から） | 厚生労働省「高額療養費制度を利用される皆さまへ」と e-Gov の健康保険法施行令の新しい施行版（上限額の見直し）。2027年8月からの表（施行済みの政令の値）が変わっていないか | `lib/kogaku-values.js`（`PERIODS`・`CHECKED`）、`tests/kogaku.test.js`、`kogaku-ryoyohi/guide.html` の上限額の表と更新履歴 |
+
 値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
 
 ## ファイル
@@ -213,6 +220,10 @@ node --test tests/*.test.js
 | `lib/invoice-values.js` / `lib/invoice.js` | その値の表（みなし仕入率、経過措置の割合、申告期限。値・出典・確認日）と計算（純粋関数。国税庁の2割特例の設例をテストで再現） |
 | `shienkin/index.html` / `shienkin/app.js` / `shienkin/shienkin.css` / `shienkin/guide.html` | 子ども・子育て支援金（いくら引かれる）の画面・制御・見た目・使い方ページ |
 | `lib/shienkin-values.js` / `lib/shienkin.js` | その値の表（率 0.23%・上限・国の試算と見込み。値・出典・確認日。等級表は `lib/ikukyu-values.js` を使う）と計算（純粋関数。協会けんぽの額表の支援金の欄を 50 等級すべてテストで再現） |
+| `nenkin-kuriage/index.html` / `app.js` / `kuriage.css` / `guide.html` | 年金の繰上げ・繰下げの計算の画面・制御・見た目（`kuriage.css` は高額療養費の画面も読む）・使い方ページ。広告のスクリプトは読まない（D118） |
+| `lib/kuriage-values.js` / `lib/kuriage.js` | その値の表（0.4%・0.5%・0.7%・75歳・在職の基準額65万円・特別支給の年齢。値・出典・確認日）と計算（純粋関数。機構の早見表3つの全月をテストで再現） |
+| `kogaku-ryoyohi/index.html` / `app.js` / `kogaku.css` / `guide.html` | 高額療養費の計算の画面・制御・見た目・使い方ページ。広告のスクリプトは読まない（D118） |
+| `lib/kogaku-values.js` / `lib/kogaku.js` | その値の表（診療月で3つの表: 〜2026-07、2026-08〜2027-07、2027-08〜。値・出典・確認日）と計算（純粋関数。施行令41条の順: 70歳以上の外来 → 70歳以上の世帯 → 世帯全体。厚生労働省の計算例をテストで再現） |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |

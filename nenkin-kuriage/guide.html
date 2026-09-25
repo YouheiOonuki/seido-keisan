@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>年金の繰上げ・繰下げの計算の使い方（増額率・減額率の表、損益分岐の年齢）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="年金の繰上げ・繰下げの計算の使い方。繰上げ0.4%（昭和37年4月1日以前生まれは0.5%）・繰下げ0.7%の表、65歳からと累計が逆転する年齢の表、在職老齢年金（65万円）と繰下げ、税・保険料・加給年金の注意、根拠の法令と確認日。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/nenkin-kuriage/guide.html">
+
+  <meta property="og:title" content="年金の繰上げ・繰下げの計算の使い方｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="繰上げ0.4%・繰下げ0.7%の表、損益分岐の年齢の表、在職老齢年金と繰下げ、根拠と確認日。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/nenkin-kuriage/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "年金を繰り下げると損益分岐は何歳ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "額にかかわらず、70歳からなら81歳11か月、75歳からなら86歳11か月で、65歳から受け取った場合の累計に追いつきます（税・保険料を考えない額面）。繰り上げて60歳からなら、80歳10か月で65歳からに追いつかれます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "働きながら繰り下げると年金は増えますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "在職老齢年金で止まるはずだった分は増えません。賃金と老齢厚生年金の月額の合計が65万円（令和8年度）以下なら止まる分がないので、全額が0.7%ずつ増えます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "年金を繰り下げると税金や保険料はどうなりますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "年金が増えると、所得税・住民税、介護保険料や国民健康保険料（後期高齢者医療の保険料）が増えることがあります。手取りで比べると、損益分岐は額面より遅くなります。" }
+      },
+      {
+        "@type": "Question",
+        "name": "老齢基礎年金と老齢厚生年金を別々に繰り下げられますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "繰下げは別々にできます。たとえば厚生年金は65歳から受け取り、基礎年金だけ70歳まで繰り下げられます。繰上げは両方を同時に請求します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "繰り下げると加給年金はどうなりますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "加給年金額と振替加算は増えず、繰下げの待機中は受け取れません。加給年金がある人は、厚生年金は65歳から受け取り、基礎年金だけ繰り下げる方法もあります。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- 高齢者向けのページは広告を出さない（yorozu-plans ROADMAP 7.8 の D118）。所有確認の meta だけ -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./kuriage.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>年金の繰上げ・繰下げの計算の使い方</h1>
+    <p class="subtitle">使い方・増額率と損益分岐の表・計算の前提・根拠と確認日・よくある質問</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="noad">このページは広告なし・登録なし・入力は端末の外に出ません。</p>
+    <p class="card" style="text-align:center"><a href="./">▶ 年金の繰上げ・繰下げを計算する</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>生年月日を入れます。</li>
+        <li>ねんきん定期便の65歳からの見込額（年額）を基礎・厚生に分けて入れます。</li>
+        <li>受け取り始める年齢（請求する月）を選びます。</li>
+        <li>年額と、65歳からと累計が逆転する年齢を見ます。</li>
+        <li>働き続ける人・別々に繰り下げる人は結果の下の欄を開きます。</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="table">
+      <h2>繰上げ・繰下げの増額率と損益分岐の年齢（表）</h2>
+      <p>繰上げは1か月0.4%減、繰下げは1か月0.7%増で、率は一生変わりません。損益分岐の年齢は額によらず次のとおりです（在職・税・保険料を考えない額面）。</p>
+      <div class="table-wrap">
+        <table class="tbl num">
+          <thead><tr><th scope="col">受け取り始める年齢</th><th scope="col">増減</th><th scope="col">65歳からとの損益分岐</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">60歳</th><td>−24%</td><td>80歳10か月</td></tr>
+            <tr><th scope="row">62歳</th><td>−14.4%</td><td>82歳10か月</td></tr>
+            <tr><th scope="row">64歳</th><td>−4.8%</td><td>84歳10か月</td></tr>
+            <tr><th scope="row">66歳</th><td>＋8.4%</td><td>77歳11か月</td></tr>
+            <tr><th scope="row">68歳</th><td>＋25.2%</td><td>79歳11か月</td></tr>
+            <tr><th scope="row">70歳</th><td>＋42%</td><td>81歳11か月</td></tr>
+            <tr><th scope="row">72歳</th><td>＋58.8%</td><td>83歳11か月</td></tr>
+            <tr><th scope="row">75歳</th><td>＋84%</td><td>86歳11か月</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>繰上げの年齢では、その年齢から受け取った人が65歳からの人に追いつかれます。昭和37年4月1日以前生まれの繰上げは1か月0.5%（60歳で−30%）です。年金額の1円未満の端数で、1か月ずれることがあります。</p>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>計算の前提</h2>
+      <ul>
+        <li>月は「65歳に達した月」（65歳の誕生日の前日の月）から数え、請求・申出の翌月分から受け取るとします。</li>
+        <li>累計は受け取る権利のある月の分の合計で、振込の月（偶数月に2か月分）ではありません。</li>
+        <li>年額は今の額のままで、毎年の改定（物価・賃金）は入れません。</li>
+        <li>働く人は、賃金が毎月同じで、65歳から選んだ年齢の前月まで在職するとします（令和8年度の基準額65万円）。</li>
+        <li>老齢厚生年金の月額を基本月額（報酬比例部分）とみなします。</li>
+      </ul>
+      <details class="rels">
+        <summary>対象外のもの</summary>
+        <ul>
+          <li>特別支給の老齢厚生年金を受けられる人（1966年4月1日以前生まれの女性で厚生年金に1年以上など）の繰上げ。厚生年金の減額の月数の数え方が違います。</li>
+          <li>65歳前に働く人の在職老齢年金、在職定時改定・退職改定、経過的加算の区別。</li>
+          <li>共済組合・厚生年金基金の年金、付加年金、遺族年金・障害年金を受けられる人。</li>
+          <li>70歳を過ぎて65歳からの分をさかのぼって受け取る場合（請求の5年前に繰下げの申出があったとみなす特例）。</li>
+          <li>所得税・住民税・介護保険料・国民健康保険料による手取り。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>根拠: 国民年金法・厚生年金保険法と各施行令、日本年金機構の案内と早見表。最終確認日 <time datetime="2026-09-25" id="checked">2026-09-25</time>。在職老齢年金の基準額は令和8年度（2026年4月〜）の値。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul id="sources">
+          <li>日本年金機構「<a href="https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-01.html" target="_blank" rel="noopener noreferrer">年金の繰上げ受給</a>」（0.4%、昭和37年4月1日以前生まれは0.5%、同時に請求、取消し不可、注意点）と<a href="https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-01.files/hayami_S37.4iko.pdf" target="_blank" rel="noopener noreferrer">減額率早見表</a>（<a href="https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-01.files/hayami_S37.4izen.pdf" target="_blank" rel="noopener noreferrer">0.5%の表</a>）</li>
+          <li>日本年金機構「<a href="https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-02.html" target="_blank" rel="noopener noreferrer">年金の繰下げ受給</a>」（2026年8月12日更新。0.7%・75歳まで、別々に繰下げ、在職で止まる分は平均支給率で除く、加給年金・振替加算、5年前のみなし）と<a href="https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-02.files/hayamihyo.pdf" target="_blank" rel="noopener noreferrer">増額率早見表</a>。3つの早見表の全月をこのツールのテストで再現しています</li>
+          <li>日本年金機構「<a href="https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/zaishoku/20150401-01.html" target="_blank" rel="noopener noreferrer">在職老齢年金の計算方法</a>」（令和8年度の支給停止調整額65万円、（基本月額＋総報酬月額相当額−65万円）÷2）、「<a href="https://www.nenkin.go.jp/oshirase/taisetu/kojin/2026/202604/0401.html" target="_blank" rel="noopener noreferrer">令和8年4月分からの年金額等について</a>」（老齢基礎年金の満額 月70,608円）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/334AC0000000141" target="_blank" rel="noopener noreferrer">国民年金法</a>（17条 端数、28条 繰下げ、附則9条の2 繰上げ）、<a href="https://laws.e-gov.go.jp/law/334CO0000000184" target="_blank" rel="noopener noreferrer">国民年金法施行令</a>（4条の5 千分の七・120か月まで、12条 千分の四）、<a href="https://laws.e-gov.go.jp/law/329AC0000000115" target="_blank" rel="noopener noreferrer">厚生年金保険法</a>（44条の3 繰下げ、46条 在職の支給停止、附則8条の2 特別支給の受給開始年齢）</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>年金を繰り下げると損益分岐は何歳ですか？</dt>
+        <dd>額にかかわらず、70歳からなら81歳11か月、75歳からなら86歳11か月で、65歳から受け取った場合の累計に追いつきます（税・保険料を考えない額面）。繰り上げて60歳からなら、80歳10か月で65歳からに追いつかれます。</dd>
+        <dt>働きながら繰り下げると年金は増えますか？</dt>
+        <dd>在職老齢年金で止まるはずだった分は増えません。賃金と老齢厚生年金の月額の合計が65万円（令和8年度）以下なら止まる分がないので、全額が0.7%ずつ増えます。</dd>
+        <dt>年金を繰り下げると税金や保険料はどうなりますか？</dt>
+        <dd>年金が増えると、所得税・住民税、介護保険料や国民健康保険料（後期高齢者医療の保険料）が増えることがあります。手取りで比べると、損益分岐は額面より遅くなります。</dd>
+        <dt>老齢基礎年金と老齢厚生年金を別々に繰り下げられますか？</dt>
+        <dd>繰下げは別々にできます。たとえば厚生年金は65歳から受け取り、基礎年金だけ70歳まで繰り下げられます。繰上げは両方を同時に請求します。</dd>
+        <dt>繰り下げると加給年金はどうなりますか？</dt>
+        <dd>加給年金額と振替加算は増えず、繰下げの待機中は受け取れません。加給年金がある人は、厚生年金は65歳から受け取り、基礎年金だけ繰り下げる方法もあります。</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。実際の額は日本年金機構が決めます。</li>
+        <li>入力内容はこの端末のブラウザ（localStorage、キー <code>seido-keisan_kuriage_draft</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去は計算の画面のボタンから。</li>
+        <li>書き出したファイル（<code>seido-keisan-kuriage-backup-年月日.json</code>）には生年月日と年金額が入ります。共有リンクの機能はありません。</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-09-25">2026年9月25日</time> 公開（繰上げ0.4%・0.5%、繰下げ0.7%、在職老齢年金の基準額65万円。日本年金機構・e-Gov で確認）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./">年金の繰上げ・繰下げの計算</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

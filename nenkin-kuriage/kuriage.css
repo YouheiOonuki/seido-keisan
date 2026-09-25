@@ -1,0 +1,33 @@
+/* ===========================
+   年金の繰上げ・繰下げ（nenkin-kuriage）と高額療養費（kogaku-ryoyohi）の画面だけの見た目。色は ../style.css のトークンだけを使う
+   骨組みは style.css の SCREEN.md 1.1 の部品（.req・.fixbar・.layout-2col・details.card.opt）
+   =========================== */
+/* 広告なしの定型文（D118）。本文の最初に 1 行 */
+.noad { font-size: 0.85rem; color: var(--muted); margin: 0 0 0.6rem; }
+.field .label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+/* 必須が空の欄は薄く強調する（エラー文は出さない） */
+.field.is-missing input[type=number], .field.is-missing input[type=date], .field.is-missing select { border-color: var(--accent); background: var(--accent-soft); }
+.agepick { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.agepick select { flex: 1 1 8rem; min-width: 0; }
+
+.sum th { font-weight: 600; }
+.sum td { font-size: 0.95rem; }
+.sum tr.ref th, .sum tr.ref td { color: var(--muted); font-weight: normal; }
+
+.msgs { list-style: none; margin: 0.4rem 0; }
+.msgs:empty { display: none; }
+.msgs li { font-size: 0.85rem; border-radius: 6px; padding: 0.45rem 0.7rem; margin-bottom: 0.4rem; background: var(--accent-soft); }
+.tbl.num td { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl tr.cur th, .tbl tr.cur td { font-weight: 700; color: var(--accent); }
+.tbl tr.minus td:last-child { color: var(--muted); }
+
+.opt ul { padding-left: 1.2rem; }
+.opt li + li { margin-top: 0.3rem; }
+.btn-row .btn { min-height: 44px; }
+.field input[type=checkbox] { width: 1.2rem; height: 1.2rem; }
+/* 結果の要約表: 見出しの列を狭めすぎない・値は折り返す */
+.sum th { width: 42%; white-space: normal; }
+.sum td { white-space: normal; text-align: left; }
+/* 途中の計算: 見出しの列を狭めすぎない */
+#steps th { width: 45%; white-space: normal; }
+#steps td { white-space: normal; }

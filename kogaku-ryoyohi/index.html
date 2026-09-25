@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高額療養費の計算（2026年8月からの上限額・70歳以上・75歳以上・世帯合算）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="医療費（10割）と所得区分から、高額療養費の自己負担限度額と戻る額を計算。2026年8月診療分からの新しい上限額と年間上限、7月までの額、2027年8月からの細かい所得区分に対応。70歳以上の外来（個人ごと）、75歳以上の後期高齢者医療、家族や複数の病院の世帯合算（21,000円以上）、多数回該当も。広告なし・登録なし。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/">
+
+  <meta property="og:title" content="高額療養費の計算（2026年8月から・70歳以上・世帯合算）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="医療費と所得区分から、高額療養費の自己負担限度額と戻る額。70歳以上の外来、75歳以上、世帯合算、多数回該当、年間上限に対応。広告なし。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "高額療養費の計算",
+    "description": "医療費と所得区分から、高額療養費の自己負担限度額と戻る額を計算。70歳以上の外来、75歳以上、世帯合算、多数回該当、年間上限に対応。",
+    "url": "https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- 高齢者向けのページは広告を出さない（yorozu-plans ROADMAP 7.8 の D118）。所有確認の meta だけ置き、広告スクリプトは読まない -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nenkin-kuriage/kuriage.css">
+  <link rel="stylesheet" href="./kogaku.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>高額療養費の計算</h1>
+    <p class="subtitle">1か月の医療費の自己負担の上限額と、戻る額（高額療養費）を出します。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="noad">このページは広告なし・登録なし・入力は端末の外に出ません。</p>
+    <p class="badge" id="asof">2026年8月診療分からの上限額・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>医療費と所得区分</legend>
+        <div class="field">
+          <label for="ageplan">年齢と入っている保険（本人）</label>
+          <select id="ageplan">
+            <option value="u70">70歳未満（健康保険・国民健康保険）</option>
+            <option value="o70">70〜74歳（健康保険・国民健康保険）</option>
+            <option value="kouki">75歳以上（後期高齢者医療）</option>
+          </select>
+        </div>
+        <div class="field" data-need="cat">
+          <label for="cat">所得区分</label>
+          <select id="cat"></select>
+          <p class="hint" id="cat-hint">健保は標準報酬月額で決まる。分け方は下の「区分の表」に。</p>
+        </div>
+        <div class="field" data-need="cost">
+          <label for="cost0">1か月の医療費（10割・保険の対象分）</label>
+          <p class="hint">領収書の点数 × 10円。窓口で払った額ではない。</p>
+          <div class="money"><input type="number" id="cost0" inputmode="numeric" min="0" step="1" placeholder="例：1000000"><span class="unit">円</span><output class="yomi" for="cost0"></output></div>
+        </div>
+        <div class="field" role="radiogroup" aria-labelledby="place-label">
+          <p class="label" id="place-label">入院か外来か</p>
+          <label class="inline"><input type="radio" name="place0" value="in"> 入院</label>
+          <label class="inline"><input type="radio" name="place0" value="out"> 外来・薬局</label>
+          <label for="rate0" class="inline">窓口の割合 <select id="rate0"><option value="0.3">3割</option><option value="0.2">2割</option><option value="0.1">1割</option></select></label>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">この月の自己負担</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">自己負担の上限</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">所得区分と医療費を入れると出ます。</p>
+        </div>
+        <div class="table-wrap" id="sum-wrap">
+          <table class="cmp sum" id="sum">
+            <tbody>
+              <tr><th scope="row">窓口の負担（割合どおり）</th><td id="t-paid">—</td></tr>
+              <tr><th scope="row">高額療養費（戻る額）</th><td id="t-refund">—</td></tr>
+              <tr class="ref"><th scope="row">上限額の式</th><td id="t-formula">—</td></tr>
+              <tr class="ref" id="row-year"><th scope="row">年間上限（8月〜翌7月）</th><td id="t-year">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="msgs" id="r-msgs"></ul>
+        <details class="rels" id="steps-box">
+          <summary>途中の計算</summary>
+          <div id="steps"></div>
+        </details>
+        <p class="small">この計算は目安です。実際の額は加入先の保険者（協会けんぽ・健康保険組合・市区町村・後期高齢者医療広域連合）が決めます。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+        <p class="small">戻った後の自己負担は、<a href="../iryohi/">医療費控除の計算</a>に入れられます。</p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-when">
+      <summary>診療月・多数回該当: <span class="opt-state" id="s-when"></span></summary>
+      <div class="field">
+        <label for="period">診療月</label>
+        <select id="period"></select>
+        <p class="hint">2026年7月までと8月からで上限額が違う。</p>
+      </div>
+      <div class="field">
+        <label class="inline"><input type="checkbox" id="many"> 直近12か月に3回以上、高額療養費を受けた（多数回該当）</label>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-rows">
+      <summary>ほかの病院・家族の分を合算（世帯合算）: <span class="opt-state" id="s-rows">なし</span></summary>
+      <p class="small">同じ月・同じ保険の家族の分、別の病院の分を足します。70歳未満は1つの病院（入院・外来・歯科は別）で21,000円以上の分だけ合算。</p>
+      <ol class="rows" id="rows"></ol>
+      <div class="btn-row"><button type="button" class="btn btn-sub" id="add-row">＋ 足す</button></div>
+    </details>
+
+    <details class="card opt" id="d-year">
+      <summary>年間上限（2026年8月から）: <span class="opt-state" id="s-year">入力なし</span></summary>
+      <p class="small" id="year-note"></p>
+      <div class="field">
+        <label for="yearPaid">8月からの自己負担の合計（高額療養費を引いたあと）</label>
+        <div class="money"><input type="number" id="yearPaid" inputmode="numeric" min="0" step="1" placeholder="例：600000"><span class="unit">円</span><output class="yomi" for="yearPaid"></output></div>
+      </div>
+      <p class="small" id="year-result"></p>
+    </details>
+
+    <details class="card opt" id="d-table">
+      <summary>区分の表（標準報酬月額・国保・後期の所得の目安）</summary>
+      <p class="small" id="table-note"></p>
+      <div class="table-wrap">
+        <table class="tbl" id="cat-table">
+          <thead><tr><th scope="col">区分</th><th scope="col">健保（標準報酬月額）</th><th scope="col">国保（旧ただし書き所得）</th><th scope="col">70歳以上の国保・後期（課税所得）</th><th scope="col">70歳未満の上限（多数回）</th><th scope="col">70歳以上（外来）</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="card opt">
+      <summary>この計算機の対象外</summary>
+      <ul class="small">
+        <li>入院中の食事代・差額ベッド代・先進医療など保険の対象外の費用。</li>
+        <li>健康保険組合などの付加給付、75歳になる月の上限の特例（半額）、長期高額疾病（人工透析など）の特例。</li>
+        <li>高額介護合算療養費、公費負担医療、月をまたぐ入院の分け方。</li>
+        <li>70歳以上で「収入が520万円未満」などで一般になる人の判定（区分を選ぶ時点で判断）。</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（上限額の一覧・2027年8月からの変更）</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">高額療養費の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/kogaku-values.js"></script>
+  <script src="../lib/kogaku.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
