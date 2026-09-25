@@ -25,7 +25,8 @@ test('支給限度額の年額が概要 PDF の表と一致する（公立 118,8
 });
 
 test('私立全日制・授業料 48万円・上乗せなし: 国 457,200円、自己負担 年 22,800円・3年 68,400円', () => {
-  const r = K.calc({ setchi: 'shiritsu', type: 'zen', fee: 480000, pref: '埼玉県' });
+  // 埼玉県は D97（2026-09-25）で計算の対象にしたので、上乗せを計算しない県の例を千葉県にした
+  const r = K.calc({ setchi: 'shiritsu', type: 'zen', fee: 480000, pref: '千葉県' });
   assert.equal(r.ready, true);
   assert.equal(r.first.kuni.amount, 457200);
   assert.equal(r.first.pref.status, 'other');
@@ -185,4 +186,96 @@ test('単位制の上乗せは支援の対象の単位の範囲だけ（神奈�
   assert.equal(r.years[2].units, 24);
   assert.equal(r.years[2].pref.add, 0);
   assert.equal(r.years[2].selfFee, 12000);
+});
+
+// ---- 埼玉県・愛知県・兵庫県（D97、2026-09-25 追加）。額は各県の令和8年度の案内（lib/koko-values.js の SOURCES）から ----
+const base = { setchi: 'shiritsu', type: 'zen', fee: 480000, shisetsu: 250000, nyugaku: 250000 };
+
+test('埼玉県・区分を選ばない（国のみ）: 授業料の上乗せ 0 で自己負担は上乗せなしの県と同じ（年 22,800円）', () => {
+  const r = K.calc({ ...base, pref: '埼玉県' });
+  const other = K.calc({ ...base, pref: '千葉県' });
+  assert.equal(r.first.pref.status, 'ok');
+  assert.equal(r.first.pref.add, 0);
+  assert.equal(r.first.selfFee, other.first.selfFee);
+  assert.equal(r.sum.selfFee, 68400);
+  assert.equal(r.nyugakuAid, 0);
+  assert.equal(r.total, other.total);
+});
+
+test('埼玉県・基準①: 施設費等 年 200,000円・入学金 223,000円（1年生のみ）。施設費 25万・入学金 25万 → 3年で 68,400＋150,000＋27,000', () => {
+  const r = K.calc({ ...base, pref: '埼玉県', saitamaKubun: 'k1' });
+  assert.equal(r.first.selfFee, 22800);
+  assert.equal(r.first.selfShisetsu, 50000);
+  assert.equal(r.nyugakuAid, 223000);
+  assert.equal(r.total, 68400 + 150000 + 27000);
+});
+
+test('埼玉県・基準②: 入学金 100,000円だけ。生活保護・家計急変: 授業料・施設費等 全額と入学金 223,000円', () => {
+  const r2 = K.calc({ ...base, pref: '埼玉県', saitamaKubun: 'k2' });
+  assert.equal(r2.first.selfShisetsu, 250000);
+  assert.equal(r2.nyugakuAid, 100000);
+  const h = K.calc({ ...base, pref: '埼玉県', saitamaKubun: 'hogo' });
+  assert.equal(h.first.pref.add, 22800);
+  assert.equal(h.first.selfFee, 0);
+  assert.equal(h.first.selfShisetsu, 0);
+  assert.equal(h.total, 27000);
+});
+
+test('埼玉県: リーフレットの合計（基準① 1年生 880,200円・2年生から 657,200円）と、授業料 457,200円・施設費 20万・入学金 22.3万で合う', () => {
+  const r = K.calc({ setchi: 'shiritsu', type: 'zen', fee: 457200, shisetsu: 200000, nyugaku: 223000, pref: '埼玉県', saitamaKubun: 'k1' });
+  const aid1 = r.first.kuni.amount + r.first.pref.add + (200000 - r.first.selfShisetsu) + r.nyugakuAid;
+  assert.equal(aid1, 880200);
+  assert.equal(aid1 - r.nyugakuAid, 657200);
+  assert.equal(r.total, 0);
+});
+
+test('埼玉県: 県外の学校・通信制・公立・新制度の対象外は計算しない', () => {
+  assert.equal(K.calc({ ...base, pref: '埼玉県', saitamaKubun: 'k1', saitamaIn: false }).first.pref.status, 'outside');
+  assert.equal(K.calc({ ...base, pref: '埼玉県', type: 'tsu' }).first.pref.status, 'notype');
+  assert.equal(K.calc({ ...base, pref: '埼玉県', setchi: 'koritsu', fee: 118800 }).first.pref.status, 'public');
+  assert.equal(K.calc({ ...base, pref: '埼玉県', status: 'gai' }).first.pref.status, 'notcalc');
+  assert.equal(K.calc({ ...base, pref: '埼玉県', saitamaIn: false, saitamaKubun: 'k1' }).nyugakuAid, 0);
+});
+
+test('愛知県: 授業料の上乗せ 0（上限 457,200円は国と同じ）、入学納付金 全日制 200,000円・通信制 34,000円・専修 170,000円', () => {
+  const r = K.calc({ ...base, pref: '愛知県' });
+  assert.equal(r.first.pref.status, 'ok');
+  assert.equal(r.first.pref.add, 0);
+  assert.equal(r.first.selfFee, 22800);
+  assert.equal(r.nyugakuAid, 200000);
+  assert.equal(r.total, 68400 + 750000 + 50000);
+  assert.equal(K.calc({ ...base, pref: '愛知県', type: 'tsu', fee: 300000 }).nyugakuAid, 34000);
+  assert.equal(K.calc({ ...base, pref: '愛知県', type: 'senshu' }).nyugakuAid, 170000);
+  assert.equal(K.calc({ ...base, pref: '愛知県', nyugaku: 150000 }).nyugakuAid, 150000);   // 実際の額が低ければその額
+  assert.equal(V.PREF.aichi.tuitionCap.zen, V.MONTHLY.shiritsu.zen * 12);
+  assert.equal(V.PREF.aichi.tuitionCap.tsu, V.MONTHLY.shiritsu.tsu * 12);
+});
+
+test('愛知県: 県外の学校・定時制は計算しない', () => {
+  assert.equal(K.calc({ ...base, pref: '愛知県', aichiIn: false }).first.pref.status, 'outside');
+  assert.equal(K.calc({ ...base, pref: '愛知県', aichiIn: false }).nyugakuAid, 0);
+  assert.equal(K.calc({ ...base, pref: '愛知県', type: 'tei' }).first.pref.status, 'notype');
+});
+
+test('兵庫県: 授業料の上乗せ 0。入学金支援は生活保護（生業扶助）・所得割 0円の世帯だけ 全日制 50,000円・専修 25,000円', () => {
+  const r = K.calc({ ...base, pref: '兵庫県' });
+  assert.equal(r.first.pref.status, 'ok');
+  assert.equal(r.first.pref.add, 0);
+  assert.equal(r.first.selfFee, 22800);
+  assert.equal(r.nyugakuAid, 0);
+  assert.equal(K.calc({ ...base, pref: '兵庫県', hyogoHikazei: true }).nyugakuAid, 50000);
+  assert.equal(K.calc({ ...base, pref: '兵庫県', hyogoHikazei: true, type: 'senshu' }).nyugakuAid, 25000);
+  assert.equal(K.calc({ ...base, pref: '兵庫県', hyogoHikazei: true, type: 'tsu' }).first.pref.status, 'notype');
+  assert.equal(K.calc({ ...base, pref: '兵庫県', hyogoHikazei: true, hyogoIn: false }).nyugakuAid, 0);
+});
+
+test('新しい項目の既定値と、読み込みでの正規化', () => {
+  const d = K.normalizeInput({});
+  assert.equal(d.saitamaIn, true);
+  assert.equal(d.saitamaKubun, 'none');
+  assert.equal(d.aichiIn, true);
+  assert.equal(d.hyogoIn, true);
+  assert.equal(d.hyogoHikazei, false);
+  assert.equal(K.normalizeInput({ saitamaKubun: 'x' }).saitamaKubun, 'none');
+  assert.deepEqual(Object.keys(V.PREF_KEY).sort(), ['大阪府', '兵庫県', '埼玉県', '愛知県', '東京都', '神奈川県'].sort());
 });

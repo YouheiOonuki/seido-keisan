@@ -43,7 +43,8 @@
     var sel = $('pref');
     V.PREFS.forEach(function (p) {
       var o = document.createElement('option');
-      o.value = p; o.textContent = p + (V.PREF_KEY[p] ? '（上乗せを計算）' : '');
+      var k = V.PREF_KEY[p];
+      o.value = p; o.textContent = p + (!k ? '' : k === 'aichi' || k === 'hyogo' ? '（入学金の補助を計算）' : '（上乗せを計算）');
       sel.appendChild(o);
     });
   })();
@@ -84,16 +85,25 @@
     var key = V.PREF_KEY[d.pref];
     $('pref-osaka').hidden = key !== 'osaka';
     $('pref-kanagawa').hidden = key !== 'kanagawa';
+    $('pref-saitama').hidden = key !== 'saitama';
+    $('pref-aichi').hidden = key !== 'aichi';
+    $('pref-hyogo').hidden = key !== 'hyogo';
     var ps;
     if (!d.pref) ps = '都道府県が未選択';
     else if (!key) ps = d.pref + 'は計算しない';
     else if (d.setchi !== 'shiritsu') ps = '私立だけ計算';
     else if (key === 'osaka') ps = d.osakaSuishin ? '大阪府・推進校' : '大阪府・推進校でない';
     else if (key === 'kanagawa') ps = d.kanagawaIn ? '神奈川県・県内の学校' : '神奈川県・県外の学校';
+    else if (key === 'saitama') ps = !d.saitamaIn ? '埼玉県・対象の学校でない' : '埼玉県・' + V.PREF.saitama.kubun[d.saitamaKubun].label.replace(/（.*/, '');
+    else if (key === 'aichi') ps = d.aichiIn ? '愛知県・県内の学校' : '愛知県・県外の学校';
+    else if (key === 'hyogo') ps = !d.hyogoIn ? '兵庫県・対象の学校でない' : d.hyogoHikazei ? '兵庫県・入学金支援あり' : '兵庫県・入学金支援なし';
     else ps = '東京都（都外の学校も対象）';
     optState('d-pref', ps);
     var msg = '';
     if (d.pref && !key) msg = d.pref + 'の上乗せは、このツールでは計算しません。都道府県の窓口は文部科学省の問合せ先の一覧（下の「このツールで計算しないこと」）から。';
+    else if (key === 'aichi') msg = '愛知県の2026年度の授業料の補助は、国の就学支援金と同じ上限（全日制 457,200円）です。県独自の分は入学納付金（全日制 200,000円まで）。';
+    else if (key === 'hyogo') msg = '兵庫県の2026年度の授業料の支援は、国の就学支援金と同じ上限（全日制 457,200円）です。入学金支援は条件のある世帯だけ。';
+    else if (key === 'saitama') msg = '埼玉県は、授業料の上乗せは生活保護・家計急変の世帯だけで、基準①・②は施設費等と入学金の補助です（入学金・施設費は「入学金・施設費」に入れると引きます）。';
     else if (key === 'tokyo') msg = '東京都は、生徒と保護者が都内に住んでいれば都外の学校も対象です（通信制は都認可のみで、上乗せなし）。';
     else if (!d.pref) msg = '住んでいる都道府県を選ぶと、ここに条件が出ます。';
     $('pref-msg').textContent = msg;
@@ -153,7 +163,11 @@
     row(sum, '授業料の自己負担（1年）', yen(f.selfFee), '', 'total');
     row(sum, '授業料の自己負担（' + d.years + '年間）', yen(r.sum.selfFee), '', 'total');
     if (r.sum.shisetsu > 0 || r.nyugaku > 0) {
-      row(sum, '入学金・施設費を含む（' + d.years + '年間）', yen(r.total), '施設費など ' + yen(r.sum.selfShisetsu) + '・入学金 ' + yen(r.nyugaku), 'total');
+      var aidNote = (r.sum.shisetsu > r.sum.selfShisetsu && !osakaAll ? '（' + p.name + 'の補助 ' + yen(r.sum.shisetsu - r.sum.selfShisetsu) + 'を引いた額）' : '')
+        + (r.nyugakuAid > 0 ? '・入学金 ' + yen(r.nyugaku) + ' − ' + p.name + 'の補助 ' + yen(r.nyugakuAid) : '・入学金 ' + yen(r.nyugaku));
+      row(sum, '入学金・施設費を含む（' + d.years + '年間）', yen(r.total), '施設費など ' + yen(r.sum.selfShisetsu) + aidNote, 'total');
+    } else if (p.status === 'ok' && (p.nyugakuCap || p.shisetsuAid !== undefined && V.PREF.saitama.kubun[d.saitamaKubun].shisetsu)) {
+      note.push(p.name + 'の入学金・施設費の補助は、「入学金・施設費」に額を入れると引きます。');
     }
 
     r.years.forEach(function (y) {

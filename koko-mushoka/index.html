@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>高校無償化の計算（2026年度）私立・公立の授業料の自己負担｜制度の計算機｜yorozu-craft</title>
-  <meta name="description" content="高校無償化（高等学校等就学支援金）の2026年度の新制度で、授業料の自己負担がいくらになるかを計算。私立45万7,200円・所得制限なし、通信制・高専・専修学校、東京都・大阪府・神奈川県の上乗せに対応。年額と3年間の合計、出典と確認日つき。登録不要。">
+  <meta name="description" content="高校無償化（高等学校等就学支援金）の2026年度の新制度で、授業料の自己負担がいくらになるかを計算。私立45万7,200円・所得制限なし、通信制・高専・専修学校、東京都・大阪府・神奈川県・埼玉県・愛知県・兵庫県の上乗せに対応。年額と3年間の合計、出典と確認日つき。登録不要。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/koko-mushoka/">
 
@@ -111,7 +111,7 @@
         <div class="field">
           <label for="pref">住んでいる都道府県（生徒と保護者）</label>
           <select id="pref" data-k="pref"><option value="">選んでください</option></select>
-          <p class="hint">上乗せは東京都・大阪府・神奈川県の私立だけ計算します。</p>
+          <p class="hint">上乗せは東京都・大阪府・神奈川県・埼玉県・愛知県・兵庫県の私立だけ計算します。</p>
         </div>
       </fieldset>
 
@@ -130,7 +130,7 @@
           <summary>学年ごとの内訳と計算の根拠</summary>
           <table class="steps" id="years"><tbody></tbody></table>
         </details>
-        <p class="small">入学金・施設費・教材費・修学旅行費などは含みません（大阪府の施設整備費等を除く）。</p>
+        <p class="small">入学金・施設費・教材費・修学旅行費などは含みません（大阪府の施設整備費等を除く。入学金・施設費は下で入れると合計に足します）。</p>
         <p class="small">この計算は目安です。実際の額は都道府県と学校が決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
       </section>
 
@@ -143,6 +143,28 @@
         <div id="pref-kanagawa" hidden>
           <label class="inline"><input type="checkbox" id="kanagawaIn" data-k="kanagawaIn"> 神奈川県内の私立学校に通う（通信制は本部校が県内）</label>
           <p class="small"><a href="https://www.pref.kanagawa.jp/documents/8836/gakuhihojo_taishoukour80401.pdf" target="_blank" rel="noopener noreferrer">学費補助金の対象校（神奈川県・PDF）</a></p>
+        </div>
+        <div id="pref-saitama" hidden>
+          <label class="inline"><input type="checkbox" id="saitamaIn" data-k="saitamaIn"> 埼玉県が認可した私立の全日制高校に通う</label>
+          <div class="field">
+            <label for="saitamaKubun">埼玉県の補助区分</label>
+            <select id="saitamaKubun" data-k="saitamaKubun">
+              <option value="none">それ以外（国の就学支援金のみ）</option>
+              <option value="k2">基準②（目安年収 約609万円未満）</option>
+              <option value="k1">基準①（目安年収 約500万円未満）</option>
+              <option value="hogo">生活保護・家計急変</option>
+            </select>
+            <p class="hint">判定額（課税標準額×6%−調整控除、保護者2人分）が基準①は113,700円未満（扶養の人数で上がる）、基準②は162,300円未満。<a href="https://www.pref.saitama.lg.jp/a0204/fubofutan2.html" target="_blank" rel="noopener noreferrer">埼玉県の案内</a></p>
+          </div>
+        </div>
+        <div id="pref-aichi" hidden>
+          <label class="inline"><input type="checkbox" id="aichiIn" data-k="aichiIn"> 愛知県内の私立高校等に通う</label>
+          <p class="small">2026年度から県内に住んでいなくても対象です。<a href="https://www.pref.aichi.jp/soshiki/shigaku/koukoujugyouryoutou-oshirase.html" target="_blank" rel="noopener noreferrer">愛知県の案内</a></p>
+        </div>
+        <div id="pref-hyogo" hidden>
+          <label class="inline"><input type="checkbox" id="hyogoIn" data-k="hyogoIn"> 兵庫県内の私立の全日制高校（専修学校高等課程）に通う新入生</label>
+          <label class="inline"><input type="checkbox" id="hyogoHikazei" data-k="hyogoHikazei"> 生活保護（生業扶助）か、住民税の所得割が0円の世帯</label>
+          <p class="small"><a href="https://web.pref.hyogo.lg.jp/kk35/pa15_000000008.html" target="_blank" rel="noopener noreferrer">兵庫県の案内</a></p>
         </div>
         <p class="small" id="pref-msg"></p>
       </details>
@@ -190,8 +212,8 @@
       <details class="card opt">
         <summary>このツールで計算しないこと</summary>
         <ul class="small">
-          <li>東京都・大阪府・神奈川県以外の道府県の上乗せ。<a href="https://www.mext.go.jp/a_menu/shotou/mushouka/1292214.htm" target="_blank" rel="noopener noreferrer">都道府県の問合せ先（文部科学省）</a>へ。</li>
-          <li>公立高校の都道府県ごとの減免、高校生等奨学給付金（教科書代などの支援）、入学金の補助。</li>
+          <li>東京都・大阪府・神奈川県・埼玉県・愛知県・兵庫県以外の道府県の上乗せ。埼玉県の通信制・高等専修学校、愛知県の通信制併修の上乗せ、3県の外国籍の生徒の補助。<a href="https://www.mext.go.jp/a_menu/shotou/mushouka/1292214.htm" target="_blank" rel="noopener noreferrer">都道府県の問合せ先（文部科学省）</a>へ。</li>
+          <li>公立高校の都道府県ごとの減免、高校生等奨学給付金（教科書代などの支援）、埼玉県・愛知県・兵庫県以外の入学金の補助。</li>
           <li>高専の4・5年、専攻科、サポート校の費用。</li>
         </ul>
       </details>
