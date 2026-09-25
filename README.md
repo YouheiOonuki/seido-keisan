@@ -18,6 +18,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 育休・産休の計算の使い方 | https://yorozu-craft.com/seido-keisan/ikukyu/guide.html |
 | 医療費控除の計算（令和8年分） | https://yorozu-craft.com/seido-keisan/iryohi/ |
 | 医療費控除の計算の使い方 | https://yorozu-craft.com/seido-keisan/iryohi/guide.html |
+| 高校無償化の計算（2026年度） | https://yorozu-craft.com/seido-keisan/koko-mushoka/ |
+| 高校無償化の計算の使い方 | https://yorozu-craft.com/seido-keisan/koko-mushoka/guide.html |
 | 脱退一時金の計算 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/ |
 | 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
 | Japan Pension Refund Calculator（英語版） | https://yorozu-craft.com/seido-keisan/en/pension-refund/ |
@@ -124,6 +126,16 @@ yorozu-plans の企画書 16（K62）。オーナー決定 D75〜D80（2026-09-2
 
 - テストで、国税庁の記載例①（1,000万円・10 年 → 税 206,752円・還付 1,222,648円）と記載例②（291,478円 → 源泉 59,519円）、企画書 16 の 6 章の 5 例、国民年金の 14 年度分の表、支給率の 2 つの表（18.3% × 1/2 × 数 の四捨五入）を再現している
 
+## 機能（高校無償化の計算）
+
+yorozu-plans の企画書 21（K76）。高等学校等就学支援金の新制度（2026-04-01 施行の改正法・施行令。所得制限なし）で、授業料 − 国の就学支援金 − 都府県の上乗せ ＝ 自己負担を、年額と在学年数（3・4 年）の合計で出す。
+
+- 国: 授業料と支給限度額（施行令 2条の月額 × 12）の少ないほう。単位制は 1 単位の限度額 × 単位数（年 30・通算 74 単位）。支給は 36 月（定時制・通信制 48 月）まで。新制度の対象外の生徒は旧制度と同じ水準（年収の目安の 3 区分・新入生か在校生か）
+- 上乗せ: 東京都（計 501,000円まで）・大阪府（就学支援推進校、授業料＋施設整備費等を 63 万円まで、超える分は学校）・神奈川県（22,800円、通信制 142,800円）の私立だけ。ほかの道府県は計算せず、文部科学省の問合せ先へ案内
+- 入学金・施設費は任意の入力で合計に足すだけ（大阪府の施設整備費等を除き支援の対象外）
+- 保存は `seido-keisan_koko_draft`、ファイルは `{ tool: 'seido-keisan-koko', version: 1, exportedAt, data }`
+- 値と出典は `lib/koko-values.js` の `SOURCES`（2026-09-25 確認）。使い方ページの「原文と条文」はこの一覧から描く
+
 ## 計算の仕様・根拠（年末調整）
 
 国税庁「令和8年分 年末調整のしかた」（比較は「令和7年分」）の原文 PDF を 2026-09-24 に読んで値を入れた。値と出典（PDF の URL と冊子のページ）は `lib/tax2026.js` の `SOURCES` にまとめ、画面の確認日と使い方ページの「根拠と確認日」にも出す。
@@ -157,6 +169,7 @@ node --test tests/*.test.js
 
 | **毎年 4 月 1 日ごろ** | 日本年金機構「国民年金の脱退一時金額」に新年度の表。請求書（英語）の改訂 | `lib/dattai-values.js` の `kokunen` に年度を足す（表が出るまで、その年度の基準月は「まだ公表されていない」と出る。画面の確認日の注意も新年度に入ると出る）、`CHECKED`、テスト、両方の `guide.html` の更新履歴 |
 | 2027-09 から毎年 9 月（2029 年まで） | 厚生年金の標準報酬月額の上限（68万・71万・75万円）の等級表 | `lib/dattai-values.js` の `grades`・`gradeTableTo`（最終月で表を選ぶ形にする） |
+| 毎年 9 月・4 月 | 文部科学省の概算要求（9 月）と新年度の支給限度額（4 月、施行令 2条）、東京都私学財団（助成の上限は 6〜7 月）・大阪府・神奈川県（4 月のリーフレット）の新年度の案内 | `lib/koko-values.js`（`MONTHLY`・`PER_UNIT`・`PREF`・`CHECKED`）、`tests/koko.test.js`、`koko-mushoka/` の年度の表記、`koko-mushoka/guide.html` の主な値と更新履歴 |
 | 3 か月ごと | e-Gov の厚生年金保険法の未施行版と施行令、機構の「脱退一時金の制度」。上限 8 年・再入国許可の施行日が決まったか | 決まったら計算・判定・文言を足す（企画書 16 に追記） |
 | 半年ごと | 社会保障協定の一覧（ページの更新日） | `lib/dattai-values.js` の `kyotei`・`KYOTEI_ASOF` |
 
@@ -187,6 +200,8 @@ node --test tests/*.test.js
 | `lib/dattai-values.js` | 脱退一時金の値の表（国民年金の年度の表、支給率、等級、賞与の上限、20.42%、選択課税、協定国。値・出典・確認日） |
 | `lib/pension-refund.js` | 脱退一時金・還付の目安・期限の計算（純粋関数）と、入力の正規化・ファイル形式 |
 | `lib/pension-refund-text.js` | 結果に合わせて変わる文言（`en`・`ja`。キーは同じ） |
+| `koko-mushoka/index.html` / `koko-mushoka/app.js` / `koko-mushoka/koko.css` / `koko-mushoka/guide.html` | 高校無償化の計算の画面・制御・画面だけの見た目・使い方ページ |
+| `lib/koko-values.js` / `lib/koko.js` | 高校無償化の値の表（支給限度額・単位制・旧制度の水準・都府県の上乗せ。値・出典・確認日）と、自己負担の計算（純粋関数）・入力の正規化・ファイル形式 |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |

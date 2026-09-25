@@ -55,6 +55,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://yorozu-craft.com/seido-keisan/koko-mushoka/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yorozu-craft.com/seido-keisan/koko-mushoka/guide.html</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://yorozu-craft.com/seido-keisan/dattai-ichiji/</loc>
     <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>

@@ -1,0 +1,10 @@
+/* ===========================
+   高校無償化の計算（koko-mushoka）だけの見た目。色は ../style.css のトークンだけを使う
+   骨組み（必須の入力 → 結果 → くわしく入れる、固定バー、PC 2 カラム）は style.css の共通部分
+   =========================== */
+/* 必須が空の欄は薄く強調する（エラー文は出さない） */
+.field.is-missing input { border-color: var(--accent); background: var(--accent-soft); }
+.result-card .note:empty { display: none; }
+#pref-msg:empty { display: none; }
+.sum tr.total th, .sum tr.total td { color: var(--accent); }
+.sum td { font-size: 0.95rem; }

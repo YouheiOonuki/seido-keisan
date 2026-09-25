@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高校無償化の計算（2026年度）私立・公立の授業料の自己負担｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="高校無償化（高等学校等就学支援金）の2026年度の新制度で、授業料の自己負担がいくらになるかを計算。私立45万7,200円・所得制限なし、通信制・高専・専修学校、東京都・大阪府・神奈川県の上乗せに対応。年額と3年間の合計、出典と確認日つき。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/koko-mushoka/">
+
+  <meta property="og:title" content="高校無償化の計算（2026年度）授業料の自己負担｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="授業料から国の就学支援金（私立45万7,200円・所得制限なし）と都府県の上乗せを引いた自己負担を、年額と3年間で計算。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/koko-mushoka/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/koko-mushoka/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "高校無償化の計算（2026年度）",
+    "description": "授業料から国の就学支援金と都府県の上乗せを引いた自己負担を、年額と3年間で計算。",
+    "url": "https://yorozu-craft.com/seido-keisan/koko-mushoka/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./koko.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <header class="app-header">
+    <h1>高校無償化の計算（2026年度）</h1>
+    <p class="subtitle">授業料から国の就学支援金と都府県の上乗せを引いた、自己負担の目安を出します。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">2026年4月からの新制度（所得制限なし）・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req" id="req">
+        <legend>学校と授業料</legend>
+        <div class="field">
+          <label for="setchi">学校の設置者</label>
+          <select id="setchi" data-k="setchi">
+            <option value="shiritsu">私立</option>
+            <option value="koritsu">公立（都道府県立・市立など）</option>
+            <option value="kokuritsu">国立</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="type">学校の種類</label>
+          <select id="type" data-k="type">
+            <option value="zen">高校（全日制・中等教育学校）</option>
+            <option value="tei">高校（定時制）</option>
+            <option value="tsu">高校（通信制）</option>
+            <option value="toku">特別支援学校（高等部）</option>
+            <option value="kosen">高専（1〜3年）</option>
+            <option value="senshu">専修学校（高等課程）</option>
+            <option value="senshu_tsu">専修学校（高等課程・通信制）</option>
+          </select>
+        </div>
+        <div class="field" id="feemode-field">
+          <label for="feeMode">授業料の決め方</label>
+          <select id="feeMode" data-k="feeMode">
+            <option value="year">年額（月額×12）</option>
+            <option value="unit">1単位あたり（単位制）</option>
+          </select>
+        </div>
+        <div class="field mode-year" data-need="fee">
+          <label for="fee">授業料（年額）</label>
+          <p class="hint">学校の募集要項の授業料だけ。入学金・施設費は含めない。</p>
+          <div class="money"><input type="number" id="fee" data-k="fee" inputmode="numeric" min="0" step="1" placeholder="例：480000"><span class="unit">円</span><output class="yomi" for="fee"></output></div>
+        </div>
+        <div class="field mode-unit" data-need="unitFee" hidden>
+          <label for="unitFee">1単位あたりの授業料</label>
+          <div class="money"><input type="number" id="unitFee" data-k="unitFee" inputmode="numeric" min="0" step="1" placeholder="例：12000"><span class="unit">円</span><output class="yomi" for="unitFee"></output></div>
+        </div>
+        <div class="field mode-unit" data-need="units" hidden>
+          <label for="units">1年に履修する単位数</label>
+          <p class="hint">支援は年30単位・通算74単位まで。</p>
+          <div class="money"><input type="number" id="units" data-k="units" inputmode="numeric" min="0" step="1" placeholder="例：25"><span class="unit">単位</span></div>
+        </div>
+        <div class="field">
+          <label for="pref">住んでいる都道府県（生徒と保護者）</label>
+          <select id="pref" data-k="pref"><option value="">選んでください</option></select>
+          <p class="hint">上乗せは東京都・大阪府・神奈川県の私立だけ計算します。</p>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">授業料の自己負担の目安</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">1年あたり（授業料 − 国の就学支援金 − 都府県の上乗せ）</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">授業料を入れると出ます。</p>
+        </div>
+        <div class="table-wrap">
+          <table class="steps sum" id="sum"><tbody></tbody></table>
+        </div>
+        <p class="small note" id="r-note"></p>
+        <details class="rels" id="years-box">
+          <summary>学年ごとの内訳と計算の根拠</summary>
+          <table class="steps" id="years"><tbody></tbody></table>
+        </details>
+        <p class="small">入学金・施設費・教材費・修学旅行費などは含みません（大阪府の施設整備費等を除く）。</p>
+        <p class="small">この計算は目安です。実際の額は都道府県と学校が決めます。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。</p>
+      </section>
+
+      <details class="card opt" id="d-pref">
+        <summary>上乗せの条件: <span class="opt-state">—</span></summary>
+        <div id="pref-osaka" hidden>
+          <label class="inline"><input type="checkbox" id="osakaSuishin" data-k="osakaSuishin"> 大阪府の「就学支援推進校」に通う</label>
+          <p class="small">近畿2府4県の私立で、府が指定した学校です。<a href="https://www.pref.osaka.lg.jp/o180160/shigaku/shigakumushouka/suishinkou_koukou_r8.html" target="_blank" rel="noopener noreferrer">令和8年度の一覧（大阪府）</a></p>
+        </div>
+        <div id="pref-kanagawa" hidden>
+          <label class="inline"><input type="checkbox" id="kanagawaIn" data-k="kanagawaIn"> 神奈川県内の私立学校に通う（通信制は本部校が県内）</label>
+          <p class="small"><a href="https://www.pref.kanagawa.jp/documents/8836/gakuhihojo_taishoukour80401.pdf" target="_blank" rel="noopener noreferrer">学費補助金の対象校（神奈川県・PDF）</a></p>
+        </div>
+        <p class="small" id="pref-msg"></p>
+      </details>
+
+      <details class="card opt" id="d-status">
+        <summary>国籍・在留資格: <span class="opt-state">新制度の対象</span></summary>
+        <label class="inline"><input type="radio" name="status" value="shin" data-k="status"> 日本国籍・永住者・特別永住者・日本人の配偶者等 など（新制度の対象）</label>
+        <label class="inline"><input type="radio" name="status" value="gai" data-k="status"> それ以外（留学・一部の定住者や家族滞在など）</label>
+        <div class="sub-block" id="gai-block" hidden>
+          <div class="field">
+            <label for="gai-kubun">世帯の年収の目安</label>
+            <select id="gai-kubun" data-k="gai.kubun">
+              <option value="c">約590万円未満</option>
+              <option value="b">約590万〜910万円</option>
+              <option value="a">約910万円以上</option>
+            </select>
+            <p class="hint">実際は住民税の課税標準額などで判定されます。</p>
+          </div>
+          <label class="inline"><input type="checkbox" id="gai-zaiko" data-k="gai.zaiko"> 2026年3月31日より前から在学している</label>
+          <label class="inline"><input type="checkbox" id="gai-ryugaku" data-k="gai.ryugaku"> 在留資格が「留学」</label>
+        </div>
+      </details>
+
+      <details class="card opt" id="d-other">
+        <summary>入学金・施設費: <span class="opt-state">入力なし</span></summary>
+        <div class="field">
+          <label for="shisetsu">施設費など、毎年納めるもの（年額）</label>
+          <p class="hint">施設設備費・維持費など全員が納めるもの。</p>
+          <div class="money"><input type="number" id="shisetsu" data-k="shisetsu" inputmode="numeric" min="0" step="1" placeholder="例：120000"><span class="unit">円</span><output class="yomi" for="shisetsu"></output></div>
+        </div>
+        <div class="field">
+          <label for="nyugaku">入学金</label>
+          <div class="money"><input type="number" id="nyugaku" data-k="nyugaku" inputmode="numeric" min="0" step="1" placeholder="例：250000"><span class="unit">円</span><output class="yomi" for="nyugaku"></output></div>
+        </div>
+        <p class="small">入れると卒業までの合計に足します。</p>
+      </details>
+
+      <details class="card opt" id="d-years">
+        <summary>在学する年数: <span class="opt-state">3年</span></summary>
+        <label class="inline"><input type="radio" name="years" value="3" data-k="years"> 3年</label>
+        <label class="inline"><input type="radio" name="years" value="4" data-k="years"> 4年（定時制・通信制など）</label>
+        <p class="small">支援は36か月（定時制・通信制は48か月）まで。</p>
+      </details>
+
+      <details class="card opt">
+        <summary>このツールで計算しないこと</summary>
+        <ul class="small">
+          <li>東京都・大阪府・神奈川県以外の道府県の上乗せ。<a href="https://www.mext.go.jp/a_menu/shotou/mushouka/1292214.htm" target="_blank" rel="noopener noreferrer">都道府県の問合せ先（文部科学省）</a>へ。</li>
+          <li>公立高校の都道府県ごとの減免、高校生等奨学給付金（教科書代などの支援）、入学金の補助。</li>
+          <li>高専の4・5年、専攻科、サポート校の費用。</li>
+        </ul>
+      </details>
+
+      <details class="card opt no-print" id="d-file">
+        <summary>入力の保存・書き出し</summary>
+        <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small" id="file-msg" role="status"></p>
+      </details>
+
+      <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（所得制限・通信制・手続きの時期）</a></p>
+    </form>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="../ikukyu/">育休・産休の計算</a></li>
+        <li><a href="../iryohi/">医療費控除の計算</a></li>
+        <li><a href="./" aria-current="page">高校無償化の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/koko-values.js"></script>
+  <script src="../lib/koko.js"></script>
+  <script src="../lib/screen.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
