@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2割特例の終了後の消費税: 3割特例・簡易課税・本則の比較（令和9年分〜）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="インボイスの2割特例が終わったあとの消費税を計算。売上・業種（みなし仕入率）・課税仕入れから、3割特例・簡易課税・本則課税の納付税額を比べ、簡易課税の届出の期限も出します。令和9年分〜令和11年分、国税庁の資料どおりの端数処理。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/invoice/">
+
+  <meta property="og:title" content="2割特例の終了後の消費税: 3割特例・簡易課税・本則の比較｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="売上・業種・課税仕入れから、3割特例・簡易課税・本則課税の消費税の納付税額を比較。簡易課税の届出の期限つき。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/invoice/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2割特例の終了後の消費税の比較（3割特例・簡易課税・本則課税）",
+    "description": "売上・業種・課税仕入れから、3割特例・簡易課税・本則課税の消費税の納付税額を比較。簡易課税の届出の期限つき。",
+    "url": "https://yorozu-craft.com/seido-keisan/invoice/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./invoice.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>2割特例の終了後の消費税</h1>
+    <p class="subtitle">3割特例・簡易課税・本則課税の納付税額を比べ、簡易課税の届出の期限を出します。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">個人事業者・標準税率10%の取引・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>1年分の売上と仕入れ</legend>
+        <div class="field">
+          <label for="year">計算する年分</label>
+          <select id="year" data-k="year">
+            <option value="2027">令和9年分（2027年1〜12月）</option>
+            <option value="2028">令和10年分（2028年1〜12月）</option>
+            <option value="2029">令和11年分（2029年1〜12月）</option>
+          </select>
+        </div>
+        <div class="field" data-need="uriage">
+          <label for="uriage">課税売上（税込）</label>
+          <p class="hint">消費税10%がかかる売上の1年分。見込みでも可。</p>
+          <div class="money"><input type="number" id="uriage" data-k="uriage" inputmode="numeric" min="0" step="1" placeholder="例：5500000"><span class="unit">円</span><output class="yomi" for="uriage"></output></div>
+        </div>
+        <div class="field">
+          <label for="kubun">業種（簡易課税の事業区分）</label>
+          <select id="kubun" data-k="kubun">
+            <option value="1">第1種 90%（卸売業）</option>
+            <option value="2">第2種 80%（小売業など）</option>
+            <option value="3">第3種 70%（製造業・建設業）</option>
+            <option value="4">第4種 60%（飲食店業など）</option>
+            <option value="5">第5種 50%（サービス業など）</option>
+            <option value="6">第6種 40%（不動産業）</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="shiire">インボイスのある仕入れ・経費（税込）</label>
+          <p class="hint">消費税10%がかかる分。本則課税の計算だけに使う。</p>
+          <div class="money"><input type="number" id="shiire" data-k="shiire" inputmode="numeric" min="0" step="1" placeholder="例：1100000"><span class="unit">円</span><output class="yomi" for="shiire"></output></div>
+        </div>
+        <div class="field">
+          <label for="noinv">インボイスのない仕入れ・経費（税込）</label>
+          <p class="hint" id="noinv-hint">免税事業者などから。本則課税で70%だけ控除。</p>
+          <div class="money"><input type="number" id="noinv" data-k="noinv" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="noinv"></output></div>
+        </div>
+        <div class="field" id="late-row" hidden>
+          <label for="noinv-late">そのうち10〜12月の分</label>
+          <p class="hint">2028年10月から50%になる分。</p>
+          <div class="money"><input type="number" id="noinv-late" data-k="noinvLate" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div>
+        </div>
+        <div class="field">
+          <label for="kijun">2年前の課税売上高</label>
+          <select id="kijun" data-k="kijun">
+            <option value="le10m">1,000万円以下</option>
+            <option value="le50m">1,000万円超 5,000万円以下</option>
+            <option value="gt50m">5,000万円超</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">納付税額の比較</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">いちばん少ない方式（消費税＋地方消費税）</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">課税売上を入れると出ます。</p>
+        </div>
+        <div class="table-wrap">
+          <table class="cmp sum" id="sum">
+            <thead><tr><th scope="col">方式</th><th scope="col">納付税額</th></tr></thead>
+            <tbody>
+              <tr id="row-sanwari"><th scope="row">3割特例<span class="why" id="why-sanwari"></span></th><td id="t-sanwari">—</td></tr>
+              <tr id="row-kani"><th scope="row"><span id="name-kani">簡易課税</span><span class="why" id="why-kani"></span></th><td id="t-kani">—</td></tr>
+              <tr id="row-honsoku"><th scope="row">本則課税<span class="why" id="why-honsoku"></span></th><td id="t-honsoku">—</td></tr>
+              <tr id="row-niwari" class="ref"><th scope="row">参考: 2割特例（令和8年分まで）</th><td id="t-niwari">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="msgs" id="r-msgs"></ul>
+        <p class="deadline" id="r-deadline"></p>
+        <details class="rels" id="steps-box">
+          <summary>内訳と途中の計算</summary>
+          <div id="steps"></div>
+        </details>
+        <p class="small">この計算は目安です。実際の額は税務署が決めます。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-henkan">
+      <summary>売上の返品・値引き: <span class="opt-state" id="st-henkan">なし</span></summary>
+      <div class="field">
+        <label for="henkan">売上から引いていない返品・値引き（税込）</label>
+        <p class="hint">売上から直接引いた人は空欄。</p>
+        <div class="money"><input type="number" id="henkan" data-k="henkan" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span></div>
+      </div>
+    </details>
+
+    <details class="card opt">
+      <summary>この計算機の対象外</summary>
+      <ul class="small">
+        <li>軽減税率8%（飲食料品・新聞）の売上・仕入れ。</li>
+        <li>2種類以上の事業の兼業（簡易課税の75%ルール）。</li>
+        <li>法人、課税期間の短縮、貸倒れ、中間申告。</li>
+        <li>3割特例が使えない細かな場合（高額な資産の仕入れなど）の判定。</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（2割特例はいつまで・簡易課税の届出はいつまで）</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">2割特例の終了後の消費税</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/invoice-values.js"></script>
+  <script src="../lib/invoice.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
