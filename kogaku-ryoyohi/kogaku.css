@@ -1,0 +1,13 @@
+/* ===========================
+   高額療養費（kogaku-ryoyohi）だけの見た目。共通の部品は ../nenkin-kuriage/kuriage.css と ../style.css
+   =========================== */
+.rows { list-style: none; padding: 0; margin: 0.5rem 0; }
+.rows .row { border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.6rem; }
+.row-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+.row-grid label { display: flex; flex-direction: column; font-size: 0.85rem; gap: 0.2rem; }
+.row-grid label.wide { grid-column: 1 / -1; }
+.row-grid select, .row-grid input { width: 100%; min-height: 44px; }
+.rows .del { margin-top: 0.5rem; min-height: 44px; }
+.field label.inline select { margin-left: 0.3rem; min-height: 40px; }
+#cat { width: 100%; }
+#cat-table td, #cat-table th { font-size: 0.8rem; }

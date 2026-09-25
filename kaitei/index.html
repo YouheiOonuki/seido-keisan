@@ -62,7 +62,7 @@
         <button type="button" class="kt-chip" data-cat="kosodate" aria-pressed="false">子育て・教育</button>
         <button type="button" class="kt-chip" data-cat="other" aria-pressed="false">その他</button>
       </div>
-      <p class="kt-count"><span id="shown"><!-- kaitei:count -->28<!-- /kaitei:count --></span> 件（施行日の決まったもの）</p>
+      <p class="kt-count"><span id="shown"><!-- kaitei:count -->30<!-- /kaitei:count --></span> 件（施行日の決まったもの）</p>
       <button type="button" class="btn" id="ics-all" hidden>表示中の予定をカレンダーに入れる（.ics）</button>
       <p class="small">.ics はカレンダーアプリの読み込み（インポート）で取り込めます。予定は終日で、説明欄に出典の URL が入ります。</p>
     </section>
@@ -110,7 +110,7 @@
   <p class="kt-title">在職老齢年金の基準額が月65万円に</p>
   <p class="kt-what">働きながら老齢厚生年金を受ける人の年金が減り始める基準（賃金と年金の合計）が月51万円から65万円に</p>
   <p class="kt-who">対象: 老齢厚生年金を受けながら会社で働く人</p>
-  <p class="kt-tools">このサイトのツール: なし</p>
+  <p class="kt-tools">このサイトのツール: <a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a>（繰下げの待機中に働く人の増額（止まる分は増えない）を65万円で計算する）</p>
   <p class="kt-src">出典: <a href="https://www.nenkin.go.jp/tokusetsu/zairoukaisei.html" target="_blank" rel="noopener noreferrer">日本年金機構「在職老齢年金制度が改正されました」（更新 2026-04-01）</a></p>
   <button type="button" class="btn-sub kt-add" data-id="2026-04-zairo" hidden>カレンダーに追加（.ics）</button>
 </li>
@@ -134,6 +134,15 @@
   <p class="kt-tools">このサイトのツール: <a href="../ikukyu/">育休・産休の計算</a>（2026-08-01〜2027-07-31 の額で計算する）</p>
   <p class="kt-src">出典: <a href="https://www.mhlw.go.jp/content/001728499.pdf" target="_blank" rel="noopener noreferrer">厚生労働省「令和８年８月１日から支給限度額が変更になります」</a>、<a href="https://laws.e-gov.go.jp/law/349AC0000000116" target="_blank" rel="noopener noreferrer">雇用保険法 18条（賃金日額の自動変更）</a></p>
   <button type="button" class="btn-sub kt-add" data-id="2026-08-ikukyu" hidden>カレンダーに追加（.ics）</button>
+</li>
+<li class="kt-item" id="i-2026-08-kogaku" data-cat="shaho" data-date="2026-08-01">
+  <p class="kt-head"><time datetime="2026-08-01">8月1日</time> <span class="kt-cat">社保・年金</span></p>
+  <p class="kt-title">高額療養費の上限額の引上げと年間上限の新設</p>
+  <p class="kt-what">8月診療分から月の自己負担の上限額が上がり（70歳未満・年収約370万〜770万円は80,100円＋1%から85,800円＋1%）、8月〜翌年7月の年間上限ができた。多数回該当の額は据え置き</p>
+  <p class="kt-who">対象: 医療費の自己負担が高額になった人（健保・国保・後期高齢者医療）</p>
+  <p class="kt-tools">このサイトのツール: <a href="../kogaku-ryoyohi/">高額療養費の計算</a>（診療月で表を選んで計算する（2026年7月までの表も残す））</p>
+  <p class="kt-src">出典: <a href="https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240" target="_blank" rel="noopener noreferrer">健康保険法施行令（令和8年8月1日施行版。令和8年政令第240号による改正後）</a>、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html" target="_blank" rel="noopener noreferrer">厚生労働省「高額療養費制度を利用される皆さまへ」（更新 2026年7月31日）</a></p>
+  <button type="button" class="btn-sub kt-add" data-id="2026-08-kogaku" hidden>カレンダーに追加（.ics）</button>
 </li>
 </ol>
 <h3 id="m2026-10" class="kt-month">2026年10月に変わること</h3>
@@ -248,6 +257,18 @@
   <p class="kt-tools">このサイトのツール: なし</p>
   <p class="kt-src">出典: <a href="https://www.moj.go.jp/MINJI/souzokutouki-gimuka/index.html" target="_blank" rel="noopener noreferrer">法務省「相続登記の申請義務化」</a></p>
   <button type="button" class="btn-sub kt-add" data-id="2027-03-souzoku" hidden>カレンダーに追加（.ics）</button>
+</li>
+</ol>
+<h3 id="m2027-08" class="kt-month">2027年8月に変わること</h3>
+<ol class="kt-list">
+<li class="kt-item" id="i-2027-08-kogaku" data-cat="shaho" data-date="2027-08-01">
+  <p class="kt-head"><time datetime="2027-08-01">8月1日</time> <span class="kt-cat">社保・年金</span></p>
+  <p class="kt-title">高額療養費の所得区分が細かくなる</p>
+  <p class="kt-what">8月診療分から、70歳未満の所得区分が5つから13に（年収約1,650万円以上は342,000円＋1%、年収約200万円以下の多数回該当は34,500円に）。年間上限の申請もこの月から</p>
+  <p class="kt-who">対象: 医療費の自己負担が高額になった人</p>
+  <p class="kt-tools">このサイトのツール: <a href="../kogaku-ryoyohi/">高額療養費の計算</a>（2027年8月からの表も入れてある（公布済みの政令の値））</p>
+  <p class="kt-src">出典: <a href="https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240" target="_blank" rel="noopener noreferrer">健康保険法施行令（令和9年8月1日施行版。同じ政令、未施行）</a>、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html" target="_blank" rel="noopener noreferrer">厚生労働省「高額療養費制度を利用される皆さまへ」（更新 2026年7月31日）</a></p>
+  <button type="button" class="btn-sub kt-add" data-id="2027-08-kogaku" hidden>カレンダーに追加（.ics）</button>
 </li>
 </ol>
 <h3 id="m2027-09" class="kt-month">2027年9月に変わること</h3>
@@ -431,6 +452,7 @@
     <section class="card content" aria-labelledby="h-log">
       <h2 id="h-log">更新履歴</h2>
       <ul>
+        <li><time datetime="2026-09-25">2026年9月25日</time> 高額療養費の見直し（2026年8月・2027年8月）の2件を追加し、年金の繰上げ・繰下げと高額療養費の計算へのリンクを足した（2025年10月〜2029年の 30 件）</li>
         <li><time datetime="2026-09-25">2026年9月25日</time> 公開（2025年10月〜2029年の 28 件）</li>
       </ul>
     </section>

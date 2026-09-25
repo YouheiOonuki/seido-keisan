@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高額療養費の計算の使い方（2026年8月からの上限額の一覧・75歳以上・世帯合算）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="高額療養費の計算の使い方。2026年8月診療分からの自己負担限度額の一覧（70歳未満・70歳以上・75歳以上）、年間上限、世帯合算の21,000円、多数回該当、2027年8月からの所得区分の細分化、計算例、根拠の政令と確認日。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html">
+
+  <meta property="og:title" content="高額療養費の計算の使い方（2026年8月からの上限額）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="2026年8月からの自己負担限度額の一覧、年間上限、世帯合算、多数回該当、2027年8月からの変更、根拠と確認日。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "高額療養費の計算方法は？",
+        "acceptedAnswer": { "@type": "Answer", "text": "1か月の医療費（10割）から所得区分の上限額を出し、窓口で払った額が上限を超えた分が戻ります。70歳未満・年収約370万〜約770万円で医療費100万円なら、2026年8月診療分から85,800円＋（1,000,000円−286,000円）×1%＝92,940円が上限です。" }
+      },
+      {
+        "@type": "Question",
+        "name": "75歳以上の高額療養費の上限はいくらですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "2026年8月診療分から、一般（課税所得145万円未満など）は外来が個人ごとに月22,000円、入院を含む世帯で月61,500円です。住民税非課税は外来11,000円・世帯25,700円、所得が一定以下は世帯15,700円です。" }
+      },
+      {
+        "@type": "Question",
+        "name": "高額療養費の年間上限とは何ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "2026年8月診療分からできた、8月〜翌年7月の1年間の自己負担の上限です。年収約370万〜約770万円の区分は53万円で、超えた分は申請で戻ります（申請は2027年8月から）。" }
+      },
+      {
+        "@type": "Question",
+        "name": "高額療養費の世帯合算の21,000円とは？",
+        "acceptedAnswer": { "@type": "Answer", "text": "70歳未満の人は、1つの病院等（入院・外来・医科・歯科は別）で1か月21,000円以上払った分だけを世帯で合算できます。70歳以上の人の分は額にかかわらず合算します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "2027年8月から高額療養費はどう変わりますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "70歳未満の所得区分が5つから13に細かくなります。年収約1,650万円以上は342,000円＋1%、年収約200万円以下の多数回該当は44,400円から34,500円に下がります。政令は公布済みです。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- 高齢者向けのページは広告を出さない（yorozu-plans ROADMAP 7.8 の D118）。所有確認の meta だけ -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nenkin-kuriage/kuriage.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>高額療養費の計算の使い方</h1>
+    <p class="subtitle">使い方・上限額の一覧・計算の前提・根拠と確認日・よくある質問</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="noad">このページは広告なし・登録なし・入力は端末の外に出ません。</p>
+    <p class="card" style="text-align:center"><a href="./">▶ 高額療養費を計算する</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>本人の年齢と入っている保険を選びます。</li>
+        <li>所得区分を選びます（分からなければ区分の表で）。</li>
+        <li>1か月の医療費（10割）と、入院か外来かを入れます。</li>
+        <li>別の診療月や多数回該当なら、結果の下の欄で選びます。</li>
+        <li>家族や別の病院の分があれば「世帯合算」の欄に足します。</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="table">
+      <h2>高額療養費の上限額（2026年8月診療分から）</h2>
+      <p>1か月（1日〜末日）の上限です。〈 〉は多数回該当（直近12か月に3回以上該当したら4回目から）。</p>
+      <div class="table-wrap">
+        <table class="tbl" id="t-u70">
+          <caption>70歳未満（世帯）</caption>
+          <thead><tr><th scope="col">区分（健保の標準報酬月額）</th><th scope="col">月の上限</th><th scope="col">年間上限</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">ア 83万円以上</th><td>270,300円＋（医療費−901,000円）×1%〈140,100円〉</td><td>168万円</td></tr>
+            <tr><th scope="row">イ 53万〜79万円</th><td>179,100円＋（医療費−597,000円）×1%〈93,000円〉</td><td>111万円</td></tr>
+            <tr><th scope="row">ウ 28万〜50万円</th><td>85,800円＋（医療費−286,000円）×1%〈44,400円〉</td><td>53万円</td></tr>
+            <tr><th scope="row">エ 26万円以下</th><td>61,500円〈44,400円〉</td><td>53万円</td></tr>
+            <tr><th scope="row">オ 住民税非課税</th><td>36,900円〈24,600円〉</td><td>29万円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table class="tbl" id="t-o70">
+          <caption>70歳以上（70〜74歳と75歳以上の後期高齢者医療）</caption>
+          <thead><tr><th scope="col">区分</th><th scope="col">外来（個人ごと）</th><th scope="col">世帯（入院を含む）</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">現役並み（ア〜ウと同じ）</th><td>—</td><td>70歳未満のア〜ウと同じ</td></tr>
+            <tr><th scope="row">一般</th><td>22,000円（年216,000円）</td><td>61,500円〈44,400円〉</td></tr>
+            <tr><th scope="row">住民税非課税</th><td>11,000円（年96,000円）</td><td>25,700円〈24,600円〉</td></tr>
+            <tr><th scope="row">住民税非課税（所得が一定以下）</th><td>8,000円</td><td>15,700円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>2026年7月診療分までは、ウが80,100円＋（医療費−267,000円）×1%、エが57,600円、70歳以上の一般の外来が18,000円でした。2027年8月診療分からは70歳未満の区分が13に分かれます（画面で診療月を選ぶと計算できます）。</p>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>計算の前提</h2>
+      <ul>
+        <li>窓口の負担は医療費 × 割合とし、窓口の10円未満の端数は考えません。</li>
+        <li>1%の額は50銭以上を切り上げます（健康保険法施行令42条）。</li>
+        <li>70歳以上は外来（個人ごと）→ 70歳以上の世帯 → 世帯全体の順に計算します。</li>
+        <li>1行は「1人・1つの病院等・入院か外来か」の1か月分です。院外処方の薬局は外来に含めます。</li>
+        <li>国民健康保険・後期高齢者医療の上限額も健康保険と同じ額です（区分の決め方は違う）。</li>
+      </ul>
+      <details class="rels">
+        <summary>対象外のもの</summary>
+        <ul>
+          <li>食事代・差額ベッド代・先進医療など保険の対象外の費用。</li>
+          <li>健康保険組合などの付加給付、75歳になる月の上限の特例（半額）、人工透析などの長期高額疾病の特例、高額介護合算療養費、公費負担医療。</li>
+          <li>年の途中で保険が変わった人の年間上限と、年収約200万円以下の年間上限41万円の判定。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>根拠: 健康保険法施行令（令和8年政令第240号による改正後）、厚生労働省・協会けんぽの資料。最終確認日 <time datetime="2026-09-25" id="checked">2026-09-25</time>。上限額は2026年7月まで・2026年8月〜2027年7月・2027年8月からの3つの表。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul id="sources">
+          <li><a href="https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240" target="_blank" rel="noopener noreferrer">健康保険法施行令（2026年8月1日施行版）</a>（41条 合算と21,000円、41条の2・41条の3 年間、42条 上限額と50銭の端数）、<a href="https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240" target="_blank" rel="noopener noreferrer">2027年8月1日施行版（未施行）</a>、<a href="https://laws.e-gov.go.jp/law/215IO0000000243/20260625_508CO0000000219" target="_blank" rel="noopener noreferrer">2026年7月までの版</a></li>
+          <li>厚生労働省「<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html" target="_blank" rel="noopener noreferrer">高額療養費制度を利用される皆さまへ</a>」（2026年7月31日更新）、「<a href="https://www.mhlw.go.jp/content/001726232.pdf" target="_blank" rel="noopener noreferrer">高額療養費制度の見直しについて（令和８年８月診療分から）</a>」（国保・後期の区分）、「<a href="https://www.mhlw.go.jp/content/001729632.pdf" target="_blank" rel="noopener noreferrer">参考資料</a>」（計算例 92,940円・102,940円・112,940円）、「<a href="https://www.mhlw.go.jp/content/000333280.pdf" target="_blank" rel="noopener noreferrer">平成30年8月からのリーフレット</a>」（87,430円・世帯合算の例）。どの計算例もこのツールのテストで再現しています</li>
+          <li>協会けんぽ「<a href="https://www.kyoukaikenpo.or.jp/benefit/high_cost_medical_expenses/002" target="_blank" rel="noopener noreferrer">高額療養費</a>」（区分ア〜オ、世帯合算、多数回該当は同じ保険者で数える、年間上限の申請は2027年8月から）</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>高額療養費の計算方法は？</dt>
+        <dd>1か月の医療費（10割）から所得区分の上限額を出し、窓口で払った額が上限を超えた分が戻ります。70歳未満・年収約370万〜約770万円で医療費100万円なら、2026年8月診療分から85,800円＋（1,000,000円−286,000円）×1%＝92,940円が上限です。</dd>
+        <dt>75歳以上の高額療養費の上限はいくらですか？</dt>
+        <dd>2026年8月診療分から、一般（課税所得145万円未満など）は外来が個人ごとに月22,000円、入院を含む世帯で月61,500円です。住民税非課税は外来11,000円・世帯25,700円、所得が一定以下は世帯15,700円です。</dd>
+        <dt>高額療養費の年間上限とは何ですか？</dt>
+        <dd>2026年8月診療分からできた、8月〜翌年7月の1年間の自己負担の上限です。年収約370万〜約770万円の区分は53万円で、超えた分は申請で戻ります（申請は2027年8月から）。</dd>
+        <dt>高額療養費の世帯合算の21,000円とは？</dt>
+        <dd>70歳未満の人は、1つの病院等（入院・外来・医科・歯科は別）で1か月21,000円以上払った分だけを世帯で合算できます。70歳以上の人の分は額にかかわらず合算します。</dd>
+        <dt>2027年8月から高額療養費はどう変わりますか？</dt>
+        <dd>70歳未満の所得区分が5つから13に細かくなります。年収約1,650万円以上は342,000円＋1%、年収約200万円以下の多数回該当は44,400円から34,500円に下がります。政令は公布済みです。</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。実際の額は加入先の保険者（協会けんぽ・健康保険組合・市区町村・後期高齢者医療広域連合）が決めます。</li>
+        <li>入力内容はこの端末のブラウザ（localStorage、キー <code>seido-keisan_kogaku_draft</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去は計算の画面のボタンから。</li>
+        <li>書き出したファイル（<code>seido-keisan-kogaku-backup-年月日.json</code>）には医療費が入ります。共有リンクの機能はありません。</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-09-25">2026年9月25日</time> 公開（2026年7月まで・2026年8月から・2027年8月からの上限額。e-Gov の健康保険法施行令と厚生労働省・協会けんぽの資料で確認）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./">高額療養費の計算</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

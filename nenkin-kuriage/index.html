@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>年金の繰上げ・繰下げ シミュレーション（損益分岐の年齢・在職老齢年金）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="生年月日と65歳からの年金額（老齢基礎年金・老齢厚生年金）から、60〜75歳で受け取り始めたときの年額と、65歳からと累計が逆転する年齢を計算。繰上げ0.4%・繰下げ0.7%、基礎と厚生を別の年齢で繰り下げる計算、働きながら繰り下げたときの増額（在職老齢年金 65万円）にも対応。広告なし・登録なし。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/nenkin-kuriage/">
+
+  <meta property="og:title" content="年金の繰上げ・繰下げ シミュレーション（損益分岐の年齢）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="60〜75歳で受け取り始めたときの年額と、65歳からと累計が逆転する年齢。基礎と厚生を別々に繰り下げる計算、在職老齢年金の影響にも対応。広告なし。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/nenkin-kuriage/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "年金の繰上げ・繰下げ シミュレーション",
+    "description": "60〜75歳で受け取り始めたときの年額と、65歳からと累計が逆転する年齢を計算。基礎と厚生を別々に繰り下げる計算、在職老齢年金の影響にも対応。",
+    "url": "https://yorozu-craft.com/seido-keisan/nenkin-kuriage/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- 高齢者向けのページは広告を出さない（yorozu-plans ROADMAP 7.8 の D118）。所有確認の meta だけ置き、広告スクリプトは読まない -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./kuriage.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>年金の繰上げ・繰下げの計算</h1>
+    <p class="subtitle">受け取り始める年齢ごとの年額と、65歳からと累計が逆転する年齢を出します。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="noad">このページは広告なし・登録なし・入力は端末の外に出ません。</p>
+    <p class="badge" id="asof">率は法令で決まった値（繰上げ0.4%・繰下げ0.7%）・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>生年月日と65歳からの年金</legend>
+        <div class="field" data-need="birth">
+          <label for="birth">生年月日</label>
+          <input type="date" id="birth" data-k="birth" min="1940-01-01" max="2010-12-31">
+        </div>
+        <div class="field" data-need="amount">
+          <label for="kiso">老齢基礎年金（65歳からの年額）</label>
+          <p class="hint">ねんきん定期便の見込額。満額は月70,608円（令和8年度）。</p>
+          <div class="money"><input type="number" id="kiso" data-k="kiso" inputmode="numeric" min="0" step="1" placeholder="例：800000"><span class="unit">円</span><output class="yomi" for="kiso"></output></div>
+        </div>
+        <div class="field" data-need="amount">
+          <label for="kosei">老齢厚生年金（65歳からの年額）</label>
+          <p class="hint">加給年金額を除く。会社員の期間がなければ空欄。</p>
+          <div class="money"><input type="number" id="kosei" data-k="kosei" inputmode="numeric" min="0" step="1" placeholder="例：1000000"><span class="unit">円</span><output class="yomi" for="kosei"></output></div>
+        </div>
+        <div class="field">
+          <label for="age">受け取り始める年齢（請求する月）</label>
+          <div class="agepick">
+            <select id="age" data-k="age" aria-describedby="age-hint"></select>
+            <select id="mon" data-k="mon" aria-label="何か月"></select>
+          </div>
+          <p class="hint" id="age-hint">0か月は誕生日の前日の月。66〜75歳は繰下げ（増える）。</p>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">受け取る年金（年額）</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">受け取り始める年齢を選ぶと</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">生年月日と年金額を入れると出ます。</p>
+        </div>
+        <div class="table-wrap" id="sum-wrap">
+          <table class="cmp sum" id="sum">
+            <tbody>
+              <tr><th scope="row">損益分岐の年齢</th><td id="t-be">—</td></tr>
+              <tr><th scope="row" id="th-kiso">老齢基礎年金</th><td id="t-kiso">—</td></tr>
+              <tr><th scope="row" id="th-kosei">老齢厚生年金</th><td id="t-kosei">—</td></tr>
+              <tr class="ref"><th scope="row">65歳から受け取る場合</th><td id="t-base">—</td></tr>
+              <tr class="ref"><th scope="row">最初に受け取る月の分</th><td id="t-start">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="msgs" id="r-msgs"></ul>
+        <details class="rels" id="totals-box">
+          <summary>年齢ごとの累計（65歳からとの差）</summary>
+          <div class="table-wrap">
+            <table class="tbl num" id="totals">
+              <thead><tr><th scope="col">年齢（に達した月の分まで）</th><th scope="col">この受け取り方</th><th scope="col">65歳から</th><th scope="col">差</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+        <details class="rels" id="steps-box">
+          <summary>途中の計算</summary>
+          <div id="steps"></div>
+        </details>
+        <p class="small">この計算は目安です。実際の額は日本年金機構が決めます。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-sep">
+      <summary>厚生年金だけ別の年齢で繰り下げる: <span class="opt-state" id="s-sep">同じ年齢</span></summary>
+      <div class="field">
+        <label class="inline"><input type="checkbox" id="sep" data-k="sep"> 老齢厚生年金は別の年齢で受け取り始める</label>
+        <p class="hint">繰下げは基礎と厚生を別々にできる。繰上げは同時。</p>
+      </div>
+      <div class="field">
+        <label for="kAge">老齢厚生年金を受け取り始める年齢</label>
+        <div class="agepick">
+          <select id="kAge" data-k="kAge"></select>
+          <select id="kMon" data-k="kMon" aria-label="何か月"></select>
+        </div>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-work">
+      <summary>65歳以降も会社で働く（在職老齢年金）: <span class="opt-state" id="s-work">働かない</span></summary>
+      <div class="field">
+        <label for="wage">賃金（総報酬月額相当額）</label>
+        <p class="hint">標準報酬月額 ＋ 1年の賞与 ÷ 12。働かないなら空欄。</p>
+        <div class="money"><input type="number" id="wage" data-k="wage" inputmode="numeric" min="0" step="1" placeholder="例：400000"><span class="unit">円</span><output class="yomi" for="wage"></output></div>
+      </div>
+      <div class="field">
+        <label for="workTo">何歳まで働く（その年齢に達する前の月まで）</label>
+        <select id="workTo" data-k="workTo"></select>
+      </div>
+      <p class="small" id="work-note"></p>
+    </details>
+
+    <details class="card opt" id="d-compare">
+      <summary>受け取り始める年齢ごとの比較（表）</summary>
+      <p class="small">今の額で、基礎と厚生を同じ年齢で受け取り始めた場合です。</p>
+      <div class="table-wrap">
+        <table class="tbl num" id="compare">
+          <thead><tr><th scope="col">開始</th><th scope="col">増減</th><th scope="col">年額</th><th scope="col">損益分岐</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="card opt">
+      <summary>税・保険料・加給年金など、額のほかの注意</summary>
+      <ul class="small">
+        <li>年金が増えると、所得税・住民税、介護保険料、国民健康保険料（後期高齢者医療の保険料）も増えることがあります。手取りで比べると、損益分岐はこの計算より遅くなります。</li>
+        <li>加給年金額と振替加算は増えず、繰下げの待機中は受け取れません。</li>
+        <li>繰上げは取り消せません。事後重症などの障害年金を請求できない、寡婦年金を受けられないなどの制限があります。</li>
+        <li>繰下げの待機中に亡くなると、未支給年金は65歳の額で計算され、5年より前の分は時効で受け取れません。</li>
+      </ul>
+    </details>
+
+    <details class="card opt">
+      <summary>この計算機の対象外</summary>
+      <ul class="small">
+        <li>特別支給の老齢厚生年金を受けられる人（1966年4月1日以前生まれの女性で厚生年金1年以上など）の繰上げ。</li>
+        <li>65歳前に働く人の在職老齢年金、在職定時改定・退職改定による年金額の見直し、経過的加算を分けた計算。</li>
+        <li>共済組合・厚生年金基金の年金、付加年金、年金生活者支援給付金、遺族年金・障害年金がある人。</li>
+        <li>70歳を過ぎてから65歳からの分をさかのぼって受け取る場合（5年前に繰り下げたとみなす特例）。</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（増額率・減額率の表、損益分岐の年齢の表）</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">年金の繰上げ・繰下げの計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../kogaku-ryoyohi/">高額療養費の計算</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/kuriage-values.js"></script>
+  <script src="../lib/kuriage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
