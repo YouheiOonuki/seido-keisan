@@ -22,6 +22,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
 | Japan Pension Refund Calculator（英語版） | https://yorozu-craft.com/seido-keisan/en/pension-refund/ |
 | Japan Pension Refund Calculator: guide | https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html |
+| 2割特例の終了後の消費税（3割特例・簡易課税・本則） | https://yorozu-craft.com/seido-keisan/invoice/ |
+| 2割特例の終了後の消費税の使い方 | https://yorozu-craft.com/seido-keisan/invoice/guide.html |
 
 ## 機能（年末調整の計算）
 
@@ -159,6 +161,7 @@ node --test tests/*.test.js
 | 2027-09 から毎年 9 月（2029 年まで） | 厚生年金の標準報酬月額の上限（68万・71万・75万円）の等級表 | `lib/dattai-values.js` の `grades`・`gradeTableTo`（最終月で表を選ぶ形にする） |
 | 3 か月ごと | e-Gov の厚生年金保険法の未施行版と施行令、機構の「脱退一時金の制度」。上限 8 年・再入国許可の施行日が決まったか | 決まったら計算・判定・文言を足す（企画書 16 に追記） |
 | 半年ごと | 社会保障協定の一覧（ページの更新日） | `lib/dattai-values.js` の `kyotei`・`KYOTEI_ASOF` |
+| 3 か月ごと（2027 年中は毎月） | 国税庁「令和８年度税制改正特集」・消費税率引下げ特設サイト（飲食料品 1% の法案が成立したか）、3割特例・7・5・3割控除の Q&A の改訂 | `lib/invoice-values.js`（`years`・`keika`・`SOURCES`・`CHECKED`）、テスト、`invoice/guide.html` の確認日と更新履歴。令和12年分からは年分の選択肢を足す |
 
 値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
 
@@ -187,6 +190,8 @@ node --test tests/*.test.js
 | `lib/dattai-values.js` | 脱退一時金の値の表（国民年金の年度の表、支給率、等級、賞与の上限、20.42%、選択課税、協定国。値・出典・確認日） |
 | `lib/pension-refund.js` | 脱退一時金・還付の目安・期限の計算（純粋関数）と、入力の正規化・ファイル形式 |
 | `lib/pension-refund-text.js` | 結果に合わせて変わる文言（`en`・`ja`。キーは同じ） |
+| `invoice/index.html` / `invoice/app.js` / `invoice/invoice.css` / `invoice/guide.html` | 2割特例の終了後の消費税（3割特例・簡易課税・本則課税の比較）の画面・制御・見た目・使い方ページ |
+| `lib/invoice-values.js` / `lib/invoice.js` | その値の表（みなし仕入率、経過措置の割合、申告期限。値・出典・確認日）と計算（純粋関数。国税庁の2割特例の設例をテストで再現） |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |

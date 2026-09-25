@@ -1,0 +1,28 @@
+/* ===========================
+   2割特例の終了後の消費税（invoice）だけの見た目。色は ../style.css のトークンだけを使う
+   骨組みは style.css の SCREEN.md 1.1 の部品（.req・.fixbar・.layout-2col・details.card.opt）
+   =========================== */
+/* 必須が空の欄は薄く強調する（エラー文は出さない） */
+.field.is-missing input { border-color: var(--accent); background: var(--accent-soft); }
+
+.sum th { font-weight: 600; }
+.sum td { font-size: 0.95rem; }
+.sum .why { display: block; font-size: 0.74rem; font-weight: normal; color: var(--muted); }
+.sum .why:empty { display: none; }
+.sum tr.is-best th, .sum tr.is-best td { color: var(--accent); font-weight: 700; }
+.sum tr.is-best th::after { content: ' ← いちばん少ない'; font-size: 0.74rem; }
+.sum tr.is-off td { color: var(--muted); }
+.sum tr.ref th, .sum tr.ref td { color: var(--muted); font-weight: normal; }
+
+.msgs { list-style: none; margin: 0.4rem 0; }
+.msgs:empty { display: none; }
+.msgs li { font-size: 0.85rem; border-radius: 6px; padding: 0.45rem 0.7rem; margin-bottom: 0.4rem; background: var(--accent-soft); }
+.deadline { font-size: 0.85rem; margin-top: 0.6rem; }
+.deadline:empty { display: none; }
+#steps h3 { font-size: 0.9rem; margin: 0.8rem 0 0.3rem; color: var(--accent); }
+.steps tr.total th, .steps tr.total td { color: var(--accent); }
+
+.opt .hint { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+.opt ul { padding-left: 1.2rem; }
+.opt li + li { margin-top: 0.3rem; }
+.btn-row .btn { min-height: 44px; }
