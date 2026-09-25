@@ -233,15 +233,7 @@
     reader.onerror = function () { fileMsg(T.readError); };
     reader.readAsText(f);
   });
-  $('clear').addEventListener('click', function () {
-    if (!hasInput()) return;
-    if (!window.confirm(T.confirmClear)) return;
-    state = {};
-    store.remove(DRAFT);
-    fillForm();
-    renderNow();
-    fileMsg(T.cleared);
-  });
+  // 保存を消すのは全ツール共通の「保存した内容をすべて消す」ボタン（../reset-storage.js）
 
   // --- 制度の確認日: 12 か月たつか、国民年金の表に無い年度（新年度の 4 月）に入ったら注意 ---
   (function () {
