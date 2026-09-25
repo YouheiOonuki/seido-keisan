@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使い方・根拠・よくある質問｜2割特例の終了後の消費税（3割特例・簡易課税・本則）｜yorozu-craft</title>
+  <meta name="description" content="インボイスの2割特例の終了後に、3割特例・簡易課税・本則課税のどれで消費税を申告するかを比べる計算機の使い方。2割特例はいつまでか、簡易課税の届出の期限、インボイスのない仕入れの70%控除、国税庁の資料による根拠と確認日。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/invoice/guide.html">
+
+  <meta property="og:title" content="使い方・根拠・よくある質問｜2割特例の終了後の消費税">
+  <meta property="og:description" content="3割特例・簡易課税・本則課税の比較の使い方、2割特例の終了と簡易課税の届出の期限、根拠と確認日。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/invoice/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- よくある質問（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "2割特例はいつまでですか？終了後はどうなりますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "令和8年9月30日の属する課税期間までで、個人事業者は令和8年分の申告が最後です。令和9年分からは3割特例（個人事業者だけ、令和10年分まで）・簡易課税・本則課税のどれかで申告します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "3割特例と簡易課税はどっちが得ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "みなし仕入率が70%より高い第1種（卸売業）・第2種（小売業など）は簡易課税が少なく、第3種は同じ、第4〜6種（飲食店業・サービス業・不動産業など）は3割特例が少なくなります。仕入れが多い人は本則課税が少ないこともあります。" }
+      },
+      {
+        "@type": "Question",
+        "name": "2割特例の終了後、簡易課税の届出はいつまでに出せばよいですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "2割特例か3割特例で申告した年の翌年分から簡易課税にするときは、その翌年分の確定申告期限までに出せば間に合います。令和9年分からなら令和10年3月31日までです。それ以外は、適用を受けたい年の前年12月31日までです。" }
+      },
+      {
+        "@type": "Question",
+        "name": "インボイスのない仕入れはいくら控除できますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "本則課税で、令和8年10月から令和10年9月までの仕入れは税額相当額の70%、令和10年10月から令和12年9月までは50%、令和12年10月から令和13年9月までは30%です。その後は控除できません。" }
+      },
+      {
+        "@type": "Question",
+        "name": "3割特例は法人も使えますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "使えません。3割特例は個人事業者だけで、2年前の課税売上高が1,000万円以下の年分に限ります。使うときは、確定申告書に3割特例の適用を受ける旨を書きます。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>2割特例の終了後の消費税の使い方</h1>
+    <p class="subtitle">使い方・計算の前提・根拠と確認日・よくある質問・ご利用上の注意</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ 3割特例・簡易課税・本則課税を比べる</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>計算する年分を選びます（令和9年分〜令和11年分）。</li>
+        <li>消費税10%がかかる売上の1年分を税込で入れます。</li>
+        <li>業種（簡易課税の事業区分）を選びます。</li>
+        <li>本則課税と比べるなら、仕入れ・経費をインボイスの有無で分けて入れます。</li>
+        <li>2年前の課税売上高を選び、結果の表と届出の期限を見ます。</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="schedule">
+      <h2>2割特例はいつまで・終了後の選び方</h2>
+      <p>2割特例は令和8年9月30日の属する課税期間までで、個人事業者は令和8年分が最後です。令和9年分と令和10年分は、個人事業者だけ3割特例（売上税額の30%を納める）が使えます。</p>
+      <div class="table-wrap">
+        <table class="tbl">
+          <thead><tr><th scope="col">年分</th><th scope="col">選べる方式（個人事業者）</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">令和8年分まで</th><td>2割特例・簡易課税・本則課税</td></tr>
+            <tr><th scope="row">令和9年分・令和10年分</th><td>3割特例・簡易課税・本則課税</td></tr>
+            <tr><th scope="row">令和11年分から</th><td>簡易課税・本則課税</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>2割特例か3割特例で申告した年の翌年分は、その年分の確定申告期限までに簡易課税の届出を出せば、その年分から簡易課税にできます（令和9年分なら令和10年3月31日、令和11年分なら令和12年4月1日まで）。</p>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>計算の前提</h2>
+      <ul>
+        <li>免税事業者からインボイスの登録で課税事業者になった個人事業者の、1年分（1〜12月）の申告です。</li>
+        <li>売上・仕入れはすべて標準税率10%（国7.8%・地方2.2%）の取引として計算します。</li>
+        <li>本則課税の仕入れの税額は割戻し計算（税込 × 7.8/110）です。</li>
+        <li>簡易課税は1つの事業区分だけで計算します。</li>
+        <li>納付税額は消費税と地方消費税の合計で、端数は申告書と同じく切り捨てます。</li>
+      </ul>
+      <details class="rels">
+        <summary>対象外のもの</summary>
+        <ul>
+          <li>軽減税率8%（飲食料品・新聞）の売上・仕入れ。飲食料品の税率を令和9年4月から2年間1%に下げる案は、令和8年9月15日に大綱が閣議決定された段階で、法律は成立していません（2026-09-25 時点）。</li>
+          <li>2種類以上の事業の兼業（簡易課税の原則法・75%の特例）、事業区分の判定そのもの。</li>
+          <li>法人、課税期間の短縮、貸倒れ、中間申告、積上げ計算、一の免税事業者等から税込1億円を超える仕入れ。</li>
+          <li>3割特例が使えない細かな場合（調整対象固定資産・高額特定資産の仕入れ、恒久的施設のない国外事業者など）の判定。</li>
+          <li>簡易課税を選んだ年に3割特例も使えるかの判定。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>根拠: 消費税法・平成28年改正法附則（令和8年法律第12号による改正後）・地方税法、国税庁の資料。最終確認日 <time datetime="2026-09-25" id="checked">2026-09-25</time>。値は令和9年分〜令和11年分のもの。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul id="sources">
+          <li><a href="https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/index.htm" target="_blank" rel="noopener noreferrer">国税庁「令和８年度税制改正特集」</a>（3割特例、簡易課税への円滑な移行措置、7・5・3割控除）</li>
+          <li><a href="https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf" target="_blank" rel="noopener noreferrer">国税庁 リーフレット「インボイス制度に関する令和８年度税制改正について」</a>（3割特例 ＝ 売上税額 × 7割を控除。令和11年分の届出は令和12年4月1日まで）</li>
+          <li>国税庁 インボイスQ&amp;A <a href="https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/qa/115-2.pdf" target="_blank" rel="noopener noreferrer">問115-2</a>（3割特例が使えない課税期間。28年改正法附則51条の3）・<a href="https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/qa/117-3.pdf" target="_blank" rel="noopener noreferrer">問117-3</a>（小売業は簡易課税が有利、届出の期限）・<a href="https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/qa/130.pdf" target="_blank" rel="noopener noreferrer">問130</a>（インボイスのない仕入れ × 7.8/110 × 割合）</li>
+          <li>国税庁 タックスアンサー <a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shohi/6505.htm" target="_blank" rel="noopener noreferrer">No.6505 簡易課税制度</a>（みなし仕入率、届出、2年間の継続）</li>
+          <li>国税庁「<a href="https://www.nta.go.jp/publication/pamph/shohi/kaisei/202304/01.htm" target="_blank" rel="noopener noreferrer">２割特例の概要</a>」「<a href="https://www.nta.go.jp/publication/pamph/pdf/0023008-043.pdf" target="_blank" rel="noopener noreferrer">２割特例用 確定申告の手引き</a>」（設例の課税標準額 6,008,000円・消費税額 468,624円・差引税額 90,900円を、このツールのテストで再現しています）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/363AC0000000108" target="_blank" rel="noopener noreferrer">消費税法</a>（29条 税率7.8%、37条 簡易課税）、<a href="https://laws.e-gov.go.jp/law/337AC0000000066" target="_blank" rel="noopener noreferrer">国税通則法</a>（118条・119条 端数）、<a href="https://laws.e-gov.go.jp/law/325AC0000000226" target="_blank" rel="noopener noreferrer">地方税法</a>（72条の82・72条の83 地方消費税 22/78、20条の4の2 端数）</li>
+          <li>財務省「<a href="https://www.mof.go.jp/public_relations/finance/202604/202604c.html" target="_blank" rel="noopener noreferrer">特集 令和8年度税制改正（国税）等について</a>」（改正法は令和8年3月31日に成立）</li>
+          <li>国税庁「<a href="https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/zeiritsuhikisage.htm" target="_blank" rel="noopener noreferrer">消費税率引下げ特設サイト</a>」（飲食料品の1%への引下げ案。法案の成立が前提）</li>
+        </ul>
+      </details>
+      <h3>主な値</h3>
+      <div class="table-wrap">
+        <table class="tbl">
+          <thead><tr><th scope="col">項目</th><th scope="col">値</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">3割特例</th><td>売上税額の70%を控除（令和9・10年分、2年前の課税売上高1,000万円以下）</td></tr>
+            <tr><th scope="row">簡易課税のみなし仕入率</th><td>第1種90%・第2種80%・第3種70%・第4種60%・第5種50%・第6種40%（2年前の課税売上高5,000万円以下）</td></tr>
+            <tr><th scope="row">インボイスのない仕入れ</th><td>70%（2026年10月〜2028年9月）、50%（〜2030年9月）、30%（〜2031年9月）</td></tr>
+            <tr><th scope="row">税率</th><td>消費税7.8%、地方消費税は消費税額の22/78（合計10%）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="steps">計算の手順</h3>
+      <ol>
+        <li><strong>課税標準額</strong>：税込の売上 × 100/110（1,000円未満切り捨て）</li>
+        <li><strong>売上税額</strong>：課税標準額 × 7.8%</li>
+        <li><strong>控除する税額</strong>：3割特例は × 70%、簡易課税は × みなし仕入率、本則課税は仕入れ × 7.8/110</li>
+        <li><strong>差引税額</strong>：売上税額 − 控除する税額（100円未満切り捨て）</li>
+        <li><strong>地方消費税</strong>：差引税額 × 22/78（100円未満切り捨て）</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>2割特例はいつまでですか？終了後はどうなりますか？</dt>
+        <dd>令和8年9月30日の属する課税期間までで、個人事業者は令和8年分の申告が最後です。令和9年分からは3割特例（個人事業者だけ、令和10年分まで）・簡易課税・本則課税のどれかで申告します。</dd>
+        <dt>3割特例と簡易課税はどっちが得ですか？</dt>
+        <dd>みなし仕入率が70%より高い第1種（卸売業）・第2種（小売業など）は簡易課税が少なく、第3種は同じ、第4〜6種（飲食店業・サービス業・不動産業など）は3割特例が少なくなります。仕入れが多い人は本則課税が少ないこともあります。</dd>
+        <dt>2割特例の終了後、簡易課税の届出はいつまでに出せばよいですか？</dt>
+        <dd>2割特例か3割特例で申告した年の翌年分から簡易課税にするときは、その翌年分の確定申告期限までに出せば間に合います。令和9年分からなら令和10年3月31日までです。それ以外は、適用を受けたい年の前年12月31日までです。</dd>
+        <dt>インボイスのない仕入れはいくら控除できますか？</dt>
+        <dd>本則課税で、令和8年10月から令和10年9月までの仕入れは税額相当額の70%、令和10年10月から令和12年9月までは50%、令和12年10月から令和13年9月までは30%です。その後は控除できません。</dd>
+        <dt>3割特例は法人も使えますか？</dt>
+        <dd>使えません。3割特例は個人事業者だけで、2年前の課税売上高が1,000万円以下の年分に限ります。使うときは、確定申告書に3割特例の適用を受ける旨を書きます。</dd>
+      </dl>
+    </article>
+
+    <!-- README「ツールを追加するとき」8: ツール固有の注意・データの扱いはここに書く -->
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。実際の額は税務署が決めます。</li>
+        <li>入力内容はこの端末のブラウザ（localStorage、キー <code>seido-keisan_invoice_draft</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去は計算の画面のボタンから。</li>
+        <li>書き出したファイル（<code>seido-keisan-invoice-backup-年月日.json</code>）には売上が入ります。共有リンクの機能はありません。</li>
+        <li>税の助言ではありません。どの方式を選ぶかは、翌年以降の見込みや2年間の継続も含めて決めてください。</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-09-25">2026年9月25日</time> 公開（令和9年分〜令和11年分。令和8年度税制改正後の国税庁の資料で確認）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./">2割特例の終了後の消費税</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
