@@ -27,6 +27,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | Japan Pension Refund Calculator: guide | https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html |
 | 2割特例の終了後の消費税（3割特例・簡易課税・本則） | https://yorozu-craft.com/seido-keisan/invoice/ |
 | 2割特例の終了後の消費税の使い方 | https://yorozu-craft.com/seido-keisan/invoice/guide.html |
+| 子ども・子育て支援金 いくら引かれる（2026年度） | https://yorozu-craft.com/seido-keisan/shienkin/ |
+| 子ども・子育て支援金の計算の使い方 | https://yorozu-craft.com/seido-keisan/shienkin/guide.html |
 
 ## 機能（年末調整の計算）
 
@@ -176,6 +178,7 @@ node --test tests/*.test.js
 | 3 か月ごと | e-Gov の厚生年金保険法の未施行版と施行令、機構の「脱退一時金の制度」。上限 8 年・再入国許可の施行日が決まったか | 決まったら計算・判定・文言を足す（企画書 16 に追記） |
 | 半年ごと | 社会保障協定の一覧（ページの更新日） | `lib/dattai-values.js` の `kyotei`・`KYOTEI_ASOF` |
 | 3 か月ごと（2027 年中は毎月） | 国税庁「令和８年度税制改正特集」・消費税率引下げ特設サイト（飲食料品 1% の法案が成立したか）、3割特例・7・5・3割控除の Q&A の改訂 | `lib/invoice-values.js`（`years`・`keika`・`SOURCES`・`CHECKED`）、テスト、`invoice/guide.html` の確認日と更新履歴。令和12年分からは年分の選択肢を足す |
+| 毎年 2〜4 月（令和9年度の率は 2027 年春） | こども家庭庁「子ども・子育て支援金制度について」と協会けんぽの支援金率・保険料額表の新年度版。任意継続の標準報酬月額の上限 | `lib/shienkin-values.js`（`rate`・`fiscalYear`・`rateFrom`/`rateTo`・`ninkeiMax`・`MIKOMI`・`MODEL8`・`CHECKED`）、`lib/ikukyu-values.js` の `hoken.shienRate`（同じ率。テストで一致を確かめる）、`tests/shienkin.test.js` の額表の欄、`shienkin/guide.html` の早見表・FAQ・更新履歴。画面は 2027 年 4 月に入ると「令和9年度の率は反映していません」と出す |
 
 値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
 
@@ -208,6 +211,8 @@ node --test tests/*.test.js
 | `lib/koko-values.js` / `lib/koko.js` | 高校無償化の値の表（支給限度額・単位制・旧制度の水準・都府県の上乗せ。値・出典・確認日）と、自己負担の計算（純粋関数）・入力の正規化・ファイル形式 |
 | `invoice/index.html` / `invoice/app.js` / `invoice/invoice.css` / `invoice/guide.html` | 2割特例の終了後の消費税（3割特例・簡易課税・本則課税の比較）の画面・制御・見た目・使い方ページ |
 | `lib/invoice-values.js` / `lib/invoice.js` | その値の表（みなし仕入率、経過措置の割合、申告期限。値・出典・確認日）と計算（純粋関数。国税庁の2割特例の設例をテストで再現） |
+| `shienkin/index.html` / `shienkin/app.js` / `shienkin/shienkin.css` / `shienkin/guide.html` | 子ども・子育て支援金（いくら引かれる）の画面・制御・見た目・使い方ページ |
+| `lib/shienkin-values.js` / `lib/shienkin.js` | その値の表（率 0.23%・上限・国の試算と見込み。値・出典・確認日。等級表は `lib/ikukyu-values.js` を使う）と計算（純粋関数。協会けんぽの額表の支援金の欄を 50 等級すべてテストで再現） |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |

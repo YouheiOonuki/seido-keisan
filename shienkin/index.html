@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>子ども・子育て支援金 いくら引かれる？ 給与からの月額・年額の計算（2026年度 0.23%）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="子ども・子育て支援金が給与からいくら引かれるかを計算。月給か標準報酬月額と賞与から、本人負担の月額・1年分・2026年の年末調整に入る分を、協会けんぽの保険料額表と同じ0.23%で出します。国保・後期高齢者は国の年収別試算。登録不要。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/shienkin/">
+
+  <meta property="og:title" content="子ども・子育て支援金 いくら引かれる？（2026年度 0.23%）｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="月給か標準報酬月額と賞与から、子ども・子育て支援金の本人負担の月額・1年分・2026年の年末調整に入る分を計算。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/shienkin/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "子ども・子育て支援金 いくら引かれるかの計算",
+    "description": "月給か標準報酬月額と賞与から、子ども・子育て支援金の本人負担の月額・1年分・2026年の年末調整に入る分を計算。",
+    "url": "https://yorozu-craft.com/seido-keisan/shienkin/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./shienkin.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>子ども・子育て支援金 いくら引かれる</h1>
+    <p class="subtitle">給与から引かれる本人負担の月額と1年分を、健康保険の等級で計算します。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">令和8年度（2026年4月分〜）の率0.23%・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>健康保険と給与</legend>
+        <div class="field">
+          <label for="kind">入っている健康保険</label>
+          <select id="kind" data-k="kind">
+            <option value="kaisha">会社員・公務員（健保・共済）</option>
+            <option value="ninkei">任意継続（退職後も会社の健康保険）</option>
+            <option value="kokuho">国民健康保険（自営業など）</option>
+            <option value="kouki">後期高齢者医療（75歳以上）</option>
+          </select>
+        </div>
+        <div class="field" data-for="wage" role="radiogroup" aria-labelledby="mode-label">
+          <p class="label" id="mode-label">入れる額</p>
+          <label class="inline"><input type="radio" name="mode" value="salary" data-k="mode"> 月給（額面）</label>
+          <label class="inline"><input type="radio" name="mode" value="hyojun" data-k="mode"> 標準報酬月額（分かる人）</label>
+        </div>
+        <div class="field" data-for="wage" data-need="amount">
+          <label for="amount" id="amount-label">月給（額面・通勤手当や残業代を含む）</label>
+          <p class="hint" id="amount-hint">4〜6月の平均に近い額。等級に直して計算。</p>
+          <div class="money"><input type="number" id="amount" data-k="amount" inputmode="numeric" min="0" step="1" placeholder="例：300000"><span class="unit">円</span><output class="yomi" for="amount"></output></div>
+        </div>
+        <div class="field" data-for="bonus">
+          <label for="bonus">賞与（1年分の合計・なければ空欄）</label>
+          <div class="money"><input type="number" id="bonus" data-k="bonus" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="bonus"></output></div>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">引かれる額（本人負担）</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">毎月の給与から</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">月給を入れると出ます。</p>
+        </div>
+        <div class="table-wrap" id="sum-wrap">
+          <table class="cmp sum" id="sum">
+            <tbody>
+              <tr><th scope="row">毎月</th><td id="t-month">—</td></tr>
+              <tr id="row-bonus"><th scope="row">賞与から（1年分）</th><td id="t-bonus">—</td></tr>
+              <tr class="total"><th scope="row" id="th-year">1年分（12か月）</th><td id="t-year">—</td></tr>
+              <tr><th scope="row" id="th-2026">2026年に引かれる分（年末調整に入る）</th><td id="t-2026">—</td></tr>
+              <tr id="row-employer" class="ref"><th scope="row">会社が払う分（毎月）</th><td id="t-employer">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="municipal" hidden>
+          <p class="small" id="m-note"></p>
+          <div class="table-wrap">
+            <table class="tbl" id="m-table">
+              <thead><tr><th scope="col">年収</th><th scope="col">月額（令和8年度の国の試算）</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <ul class="msgs" id="r-msgs"></ul>
+        <details class="rels" id="steps-box">
+          <summary>途中の計算</summary>
+          <div id="steps"></div>
+        </details>
+        <p class="small">この計算は目安です。実際の額は健康保険の保険者と勤め先（国保は市町村）が決めます。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+        <p class="small">年末調整の計算は<a href="../nenmatsu/">こちら</a>（社会保険料に支援金も含めて入れる）。</p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-mikomi">
+      <summary>2027年度からの額: <span class="opt-state">率は未定</span></summary>
+      <p class="small">令和9年度（2027年4月分）からの率は、確認日の時点で決まっていません。国の試算（令和8年度）と見込み（令和9・10年度）は次のとおりです（一人当たりの平均の月額・50円丸め）。</p>
+      <div class="table-wrap">
+        <table class="tbl" id="mikomi">
+          <thead><tr><th scope="col">加入先</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="small" id="ref2028"></p>
+    </details>
+
+    <details class="card opt">
+      <summary>この計算機の対象外</summary>
+      <ul class="small">
+        <li>国民健康保険・後期高齢者医療の個人の額（市町村・広域連合の条例で決まる）。</li>
+        <li>会社の負担割合を多くしている健康保険組合（本人分はこの計算より少ない）。</li>
+        <li>育休・産休中の月（会社員は免除で0円）。</li>
+        <li>船員保険、日雇特例被保険者、健保組合の任意継続の上限額。</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（年収別の早見表・国保はいくら）</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">子ども・子育て支援金の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/ikukyu-values.js"></script>
+  <script src="../lib/shienkin-values.js"></script>
+  <script src="../lib/shienkin.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
