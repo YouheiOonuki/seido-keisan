@@ -209,7 +209,7 @@
       <div class="btn-row">
         <button type="button" class="btn btn-sub" id="export">Export to a file</button>
         <button type="button" class="btn btn-sub" id="import">Import a file</button>
-        <button type="button" class="btn btn-sub" id="clear">Clear</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_dattai_draft">Delete everything saved (reset)</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="small" id="file-msg" role="status"></p>
@@ -236,6 +236,7 @@
   <script src="../../lib/dattai-values.js"></script>
   <script src="../../lib/pension-refund.js"></script>
   <script src="../../lib/pension-refund-text.js"></script>
+  <script src="../../reset-storage.js"></script>
   <script src="../../dattai-ichiji/app.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

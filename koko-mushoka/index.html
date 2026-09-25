@@ -224,7 +224,7 @@
         <div class="btn-row">
           <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
           <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
-          <button type="button" class="btn btn-sub" id="clear">入力を消す</button>
+          <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_koko_draft">保存した内容をすべて消す（初期状態に戻す）</button>
           <input type="file" id="import-file" accept="application/json,.json" hidden>
         </div>
         <p class="small" id="file-msg" role="status"></p>
@@ -256,6 +256,7 @@
   <script src="../lib/koko-values.js"></script>
   <script src="../lib/koko.js"></script>
   <script src="../lib/screen.js"></script>
+  <script src="../reset-storage.js"></script>
   <script src="./app.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

@@ -334,15 +334,7 @@
     reader.onerror = function () { fileMsg('ファイルを読み込めませんでした。'); };
     reader.readAsText(f);
   });
-  $('clear').addEventListener('click', function () {
-    if (!hasInput()) return;
-    if (!window.confirm('入力内容をすべて消します。よろしいですか？（書き出したファイルは消えません）')) return;
-    state = I.normalizeInput({});
-    store.remove(DRAFT);
-    fillForm();
-    renderNow();
-    fileMsg('入力を消しました。');
-  });
+  // 保存を消すのは全ツール共通の「保存した内容をすべて消す」ボタン（../reset-storage.js）
 
   // --- 制度の確認日（一定期間たったら・上限額の改定日を過ぎたら注意） ---
   (function () {
