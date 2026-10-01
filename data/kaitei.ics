@@ -1,0 +1,547 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//yorozu-craft//seido-keisan kaitei//JA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:制度の改定カレンダー（yorozu-craft）
+X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VEVENT
+UID:kaitei-2025-12-kiso@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20251201
+DTEND;VALUE=DATE:20251202
+SUMMARY:【税】所得税の基礎控除の見直し・特定親族特別
+ 控除
+DESCRIPTION:令和7年分から基礎控除が引き上げられ、19〜22
+ 歳の子などの所得が58万円を超えても段階的に控除が残
+ る「特定親族特別控除」ができた。年末調整で反映\n対
+ 象: 所得税を納める人、大学生年代の子の親\nこのサイ
+ トのツール: 年末調整の計算\n出典: 国税庁「令和７年
+ 度税制改正による所得税の基礎控除の見直し等に関す
+ るＱ＆Ａ」 https://www.nta.go.jp/publication/pamph/gensen/0025005-051
+ .pdf\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2025-12-kiso
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2025-12-kiso
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-04-shien@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:【子育て・教育】子ども・子育て支援金の徴収が
+ 始まる
+DESCRIPTION:健康保険などの保険料に上乗せして徴収。会社
+ 員は標準報酬月額 × 0.23% の半分（4月分の保険料＝5月
+ の給与から）\n対象: 医療保険に入っている人（会社員
+ ・国保・後期高齢者）\nこのサイトのツール: 子ども・
+ 子育て支援金の計算、育休・産休の計算、社会保険の
+ 加入チェッカー\n出典: こども家庭庁「子ども・子育て
+ 支援金制度について」被用者保険加入者向けリーフレ
+ ット（令和8年4月1日更新） https://www.cfa.go.jp/policies/kodomo
+ kosodateshienkinseido\n一覧: https://yorozu-craft.com/seido-keisan/kaite
+ i/#i-2026-04-shien
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-04-shien
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-04-koko@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:【子育て・教育】高校の就学支援金の所得制限が
+ なくなる
+DESCRIPTION:世帯の収入を問わず支給。私立の高校（全日制
+ ）は年45万7\,200円まで、公立は年11万8\,800円\n対象: 高校
+ 生の保護者\nこのサイトのツール: 高校無償化の計算\n
+ 出典: 文部科学省「高等学校等就学支援金の支給に関す
+ る法律の一部を改正する法律の施行等について（通知
+ ）」（令和8年3月31日） https://www.mext.go.jp/a_menu/shotou/caree
+ r/05010502/1408866_00004.htm\n一覧: https://yorozu-craft.com/seido-keisa
+ n/kaitei/#i-2026-04-koko
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-04-koko
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-04-zairo@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:【社保・年金】在職老齢年金の基準額が月65万円
+ に
+DESCRIPTION:働きながら老齢厚生年金を受ける人の年金が減
+ り始める基準（賃金と年金の合計）が月51万円から65万
+ 円に\n対象: 老齢厚生年金を受けながら会社で働く人\n
+ このサイトのツール: 年金の繰上げ・繰下げの計算\n出
+ 典: 日本年金機構「在職老齢年金制度が改正されました
+ 」（更新 2026-04-01） https://www.nenkin.go.jp/tokusetsu/zairoukaisei
+ .html\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-04-zai
+ ro
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-04-zairo
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-04-jusho@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:【その他】不動産の住所・氏名の変更登記が義務
+ に
+DESCRIPTION:登記名義人の住所や氏名が変わったら2年以内
+ に変更登記。施行前の変更も対象（期限は2028年3月31日
+ ）\n対象: 不動産を持っている人\n出典: 法務省「住所等
+ 変更登記の義務化について」 https://www.moj.go.jp/MINJI/minji0
+ 5_00693.html\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2026
+ -04-jusho
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-04-jusho
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-08-ikukyu@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260802
+SUMMARY:【子育て・教育】育児休業給付の上限額が上がる
+DESCRIPTION:育児休業給付金の上限（67%の期間）が月323\,811
+ 円から332\,454円に。毎年8月1日に見直される\n対象: 育休
+ を取る会社員\nこのサイトのツール: 育休・産休の計算\
+ n出典: 厚生労働省「令和８年８月１日から支給限度額
+ が変更になります」 https://www.mhlw.go.jp/content/001728499.pdf\n
+ 出典: 雇用保険法 18条（賃金日額の自動変更） https://law
+ s.e-gov.go.jp/law/349AC0000000116\n一覧: https://yorozu-craft.com/seido-
+ keisan/kaitei/#i-2026-08-ikukyu
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-08-ikukyu
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-08-kogaku@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260802
+SUMMARY:【社保・年金】高額療養費の上限額の引上げと年
+ 間上限の新設
+DESCRIPTION:8月診療分から月の自己負担の上限額が上がり
+ （70歳未満・年収約370万〜770万円は80\,100円＋1%から85\,80
+ 0円＋1%）、8月〜翌年7月の年間上限ができた。多数回該
+ 当の額は据え置き\n対象: 医療費の自己負担が高額にな
+ った人（健保・国保・後期高齢者医療）\nこのサイトの
+ ツール: 高額療養費の計算\n出典: 健康保険法施行令（
+ 令和8年8月1日施行版。令和8年政令第240号による改正後
+ ） https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240\
+ n出典: 厚生労働省「高額療養費制度を利用される皆さ
+ まへ」（更新 2026年7月31日） https://www.mhlw.go.jp/stf/seisakun
+ itsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html\n一
+ 覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-08-kogaku
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-08-kogaku
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-10-chingin@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:【社保・年金】社会保険の賃金要件（月8.8万円）
+ がなくなる
+DESCRIPTION:パート・アルバイトの厚生年金・健康保険の加
+ 入に「月額賃金8.8万円以上」の条件がなくなる（週20時
+ 間以上などの条件は残る）\n対象: 従業員51人以上の会
+ 社などで働く短時間労働者\nこのサイトのツール: 社会
+ 保険の加入チェッカー\n出典: 厚生年金保険法（令和8年
+ 10月1日施行版。令和7年法律第74号による改正後） https:/
+ /laws.e-gov.go.jp/law/329AC0000000115/20261001_507AC0000000074\n出典: 
+ 厚生労働省「年金制度改正法が成立しました」・社会
+ 保険の加入対象の拡大について https://www.mhlw.go.jp/stf/seis
+ akunitsuite/bunya/0000147284_00017.html\n一覧: https://yorozu-craft.com/
+ seido-keisan/kaitei/#i-2026-10-chingin
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-10-chingin
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-10-keika70@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:【税】インボイスのない仕入れの控除が80%から70%
+ に
+DESCRIPTION:免税事業者などからの仕入れについて、仕入税
+ 額控除できる割合が下がる（本則課税の人）\n対象: 消
+ 費税の課税事業者\nこのサイトのツール: 2割特例の終了
+ 後の消費税\n出典: 国税庁 リーフレット「インボイス制
+ 度に関する令和８年度税制改正について」（令和8年4月
+ 、5月改訂） https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/
+ keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf\n一覧: https://yo
+ rozu-craft.com/seido-keisan/kaitei/#i-2026-10-keika70
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-10-keika70
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-10-kokunen@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:【子育て・教育】国民年金の育児期間の保険料免
+ 除が始まる
+DESCRIPTION:自営業などの国民年金の第1号被保険者が子を
+ 育てる一定の期間の保険料が免除される（2026年10月分
+ から）\n対象: 国民年金を自分で納めている親\n出典: 国
+ 民年金法（令和8年10月1日施行版。令和6年法律第47号に
+ よる改正後） https://laws.e-gov.go.jp/law/334AC0000000141/20261001_5
+ 06AC0000000047\n出典: こども家庭庁「子ども・子育て支援
+ 金制度について」被用者保険加入者向けリーフレット
+ （令和8年4月1日更新） https://www.cfa.go.jp/policies/kodomokosoda
+ teshienkinseido\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2
+ 026-10-kokunen
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-10-kokunen
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2026-12-kiso@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:【税】基礎控除104万円・給与所得控除の最低74万
+ 円（令和8年分）
+DESCRIPTION:令和8年分から基礎控除が上がり（合計所得489
+ 万円以下は104万円）、扶養親族の所得要件が58万円から
+ 62万円に。12月の年末調整で反映\n対象: 給与をもらう人
+ と、その扶養親族\nこのサイトのツール: 年末調整の計
+ 算、医療費控除の計算\n出典: 国税庁「令和８年度税制
+ 改正（所得税の基礎控除の引上げ等関係）Ｑ＆Ａ」 http
+ s://www.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf\n出典: 国
+ 税庁「源泉所得税の改正のあらまし」（令和8年4月） ht
+ tps://www.nta.go.jp/publication/pamph/gensen/2026kaisei.pdf\n一覧: https
+ ://yorozu-craft.com/seido-keisan/kaitei/#i-2026-12-kiso
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-12-kiso
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-01-sanwari@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270101
+DTEND;VALUE=DATE:20270102
+SUMMARY:【税】2割特例が終わり、3割特例が始まる
+DESCRIPTION:インボイス登録した個人事業者は、令和9年分
+ と令和10年分に限り、売上の消費税の3割を納める特例
+ が使える（2割特例は令和8年分まで）\n対象: 免税事業
+ 者からインボイス登録した個人事業者\nこのサイトのツ
+ ール: 2割特例の終了後の消費税\n出典: 国税庁 リーフレ
+ ット「インボイス制度に関する令和８年度税制改正に
+ ついて」（令和8年4月、5月改訂） https://www.nta.go.jp/taxes/
+ shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099
+ -01-1.pdf\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01
+ -sanwari
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-sanwari
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-01-bouei@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270101
+DTEND;VALUE=DATE:20270102
+SUMMARY:【税】防衛特別所得税が始まる（合計2.1%は同じ）
+DESCRIPTION:所得税額の1%の防衛特別所得税ができ、復興特
+ 別所得税が2.1%から1.1%に。源泉徴収の合計の税率は変わ
+ らない\n対象: 所得税を納める人\nこのサイトのツール: 
+ 年末調整の計算、医療費控除の計算、脱退一時金の計
+ 算\n出典: 国税庁「防衛特別所得税及び復興特別所得税
+ の源泉徴収のあらまし（令和９年１月以後の源泉徴収
+ ）」 https://www.nta.go.jp/publication/pamph/pdf/0026005-024_02.pdf\n一
+ 覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-bouei
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-bouei
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-01-gensen@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270101
+DTEND;VALUE=DATE:20270102
+SUMMARY:【税】給与の源泉徴収税額表が変わる
+DESCRIPTION:令和8年分からの基礎控除の引上げなどを反映
+ した表で、毎月の給与から引く所得税を計算する\n対象
+ : 給与をもらう人\n出典: 国税庁「令和８年度税制改正
+ （所得税の基礎控除の引上げ等関係）Ｑ＆Ａ」 https://ww
+ w.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf\n一覧: https://yor
+ ozu-craft.com/seido-keisan/kaitei/#i-2027-01-gensen
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-gensen
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-01-hitorioya@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270101
+DTEND;VALUE=DATE:20270102
+SUMMARY:【税】ひとり親控除が38万円に（所得税）
+DESCRIPTION:所得税のひとり親控除が35万円から38万円に（
+ 令和9年分から）\n対象: ひとり親\nこのサイトのツール:
+  年末調整の計算\n出典: 所得税法（令和9年1月1日施行版
+ 。令和8年法律第12号による改正後） https://laws.e-gov.go.jp/
+ law/340AC0000000033/20270101_508AC0000000012\n一覧: https://yorozu-craft
+ .com/seido-keisan/kaitei/#i-2027-01-hitorioya
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-hitorioya
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-01-self@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270101
+DTEND;VALUE=DATE:20270102
+SUMMARY:【税】セルフメディケーション税制の延長
+DESCRIPTION:スイッチOTC医薬品は期限なし、それ以外の対象
+ 医薬品は2031年12月31日まで対象に（令和9年分から）\n対
+ 象: 対象の市販薬を買う人\nこのサイトのツール: 医療
+ 費控除の計算\n出典: 租税特別措置法（令和9年1月1日施
+ 行版。令和8年法律第12号による改正後） https://laws.e-gov.
+ go.jp/law/332AC0000000026/20270101_508AC0000000012\n一覧: https://yorozu
+ -craft.com/seido-keisan/kaitei/#i-2027-01-self
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-self
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-01-jumin@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270101
+DTEND;VALUE=DATE:20270102
+SUMMARY:【税】住民税の扶養の所得要件62万円・給与所得
+ 控除74万円（令和9年度分）
+DESCRIPTION:2027年6月から納める住民税（令和9年度分）で、
+ 扶養親族などの所得要件が62万円以下に、給与所得控除
+ の最低額が74万円に\n対象: 住民税を納める人\nこのサイ
+ トのツール: 住民税の計算\n出典: 地方税法（令和9年1月
+ 1日施行版。令和8年法律第2号による改正後） https://laws.
+ e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002\n出典: 総務
+ 省「地方税法等の一部を改正する法律の概要」（令和8
+ 年度） https://www.soumu.go.jp/main_content/001063704.pdf\n一覧: http
+ s://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-jumin
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-jumin
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-03-souzoku@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270331
+DTEND;VALUE=DATE:20270401
+SUMMARY:【その他】相続登記の期限（2024年4月より前の相
+ 続）
+DESCRIPTION:2024年4月1日より前に相続したと知った不動産の
+ 相続登記は、この日までに申請する\n対象: 不動産を相
+ 続した人\n出典: 法務省「相続登記の申請義務化」 https:
+ //www.moj.go.jp/MINJI/souzokutouki-gimuka/index.html\n一覧: https://yoro
+ zu-craft.com/seido-keisan/kaitei/#i-2027-03-souzoku
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-03-souzoku
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-08-kogaku@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270801
+DTEND;VALUE=DATE:20270802
+SUMMARY:【社保・年金】高額療養費の所得区分が細かくな
+ る
+DESCRIPTION:8月診療分から、70歳未満の所得区分が5つから13
+ に（年収約1\,650万円以上は342\,000円＋1%、年収約200万円
+ 以下の多数回該当は34\,500円に）。年間上限の申請もこ
+ の月から\n対象: 医療費の自己負担が高額になった人\n
+ このサイトのツール: 高額療養費の計算\n出典: 健康保
+ 険法施行令（令和9年8月1日施行版。同じ政令、未施行
+ ） https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240\
+ n出典: 厚生労働省「高額療養費制度を利用される皆さ
+ まへ」（更新 2026年7月31日） https://www.mhlw.go.jp/stf/seisakun
+ itsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html\n一
+ 覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-08-kogaku
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-08-kogaku
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-09-jogen68@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20270901
+DTEND;VALUE=DATE:20270902
+SUMMARY:【社保・年金】厚生年金の標準報酬月額の上限が6
+ 8万円に
+DESCRIPTION:上限が65万円から68万円に（報酬月額66.5万円以
+ 上の人の保険料と将来の年金が増える）\n対象: 月給が
+ 高い会社員\nこのサイトのツール: 脱退一時金の計算、
+ 育休・産休の計算\n出典: 厚生年金保険法（令和9年9月1
+ 日・令和10年9月1日・令和11年9月1日施行版） https://laws.e
+ -gov.go.jp/law/329AC0000000115/20270901_507AC0000000074\n出典: 厚生労
+ 働省「年金制度改正法が成立しました」・社会保険の
+ 加入対象の拡大について https://www.mhlw.go.jp/stf/seisakunitsui
+ te/bunya/0000147284_00017.html\n一覧: https://yorozu-craft.com/seido-kei
+ san/kaitei/#i-2027-09-jogen68
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-09-jogen68
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2027-10-kibo36@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20271001
+DTEND;VALUE=DATE:20271002
+SUMMARY:【社保・年金】社会保険の企業規模要件が36人以
+ 上に
+DESCRIPTION:パート・アルバイトが厚生年金・健康保険に入
+ る会社の規模が51人以上から36人以上に\n対象: 従業員36
+ 〜50人の会社で週20時間以上働く人\nこのサイトのツー
+ ル: 社会保険の加入チェッカー\n出典: 厚生年金保険法
+ （令和9年10月1日施行版）に載る令和7年法律第74号の附
+ 則 https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074\
+ n出典: 厚生労働省「年金制度改正法が成立しました」
+ ・社会保険の加入対象の拡大について https://www.mhlw.go.jp
+ /stf/seisakunitsuite/bunya/0000147284_00017.html\n一覧: https://yorozu-c
+ raft.com/seido-keisan/kaitei/#i-2027-10-kibo36
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-10-kibo36
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2028-01-kiso@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20280101
+DTEND;VALUE=DATE:20280102
+SUMMARY:【税】基礎控除・給与所得控除の2年間の上乗せが
+ 終わる
+DESCRIPTION:令和10年分から、合計所得132万円以下の基礎控
+ 除は99万円に、給与所得控除の最低額は69万円になる（
+ 令和8・9年分だけ104万円・74万円）\n対象: 所得税を納め
+ る人\nこのサイトのツール: 年末調整の計算\n出典: 国税
+ 庁「源泉所得税の改正のあらまし」（令和8年4月） https
+ ://www.nta.go.jp/publication/pamph/gensen/2026kaisei.pdf\n一覧: https://
+ yorozu-craft.com/seido-keisan/kaitei/#i-2028-01-kiso
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-01-kiso
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2028-01-hitorioya@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20280101
+DTEND;VALUE=DATE:20280102
+SUMMARY:【税】ひとり親控除が33万円に（住民税）
+DESCRIPTION:住民税のひとり親控除が30万円から33万円に（
+ 令和10年度分＝2028年6月から納める分から）\n対象: ひと
+ り親\nこのサイトのツール: 住民税の計算\n出典: 地方税
+ 法（令和10年1月1日施行版。令和8年法律第2号による改
+ 正後） https://laws.e-gov.go.jp/law/325AC0000000226/20280101_508AC00000
+ 00002\n出典: 総務省「地方税法等の一部を改正する法律
+ の概要」（令和8年度） https://www.soumu.go.jp/main_content/00106
+ 3704.pdf\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-01-
+ hitorioya
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-01-hitorioya
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2028-03-jusho@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20280331
+DTEND;VALUE=DATE:20280401
+SUMMARY:【その他】住所等変更登記の期限（2026年4月より
+ 前の変更）
+DESCRIPTION:2026年4月1日より前に住所・氏名が変わって変更
+ 登記をしていない不動産は、この日までに登記する\n対
+ 象: 不動産を持っている人\n出典: 法務省「住所等変更
+ 登記の義務化について」 https://www.moj.go.jp/MINJI/minji05_0069
+ 3.html\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-03-ju
+ sho
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-03-jusho
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2028-09-jogen71@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20280901
+DTEND;VALUE=DATE:20280902
+SUMMARY:【社保・年金】厚生年金の標準報酬月額の上限が7
+ 1万円に
+DESCRIPTION:上限が68万円から71万円に\n対象: 月給が高い会
+ 社員\nこのサイトのツール: 脱退一時金の計算、育休・
+ 産休の計算\n出典: 厚生年金保険法（令和9年9月1日・令
+ 和10年9月1日・令和11年9月1日施行版） https://laws.e-gov.go.j
+ p/law/329AC0000000115/20270901_507AC0000000074\n一覧: https://yorozu-cra
+ ft.com/seido-keisan/kaitei/#i-2028-09-jogen71
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-09-jogen71
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2028-10-keika50@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20281001
+DTEND;VALUE=DATE:20281002
+SUMMARY:【税】インボイスのない仕入れの控除が70%から50%
+ に
+DESCRIPTION:免税事業者などからの仕入れについて、仕入税
+ 額控除できる割合がさらに下がる\n対象: 消費税の課税
+ 事業者\nこのサイトのツール: 2割特例の終了後の消費税
+ \n出典: 国税庁 リーフレット「インボイス制度に関する
+ 令和８年度税制改正について」（令和8年4月、5月改訂
+ ） https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeirits
+ u/invoice-review/pdf/0026004-099-01-1.pdf\n一覧: https://yorozu-craft.co
+ m/seido-keisan/kaitei/#i-2028-10-keika50
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-10-keika50
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2028-10-koyo@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20281001
+DTEND;VALUE=DATE:20281002
+SUMMARY:【子育て・教育】雇用保険の加入が週10時間以上
+ に
+DESCRIPTION:雇用保険に入る条件が週20時間以上から週10時
+ 間以上に。育児休業給付を受けられる人が広がる\n対象
+ : 週10〜20時間働く人\nこのサイトのツール: 育休・産休
+ の計算\n出典: 雇用保険法（令和10年10月1日施行版。令
+ 和6年法律第26号による改正後） https://laws.e-gov.go.jp/law/34
+ 9AC0000000116/20281001_506AC0000000026\n一覧: https://yorozu-craft.com/s
+ eido-keisan/kaitei/#i-2028-10-koyo
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2028-10-koyo
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2029-01-sanwari-end@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20290101
+DTEND;VALUE=DATE:20290102
+SUMMARY:【税】3割特例が終わる
+DESCRIPTION:令和11年分からは簡易課税か本則課税で申告す
+ る（令和11年分の確定申告期限までに届出すれば、その
+ 年から簡易課税）\n対象: 3割特例を使っていた個人事業
+ 者\nこのサイトのツール: 2割特例の終了後の消費税\n出
+ 典: 国税庁 リーフレット「インボイス制度に関する令
+ 和８年度税制改正について」（令和8年4月、5月改訂） h
+ ttps://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/inv
+ oice-review/pdf/0026004-099-01-1.pdf\n一覧: https://yorozu-craft.com/sei
+ do-keisan/kaitei/#i-2029-01-sanwari-end
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2029-01-sanwari-end
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2029-09-jogen75@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20290901
+DTEND;VALUE=DATE:20290902
+SUMMARY:【社保・年金】厚生年金の標準報酬月額の上限が7
+ 5万円に
+DESCRIPTION:上限が71万円から75万円に（3段階の引上げの最
+ 後）\n対象: 月給が高い会社員\nこのサイトのツール: 脱
+ 退一時金の計算、育休・産休の計算\n出典: 厚生年金保
+ 険法（令和9年9月1日・令和10年9月1日・令和11年9月1日施
+ 行版） https://laws.e-gov.go.jp/law/329AC0000000115/20270901_507AC00000
+ 00074\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2029-09-jog
+ en75
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2029-09-jogen75
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:kaitei-2029-10-kibo21@yorozu-craft.com
+DTSTAMP:20260925T000000Z
+DTSTART;VALUE=DATE:20291001
+DTEND;VALUE=DATE:20291002
+SUMMARY:【社保・年金】社会保険の企業規模要件が21人以
+ 上に
+DESCRIPTION:パート・アルバイトが厚生年金・健康保険に入
+ る会社の規模が36人以上から21人以上に\n対象: 従業員21
+ 〜35人の会社で週20時間以上働く人\nこのサイトのツー
+ ル: 社会保険の加入チェッカー\n出典: 厚生年金保険法
+ （令和9年10月1日施行版）に載る令和7年法律第74号の附
+ 則 https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074\
+ n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2029-10-kibo21
+URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2029-10-kibo21
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

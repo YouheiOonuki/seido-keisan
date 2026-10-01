@@ -194,6 +194,9 @@ label.inline input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent);
 details.rels { margin-top: 0.5rem; font-size: 0.85rem; }
 details.rels summary { cursor: pointer; color: var(--accent); }
 details.rels ul { padding-left: 1.2rem; margin-top: 0.3rem; }
+/* 使い方ページの「リンク・引用・埋め込みのしかた」（tools/build-cite.mjs）。長い URL でも横にはみ出さない */
+.cite-code { margin: 0.2rem 0 0.6rem; padding: 0.5rem 0.6rem; background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; white-space: pre-wrap; word-break: break-all; font-size: 0.78rem; user-select: all; -webkit-user-select: all; }
+@media print { details.cite { display: none; } }
 
 /* ハブのカード一覧 */
 .calc-list { list-style: none; display: grid; gap: 0.8rem; }

@@ -23,6 +23,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 制度の改定カレンダー（施行日の一覧と .ics。データは `lib/kaitei-values.js`、一覧は `node tools/build-kaitei.mjs` で書き出す。企画書 24） | https://yorozu-craft.com/seido-keisan/kaitei/ |
 | 脱退一時金の計算 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/ |
 | 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
+| 改定カレンダーのデータ（CC0。`data/README.md`） | https://yorozu-craft.com/seido-keisan/data/kaitei.json ・ https://yorozu-craft.com/seido-keisan/data/kaitei.ics |
 | Japan Pension Refund Calculator（英語版） | https://yorozu-craft.com/seido-keisan/en/pension-refund/ |
 | Japan Pension Refund Calculator: guide | https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html |
 | Japan Take-Home Pay Calculator（英語のみ。hreflang の対は年末調整の計算） | https://yorozu-craft.com/seido-keisan/en/take-home-pay/ |
@@ -200,7 +201,12 @@ node --test tests/*.test.js
 | 毎年4月ごろ | 日本年金機構「在職老齢年金の計算方法」の新年度の支給停止調整額（令和8年度65万円）と老齢基礎年金の満額 | `lib/kuriage-values.js`（`zairo`・`mangaku`・`CHECKED`）、`lib/kaitei-values.js` の在職の行、`nenkin-kuriage/guide.html` の基準額の記述と更新履歴。画面は新年度の4月に入ると注意を出す |
 | 毎年6〜8月（8月診療分から） | 厚生労働省「高額療養費制度を利用される皆さまへ」と e-Gov の健康保険法施行令の新しい施行版（上限額の見直し）。2027年8月からの表（施行済みの政令の値）が変わっていないか | `lib/kogaku-values.js`（`PERIODS`・`CHECKED`）、`tests/kogaku.test.js`、`kogaku-ryoyohi/guide.html` の上限額の表と更新履歴 |
 
-値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
+値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。`lib/kaitei-values.js` を直したら `node tools/build-kaitei.mjs` と `node tools/build-data.mjs` を走らせる（テストが書き出し忘れを落とす）。
+
+## データの公開と、リンク・引用のしかた（yorozu-plans ROADMAP 7.10.3 d・e）
+
+- **データ（CC0）**: 改定カレンダーの中身を `data/kaitei.json`・`data/kaitei.ics` に置く（CC0 1.0。全文は `data/LICENSE`、項目は `data/README.md`）。`lib/kaitei-values.js` から `node tools/build-data.mjs` で書き出し、手で直さない。各行に出典の URL と確認日（`CHECKED`）を残す。コードは MIT のまま
+- **リンク・引用・埋め込みのしかた**: 年末調整・住民税・高額療養費・年金の繰上げ繰下げの `guide.html` の「ご利用上の注意・データの扱い」に、リンクの HTML・出典の書き方の例を折りたたみで置く。名前と URL は画面の `<h1>` と canonical から `node tools/build-cite.mjs` で書き出す（`<!-- cite -->` と `<!-- /cite -->` の間）。**iframe の 1 行は広告のスクリプトが無いページ（高額療養費・年金。D118）だけに出す**。AdSense のポリシーが、広告をほかのページの枠（frame）の中に出すことを禁じているため（AdSense ポリシーの FAQ、https://support.google.com/adsense/answer/3394713 、2026-10-01 に確認）。広告を外したページは書き出し直すと iframe の例が出る画面は確認日から 12 か月たつと注意を出す（`STALE_MONTHS`）。
 
 ## ファイル
 
@@ -240,6 +246,9 @@ node --test tests/*.test.js
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |
+| `tools/build-kaitei.mjs` | `lib/kaitei-values.js` から `kaitei/index.html` の一覧を書き出す |
+| `tools/build-data.mjs` / `data/` | 同じ値から公開データ（`data/kaitei.json`・`data/kaitei.ics`、CC0。`data/LICENSE`・`data/README.md`）を書き出す。`.ics` の CRLF を保つため `.gitattributes` で `data/*.ics -text` |
+| `tools/build-cite.mjs` | 使い方ページの「リンク・引用・埋め込みのしかた」を画面の h1・canonical・広告の有無から書き出す |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630）。`nenmatsu/og-image.png`・`juminzei/og-image.png`・`ikukyu/og-image.png`・`iryohi/og-image.png` は各ページ用（脱退一時金は共通の `og-image.png`） |
 | `sitemap.xml` | サイトマップ（robots.txt はドメイン直下で管理） |
@@ -247,4 +256,4 @@ node --test tests/*.test.js
 
 ## ライセンス
 
-MIT License（`LICENSE`）。表の値は国税庁「年末調整のしかた」、日本年金機構の脱退一時金の資料、地方税法・健康保険法・雇用保険法など（e-Gov 法令検索）と総務省・厚生労働省・協会けんぽの資料から写したもの。
+MIT License（`LICENSE`）。`data/` の公開データ（`kaitei.json`・`kaitei.ics`）だけは CC0 1.0（`data/LICENSE`）。表の値は国税庁「年末調整のしかた」、日本年金機構の脱退一時金の資料、地方税法・健康保険法・雇用保険法など（e-Gov 法令検索）と総務省・厚生労働省・協会けんぽの資料から写したもの。
