@@ -13,9 +13,9 @@
   var items = Array.prototype.slice.call(document.querySelectorAll('.kt-item'));
   var current = 'all';
 
-  // 過ぎた行（施行日が今日より前）に印を付ける
+  // 施行済みの行（施行日が今日まで。当日を含む）に印を付ける
   items.forEach(function (li) {
-    if (li.getAttribute('data-date') < today) {
+    if (K.isEnforced(li.getAttribute('data-date'), today)) {
       li.classList.add('is-past');
       var head = li.querySelector('.kt-head');
       var tag = document.createElement('span'); tag.className = 'kt-past'; tag.textContent = '施行済み';
