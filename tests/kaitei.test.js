@@ -135,7 +135,10 @@ test('折り返しは UTF-8 の文字の途中で切らない', () => {
 
 test('次の施行日・日数・確認日からの月数・絞り込み', () => {
   assert.equal(K.nextItem('2026-09-25').date, '2026-10-01');
-  assert.equal(K.nextItem('2026-10-01').date, '2026-10-01');
+  assert.equal(K.nextItem('2026-09-30').date, '2026-10-01');
+  assert.equal(K.nextItem('2026-10-01').date, '2026-12-01'); // 当日は施行済み。次は後の行
+  assert.equal(K.isEnforced('2026-10-01', '2026-10-01'), true);
+  assert.equal(K.isEnforced('2026-10-01', '2026-09-30'), false);
   assert.equal(K.nextItem('2030-01-01'), null);
   assert.equal(K.daysBetween('2026-09-25', '2026-10-01'), 6);
   assert.equal(K.monthsSince('2026-09-25', '2027-03-01'), 6);
