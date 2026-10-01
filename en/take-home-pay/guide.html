@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide, sources and FAQ | Japan Take-Home Pay Calculator | yorozu-craft</title>
+  <meta name="description" content="How take-home pay is calculated in Japan: social insurance, income tax with the 2026 rules, why resident tax starts a year later, non-residents, the 2027 defense surtax, and the sources used.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/take-home-pay/guide.html">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/nenmatsu/guide.html">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/take-home-pay/guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/nenmatsu/guide.html">
+
+  <meta property="og:title" content="Guide, sources and FAQ | Japan Take-Home Pay Calculator">
+  <meta property="og:description" content="How take-home pay is calculated in Japan, why resident tax starts a year later, and the sources used.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/take-home-pay/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- FAQ（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much tax will I pay in Japan on my salary?",
+        "acceptedAnswer": { "@type": "Answer", "text": "An employee pays income tax of 5% to 45% of taxable income plus 2.1% of that tax, and resident tax of about 10% of last year’s taxable income. Social insurance takes around 15% of salary before age 40." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do I pay no resident tax in my first year in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Resident tax is charged on the previous year’s income to people living in Japan on January 1. If you had no income in Japan last year, it usually starts in June of your second year." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do non-residents pay the same tax in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. You are a non-resident if you have no domicile in Japan and have not lived here for a year or more. Salary paid to a non-resident has a flat 20.42% income tax withheld. This calculator is for residents." }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the 2027 defense surtax lower my take-home pay?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Not by itself. From January 2027, a defense surtax of 1% of income tax starts and the reconstruction surtax falls from 2.1% to 1.1%. The total stays 2.1%." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is my payslip different from this result?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Monthly income tax on a payslip comes from a withholding table and is settled in December. Premiums use a grade fixed from earlier pay. A tax-free commuting allowance or other deductions also change the numbers." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="./take-home.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Take-Home Pay Calculator: guide</h1>
+    <p class="subtitle">How to use it, what is deducted, the resident tax lag, sources and FAQ</p>
+    <p class="lang-switch"><a href="../../nenmatsu/guide.html" hreflang="ja" lang="ja">日本語（年末調整の計算の使い方）</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ Open the Japan Take-Home Pay Calculator</a></p>
+
+    <article class="card content" id="howto">
+      <h2>How to use it</h2>
+      <p>This page covers take-home pay for employees who are tax residents of Japan. It explains each deduction and why resident tax starts a year late.</p>
+      <ol>
+        <li>Choose per month or per year, and enter your salary before tax.</li>
+        <li>Below the result, add your bonuses, if any.</li>
+        <li>Tick “40 to 64” if it applies, and pick your workplace prefecture.</li>
+        <li>Add your spouse and children.</li>
+        <li>Say whether you had a salary in Japan last year.</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>How take-home pay is calculated</h2>
+      <ul>
+        <li>Health insurance, the child support levy and pension use your standard monthly remuneration, a grade set from your monthly pay. You pay half and your employer pays half.</li>
+        <li>Rates: Kyokai Kenpo health insurance by prefecture (Tokyo <span data-v="tokyo">9.85</span>%), long-term care <span data-v="kaigo">1.62</span>% from age 40 to 64, child support levy <span data-v="shien">0.23</span>% from April 2026, and pension <span data-v="kounen">18.3</span>%.</li>
+        <li>Employment insurance is <span data-v="koyo">0.5</span>% of your actual pay, bonuses included.</li>
+        <li>Income tax is the full-year amount after the December year-end adjustment, with the 2026 rules. For example, the basic deduction is ¥<span data-v="kiso">1,040,000</span> for income up to ¥<span data-v="kisoLine">4,890,000</span>.</li>
+        <li>Resident tax uses the standard rates: about 10% of taxable income plus a fixed ¥<span data-v="kinto">5,000</span>.</li>
+      </ul>
+      <details class="rels">
+        <summary>Bonuses, rounding and the 2027 change</summary>
+        <ul>
+          <li>Bonuses are rounded down to ¥1,000. Health insurance counts up to ¥<span data-v="hCap">5,730,000</span> of bonuses a year, and pension up to ¥<span data-v="pCap">1,500,000</span> per payment.</li>
+          <li>Each premium is rounded to the yen: 50 sen or less down, more than 50 sen up.</li>
+          <li>The yearly income tax is shared between salary and bonuses in proportion to pay.</li>
+          <li>Employment insurance and the child support levy rates are for April 2026 to March 2027.</li>
+          <li>From January 2027, a defense surtax of 1% of income tax starts and the reconstruction surtax falls from 2.1% to 1.1%. The total stays 2.1%.</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="lag">
+      <h2>Why resident tax starts a year later</h2>
+      <p>Resident tax (juminzei) is charged on last year’s income to people living in Japan on January 1. Your employer usually deducts it in 12 payments from June to the next May.</p>
+      <p>In your first year of work in Japan, there is usually no resident tax. Tax on your <span data-v="incomeYear">2026</span> pay starts in June <span data-v="nendo">2027</span>. If you leave Japan after January 1, you still owe that year’s resident tax.</p>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>Sources and date checked</h2>
+      <p>Sources: National Tax Agency, Ministry of Internal Affairs and Communications, Ministry of Health, Labour and Welfare, Japan Health Insurance Association and Children and Families Agency. Checked <time datetime="2026-10-01" data-v="checked">October 1, 2026</time>. Income tax is for <span data-v="taxYear">2026</span>; resident tax is for June <span data-v="nendo">2027</span> to May <span data-v="nendo1">2028</span>.</p>
+      <details class="rels">
+        <summary>All sources (most are in Japanese)</summary>
+        <ul id="sources">
+          <li><a href="https://www.nta.go.jp/publication/pamph/gensen/nencho2026/01.htm" target="_blank" rel="noopener noreferrer">National Tax Agency: 2026 year-end adjustment guide</a></li>
+          <li><a href="https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/150790_06.html" target="_blank" rel="noopener noreferrer">Ministry of Internal Affairs and Communications: individual resident tax</a></li>
+          <li><a href="https://www.kyoukaikenpo.or.jp/about/business/insurance_rate/rate_prefectures/r08/index.html" target="_blank" rel="noopener noreferrer">Japan Health Insurance Association: fiscal 2026 rates by prefecture</a></li>
+          <li><a href="https://www.kyoukaikenpo.or.jp/assets/R8_13tokyo.pdf" target="_blank" rel="noopener noreferrer">Japan Health Insurance Association: premium table from March 2026 (Tokyo)</a></li>
+          <li><a href="https://www.cfa.go.jp/policies/kodomokosodateshienkinseido" target="_blank" rel="noopener noreferrer">Children and Families Agency: child support levy</a></li>
+          <li><a href="https://www.nta.go.jp/publication/pamph/pdf/0026005-024_02.pdf" target="_blank" rel="noopener noreferrer">National Tax Agency: defense and reconstruction surtaxes from January 2027</a></li>
+        </ul>
+        <p class="small">The calculator uses the same value files as the Japanese year-end adjustment and resident tax calculators on this site.</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        <dt>How much tax will I pay in Japan on my salary?</dt>
+        <dd>An employee pays income tax of 5% to 45% of taxable income plus 2.1% of that tax, and resident tax of about 10% of last year’s taxable income. Social insurance takes around 15% of salary before age 40.</dd>
+        <dt>Why do I pay no resident tax in my first year in Japan?</dt>
+        <dd>Resident tax is charged on the previous year’s income to people living in Japan on January 1. If you had no income in Japan last year, it usually starts in June of your second year.</dd>
+        <dt>Do non-residents pay the same tax in Japan?</dt>
+        <dd>No. You are a non-resident if you have no domicile in Japan and have not lived here for a year or more. Salary paid to a non-resident has a flat 20.42% income tax withheld. This calculator is for residents.</dd>
+        <dt>Will the 2027 defense surtax lower my take-home pay?</dt>
+        <dd>Not by itself. From January 2027, a defense surtax of 1% of income tax starts and the reconstruction surtax falls from 2.1% to 1.1%. The total stays 2.1%.</dd>
+        <dt>Why is my payslip different from this result?</dt>
+        <dd>Monthly income tax on a payslip comes from a withholding table and is settled in December. Premiums use a grade fixed from earlier pay. A tax-free commuting allowance or other deductions also change the numbers.</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>Notes and your data</h2>
+      <ul>
+        <li>This is an estimate. The final amounts are decided by your employer, the tax office and your city office.</li>
+        <li>Your inputs are saved only in this browser (localStorage, key <code>seido-keisan_takehome_draft</code>) and are never sent anywhere.</li>
+        <li>This is not tax advice.</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">Feedback form (Google Forms, in Japanese; you can write in English)</a>. We read every message but do not reply.</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>Changelog</h2>
+      <ul>
+        <li><time datetime="2026-10-01">October 1, 2026</time> Published (2026 income tax, fiscal 2026 premiums)</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./">Japan Take-Home Pay Calculator</a></li>
+        <li><a href="./guide.html" aria-current="page">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/kyuyo-table-2026.js"></script>
+  <script src="../../lib/tax2026.js"></script>
+  <script src="../../lib/juminzei-values.js"></script>
+  <script src="../../lib/ikukyu-values.js"></script>
+  <script src="../../lib/shienkin-values.js"></script>
+  <script src="../../lib/dattai-values.js"></script>
+  <script src="../../lib/take-home-values.js"></script>
+  <script src="./guide.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

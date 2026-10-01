@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan Take-Home Pay Calculator (Salary After Tax, 2026) | yorozu-craft</title>
+  <meta name="description" content="Japan take-home pay calculator for employees: salary after income tax, resident tax, health insurance, pension, employment insurance and the 2026 child support levy. 2026 tax rules, sources shown. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/take-home-pay/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/nenmatsu/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/take-home-pay/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/nenmatsu/">
+
+  <meta property="og:title" content="Japan Take-Home Pay Calculator | yorozu-craft">
+  <meta property="og:description" content="Salary after tax in Japan: income tax, resident tax and social insurance for employees, with the one-year resident tax lag explained.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/take-home-pay/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan Take-Home Pay Calculator",
+    "description": "Salary after tax in Japan for employees: income tax, resident tax, health insurance, pension, employment insurance and the child support levy, with 2026 rules.",
+    "url": "https://yorozu-craft.com/seido-keisan/en/take-home-pay/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="./take-home.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Take-Home Pay Calculator</h1>
+    <p class="subtitle">Your salary after tax in Japan: income tax, resident tax and social insurance for employees.</p>
+    <p class="lang-switch"><a href="../../nenmatsu/" hreflang="ja" lang="ja">日本語（年末調整の計算）</a></p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ Result</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">2026 tax rules and premiums from April 2026, checked <span id="asof-date">October 1, 2026</span>. Your inputs never leave this browser.</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>Your salary</legend>
+        <div class="period" role="radiogroup" aria-label="Pay period">
+          <label><input type="radio" name="period" value="month" data-k="period"> Per month</label>
+          <label><input type="radio" name="period" value="year" data-k="period"> Per year</label>
+        </div>
+        <div class="field" data-need="amount">
+          <label for="amount" id="amount-label">Monthly salary before tax</label>
+          <p class="hint" id="amount-hint">Base pay plus allowances. Add bonuses below the result.</p>
+          <div class="money"><span class="unit">¥</span><input type="number" id="amount" data-k="amount" inputmode="numeric" min="0" step="1" placeholder="e.g. 300000"></div>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">Your take-home pay</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead">Per month (months without a bonus)</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+        <p id="r-warn"></p>
+        <div class="table-wrap">
+          <table class="cmp sum">
+            <thead><tr><th scope="col">JPY (¥)</th><th scope="col">Month</th><th scope="col">Year</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Salary</th><td id="m-gross">—</td><td id="y-gross">—</td></tr>
+              <tr><th scope="row" id="l-health">Health insurance</th><td id="m-health">—</td><td id="y-health">—</td></tr>
+              <tr><th scope="row">Child support levy</th><td id="m-shien">—</td><td id="y-shien">—</td></tr>
+              <tr><th scope="row">Pension</th><td id="m-pension">—</td><td id="y-pension">—</td></tr>
+              <tr><th scope="row">Employment insurance</th><td id="m-koyo">—</td><td id="y-koyo">—</td></tr>
+              <tr><th scope="row">Income tax</th><td id="m-tax">—</td><td id="y-tax">—</td></tr>
+              <tr><th scope="row">Resident tax</th><td id="m-res">—</td><td id="y-res">—</td></tr>
+              <tr class="total"><th scope="row">Take-home</th><td id="m-net">—</td><td id="y-net">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small" id="r-bonus"></p>
+        <p class="lag" id="r-lag"></p>
+        <details class="rels" id="steps-box">
+          <summary>How the taxes were worked out</summary>
+          <table class="steps" id="steps"><tbody></tbody></table>
+        </details>
+        <p class="small">This is an estimate. The final amounts are decided by your employer, the tax office and your city office. <a href="./guide.html">Guide, sources and FAQ</a></p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-bonus">
+      <summary>Bonuses: <span class="opt-state" id="st-bonus">none</span></summary>
+      <div class="field">
+        <label for="bonus">Bonuses per year, before tax</label>
+        <p class="hint" id="bonus-hint">The total of all bonuses in the year.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="bonus" data-k="bonus" inputmode="numeric" min="0" step="1" placeholder="e.g. 600000"></div>
+      </div>
+      <div class="field">
+        <label for="bonus-count">Number of bonus payments</label>
+        <select id="bonus-count" data-k="bonusCount">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-health">
+      <summary>Age and health insurance: <span class="opt-state" id="st-health">under 40, Tokyo</span></summary>
+      <label class="inline"><input type="checkbox" data-k="over40"> I am 40 to 64 (adds long-term care insurance)</label>
+      <div class="field">
+        <label for="pref">Prefecture of your workplace</label>
+        <p class="hint">Kyokai Kenpo (Japan Health Insurance Association) rates differ by prefecture.</p>
+        <select id="pref" data-k="pref"></select>
+      </div>
+      <p class="small">Company health insurance societies (kenpo kumiai) set their own rates, which this calculator does not have.</p>
+    </details>
+
+    <details class="card opt" id="d-family">
+      <summary>Spouse and children: <span class="opt-state" id="st-family">none</span></summary>
+      <label class="inline"><input type="checkbox" data-k="spouse.has"> I have a spouse</label>
+      <div class="field" id="spouse-row">
+        <label for="spouse-income">Spouse’s salary per year</label>
+        <p class="hint">Before tax. 0 if no income.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="spouse-income" data-k="spouse.income" inputmode="numeric" min="0" step="1" placeholder="0"></div>
+      </div>
+      <div class="kids">
+        <div class="field">
+          <label for="k-u16">Children under 16</label>
+          <div class="num"><input type="number" id="k-u16" data-k="kids.u16" inputmode="numeric" min="0" max="10" step="1" placeholder="0"></div>
+        </div>
+        <div class="field">
+          <label for="k-16">Aged 16 to 18</label>
+          <div class="num"><input type="number" id="k-16" data-k="kids.a16" inputmode="numeric" min="0" max="10" step="1" placeholder="0"></div>
+        </div>
+        <div class="field">
+          <label for="k-19">Aged 19 to 22</label>
+          <div class="num"><input type="number" id="k-19" data-k="kids.a19" inputmode="numeric" min="0" max="10" step="1" placeholder="0"></div>
+        </div>
+      </div>
+      <p class="small">Ages are as of December 31. Children are treated as having no income.</p>
+    </details>
+
+    <details class="card opt" id="d-res">
+      <summary>Resident tax this year: <span class="opt-state" id="st-res">included</span></summary>
+      <label class="inline"><input type="radio" name="juminNow" value="same" data-k="juminNow"> I had a similar salary in Japan last year</label>
+      <label class="inline"><input type="radio" name="juminNow" value="none" data-k="juminNow"> I had no salary in Japan last year</label>
+      <p class="small">Resident tax is charged on last year’s income, so it starts about a year after you start work.</p>
+    </details>
+
+    <details class="card opt">
+      <summary>Not covered by this calculator</summary>
+      <ul class="small">
+        <li>Non-residents (in Japan under a year with no home here) and tax treaties.</li>
+        <li>Deductions other than social insurance, spouse and children: life insurance, iDeCo, housing loan, furusato nozei, medical expenses.</li>
+        <li>Tax-free commuting allowance, a second employer, income other than salary, and yearly salary over ¥20 million.</li>
+        <li>Health insurance societies, ages 70 and over, and city-specific resident tax rates.</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>Save and export</summary>
+      <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
+        <button type="button" class="btn btn-sub" id="import">Import a file</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_takehome_draft">Delete everything saved (reset)</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">Guide, sources and FAQ (resident tax lag, non-residents, 2027 change)</a> · <a href="../pension-refund/">Japan Pension Refund Calculator</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./" aria-current="page">Japan Take-Home Pay Calculator</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/kyuyo-table-2026.js"></script>
+  <script src="../../lib/kyuyo-table-2025.js"></script>
+  <script src="../../lib/tax2026.js"></script>
+  <script src="../../lib/nenmatsu.js"></script>
+  <script src="../../lib/juminzei-values.js"></script>
+  <script src="../../lib/juminzei.js"></script>
+  <script src="../../lib/ikukyu-values.js"></script>
+  <script src="../../lib/ikukyu.js"></script>
+  <script src="../../lib/shienkin-values.js"></script>
+  <script src="../../lib/shienkin.js"></script>
+  <script src="../../lib/dattai-values.js"></script>
+  <script src="../../lib/take-home-values.js"></script>
+  <script src="../../lib/take-home.js"></script>
+  <script src="../../lib/screen.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -25,6 +25,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
 | Japan Pension Refund Calculator（英語版） | https://yorozu-craft.com/seido-keisan/en/pension-refund/ |
 | Japan Pension Refund Calculator: guide | https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html |
+| Japan Take-Home Pay Calculator（英語のみ。hreflang の対は年末調整の計算） | https://yorozu-craft.com/seido-keisan/en/take-home-pay/ |
+| Japan Take-Home Pay Calculator: guide | https://yorozu-craft.com/seido-keisan/en/take-home-pay/guide.html |
 | 2割特例の終了後の消費税（3割特例・簡易課税・本則） | https://yorozu-craft.com/seido-keisan/invoice/ |
 | 2割特例の終了後の消費税の使い方 | https://yorozu-craft.com/seido-keisan/invoice/guide.html |
 | 子ども・子育て支援金 いくら引かれる（2026年度） | https://yorozu-craft.com/seido-keisan/shienkin/ |
@@ -43,6 +45,17 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - ファイルへの書き出し・読み込み（JSON。`{ tool: 'seido-keisan-nenmatsu', version: 1, exportedAt, data }`。決定 D31）。年収や家族の情報を含むため共有リンクは作らない
 
 対象外（画面と使い方ページに明記）: 給与の収入 2,000 万円超、課税給与所得金額 1,805 万円超、所得金額調整控除、特定支出控除、非居住者、2 か所以上の給与の合算、住宅ローン控除額そのものの計算。給与のほかに所得がない前提。
+
+## 機能（Japan Take-Home Pay Calculator、英語のみ）
+
+- 会社員（協会けんぽ・厚生年金・雇用保険に入っている居住者）の月給か年収・賞与・年齢（40〜64歳）・都道府県・配偶者・子どもから、月と年の手取りを出す（`lib/take-home.js`、画面は `en/take-home-pay/`）
+- 計算は既存のエンジンを呼ぶだけ: 所得税は `lib/nenmatsu.js`（令和8年分）、住民税は `lib/juminzei.js`（令和9年度＝令和8年の所得）、保険料は `lib/ikukyu.js` の `monthlyPremium`、支援金の端数は `lib/shienkin.js`。新しい値は雇用保険料率（令和8年度 5/1,000）と出典だけで `lib/take-home-values.js` に置く
+- 住民税は 1 年遅れ（1 月 1 日に住む人に前年の所得で課税）を結果の下に明記。「去年は日本で給与なし」を選ぶと手取りから外し、2027 年 6 月からの月額を出す
+- 年の所得税は給与と賞与に比例して割る（実際の毎月の源泉徴収は月額表で、12 月に精算）
+- 入力はブラウザにだけ保存（`seido-keisan_takehome_draft`）。書き出し・読み込み（`{ tool: 'seido-keisan-take-home', version: 1, exportedAt, data }`）
+- hreflang の対は年末調整の計算（`nenmatsu/`・`nenmatsu/guide.html`）。check-site が英語ページに日本語の対を求めるため（企画書 48）
+
+対象外（画面に明記）: 非居住者・租税条約、社会保険料・配偶者・子ども以外の控除、通勤手当の非課税、2 か所給与、年収 2,000 万円超、健康保険組合、70 歳以上、市区町村ごとの税率。
 
 ## 機能（住民税の計算・非課税判定）
 

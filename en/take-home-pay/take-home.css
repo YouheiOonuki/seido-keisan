@@ -1,0 +1,25 @@
+/* ===========================
+   手取りの計算（en/take-home-pay）だけの見た目。色は ../../style.css のトークンだけを使う
+   骨組みは style.css の SCREEN.md 1.1 の部品（.req・.fixbar・.layout-2col・details.card.opt）
+   =========================== */
+.lang-switch { font-size: 0.85rem; margin-top: 0.4rem; }
+.lang-switch a { display: inline-block; padding: 0.5rem 0.4rem; }
+.field .num { display: flex; align-items: center; gap: 0.4rem; }
+.field .num input { max-width: 6rem !important; text-align: right; }
+.period { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+.period label { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; font-weight: 400; }
+.field.is-missing input { border-color: var(--accent); background: var(--accent-soft); }
+
+.sum th { font-weight: 600; }
+.sum td { text-align: right; white-space: nowrap; }
+.sum thead th { font-size: 0.8rem; color: var(--muted); font-weight: 600; text-align: right; }
+.sum thead th:first-child { text-align: left; }
+.sum tr.total th, .sum tr.total td { color: var(--accent); font-weight: 700; }
+.lag { font-size: 0.88rem; border-radius: 6px; padding: 0.5rem 0.7rem; margin: 0.6rem 0; background: var(--accent-soft); }
+.lag:empty, #r-bonus:empty, #r-warn:empty { display: none; }
+#r-warn { font-size: 0.88rem; border-radius: 6px; padding: 0.5rem 0.7rem; margin: 0.6rem 0; background: var(--warn-bg); border: 1px solid var(--warn-border); }
+.opt .hint { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+.opt ul { padding-left: 1.2rem; }
+.opt li + li { margin-top: 0.3rem; }
+.kids { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.6rem; }
+.btn-row .btn { min-height: 44px; }

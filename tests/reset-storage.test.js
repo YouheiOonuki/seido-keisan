@@ -42,6 +42,9 @@ const PAGE_PREFIXES = {
   ],
   "en/pension-refund/index.html": [
     "seido-keisan_dattai_draft"
+  ],
+  "en/take-home-pay/index.html": [
+    "seido-keisan_takehome_draft"
   ]
 };
 const PAGE_LEGACY = {};
