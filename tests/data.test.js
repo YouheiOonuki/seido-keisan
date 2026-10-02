@@ -116,3 +116,28 @@ test('使い方ページの「リンク・引用・埋め込みのしかた」�
   assert.equal(C.pageInfo('kogaku-ryoyohi').ads, false);
   assert.equal(C.pageInfo('nenkin-kuriage').ads, false);
 });
+
+// K129（ROADMAP 7.14 の 2）: 購読したカレンダーが 1 週間ごとに取りに来る。改定カレンダーの一覧の下に「カレンダーに登録」
+test('kaitei.ics: REFRESH-INTERVAL と X-PUBLISHED-TTL は 1 週間、各予定に説明の文と出典の URL、UID は行の id から', () => {
+  const ics = unfold(read('data/kaitei.ics'));
+  assert.match(ics, /^REFRESH-INTERVAL;VALUE=DURATION:P1W\r$/m);
+  assert.match(ics, /^X-PUBLISHED-TTL:P1W\r$/m);
+  const ev = ics.split('BEGIN:VEVENT\r\n').slice(1);
+  assert.equal(ev.length, K.inRange(V.ITEMS, V.RANGE).length);
+  for (const b of ev) {
+    const desc = icsValue(b, 'DESCRIPTION');
+    assert.ok(desc.split('\n')[0].length > 0);
+    assert.match(desc, /\n出典: [^\n]+ https:\/\//);
+    assert.match(b, /^UID:kaitei-[\w-]+@yorozu-craft\.com\r$/m);
+  }
+});
+
+test('改定カレンダーのページ: 一覧の下に「カレンダーに登録」（webcal のリンク・URL・共通の手順ページ）、sitemap に .ics は入れない', () => {
+  const html = read('kaitei/index.html');
+  const at = html.indexOf('id="calendar-subscribe"');
+  assert.ok(at > html.indexOf('<!-- /kaitei:list -->'), '一覧より後');
+  assert.match(html, /href="webcal:\/\/yorozu-craft\.com\/seido-keisan\/data\/kaitei\.ics"/);
+  assert.match(html, /value="https:\/\/yorozu-craft\.com\/seido-keisan\/data\/kaitei\.ics"/);
+  assert.match(html, /href="\.\.\/\.\.\/calendar-help\.html"/);
+  assert.ok(!read('sitemap.xml').includes('.ics'));
+});

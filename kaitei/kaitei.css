@@ -34,3 +34,7 @@
   .kt-controls, .kt-add { display: none !important; }
   .kt-item { break-inside: avoid; }
 }
+
+/* カレンダーに登録（購読用の data/kaitei.ics。K129） */
+.kt-ics-url { width: 100%; max-width: 34em; font: inherit; font-size: 0.9rem; padding: 0.35rem 0.5rem; box-sizing: border-box; }
+.kt-sub a.btn { text-decoration: none; }

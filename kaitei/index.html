@@ -64,7 +64,7 @@
       </div>
       <p class="kt-count"><span id="shown"><!-- kaitei:count -->30<!-- /kaitei:count --></span> 件（施行日の決まったもの）</p>
       <button type="button" class="btn" id="ics-all" hidden>表示中の予定をカレンダーに入れる（.ics）</button>
-      <p class="small">.ics はカレンダーアプリの読み込み（インポート）で取り込めます。予定は終日で、説明欄に出典の URL が入ります。</p>
+      <p class="small">.ics はカレンダーアプリの読み込み（インポート）で取り込めます。予定は終日で、説明欄に出典の URL が入ります。自動で更新されるようにするなら、一覧の下の「<a href="#calendar-subscribe">カレンダーに登録</a>」から。</p>
     </section>
 
 <!-- kaitei:list -->
@@ -405,6 +405,14 @@
 </ol>
 </section>
 <!-- /kaitei:list -->
+
+    <section class="card content kt-sub" id="calendar-subscribe" aria-labelledby="h-cal-sub">
+      <h2 id="h-cal-sub">カレンダーに登録</h2>
+      <p>上の一覧（施行日の決まったもの）を、スマホやパソコンのカレンダーで購読できます。改定を足したり日付を直したりすると、登録したカレンダーにも入ります。</p>
+      <p><a class="btn" href="webcal://yorozu-craft.com/seido-keisan/data/kaitei.ics">カレンダーに登録する</a></p>
+      <p><label for="ics-url">URL（Google カレンダーの「URL で追加」に貼る）</label><br><input id="ics-url" class="kt-ics-url" type="text" readonly value="https://yorozu-craft.com/seido-keisan/data/kaitei.ics" onfocus="this.select()"></p>
+      <p class="small"><a href="../../calendar-help.html">Google カレンダー・iPhone・Outlook での登録のしかた</a>。データは CC0 で、各予定の説明に出典があります。</p>
+    </section>
 
     <section class="card content" aria-labelledby="h-yearly">
       <h2 id="h-yearly">毎年決まった時期に変わるもの</h2>
