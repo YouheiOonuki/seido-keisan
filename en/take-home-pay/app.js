@@ -149,10 +149,10 @@
 
     var res = r.resident;
     S.setText('r-lag', res.total === 0
-      ? 'Resident tax on ' + INCOME_YEAR + ' pay: none (below the tax-free limit).'
+      ? 'Residence tax on ' + INCOME_YEAR + ' pay: none (below the tax-free limit).'
       : res.paying
-        ? 'Resident tax is charged on last year’s income. Shown here: the tax on ' + INCOME_YEAR + ' pay, ' + yen(res.month) + ' a month from ' + PAY_FROM + ' to ' + PAY_TO + '.'
-        : 'No resident tax yet. On ' + INCOME_YEAR + ' pay, about ' + yen(res.month) + ' a month starts in ' + PAY_FROM + ' (' + yen(res.total) + ' a year).');
+        ? 'Residence tax is charged on last year’s income. Shown here: the tax on ' + INCOME_YEAR + ' pay, ' + yen(res.month) + ' a month from ' + PAY_FROM + ' to ' + PAY_TO + '.'
+        : 'No residence tax yet. On ' + INCOME_YEAR + ' pay, about ' + yen(res.month) + ' a month starts in ' + PAY_FROM + ' (' + yen(res.total) + ' a year).');
 
     // 途中の計算
     var t = r.tax;
@@ -161,9 +161,9 @@
     row(tb, 'Taxable income (rounded down to ¥1,000)', yen(t.taxable));
     row(tb, 'Income tax' + (t.pct ? ' (top rate ' + t.pct + '%)' : ''), yen(t.sanshutsu));
     row(tb, 'Income tax × 102.1% (reconstruction surtax, rounded down to ¥100)', yen(t.nenzei), 'total');
-    row(tb, 'Resident tax: income levy (about 10%)', yen(res.wari));
-    row(tb, 'Resident tax: per capita levy and forest tax', yen(res.kinto));
-    row(tb, 'Resident tax for ' + PAY_FROM + ' to ' + PAY_TO, yen(res.total), 'total');
+    row(tb, 'Residence tax: income levy (about 10%)', yen(res.wari));
+    row(tb, 'Residence tax: per capita levy and forest tax', yen(res.kinto));
+    row(tb, 'Residence tax for ' + PAY_FROM + ' to ' + PAY_TO, yen(res.total), 'total');
     row(tb, 'Pension is based on ¥' + m.hyojunPension.toLocaleString('en-US') + ', health insurance on ¥' + m.hyojun.toLocaleString('en-US') + ' (standard monthly remuneration)', '');
     $('steps-box').hidden = false;
 
