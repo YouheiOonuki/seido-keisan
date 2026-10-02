@@ -21,7 +21,10 @@
 
 | 項目 | 意味 |
 |------|------|
+| `license` | `CC0-1.0` |
 | `checked` | 出典の原文を最後に確かめた日（YYYY-MM-DD） |
+| `generated` | このファイルの中身が変わった日（YYYY-MM-DD）。中身が同じなら書き出し直しても変わらない（`.ics` は `X-WR-CALDESC` の「生成日」） |
+| `source` | 使った出典の URL の一覧（各行の出典は `items[].sources`） |
 | `items[].date` | 施行日（期限の行は期限の日） |
 | `items[].category` / `category_label` | 分類（`zei` 税、`shaho` 社保・年金、`kosodate` 子育て・教育、`other` その他） |
 | `items[].title` / `what` / `who` | 何が変わるか、対象 |
