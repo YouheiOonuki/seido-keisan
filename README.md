@@ -28,6 +28,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | Japan Pension Refund Calculator: guide | https://yorozu-craft.com/seido-keisan/en/pension-refund/guide.html |
 | Japan Take-Home Pay Calculator（英語のみ。hreflang の対は年末調整の計算） | https://yorozu-craft.com/seido-keisan/en/take-home-pay/ |
 | Japan Take-Home Pay Calculator: guide | https://yorozu-craft.com/seido-keisan/en/take-home-pay/guide.html |
+| Japan Residence Tax Calculator（英語。hreflang の対は住民税の計算） | https://yorozu-craft.com/seido-keisan/en/residence-tax/ |
+| Japan Residence Tax Calculator: guide | https://yorozu-craft.com/seido-keisan/en/residence-tax/guide.html |
 | 2割特例の終了後の消費税（3割特例・簡易課税・本則） | https://yorozu-craft.com/seido-keisan/invoice/ |
 | 2割特例の終了後の消費税の使い方 | https://yorozu-craft.com/seido-keisan/invoice/guide.html |
 | 子ども・子育て支援金 いくら引かれる（2026年度） | https://yorozu-craft.com/seido-keisan/shienkin/ |
@@ -57,6 +59,15 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - hreflang の対は年末調整の計算（`nenmatsu/`・`nenmatsu/guide.html`）。check-site が英語ページに日本語の対を求めるため（企画書 48）
 
 対象外（画面に明記）: 非居住者・租税条約、社会保険料・配偶者・子ども以外の控除、通勤手当の非課税、2 か所給与、年収 2,000 万円超、健康保険組合、70 歳以上、市区町村ごとの税率。
+
+## 機能（Japan Residence Tax Calculator、英語）
+
+- 会社員の給与（1 年分・賞与込み）から、住民税（residence tax）の年額・給与から引かれる月額（6 月と 7 月〜翌年 5 月）・自分で納める 4 回の額・非課税のライン・途中の計算を出す（画面は `en/residence-tax/`、入力の変換は `lib/residence-tax.js`）
+- 計算は日本語の住民税の計算（`lib/juminzei.js` の `calc`）をそのまま呼ぶ。値は `lib/juminzei-values.js` だけ（値を写さない。ACCEPTANCE 3 章 K60）。年度は令和9年度（2026 年の所得）と令和8年度（2025 年の所得、今納めている分）を選べる
+- 社会保険料を空にすると、手取りの計算（`lib/take-home.js`。協会けんぽ東京・40 歳未満・賞与なし・2026 年 4 月からの率）の年額で見積もる。年収 2,000 万円超は入力を求める
+- 入力は配偶者（給与）・子ども（16 歳未満・16〜18・19〜22、所得なし）・iDeCo・指定都市・級地だけ。生命保険料・住宅ローン・障害者などは日本語の計算機へ
+- 入力はブラウザにだけ保存（`seido-keisan_residencetax_draft`）。書き出し・読み込み（`{ tool: 'seido-keisan-residence-tax', version: 1, exportedAt, data }`）
+- hreflang の対は住民税の計算（`juminzei/`・`juminzei/guide.html`）。英語の言い方は residence tax、resident tax・inhabitant tax・juminzei は各ページの本文に 1 回ずつ（テストで確かめる）
 
 ## 機能（住民税の計算・非課税判定）
 
@@ -229,6 +240,8 @@ node --test tests/*.test.js
 | `lib/iryohi.js` | 医療費控除と戻る税金の計算（純粋関数）と、入力の正規化・ファイル形式 |
 | `dattai-ichiji/index.html` / `dattai-ichiji/guide.html` | 脱退一時金の計算の画面と使い方ページ（日本語。値の持ち主で hreflang の対） |
 | `en/pension-refund/index.html` / `en/pension-refund/guide.html` | Japan Pension Refund Calculator の画面と使い方ページ（英語。同じ値・同じ計算を読む） |
+| `en/residence-tax/index.html` / `app.js` / `guide.html` / `guide.js` / `residence-tax.css` | Japan Residence Tax Calculator の画面・制御・使い方ページ・使い方の数字の差し込み・画面だけの見た目（英語。見た目の共通部分は `en/take-home-pay/take-home.css`） |
+| `lib/residence-tax.js` | 英語の入力を住民税の計算（`lib/juminzei.js`）の入力に直す・社会保険料の見積もり・ファイル形式（値は持たない） |
 | `dattai-ichiji/app.js` / `dattai-ichiji/guide.js` / `dattai-ichiji/dattai.css` | 日英で共用する画面の制御（言語は `<html lang>`）、使い方ページの確認日・出典の差し込み、画面だけの見た目 |
 | `lib/dattai-values.js` | 脱退一時金の値の表（国民年金の年度の表、支給率、等級、賞与の上限、20.42%、選択課税、協定国。値・出典・確認日） |
 | `lib/pension-refund.js` | 脱退一時金・還付の目安・期限の計算（純粋関数）と、入力の正規化・ファイル形式 |

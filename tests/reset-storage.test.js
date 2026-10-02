@@ -45,6 +45,9 @@ const PAGE_PREFIXES = {
   ],
   "en/take-home-pay/index.html": [
     "seido-keisan_takehome_draft"
+  ],
+  "en/residence-tax/index.html": [
+    "seido-keisan_residencetax_draft"
   ]
 };
 const PAGE_LEGACY = {};
