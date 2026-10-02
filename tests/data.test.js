@@ -57,6 +57,26 @@ test('kaitei.ics: CRLF・行数・UID が JSON の行と同じ', () => {
   assert.match(read('.gitattributes'), /^data\/\*\.ics -text$/m);
 });
 
+// iCalendar の折り返しを戻して、プロパティの値を取り出す（RFC 5545 3.1・3.3.11）
+const unfold = ics => ics.replace(/\r\n[ \t]/g, '');
+const icsValue = (ics, name) => {
+  const m = unfold(ics).match(new RegExp('^' + name + '(?:;[^:\r\n]*)?:(.*)\r$', 'm'));
+  return m && m[1].replace(/\\n/g, '\n').replace(/\\([,;\\])/g, '$1');
+};
+
+test('kaitei.ics: X-WR-CALDESC に CC0・確認日・出典の URL（予定に使った出典をすべて）', () => {
+  const ics = read('data/kaitei.ics');
+  const desc = icsValue(ics, 'X-WR-CALDESC');
+  assert.ok(desc, 'X-WR-CALDESC がある');
+  assert.match(desc, /CC0 1\.0/);
+  assert.ok(desc.includes('確認日: ' + V.CHECKED), '確認日');
+  const used = new Set(K.inRange(V.ITEMS, V.RANGE).flatMap(it => it.src.map(k => V.SOURCES.find(s => s.key === k).url)));
+  assert.ok(used.size > 0);
+  for (const u of used) assert.ok(desc.split('\n').includes(u), u);
+  // 画面で保存する .ics（1 行・絞り込み）には付けない
+  assert.ok(!K.buildIcs(K.inRange(V.ITEMS, V.RANGE)).includes('X-WR-CALDESC'));
+});
+
 test('ライセンスと説明: data/LICENSE は CC0 1.0 の全文、README に CC0 とコードの MIT の区別', () => {
   const lic = read('data/LICENSE');
   assert.match(lic, /CC0 1\.0 Universal/);
