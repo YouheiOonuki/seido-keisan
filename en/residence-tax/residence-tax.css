@@ -1,0 +1,7 @@
+/* ===========================
+   住民税の計算（en/residence-tax）だけの見た目。共通の部品は ../take-home-pay/take-home.css と ../../style.css
+   =========================== */
+.pay { padding-left: 1.2rem; margin: 0.6rem 0; }
+.pay li + li { margin-top: 0.25rem; }
+.pay:empty, #r-free:empty, #r-lag:empty { display: none; }
+.sum td[colspan] { text-align: right; }

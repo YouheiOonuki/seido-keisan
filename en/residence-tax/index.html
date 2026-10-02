@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan Residence Tax Calculator (2027 and 2026) | yorozu-craft</title>
+  <meta name="description" content="Japan residence tax calculator for employees: how much residence tax you pay on your salary, the monthly amount from June, and the tax-free limit. Local Tax Act rules, sources shown. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/residence-tax/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/juminzei/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/residence-tax/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/juminzei/">
+
+  <meta property="og:title" content="Japan Residence Tax Calculator | yorozu-craft">
+  <meta property="og:description" content="How much residence tax you pay in Japan on your salary, when it starts, and the monthly amount from June.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/residence-tax/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan Residence Tax Calculator",
+    "description": "Residence tax in Japan on an employee's salary: the yearly amount, monthly payments from June and the tax-free limit, with Local Tax Act rules.",
+    "url": "https://yorozu-craft.com/seido-keisan/en/residence-tax/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+  <link rel="stylesheet" href="./residence-tax.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Residence Tax Calculator</h1>
+    <p class="subtitle">How much residence tax you pay on your salary in Japan, and when.</p>
+    <p class="lang-switch"><a href="../../juminzei/" hreflang="ja" lang="ja">日本語（住民税の計算）</a></p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ Result</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">Residence tax (juminzei; also called “resident tax” or “inhabitant tax”) under the Local Tax Act, checked <span id="asof-date">September 24, 2026</span>. Your inputs never leave this browser.</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>Your salary</legend>
+        <div class="period" role="radiogroup" aria-label="Which year’s tax">
+          <label><input type="radio" name="nendo" value="2027" data-k="nendo"> <span id="l-n0">Tax from June 2027</span></label>
+          <label><input type="radio" name="nendo" value="2026" data-k="nendo"> <span id="l-n1">Tax you pay now</span></label>
+        </div>
+        <div class="field" data-need="salary">
+          <label for="salary" id="salary-label">Salary in 2026 before tax</label>
+          <p class="hint">The whole year with bonuses (支払金額 on your withholding slip).</p>
+          <div class="money"><span class="unit">¥</span><input type="number" id="salary" data-k="salary" inputmode="numeric" min="0" step="1" placeholder="e.g. 5000000"></div>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">Your residence tax</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">Per year, June 2027 to May 2028</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+        <p id="r-warn"></p>
+        <p class="lag" id="r-free"></p>
+        <div class="table-wrap">
+          <table class="cmp sum">
+            <thead><tr><th scope="col">JPY (¥)</th><th scope="col">Prefecture</th><th scope="col">City</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Income levy</th><td id="t-wari-p">—</td><td id="t-wari-c">—</td></tr>
+              <tr><th scope="row">Per capita levy</th><td id="t-kinto-p">—</td><td id="t-kinto-c">—</td></tr>
+              <tr><th scope="row">Forest environment tax</th><td colspan="2" id="t-shinrin">—</td></tr>
+              <tr class="total"><th scope="row">Total</th><td colspan="2" id="t-total">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="small pay" id="r-pay"></ul>
+        <p class="small" id="r-lag"></p>
+        <details class="rels" id="steps-box">
+          <summary>How the tax was worked out</summary>
+          <table class="steps" id="steps"><tbody></tbody></table>
+        </details>
+        <p class="small">This is an estimate. The final amount is decided by your city office. <a href="./guide.html">Guide, sources and FAQ</a></p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-si">
+      <summary>Social insurance and iDeCo: <span class="opt-state" id="st-si">estimated</span></summary>
+      <div class="field">
+        <label for="si" id="si-label">Social insurance paid in 2026</label>
+        <p class="hint" id="si-hint">Leave blank to estimate it from your salary.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="si" data-k="si" inputmode="numeric" min="0" step="1" placeholder="estimated"></div>
+      </div>
+      <div class="field">
+        <label for="ideco" id="ideco-label">iDeCo contributions in 2026</label>
+        <div class="money"><span class="unit">¥</span><input type="number" id="ideco" data-k="ideco" inputmode="numeric" min="0" step="1" placeholder="0"></div>
+      </div>
+      <p class="small">The estimate uses Kyokai Kenpo Tokyo rates from April 2026, under 40 and no bonuses.</p>
+    </details>
+
+    <details class="card opt" id="d-city">
+      <summary>Your city: <span class="opt-state" id="st-city">standard rates, grade 1</span></summary>
+      <label class="inline"><input type="checkbox" data-k="designated"> I live in a designated city such as Yokohama, Osaka, Nagoya, Sapporo or Fukuoka</label>
+      <p class="small">There are 20 designated cities. The rate is still 10%, split differently.</p>
+      <div class="field">
+        <label for="grade">City grade for the tax-free limit</label>
+        <select id="grade" data-k="grade">
+          <option value="1">Grade 1 (e.g. Tokyo 23 wards, Osaka)</option>
+          <option value="2">Grade 2</option>
+          <option value="3">Grade 3</option>
+        </select>
+        <p class="hint">Your city’s guide to the per capita levy shows its grade.</p>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-family">
+      <summary>Spouse and children: <span class="opt-state" id="st-family">none</span></summary>
+      <label class="inline"><input type="checkbox" data-k="spouse.has"> I have a spouse</label>
+      <div class="field" id="spouse-row">
+        <label for="spouse-income" id="spouse-label">Spouse’s salary in 2026</label>
+        <p class="hint">Before tax. 0 if no income.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="spouse-income" data-k="spouse.income" inputmode="numeric" min="0" step="1" placeholder="0"></div>
+      </div>
+      <div class="kids">
+        <div class="field">
+          <label for="k-u16">Children under 16</label>
+          <div class="num"><input type="number" id="k-u16" data-k="kids.u16" inputmode="numeric" min="0" max="10" step="1" placeholder="0"></div>
+        </div>
+        <div class="field">
+          <label for="k-16">Aged 16 to 18</label>
+          <div class="num"><input type="number" id="k-16" data-k="kids.a16" inputmode="numeric" min="0" max="10" step="1" placeholder="0"></div>
+        </div>
+        <div class="field">
+          <label for="k-19">Aged 19 to 22</label>
+          <div class="num"><input type="number" id="k-19" data-k="kids.a19" inputmode="numeric" min="0" max="10" step="1" placeholder="0"></div>
+        </div>
+      </div>
+      <p class="small" id="kids-note">Ages are as of December 31, 2026. Children are treated as having no income.</p>
+    </details>
+
+    <details class="card opt">
+      <summary>Not covered by this calculator</summary>
+      <ul class="small">
+        <li>Income other than salary, and non-residents.</li>
+        <li>Life and earthquake insurance, housing loan, furusato nozei and medical expense deductions.</li>
+        <li>Disability, widow, single parent and working student deductions, and other dependents.</li>
+        <li>Cities that add their own levy or use a rate other than the standard.</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>Save and export</summary>
+      <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
+        <button type="button" class="btn btn-sub" id="import">Import a file</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_residencetax_draft">Delete everything saved (reset)</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">Guide, sources and FAQ (leaving Japan, moving, first year)</a> · <a href="../take-home-pay/">Japan Take-Home Pay Calculator</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./" aria-current="page">Japan Residence Tax Calculator</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/kyuyo-table-2026.js"></script>
+  <script src="../../lib/kyuyo-table-2025.js"></script>
+  <script src="../../lib/tax2026.js"></script>
+  <script src="../../lib/nenmatsu.js"></script>
+  <script src="../../lib/juminzei-values.js"></script>
+  <script src="../../lib/juminzei.js"></script>
+  <script src="../../lib/ikukyu-values.js"></script>
+  <script src="../../lib/ikukyu.js"></script>
+  <script src="../../lib/shienkin-values.js"></script>
+  <script src="../../lib/shienkin.js"></script>
+  <script src="../../lib/dattai-values.js"></script>
+  <script src="../../lib/take-home-values.js"></script>
+  <script src="../../lib/take-home.js"></script>
+  <script src="../../lib/residence-tax.js"></script>
+  <script src="../../lib/screen.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

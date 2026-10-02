@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide, sources and FAQ | Japan Residence Tax Calculator | yorozu-craft</title>
+  <meta name="description" content="How residence tax in Japan is calculated: the 10% income levy, the per capita levy, the tax-free limit, why it starts a year later, what happens when you leave Japan or your job, and the sources used.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/residence-tax/guide.html">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/juminzei/guide.html">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/residence-tax/guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/juminzei/guide.html">
+
+  <meta property="og:title" content="Guide, sources and FAQ | Japan Residence Tax Calculator">
+  <meta property="og:description" content="How residence tax in Japan is calculated, when you pay it, what happens when you leave Japan, and the sources used.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/residence-tax/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- FAQ（下の #faq と内容をそろえる。数字は guide.js が値ファイルから入れ直す） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much is residence tax in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "At the standard rates, about 10% of last year’s taxable income plus ¥5,000 a year. On a ¥5,000,000 salary with ¥723,132 of social insurance and no dependents, it is ¥243,000 for June 2027 to May 2028." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why did I pay no residence tax in my first year in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Residence tax is charged on the previous year’s income to people living in Japan on January 1. With no income in Japan last year, there is nothing to tax yet. It usually starts in June of your second year." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I have to pay residence tax if I leave Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, if you lived in Japan on January 1, you owe that fiscal year’s residence tax. If you leave your job between January 1 and April 30, your employer deducts the rest from your last pay when it is enough." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between residence tax and income tax in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Income tax is national and charged on this year’s pay. Residence tax goes to your prefecture and city and is charged on last year’s income. Its deductions are smaller: the basic deduction is ¥430,000." }
+      },
+      {
+        "@type": "Question",
+        "name": "When will I know my residence tax amount?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your city normally sends the amount to your employer by May 31, and your employer passes the notice to you. If you pay it yourself, the city sends you a tax notice at least 10 days before payment is due." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Residence Tax Calculator: guide</h1>
+    <p class="subtitle">How residence tax is calculated, when you pay it, leaving Japan, sources and FAQ</p>
+    <p class="lang-switch"><a href="../../juminzei/guide.html" hreflang="ja" lang="ja">日本語（住民税の計算の使い方）</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ Open the Japan Residence Tax Calculator</a></p>
+
+    <article class="card content" id="howto">
+      <h2>How to use it</h2>
+      <p>This page covers residence tax (juminzei; also called “resident tax” or “inhabitant tax”) on an employee’s salary. It explains how the amount is set, when you pay it, and what happens when you leave.</p>
+      <ol>
+        <li>Choose the tax from June <span data-v="nendo">2027</span> or the tax you pay now.</li>
+        <li>Enter that year’s salary before tax, bonuses included.</li>
+        <li>Below the result, enter your social insurance and iDeCo, if you know them.</li>
+        <li>Tick “designated city” if it applies, and pick your city’s grade.</li>
+        <li>Add your spouse and children.</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>How residence tax is calculated</h2>
+      <ul>
+        <li>Taxable income is your salary after the employment income deduction, minus deductions. The basic deduction is ¥<span data-v="kiso">430,000</span>, smaller than for income tax.</li>
+        <li>The income levy is <span data-v="rate">10</span>% of taxable income: <span data-v="pref">4</span>% to the prefecture and <span data-v="city">6</span>% to the city (<span data-v="prefS">2</span>% and <span data-v="cityS">8</span>% in the 20 designated cities).</li>
+        <li>An adjustment credit then lowers the income levy, usually by ¥2,500 for a single person with no dependents.</li>
+        <li>Everyone taxed also pays a per capita levy of ¥<span data-v="kinto">4,000</span> and the forest environment tax of ¥<span data-v="shinrin">1,000</span>.</li>
+        <li>Low incomes are tax-free. Single, with salary only, in a grade 1 city: no residence tax up to a salary of ¥<span data-v="line">1,190,000</span>.</li>
+      </ul>
+      <details class="rels">
+        <summary>Rounding, the tax-free limit and the adjustment credit</summary>
+        <ul>
+          <li>Taxable income is rounded down to ¥1,000. The prefecture and city income levies are each rounded down to ¥100.</li>
+          <li>The tax-free limit grows with your spouse and dependents, children under 16 included. For the per capita levy, it also depends on your city’s grade (1 to 3).</li>
+          <li>The adjustment credit is 5% of a base of at least ¥50,000. With a spouse or dependents the base is larger, mainly at taxable income up to ¥2 million.</li>
+          <li>Tax from June <span data-v="nendo0">2026</span> (on <span data-v="income0">2025</span> income): the single, grade 1 limit is a salary of ¥<span data-v="line0">1,100,000</span>.</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="lag">
+      <h2>When you pay residence tax, and the first year</h2>
+      <p>Residence tax is charged by the city you live in on January 1, on your income for the previous calendar year. You pay it from June to the next May.</p>
+      <p>Your employer usually deducts it in 12 payments from June to May. Otherwise you pay it in 4 installments: June, August, October and January. In your first year of work in Japan, there is usually none. If you move within Japan, you keep paying the January 1 city for that year.</p>
+      <h3 id="leave">Leaving Japan or your job</h3>
+      <p>If you lived in Japan on January 1, you owe that year’s residence tax, even if you leave in spring.</p>
+      <ul>
+        <li>Leave your job between January 1 and April 30: your employer deducts the rest in one go from pay or severance paid by May 31, if that is more than the rest.</li>
+        <li>Leave between June and December: the city bills you for the rest, unless you ask your employer to deduct it in one go.</li>
+        <li>Leave Japan with tax still to pay: name a tax agent (nozei kanrinin) in Japan for your city, or get the city’s approval not to.</li>
+      </ul>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>Sources and date checked</h2>
+      <p>Sources: Local Tax Act and the Ministry of Internal Affairs and Communications. Checked <time datetime="2026-09-24" data-v="checked">September 24, 2026</time>. Rules for June <span data-v="nendo">2027</span> to May <span data-v="nendo1">2028</span> and the year before.</p>
+      <details class="rels">
+        <summary>All sources (in Japanese)</summary>
+        <ul id="sources">
+          <li><a href="https://laws.e-gov.go.jp/law/325AC0000000226" target="_blank" rel="noopener noreferrer">Local Tax Act (e-Gov)</a>: Articles 294 (taxpayers), 300 (tax agent), 314-3 and 35 (rates), 314-6 (adjustment credit), 318 (January 1), 319-2, 320, 321-4 and 321-5 (payment), supplementary provision 3-3 (tax-free limit)</li>
+          <li><a href="https://laws.e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002" target="_blank" rel="noopener noreferrer">Local Tax Act, version in force from January 1, 2027</a></li>
+          <li><a href="https://laws.e-gov.go.jp/law/325CO0000000245" target="_blank" rel="noopener noreferrer">Order for Enforcement of the Local Tax Act (e-Gov)</a> and <a href="https://laws.e-gov.go.jp/law/329M50000002023" target="_blank" rel="noopener noreferrer">Ordinance (e-Gov)</a>: city grades</li>
+          <li><a href="https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/150790_06.html" target="_blank" rel="noopener noreferrer">Ministry of Internal Affairs and Communications: individual residence tax</a></li>
+          <li><a href="https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/149767_03.html" target="_blank" rel="noopener noreferrer">Ministry of Internal Affairs and Communications: per capita levy and tax-free limits</a></li>
+          <li><a href="https://www.soumu.go.jp/main_content/001063704.pdf" target="_blank" rel="noopener noreferrer">Ministry of Internal Affairs and Communications: 2026 Local Tax Act amendments</a></li>
+        </ul>
+        <p class="small">The calculator uses the same value file and calculation as the Japanese residence tax calculator on this site.</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        <dt>How much is residence tax in Japan?</dt>
+        <dd>At the standard rates, about 10% of last year’s taxable income plus ¥<span data-v="fixed">5,000</span> a year. On a ¥5,000,000 salary with ¥<span data-v="exSi">723,132</span> of social insurance and no dependents, it is ¥<span data-v="exTax">243,000</span> for June <span data-v="nendo">2027</span> to May <span data-v="nendo1">2028</span>.</dd>
+        <dt>Why did I pay no residence tax in my first year in Japan?</dt>
+        <dd>Residence tax is charged on the previous year’s income to people living in Japan on January 1. With no income in Japan last year, there is nothing to tax yet. It usually starts in June of your second year.</dd>
+        <dt>Do I have to pay residence tax if I leave Japan?</dt>
+        <dd>Yes, if you lived in Japan on January 1, you owe that fiscal year’s residence tax. If you leave your job between January 1 and April 30, your employer deducts the rest from your last pay when it is enough.</dd>
+        <dt>What is the difference between residence tax and income tax in Japan?</dt>
+        <dd>Income tax is national and charged on this year’s pay. Residence tax goes to your prefecture and city and is charged on last year’s income. Its deductions are smaller: the basic deduction is ¥<span data-v="kiso">430,000</span>.</dd>
+        <dt>When will I know my residence tax amount?</dt>
+        <dd>Your city normally sends the amount to your employer by May 31, and your employer passes the notice to you. If you pay it yourself, the city sends you a tax notice at least 10 days before payment is due.</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>Notes and your data</h2>
+      <ul>
+        <li>This is an estimate. The final amount is decided by your city office.</li>
+        <li>Your inputs are saved only in this browser (localStorage, key <code>seido-keisan_residencetax_draft</code>) and are never sent anywhere.</li>
+        <li>This is not tax advice. Some cities add their own levies or use other rates.</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">Feedback form (Google Forms, in Japanese; you can write in English)</a>. We read every message but do not reply.</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>Changelog</h2>
+      <ul>
+        <li><time datetime="2026-10-02">October 2, 2026</time> Published (tax from June 2027 and June 2026)</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./">Japan Residence Tax Calculator</a></li>
+        <li><a href="./guide.html" aria-current="page">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/kyuyo-table-2026.js"></script>
+  <script src="../../lib/kyuyo-table-2025.js"></script>
+  <script src="../../lib/tax2026.js"></script>
+  <script src="../../lib/nenmatsu.js"></script>
+  <script src="../../lib/juminzei-values.js"></script>
+  <script src="../../lib/juminzei.js"></script>
+  <script src="../../lib/ikukyu-values.js"></script>
+  <script src="../../lib/ikukyu.js"></script>
+  <script src="../../lib/shienkin-values.js"></script>
+  <script src="../../lib/shienkin.js"></script>
+  <script src="../../lib/dattai-values.js"></script>
+  <script src="../../lib/take-home-values.js"></script>
+  <script src="../../lib/take-home.js"></script>
+  <script src="../../lib/residence-tax.js"></script>
+  <script src="./guide.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
