@@ -5,7 +5,7 @@
 | ファイル | URL | 中身 |
 |---------|-----|------|
 | `kaitei.json` | https://yorozu-craft.com/seido-keisan/data/kaitei.json | 施行日の決まった行（`items`）、毎年変わるもの（`yearly`）、施行日が決まっていないもの（`pending`）、出典の一覧（`sources`） |
-| `kaitei.ics` | https://yorozu-craft.com/seido-keisan/data/kaitei.ics | `items` と同じ行の iCalendar（RFC 5545、終日の予定。説明欄に出典の URL） |
+| `kaitei.ics` | https://yorozu-craft.com/seido-keisan/data/kaitei.ics | `items` と同じ行の iCalendar（RFC 5545、終日の予定。説明欄に出典の URL。カレンダーの説明 `X-WR-CALDESC` に CC0・確認日・出典の URL の一覧） |
 
 ## ライセンス
 

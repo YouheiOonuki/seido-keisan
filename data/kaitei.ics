@@ -5,6 +5,37 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:制度の改定カレンダー（yorozu-craft）
 X-WR-TIMEZONE:Asia/Tokyo
+X-WR-CALDESC:制度の改定カレンダー（yorozu-craft）。税・社
+ 会保険・給付の施行日を終日の予定にしたもの。\nライ
+ センス: CC0 1.0（パブリック・ドメイン提供） https://creat
+ ivecommons.org/publicdomain/zero/1.0/deed.ja\n確認日: 2026-09-25（日
+ 付と内容は出典の原文で確かめた。制度の判断には原
+ 文を確かめること）\nページ: https://yorozu-craft.com/seido-kei
+ san/kaitei/\n出典（各予定の説明欄にも）:\nhttps://www.nta.go.
+ jp/publication/pamph/gensen/0025005-051.pdf\nhttps://www.cfa.go.jp/policie
+ s/kodomokosodateshienkinseido\nhttps://www.mext.go.jp/a_menu/shotou/career
+ /05010502/1408866_00004.htm\nhttps://www.nenkin.go.jp/tokusetsu/zairoukais
+ ei.html\nhttps://www.moj.go.jp/MINJI/minji05_00693.html\nhttps://www.mhlw.
+ go.jp/content/001728499.pdf\nhttps://laws.e-gov.go.jp/law/349AC0000000116\
+ nhttps://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240\nht
+ tps://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juu
+ you/kougakuiryou/index.html\nhttps://laws.e-gov.go.jp/law/329AC0000000115/
+ 20261001_507AC0000000074\nhttps://www.mhlw.go.jp/stf/seisakunitsuite/bunya
+ /0000147284_00017.html\nhttps://www.nta.go.jp/taxes/shiraberu/zeimokubetsu
+ /shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf\nhttps://law
+ s.e-gov.go.jp/law/334AC0000000141/20261001_506AC0000000047\nhttps://www.nt
+ a.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf\nhttps://www.nta.go.jp/p
+ ublication/pamph/gensen/2026kaisei.pdf\nhttps://www.nta.go.jp/publication/
+ pamph/pdf/0026005-024_02.pdf\nhttps://laws.e-gov.go.jp/law/340AC0000000033
+ /20270101_508AC0000000012\nhttps://laws.e-gov.go.jp/law/332AC0000000026/20
+ 270101_508AC0000000012\nhttps://laws.e-gov.go.jp/law/325AC0000000226/20270
+ 101_508AC0000000002\nhttps://www.soumu.go.jp/main_content/001063704.pdf\nh
+ ttps://www.moj.go.jp/MINJI/souzokutouki-gimuka/index.html\nhttps://laws.e-
+ gov.go.jp/law/215IO0000000243/20270801_508CO0000000240\nhttps://laws.e-gov
+ .go.jp/law/329AC0000000115/20270901_507AC0000000074\nhttps://laws.e-gov.go
+ .jp/law/329AC0000000115/20271001_507AC0000000074\nhttps://laws.e-gov.go.jp
+ /law/325AC0000000226/20280101_508AC0000000002\nhttps://laws.e-gov.go.jp/la
+ w/349AC0000000116/20281001_506AC0000000026
 BEGIN:VEVENT
 UID:kaitei-2025-12-kiso@yorozu-craft.com
 DTSTAMP:20260925T000000Z

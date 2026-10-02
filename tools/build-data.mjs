@@ -60,8 +60,14 @@ export function buildJson() {
   return JSON.stringify(data, null, 2) + '\n';
 }
 
+// 公開する .ics の頭: カレンダーの説明（CC0・確認日・出典の URL。ROADMAP 7.14 の 1、ACCEPTANCE 7.10.3 e）
+export function icsHead(items) {
+  return ['X-WR-CALDESC:' + K.icsText(K.calDesc(items))];
+}
+
 export function buildIcs() {
-  return K.buildIcs(K.inRange(V.ITEMS, V.RANGE));
+  const items = K.inRange(V.ITEMS, V.RANGE);
+  return K.buildIcs(items, icsHead(items));
 }
 
 const outputs = {
