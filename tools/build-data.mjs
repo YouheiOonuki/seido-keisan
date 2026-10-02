@@ -60,9 +60,10 @@ export function buildJson() {
   return JSON.stringify(data, null, 2) + '\n';
 }
 
-// 公開する .ics の頭: カレンダーの説明（CC0・確認日・出典の URL。ROADMAP 7.14 の 1、ACCEPTANCE 7.10.3 e）
+// 公開する .ics の頭: カレンダーの説明（CC0・確認日・出典の URL。ROADMAP 7.14 の 1、ACCEPTANCE 7.10.3 e）と
+// 購読したカレンダーが取りに来る間隔（1 週間。ROADMAP 7.14 の 2、K129）
 export function icsHead(items) {
-  return ['X-WR-CALDESC:' + K.icsText(K.calDesc(items))];
+  return ['X-WR-CALDESC:' + K.icsText(K.calDesc(items)), 'REFRESH-INTERVAL;VALUE=DURATION:P1W', 'X-PUBLISHED-TTL:P1W'];
 }
 
 export function buildIcs() {
