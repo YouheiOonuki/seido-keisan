@@ -30,6 +30,12 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | Japan Take-Home Pay Calculator: guide | https://yorozu-craft.com/seido-keisan/en/take-home-pay/guide.html |
 | Japan Residence Tax Calculator（英語。hreflang の対は住民税の計算） | https://yorozu-craft.com/seido-keisan/en/residence-tax/ |
 | Japan Residence Tax Calculator: guide | https://yorozu-craft.com/seido-keisan/en/residence-tax/guide.html |
+| Japan Childcare Leave Benefit Calculator（英語。hreflang の対は育休・産休の計算） | https://yorozu-craft.com/seido-keisan/en/childcare-leave/ |
+| Japan Childcare Leave Benefit Calculator: guide | https://yorozu-craft.com/seido-keisan/en/childcare-leave/guide.html |
+| Japan High-Cost Medical Expense Benefit Calculator（英語・広告なし。hreflang の対は高額療養費の計算） | https://yorozu-craft.com/seido-keisan/en/high-cost-medical/ |
+| Japan High-Cost Medical Expense Benefit Calculator: guide | https://yorozu-craft.com/seido-keisan/en/high-cost-medical/guide.html |
+| Japan Moving Checklist for Foreign Residents（英語のみ。日本語の対なし） | https://yorozu-craft.com/seido-keisan/en/moving-checklist/ |
+| Japan Moving Checklist: guide | https://yorozu-craft.com/seido-keisan/en/moving-checklist/guide.html |
 | 2割特例の終了後の消費税（3割特例・簡易課税・本則） | https://yorozu-craft.com/seido-keisan/invoice/ |
 | 2割特例の終了後の消費税の使い方 | https://yorozu-craft.com/seido-keisan/invoice/guide.html |
 | 子ども・子育て支援金 いくら引かれる（2026年度） | https://yorozu-craft.com/seido-keisan/shienkin/ |
@@ -70,6 +76,12 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 - 入力は配偶者（給与）・子ども（16 歳未満・16〜18・19〜22、所得なし）・iDeCo・指定都市・級地だけ。生命保険料・住宅ローン・障害者などは日本語の計算機へ
 - 入力はブラウザにだけ保存（`seido-keisan_residencetax_draft`）。書き出し・読み込み（`{ tool: 'seido-keisan-residence-tax', version: 1, exportedAt, data }`）
 - hreflang の対は住民税の計算（`juminzei/`・`juminzei/guide.html`）。英語の言い方は residence tax、resident tax・inhabitant tax・juminzei は各ページの本文に 1 回ずつ（テストで確かめる）
+
+## 機能（英語の 3 ページ: childcare leave・high-cost medical・moving checklist。yorozu-plans 企画書 70、束 G）
+
+- **Japan Childcare Leave Benefit Calculator**（`en/childcare-leave/`、入力の変換は `lib/childcare-leave.js`）: 本人か配偶者か・月給・予定日から、育児休業給付金の月額（67%・50%）、出産手当金・出生時育児休業給付金・出生後休業支援給付金（13%）・出産育児一時金、支給単位期間ごとの額、社会保険料の免除の目安。計算は `lib/ikukyu.js` の `calc` をそのまま呼び、値は `lib/ikukyu-values.js` だけ。日本語の文（messages・steps）は使わず、英語の画面が数字から文を作る。保存 `seido-keisan_childcareleave_draft`
+- **Japan High-Cost Medical Expense Benefit Calculator**（`en/high-cost-medical/`、`lib/high-cost-medical.js`）: 年齢と保険・所得区分・医療費（10割）・入院か外来か・窓口の割合から、自己負担・戻る額・上限額の式・年間上限。計算は `lib/kogaku.js` の `calc`、値は `lib/kogaku-values.js` だけ。区分の英語名は値ファイルの日本語の文字列（「53万〜79万円」など）を機械で直す（直せない形はテストで落ちる）。日本語版と同じく**広告なし**（AdSense は meta だけ、先頭に英語の定型文）。世帯合算は日本語の画面だけ。保存 `seido-keisan_highcost_draft`
+- **Japan Moving Checklist for Foreign Residents**（`en/moving-checklist/`、`lib/moving-checklist.js`・`lib/moving-checklist-values.js`）: 場面（着いたばかり・別の市区町村へ・同じ市区町村で・在留期間の更新・一時出国・出国）とマイナンバーカードの有無から、印刷できる手順の一覧（前・出国のとき・後・在留期間の順）。日付を入れると期限（引越しの日＋14 日、満了の 3 か月前から）。項目ごとに条文（入管法・住民基本台帳法・番号法・同施行令・同命令・地方税法、出入国在留管理庁）。法的助言に見える言い方はしない（テストで must・should などを数える）。日本語の対が無いので hreflang は英語と x-default だけ。保存 `seido-keisan_movingchecklist_draft`
 
 ## 機能（住民税の計算・非課税判定）
 
@@ -252,6 +264,12 @@ node --test tests/*.test.js
 | `en/pension-refund/index.html` / `en/pension-refund/guide.html` | Japan Pension Refund Calculator の画面と使い方ページ（英語。同じ値・同じ計算を読む） |
 | `en/residence-tax/index.html` / `app.js` / `guide.html` / `guide.js` / `residence-tax.css` | Japan Residence Tax Calculator の画面・制御・使い方ページ・使い方の数字の差し込み・画面だけの見た目（英語。見た目の共通部分は `en/take-home-pay/take-home.css`） |
 | `lib/residence-tax.js` | 英語の入力を住民税の計算（`lib/juminzei.js`）の入力に直す・社会保険料の見積もり・ファイル形式（値は持たない） |
+| `en/childcare-leave/index.html` / `app.js` / `guide.html` / `guide.js` | Japan Childcare Leave Benefit Calculator の画面・制御・使い方ページ・使い方の数字の差し込み（英語） |
+| `lib/childcare-leave.js` | 英語の入力を育休・産休の計算（`lib/ikukyu.js`）の入力に直す・注意のキー・ファイル形式（値は持たない） |
+| `en/high-cost-medical/index.html` / `app.js` / `guide.html` / `guide.js` | Japan High-Cost Medical Expense Benefit Calculator の画面・制御・使い方ページ・上限額の表の差し込み（英語・広告なし） |
+| `lib/high-cost-medical.js` | 英語の入力を高額療養費の計算（`lib/kogaku.js`）の入力に直す・区分名の英語化・ファイル形式（値は持たない） |
+| `en/moving-checklist/index.html` / `app.js` / `moving-checklist.css` / `guide.html` / `guide.js` | Japan Moving Checklist の画面・制御・見た目（印刷）・使い方ページ・出典の一覧の差し込み（英語） |
+| `lib/moving-checklist-values.js` / `lib/moving-checklist.js` | 手順の項目・日数・出典（確認日 `CHECKED`）と、場面からの一覧・期限の計算（純粋関数）・ファイル形式 |
 | `dattai-ichiji/app.js` / `dattai-ichiji/guide.js` / `dattai-ichiji/dattai.css` | 日英で共用する画面の制御（言語は `<html lang>`）、使い方ページの確認日・出典の差し込み、画面だけの見た目 |
 | `lib/dattai-values.js` | 脱退一時金の値の表（国民年金の年度の表、支給率、等級、賞与の上限、20.42%、選択課税、協定国。値・出典・確認日） |
 | `lib/pension-refund.js` | 脱退一時金・還付の目安・期限の計算（純粋関数）と、入力の正規化・ファイル形式 |

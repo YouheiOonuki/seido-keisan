@@ -32,13 +32,13 @@
   </url>
   <url>
     <loc>https://yorozu-craft.com/seido-keisan/ikukyu/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yorozu-craft.com/seido-keisan/ikukyu/guide.html</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -115,6 +115,42 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://yorozu-craft.com/seido-keisan/en/childcare-leave/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yorozu-craft.com/seido-keisan/en/childcare-leave/guide.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yorozu-craft.com/seido-keisan/en/high-cost-medical/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yorozu-craft.com/seido-keisan/en/high-cost-medical/guide.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yorozu-craft.com/seido-keisan/en/moving-checklist/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yorozu-craft.com/seido-keisan/en/moving-checklist/guide.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://yorozu-craft.com/seido-keisan/invoice/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -153,13 +189,13 @@
   </url>
   <url>
     <loc>https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
