@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>予防接種スケジュール（赤ちゃん・子どもの定期接種）生年月日で日付の一覧｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="生年月日を入れると、子どもの定期の予防接種（B型肝炎・ロタ・5種混合・小児の肺炎球菌・BCG・MR・水痘・日本脳炎・2種混合・HPV）の標準的な時期と、定期接種として受けられる期間の終わりを日付で出します。厚生労働省の定期接種実施要領（令和8年10月1日改正）どおり。登録なし・入力は送信しません。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/yobosesshu/">
+
+  <meta property="og:title" content="予防接種スケジュール（子どもの定期接種）生年月日で日付の一覧｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="生年月日から、子どもの定期接種の標準的な時期と、定期接種として受けられる期間の終わりを日付で。登録なし。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/yobosesshu/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "予防接種スケジュール（子どもの定期接種）",
+    "description": "生年月日から、子どもの定期接種の標準的な時期と、定期接種として受けられる期間の終わりを日付で出します。",
+    "url": "https://yorozu-craft.com/seido-keisan/yobosesshu/",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./yobosesshu.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>子どもの予防接種スケジュール</h1>
+    <p class="subtitle">生年月日から、定期接種の標準的な時期と受けられる期間を日付で出します。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main">
+
+    <p class="badge" id="asof">定期接種実施要領（令和8年10月1日改正）・確認日 <span id="asof-date">2026年10月3日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>子どもの生年月日</legend>
+        <div class="field">
+          <label for="birth">生年月日</label>
+          <input type="date" id="birth" min="2010-04-02" max="2030-12-31">
+          <p class="hint">保存はしません。印刷して母子健康手帳と並べてください。</p>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">いまの時期</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">生年月日を入れると出ます。</p>
+        </div>
+        <ul class="msgs" id="r-late"></ul>
+        <p class="small">この一覧は目安です。実際の接種の日は、市区町村の案内とかかりつけの医師が決めます。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+      </section>
+    </form>
+
+    <section class="card" id="list-card" aria-labelledby="h-list">
+      <h2 id="h-list">生年月日からの日付の一覧</h2>
+      <div class="table-wrap">
+        <table class="tbl sched" id="sched">
+          <thead><tr><th scope="col">ワクチンと定期接種の期間</th><th scope="col">回ごとの標準的な時期と間隔</th></tr></thead>
+          <tbody><tr><td colspan="2">—</td></tr></tbody>
+        </table>
+      </div>
+      <p class="small">日付は両端の日を含みます。日付の無い回は、前の回を受けた日から間隔をあけて数えます。</p>
+      <div class="btn-row no-print">
+        <button type="button" class="btn btn-sub" id="print">この一覧を印刷する</button>
+      </div>
+      <p class="print-only small" id="print-note"></p>
+    </section>
+
+    <details class="card opt no-print">
+      <summary>この一覧の対象外</summary>
+      <ul class="small" id="oos"></ul>
+    </details>
+
+    <p class="small no-print"><a href="./guide.html">使い方・日付の数え方・よくある質問</a></p>
+    <p class="small no-print">育休・産休の給付金は<a href="../ikukyu/">こちら</a>。</p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">予防接種スケジュール</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/yobosesshu-values.js"></script>
+  <script src="../lib/yobosesshu.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
