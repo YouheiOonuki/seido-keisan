@@ -1,0 +1,35 @@
+/* ===========================
+   子どもの予防接種スケジュール（yobosesshu）だけの見た目。色は ../style.css のトークンだけを使う
+   =========================== */
+.msgs { list-style: none; margin: 0.4rem 0; }
+.msgs:empty { display: none; }
+.msgs li { font-size: 0.85rem; border-radius: 6px; padding: 0.45rem 0.7rem; margin-bottom: 0.4rem; background: var(--accent-soft); }
+input[type=date] { min-height: 44px; font-size: 1rem; }
+.sched th, .sched td { font-size: 0.86rem; }
+.sched tbody th { font-weight: 600; width: 38%; }
+.sched small { display: block; color: var(--muted); font-size: 0.76rem; font-weight: normal; }
+.sched .doses { list-style: none; margin: 0; padding: 0; }
+.sched .doses li + li { margin-top: 0.35rem; }
+.sched .dose { color: var(--muted); }
+.sched .st { display: inline-block; margin-left: 0.3rem; font-size: 0.7rem; border: 1px solid var(--border); border-radius: 4px; padding: 0 0.3rem; color: var(--muted); }
+.sched .st.st-now { color: var(--accent); border-color: var(--accent); font-weight: 700; }
+.sched tr.now th, .sched tr.now td { background: var(--accent-soft); }
+.sched tr.ended th, .sched tr.ended td { color: var(--muted); }
+.sched .tt { display: none; }
+@media (min-width: 600px) { .sched .tt { display: block; } }
+#r-big.long { font-size: 1.15rem; line-height: 1.5; }
+.print-only { display: none; }
+@media print {
+  .print-only { display: block; }
+  .result-card, form, .badge { display: none !important; }
+  .sched th, .sched td { font-size: 8.5pt; padding: 2px 4px; }
+  .sched small { font-size: 7.5pt; }
+  .card { border: 0; box-shadow: none; padding: 0; margin: 0; }
+  @page { size: A4 portrait; margin: 10mm; }
+  .sched th, .sched td { line-height: 1.3; padding: 1px 4px; }
+  .sched .st { display: none; }
+  .sched .tt { display: block; }
+  .sched td small { display: inline; margin-left: 0.4em; }
+  .sched .doses li + li { margin-top: 0; }
+  #h-list { font-size: 12pt; margin: 0 0 4px; }
+}

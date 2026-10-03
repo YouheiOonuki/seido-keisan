@@ -38,6 +38,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 年金の繰上げ・繰下げの計算の使い方 | https://yorozu-craft.com/seido-keisan/nenkin-kuriage/guide.html |
 | 高額療養費の計算（広告なし: D118） | https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/ |
 | 高額療養費の計算の使い方 | https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html |
+| 子どもの予防接種スケジュール | https://yorozu-craft.com/seido-keisan/yobosesshu/ |
+| 子どもの予防接種スケジュールの使い方 | https://yorozu-craft.com/seido-keisan/yobosesshu/guide.html |
 
 ## 機能（年末調整の計算）
 
@@ -170,6 +172,13 @@ yorozu-plans の企画書 21（K76）。高等学校等就学支援金の新制�
 - 保存は `seido-keisan_koko_draft`、ファイルは `{ tool: 'seido-keisan-koko', version: 1, exportedAt, data }`
 - 値と出典は `lib/koko-values.js` の `SOURCES`（2026-09-25 確認）。使い方ページの「原文と条文」はこの一覧から描く
 
+## 機能（子どもの予防接種スケジュール）
+
+- 生年月日を入れると、定期接種 12 行（B型肝炎・ロタ・5種混合・小児の肺炎球菌・BCG・MR 1期・水痘・日本脳炎 1期・MR 2期・日本脳炎 2期・2種混合 2期・HPV）の標準的な時期と、定期接種として受けられる期間の終わりを日付で出す。今日が標準の時期に入っている回・次の回・標準の時期を過ぎた回を結果に。A4 1 枚に印刷（K36、yorozu-plans 企画書 64）
+- 値は `lib/yobosesshu-values.js`（`CHECKED`・`STALE_MONTHS: 12`・`SOURCES`）だけ。予防接種法施行令 3 条・施行規則 2 条の 2・2 条の 3、定期接種実施要領（令和8年10月1日改正）第2、事務連絡（平成26年3月11日）の日付の数え方（生後 n 月 ＝ n か月後の同日の前日、同日が無ければ末日。両端を含む）。計算は `lib/yobosesshu.js`
+- 生年月日は保存しない（localStorage も # も使わない。消すボタンは不要）。画面の文に医療・効能の語（診断・改善・効果・治る・若返、「予防接種」以外の「予防」）を使わない（`tests/yobosesshu.test.js` が見張る）
+- 2回目からの日付は、前の回を受けた日で決まるので出さない（間隔の文だけ）。受けた日の記録はしない
+
 ## 計算の仕様・根拠（年末調整）
 
 国税庁「令和8年分 年末調整のしかた」（比較は「令和7年分」）の原文 PDF を 2026-09-24 に読んで値を入れた。値と出典（PDF の URL と冊子のページ）は `lib/tax2026.js` の `SOURCES` にまとめ、画面の確認日と使い方ページの「根拠と確認日」にも出す。
@@ -211,6 +220,7 @@ node --test tests/*.test.js
 
 | 毎年4月ごろ | 日本年金機構「在職老齢年金の計算方法」の新年度の支給停止調整額（令和8年度65万円）と老齢基礎年金の満額 | `lib/kuriage-values.js`（`zairo`・`mangaku`・`CHECKED`）、`lib/kaitei-values.js` の在職の行、`nenkin-kuriage/guide.html` の基準額の記述と更新履歴。画面は新年度の4月に入ると注意を出す |
 | 毎年6〜8月（8月診療分から） | 厚生労働省「高額療養費制度を利用される皆さまへ」と e-Gov の健康保険法施行令の新しい施行版（上限額の見直し）。2027年8月からの表（施行済みの政令の値）が変わっていないか | `lib/kogaku-values.js`（`PERIODS`・`CHECKED`）、`tests/kogaku.test.js`、`kogaku-ryoyohi/guide.html` の上限額の表と更新履歴 |
+| 毎年 10 月（実施要領の改正のたび） | 厚生労働省「予防接種・ワクチン情報」の「定期接種実施要領」の改正後全文（2026 年は 3・6・9・10 月に改正）と e-Gov の予防接種法施行令 3 条・施行規則。定期接種の追加・対象年齢・標準的な接種期間の変更。国立健康危機管理研究機構「日本の予防接種スケジュール」の図と突き合わせ | `lib/yobosesshu-values.js`（`VACCINES`・`YOURYOU_REVISION`・`CHECKED`）、`tests/yobosesshu.test.js`、`yobosesshu/guide.html` の根拠と更新履歴 |
 
 値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。`lib/kaitei-values.js` を直したら `node tools/build-kaitei.mjs` と `node tools/build-data.mjs` を走らせる（テストが書き出し忘れを落とす）。
 
@@ -256,6 +266,8 @@ node --test tests/*.test.js
 | `lib/kuriage-values.js` / `lib/kuriage.js` | その値の表（0.4%・0.5%・0.7%・75歳・在職の基準額65万円・特別支給の年齢。値・出典・確認日）と計算（純粋関数。機構の早見表3つの全月をテストで再現） |
 | `kogaku-ryoyohi/index.html` / `app.js` / `kogaku.css` / `guide.html` | 高額療養費の計算の画面・制御・見た目・使い方ページ。広告のスクリプトは読まない（D118） |
 | `lib/kogaku-values.js` / `lib/kogaku.js` | その値の表（診療月で3つの表: 〜2026-07、2026-08〜2027-07、2027-08〜。値・出典・確認日）と計算（純粋関数。施行令41条の順: 70歳以上の外来 → 70歳以上の世帯 → 世帯全体。厚生労働省の計算例をテストで再現） |
+| `yobosesshu/index.html` / `app.js` / `yobosesshu.css` / `guide.html` | 子どもの予防接種スケジュールの画面・制御・見た目・使い方ページ |
+| `lib/yobosesshu-values.js` / `lib/yobosesshu.js` | その値（ワクチンごとの対象の期間・標準的な接種期間・間隔・出典・確認日）と日付の計算（純粋関数。事務連絡の例をテストで再現） |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
 | `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |
