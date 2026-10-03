@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide, limits and FAQ | Japan High-Cost Medical Expense Benefit Calculator | yorozu-craft</title>
+  <meta name="description" content="How the high-cost medical expense benefit in Japan works: the monthly limits from August 2026, age 70 and over, the yearly cap, how to claim, and the sources used. No ads.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/high-cost-medical/guide.html">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/high-cost-medical/guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html">
+
+  <meta property="og:title" content="Guide, limits and FAQ | Japan High-Cost Medical Expense Benefit Calculator">
+  <meta property="og:description" content="Monthly limits on medical costs in Japan from August 2026, the yearly cap, how to claim, and sources.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/high-cost-medical/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- FAQ（下の #faq と内容をそろえる。数字は guide.js が値ファイルと計算から入れ直す） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is the high-cost medical expense benefit calculated?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your income category sets a monthly limit. What you pay above it comes back. Under 70, with income of about ¥3.7 to ¥7.7 million and ¥1,000,000 of costs, the limit from August 2026 is ¥92,940." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can foreigners use the high-cost medical expense benefit in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is part of Japanese public health insurance, so it applies if you are enrolled in employee health insurance, National Health Insurance or late-stage elderly insurance." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I avoid paying the full amount at the hospital?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Use your My Number card as your health insurance card, or show a limit certificate from your insurer. The hospital then charges only up to your limit. Otherwise you pay your share and claim the rest." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the yearly cap on medical costs?",
+        "acceptedAnswer": { "@type": "Answer", "text": "From August 2026 there is also a cap on your costs from August to the next July. It is ¥530,000 for income of about ¥3.7 to ¥7.7 million. Claims start in August 2027." }
+      },
+      {
+        "@type": "Question",
+        "name": "How long do I have to claim the benefit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Under the Health Insurance Act, the right to a benefit expires 2 years after you can claim it. Ask your insurer for the form." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- 高齢者・家族向けのページは広告を出さない（日本語の高額療養費と同じ。yorozu-plans D118）。所有確認の meta だけ -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+  <link rel="stylesheet" href="../../nenkin-kuriage/kuriage.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan High-Cost Medical Expense Benefit Calculator: guide</h1>
+    <p class="subtitle">Monthly limits, age 70 and over, the yearly cap, how to claim, sources and FAQ</p>
+    <p class="lang-switch"><a href="../../kogaku-ryoyohi/guide.html" hreflang="ja" lang="ja">日本語（高額療養費の計算の使い方）</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="noad">This page has no ads and no sign-up. Your inputs never leave this device.</p>
+    <p class="card" style="text-align:center"><a href="./">▶ Open the Japan High-Cost Medical Expense Benefit Calculator</a></p>
+
+    <article class="card content" id="howto">
+      <h2>How to use it</h2>
+      <p>This page covers the high-cost medical expense benefit (kogaku ryoyohi). It caps what you pay for medical care in a calendar month under Japanese public health insurance.</p>
+      <ol>
+        <li>Choose your age and insurance.</li>
+        <li>Choose your income category. The table below helps.</li>
+        <li>Enter the total medical cost for the month (100%), and whether it was inpatient or outpatient.</li>
+        <li>For another month, or the 4th time in a year, change it below the result.</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="limits">
+      <h2>Monthly limits from August 2026</h2>
+      <p>Under 70, per household. The amount in brackets applies from the 4th time in 12 months.</p>
+      <div class="table-wrap">
+        <table class="tbl" id="limits-table">
+          <thead><tr><th scope="col">Standard monthly remuneration</th><th scope="col">Monthly limit</th><th scope="col">Yearly cap</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">¥830,000 or more</th><td>¥270,300 + (cost − ¥901,000) × 1% (¥140,100)</td><td>¥1,680,000</td></tr>
+            <tr><th scope="row">¥530,000 to ¥790,000</th><td>¥179,100 + (cost − ¥597,000) × 1% (¥93,000)</td><td>¥1,110,000</td></tr>
+            <tr><th scope="row">¥280,000 to ¥500,000</th><td>¥85,800 + (cost − ¥286,000) × 1% (¥44,400)</td><td>¥530,000</td></tr>
+            <tr><th scope="row">¥260,000 or less</th><td>¥61,500 (¥44,400)</td><td>¥530,000</td></tr>
+            <tr><th scope="row">Exempt from residence tax</th><td>¥36,900 (¥24,600)</td><td>¥290,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Age 70 and over, “general” income: outpatient ¥<span data-v="gairai">22,000</span> a month per person, ¥<span data-v="o70e">61,500</span> per household including inpatient care. From August 2027 the categories under 70 split into 13. The calculator has all three sets of limits.</p>
+      <details class="rels">
+        <summary>How the calculator works it out</summary>
+        <ul>
+          <li>Your share is the cost × your rate (30%, 20% or 10%). Rounding to ¥10 at the counter is ignored.</li>
+          <li>The 1% part is rounded to the nearest yen.</li>
+          <li>Age 70 and over: the outpatient limit per person first, then the household limit.</li>
+          <li>National Health Insurance and late-stage elderly insurance use the same amounts. Only the way your category is set differs.</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="claim">
+      <h2>How to claim</h2>
+      <p>Use your My Number card as your health insurance card, or show a limit certificate from your insurer. The hospital then charges only up to your limit. Otherwise you pay your share and claim the rest from your insurer. Under the Health Insurance Act, the right to a benefit expires 2 years after you can claim it.</p>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>Sources and date checked</h2>
+      <p>Sources: Order for Enforcement of the Health Insurance Act (Cabinet Order No. 240 of 2026), the Ministry of Health, Labour and Welfare and Kyokai Kenpo. Checked <time datetime="2026-09-25" data-v="checked">September 25, 2026</time>.</p>
+      <details class="rels">
+        <summary>All sources (in Japanese)</summary>
+        <ul>
+          <li><a href="https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240" target="_blank" rel="noopener noreferrer">Order for Enforcement of the Health Insurance Act, from August 1, 2026 (e-Gov)</a>: Articles 41 to 42 (limits, yearly cap, rounding). Also the <a href="https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240" target="_blank" rel="noopener noreferrer">version from August 1, 2027</a></li>
+          <li><a href="https://laws.e-gov.go.jp/law/211AC0000000070" target="_blank" rel="noopener noreferrer">Health Insurance Act (e-Gov)</a>: Article 193 (2-year limit)</li>
+          <li><a href="https://www.mhlw.go.jp/content/001726232.pdf" target="_blank" rel="noopener noreferrer">Ministry of Health, Labour and Welfare: changes from August 2026</a> and <a href="https://www.mhlw.go.jp/content/001729632.pdf" target="_blank" rel="noopener noreferrer">reference material (worked examples)</a></li>
+          <li><a href="https://www.kyoukaikenpo.or.jp/benefit/high_cost_medical_expenses/002" target="_blank" rel="noopener noreferrer">Kyokai Kenpo: high-cost medical expense benefit</a></li>
+        </ul>
+        <p class="small">The calculator uses the same value file and calculation as the Japanese calculator on this site.</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        <dt>How is the high-cost medical expense benefit calculated?</dt>
+        <dd>Your income category sets a monthly limit. What you pay above it comes back. Under 70, with income of about ¥3.7 to ¥7.7 million and ¥1,000,000 of costs, the limit from August 2026 is ¥<span data-v="ex">92,940</span>.</dd>
+        <dt>Can foreigners use the high-cost medical expense benefit in Japan?</dt>
+        <dd>Yes. It is part of Japanese public health insurance, so it applies if you are enrolled in employee health insurance, National Health Insurance or late-stage elderly insurance.</dd>
+        <dt>How do I avoid paying the full amount at the hospital?</dt>
+        <dd>Use your My Number card as your health insurance card, or show a limit certificate from your insurer. The hospital then charges only up to your limit. Otherwise you pay your share and claim the rest.</dd>
+        <dt>What is the yearly cap on medical costs?</dt>
+        <dd>From August 2026 there is also a cap on your costs from August to the next July. It is ¥<span data-v="yearU">530,000</span> for income of about ¥3.7 to ¥7.7 million. Claims start in <span data-v="claim">August 2027</span>.</dd>
+        <dt>How long do I have to claim the benefit?</dt>
+        <dd>Under the Health Insurance Act, the right to a benefit expires 2 years after you can claim it. Ask your insurer for the form.</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>Notes and your data</h2>
+      <ul>
+        <li>This is an estimate. The final amount is decided by your health insurer.</li>
+        <li>Your inputs are saved only in this browser (localStorage, key <code>seido-keisan_highcost_draft</code>) and are never sent anywhere.</li>
+        <li>An exported file contains your medical costs. There is no share link.</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">Feedback form (Google Forms, in Japanese; you can write in English)</a>. We read every message but do not reply.</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>Changelog</h2>
+      <ul>
+        <li><time datetime="2026-10-03">October 3, 2026</time> Published (limits up to July 2026, from August 2026 and from August 2027)</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./">Japan High-Cost Medical Expense Benefit Calculator</a></li>
+        <li><a href="./guide.html" aria-current="page">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/kogaku-values.js"></script>
+  <script src="../../lib/kogaku.js"></script>
+  <script src="../../lib/high-cost-medical.js"></script>
+  <script src="./guide.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide, sources and FAQ | Japan Childcare Leave Benefit Calculator | yorozu-craft</title>
+  <meta name="description" content="How childcare leave benefit in Japan is calculated: 67% then 50% of your daily wage, the monthly cap, maternity allowance, the 13% post-birth top-up, who qualifies, when it is paid, and the sources used.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/childcare-leave/guide.html">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/ikukyu/guide.html">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/childcare-leave/guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/ikukyu/guide.html">
+
+  <meta property="og:title" content="Guide, sources and FAQ | Japan Childcare Leave Benefit Calculator">
+  <meta property="og:description" content="How childcare leave benefit in Japan is calculated, who qualifies, when it is paid, and the sources used.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/childcare-leave/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- FAQ（下の #faq と内容をそろえる。数字は guide.js が値ファイルから入れ直す） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is childcare leave benefit in Japan calculated?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your pay in the 6 months before leave, without bonuses, is divided by 180 to get a daily wage. You get 67% of it for the first 180 days of leave and 50% after that, paid per 30-day period." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the maximum childcare leave benefit per month?",
+        "acceptedAnswer": { "@type": "Answer", "text": "From August 1, 2026 the daily wage is capped at ¥16,540. That makes the maximum ¥332,454 a month at 67% and ¥248,100 at 50%. The caps change every August 1." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can foreigners get childcare leave benefit in Japan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nationality is not a condition. You need employment insurance and at least 12 months with 11 or more paid days in the 2 years before leave." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the 13% post-birth support benefit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "With 14 days or more of leave soon after the birth, you get an extra 13% of your daily wage for up to 28 days. Your partner also needs 14 days of leave, unless they are not an employee or you have none." }
+      },
+      {
+        "@type": "Question",
+        "name": "When is childcare leave benefit paid?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your employer usually applies to Hello Work for 2 payment periods at a time, after they end. Payment arrives about a week after the decision, so the first payment comes more than 2 months after leave starts." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Childcare Leave Benefit Calculator: guide</h1>
+    <p class="subtitle">How the benefits are calculated, who qualifies, when they are paid, sources and FAQ</p>
+    <p class="lang-switch"><a href="../../ikukyu/guide.html" hreflang="ja" lang="ja">日本語（育休・産休の計算の使い方）</a></p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ Open the Japan Childcare Leave Benefit Calculator</a></p>
+
+    <article class="card content" id="howto">
+      <h2>How to use it</h2>
+      <p>This page covers the benefits an employee in Japan gets around a birth: maternity allowance, childcare leave benefit (ikuji kyugyo kyufukin), the 13% top-up and the childbirth lump sum.</p>
+      <ol>
+        <li>Choose whether you are giving birth or your partner is.</li>
+        <li>Enter your monthly salary before tax, without bonuses.</li>
+        <li>Enter the due date.</li>
+        <li>Below the result, change the leave dates, your partner’s leave and your pay slip details if you know them.</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>How the benefits are calculated</h2>
+      <ul>
+        <li>Daily wage: your pay in the 6 months before leave, without bonuses, divided by 180. It is capped at ¥<span data-v="dailyMax">16,540</span> and raised to at least ¥<span data-v="dailyMin">3,203</span>.</li>
+        <li>Childcare leave benefit: <span data-v="high">67</span>% of the daily wage for the first <span data-v="highDays">180</span> days, then <span data-v="low">50</span>%. A full period is 30 days, so the maximum is ¥<span data-v="maxHigh">332,454</span> a month, then ¥<span data-v="maxLow">248,100</span>.</li>
+        <li>Maternity allowance (health insurance): 2/3 of your standard monthly remuneration ÷ 30, for <span data-v="sanzen">42</span> days before the birth and <span data-v="sango">56</span> days after it.</li>
+        <li>13% top-up: if you take 14 days or more of leave soon after the birth, you get <span data-v="shien">13</span>% of the daily wage for up to 28 days.</li>
+        <li>Childbirth lump sum: ¥<span data-v="ichiji">500,000</span> per baby, usually paid straight to the hospital.</li>
+      </ul>
+      <details class="rels">
+        <summary>Paternity leave, the partner rule and the premium waiver</summary>
+        <ul>
+          <li>Postnatal paternity leave (sango papa ikukyu) is up to 28 days within 8 weeks of the birth, paid at 67%. Those days count toward the 180 days at 67%.</li>
+          <li>For the 13% top-up, the parent who gave birth needs the partner to take 14 days or more of leave within 8 weeks. The rule is waived if the partner is not an employee or there is no partner.</li>
+          <li>Health and pension insurance premiums are waived for months you are on leave at the end of the month. The calculator prices this at Kyokai Kenpo Tokyo rates.</li>
+          <li>The caps on this page apply from <span data-v="validFrom">August 1, 2026</span> to <span data-v="validTo">July 31, 2027</span>. They change every August 1.</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="who">
+      <h2>Who qualifies, and when it is paid</h2>
+      <p>Nationality is not a condition. You need to be covered by employment insurance at work. You also need at least 12 months with 11 or more paid days in the 2 years before your leave starts.</p>
+      <p>Your employer usually applies to Hello Work for 2 payment periods at a time, after they end. Payment arrives about a week after the decision. So the first childcare leave benefit comes more than 2 months after leave starts. Maternity allowance is claimed from your health insurer, usually after maternity leave ends.</p>
+      <p>These benefits are not taxed. Residence tax is still charged on last year’s income during leave.</p>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>Sources and date checked</h2>
+      <p>Sources: Employment Insurance Act, Health Insurance Act, the Ministry of Health, Labour and Welfare and Kyokai Kenpo. Checked <time datetime="2026-09-24" data-v="checked">September 24, 2026</time>.</p>
+      <details class="rels">
+        <summary>All sources (in Japanese)</summary>
+        <ul id="sources">
+          <li><a href="https://laws.e-gov.go.jp/law/349AC0000000116" target="_blank" rel="noopener noreferrer">Employment Insurance Act (e-Gov)</a>: Articles 14 (insured months), 17 (daily wage), 61-7 (childcare leave benefit), 61-8 (paternity leave benefit), 61-10 (13% top-up)</li>
+          <li><a href="https://laws.e-gov.go.jp/law/211AC0000000070" target="_blank" rel="noopener noreferrer">Health Insurance Act (e-Gov)</a>: Articles 99 and 102 (maternity allowance), 101 (childbirth lump sum), 159 (premium waiver)</li>
+          <li><a href="https://www.mhlw.go.jp/content/11600000/001461102.pdf" target="_blank" rel="noopener noreferrer">Ministry of Health, Labour and Welfare: childcare leave benefits leaflet, August 2026</a></li>
+          <li><a href="https://www.mhlw.go.jp/content/001728499.pdf" target="_blank" rel="noopener noreferrer">Ministry of Health, Labour and Welfare: caps from August 1, 2026</a></li>
+          <li><a href="https://www.kyoukaikenpo.or.jp/benefit/childbirth/001/index.html" target="_blank" rel="noopener noreferrer">Kyokai Kenpo: maternity allowance</a> and <a href="https://www.kyoukaikenpo.or.jp/benefit/childbirth/002/index.html" target="_blank" rel="noopener noreferrer">childbirth lump sum</a></li>
+        </ul>
+        <p class="small">The calculator uses the same value file and calculation as the Japanese childcare leave calculator on this site.</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        <dt>How is childcare leave benefit in Japan calculated?</dt>
+        <dd>Your pay in the 6 months before leave, without bonuses, is divided by 180 to get a daily wage. You get <span data-v="high">67</span>% of it for the first <span data-v="highDays">180</span> days of leave and <span data-v="low">50</span>% after that, paid per 30-day period.</dd>
+        <dt>What is the maximum childcare leave benefit per month?</dt>
+        <dd>From <span data-v="validFrom">August 1, 2026</span> the daily wage is capped at ¥<span data-v="dailyMax">16,540</span>. That makes the maximum ¥<span data-v="maxHigh">332,454</span> a month at <span data-v="high">67</span>% and ¥<span data-v="maxLow">248,100</span> at <span data-v="low">50</span>%. The caps change every August 1.</dd>
+        <dt>Can foreigners get childcare leave benefit in Japan?</dt>
+        <dd>Nationality is not a condition. You need employment insurance and at least 12 months with 11 or more paid days in the 2 years before leave.</dd>
+        <dt>What is the 13% post-birth support benefit?</dt>
+        <dd>With 14 days or more of leave soon after the birth, you get an extra <span data-v="shien">13</span>% of your daily wage for up to 28 days. Your partner also needs 14 days of leave, unless they are not an employee or you have none.</dd>
+        <dt>When is childcare leave benefit paid?</dt>
+        <dd>Your employer usually applies to Hello Work for 2 payment periods at a time, after they end. Payment arrives about a week after the decision, so the first payment comes more than 2 months after leave starts.</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>Notes and your data</h2>
+      <ul>
+        <li>This is an estimate. The final amounts are decided by your health insurer and Hello Work.</li>
+        <li>Your inputs are saved only in this browser (localStorage, key <code>seido-keisan_childcareleave_draft</code>) and are never sent anywhere.</li>
+        <li>This is not legal or tax advice. Ask your employer or Hello Work about your own case.</li>
+      </ul>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=seido-keisan" target="_blank" rel="noopener">Feedback form (Google Forms, in Japanese; you can write in English)</a>. We read every message but do not reply.</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>Changelog</h2>
+      <ul>
+        <li><time datetime="2026-10-03">October 3, 2026</time> Published (caps from August 1, 2026)</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./">Japan Childcare Leave Benefit Calculator</a></li>
+        <li><a href="./guide.html" aria-current="page">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/ikukyu-values.js"></script>
+  <script src="./guide.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

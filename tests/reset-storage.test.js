@@ -48,6 +48,15 @@ const PAGE_PREFIXES = {
   ],
   "en/residence-tax/index.html": [
     "seido-keisan_residencetax_draft"
+  ],
+  "en/childcare-leave/index.html": [
+    "seido-keisan_childcareleave_draft"
+  ],
+  "en/high-cost-medical/index.html": [
+    "seido-keisan_highcost_draft"
+  ],
+  "en/moving-checklist/index.html": [
+    "seido-keisan_movingchecklist_draft"
   ]
 };
 const PAGE_LEGACY = {};

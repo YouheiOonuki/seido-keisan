@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan Moving Checklist for Foreign Residents (address, visa renewal, My Number) | yorozu-craft</title>
+  <meta name="description" content="Printable checklist for foreign residents in Japan: address notices when you move, visa (period of stay) renewal, My Number card and leaving Japan, with deadlines and the law behind each step. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/moving-checklist/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/moving-checklist/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/en/moving-checklist/">
+
+  <meta property="og:title" content="Japan Moving Checklist for Foreign Residents | yorozu-craft">
+  <meta property="og:description" content="A printable list of what to do, where and by when: moving, visa renewal, My Number card and leaving Japan.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/moving-checklist/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan Moving Checklist for Foreign Residents",
+    "description": "A printable checklist of address notices, period of stay renewal, My Number card steps and leaving Japan, with deadlines and legal basis.",
+    "url": "https://yorozu-craft.com/seido-keisan/en/moving-checklist/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+  <link rel="stylesheet" href="./moving-checklist.css">
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Moving Checklist for Foreign Residents</h1>
+    <p class="subtitle">What to do, where and by when, as a printable list.</p>
+  </header>
+
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ List</a>
+  </div>
+
+  <main class="app-main">
+
+    <p class="badge no-print" id="asof">Steps from Japanese law and the Immigration Services Agency, checked <span id="asof-date">October 3, 2026</span>. Your inputs never leave this browser.</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false" class="no-print">
+      <fieldset class="card req">
+        <legend>Your situation (choose all that apply)</legend>
+        <div class="sits" id="sits"></div>
+      </fieldset>
+    </form>
+
+    <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+      <h2 id="h-result">Your checklist</h2>
+      <p class="print-name" id="print-name" hidden></p>
+      <div id="result-main" aria-live="polite">
+        <p class="detail" id="r-empty">Choose your situation to see the list.</p>
+        <div id="list"></div>
+      </div>
+      <div class="btn-row no-print"><button type="button" class="btn" id="print" disabled>Print the list</button></div>
+      <p class="small">This list shows what the law and official pages say, not legal advice. Your city office or immigration bureau decides your case. <a href="./guide.html" class="no-print">Guide and sources</a></p>
+    </section>
+
+    <details class="card opt no-print" id="d-dates">
+      <summary>Dates for deadlines: <span class="opt-state" id="st-dates">none</span></summary>
+      <div class="field">
+        <label for="move">Moving date</label>
+        <input type="date" id="move" data-k="moveDate">
+      </div>
+      <div class="field">
+        <label for="expiry">End of your period of stay (on your residence card)</label>
+        <input type="date" id="expiry" data-k="expiryDate">
+      </div>
+      <label class="inline"><input type="checkbox" data-k="longStay"> My period of stay is 6 months or longer</label>
+    </details>
+
+    <details class="card opt no-print" id="d-more">
+      <summary>My Number card and name: <span class="opt-state" id="st-more">I have a card</span></summary>
+      <label class="inline"><input type="checkbox" data-k="hasCard"> I have a My Number card</label>
+      <div class="field">
+        <label for="name">Name for the printed list (optional)</label>
+        <input type="text" id="name" data-k="name" maxlength="40">
+      </div>
+    </details>
+
+    <details class="card opt no-print">
+      <summary>Not covered by this checklist</summary>
+      <ul class="small">
+        <li>Changing your status of residence, permanent residence and naturalization.</li>
+        <li>Health insurance, pension and tax steps other than those listed.</li>
+        <li>Banks, utilities, driver’s license, school and work.</li>
+        <li>Special permanent residents, and people without a residence card.</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>Save and export</summary>
+      <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
+        <button type="button" class="btn btn-sub" id="import">Import a file</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_movingchecklist_draft">Delete everything saved (reset)</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small no-print"><a href="./guide.html">Guide and sources (what each step means)</a> · <a href="../residence-tax/">Japan Residence Tax Calculator</a></p>
+
+  </main>
+
+  <footer class="app-footer no-print">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./" aria-current="page">Japan Moving Checklist</a></li>
+        <li><a href="./guide.html">Guide and sources</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/moving-checklist-values.js"></script>
+  <script src="../../lib/moving-checklist.js"></script>
+  <script src="../../lib/screen.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

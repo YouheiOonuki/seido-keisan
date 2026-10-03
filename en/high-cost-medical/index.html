@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan High-Cost Medical Expense Benefit Calculator (from August 2026) | yorozu-craft</title>
+  <meta name="description" content="Japan high-cost medical expense benefit calculator (kogaku ryoyohi): your monthly out-of-pocket limit and the refund, with the limits from August 2026, age 70 and over, and the yearly cap. No ads, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/high-cost-medical/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/high-cost-medical/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/">
+
+  <meta property="og:title" content="Japan High-Cost Medical Expense Benefit Calculator | yorozu-craft">
+  <meta property="og:description" content="Your monthly limit on medical costs in Japan and how much comes back. Limits from August 2026. No ads.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/high-cost-medical/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan High-Cost Medical Expense Benefit Calculator",
+    "description": "The monthly out-of-pocket limit for medical costs under Japanese public health insurance and the refund, with the limits from August 2026.",
+    "url": "https://yorozu-craft.com/seido-keisan/en/high-cost-medical/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- 高齢者・家族向けのページは広告を出さない（日本語の高額療養費と同じ。yorozu-plans D118）。所有確認の meta だけ置き、広告スクリプトは読まない -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+  <link rel="stylesheet" href="../../nenkin-kuriage/kuriage.css">
+  <link rel="stylesheet" href="../residence-tax/residence-tax.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan High-Cost Medical Expense Benefit Calculator</h1>
+    <p class="subtitle">Your monthly limit on medical costs in Japan, and how much comes back.</p>
+    <p class="lang-switch"><a href="../../kogaku-ryoyohi/" hreflang="ja" lang="ja">日本語（高額療養費の計算）</a></p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ Result</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="noad">This page has no ads and no sign-up. Your inputs never leave this device.</p>
+    <p class="badge" id="asof">High-cost medical expense benefit (kogaku ryoyohi), limits checked <span id="asof-date">September 25, 2026</span>.</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>Your medical costs</legend>
+        <div class="field">
+          <label for="ageplan">Age and insurance</label>
+          <select id="ageplan" data-k="ageplan">
+            <option value="u70">Under 70</option>
+            <option value="o70">70 to 74</option>
+            <option value="kouki">75 and over (elderly insurance)</option>
+          </select>
+        </div>
+        <div class="field" data-need="cat">
+          <label for="cat">Income category</label>
+          <select id="cat" data-k="cat"></select>
+          <p class="hint" id="cat-hint">Employees: by standard monthly remuneration. See the table below the result.</p>
+        </div>
+        <div class="field" data-need="cost">
+          <label for="cost">Total medical cost this month (100%)</label>
+          <p class="hint">Points on the receipt × ¥10, not what you paid.</p>
+          <div class="money"><span class="unit">¥</span><input type="number" id="cost" data-k="cost" inputmode="numeric" min="0" step="1" placeholder="e.g. 1000000"></div>
+        </div>
+        <div class="period" role="radiogroup" aria-label="Inpatient or outpatient">
+          <label><input type="radio" name="place" value="in" data-k="place"> Inpatient</label>
+          <label><input type="radio" name="place" value="out" data-k="place"> Outpatient or pharmacy</label>
+          <label for="rate">You pay <select id="rate" data-k="rate"><option value="0.3">30%</option><option value="0.2">20%</option><option value="0.1">10%</option></select></label>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">Your cost this month</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">Your monthly limit</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">Choose your income category and enter the cost.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="cmp sum">
+            <tbody>
+              <tr><th scope="row">Paid at the counter (your share)</th><td id="t-paid">—</td></tr>
+              <tr><th scope="row">High-cost benefit (comes back)</th><td id="t-refund">—</td></tr>
+              <tr><th scope="row">Limit formula</th><td id="t-formula">—</td></tr>
+              <tr id="row-year"><th scope="row">Yearly cap (August to July)</th><td id="t-year">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="small pay" id="r-msgs"></ul>
+        <p class="small">This is an estimate. The final amount is decided by your health insurer. <a href="./guide.html">Guide, sources and FAQ</a></p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-when">
+      <summary>Month of treatment: <span class="opt-state" id="st-when"></span></summary>
+      <div class="field">
+        <label for="period">Month of treatment</label>
+        <select id="period" data-k="period"></select>
+        <p class="hint">The limits changed in August 2026 and change again in August 2027.</p>
+      </div>
+      <label class="inline"><input type="checkbox" data-k="many"> I got this benefit in 3 or more of the last 12 months</label>
+    </details>
+
+    <details class="card opt" id="d-table">
+      <summary>Income categories and limits</summary>
+      <p class="small" id="table-note"></p>
+      <div class="table-wrap">
+        <table class="cmp" id="cat-table">
+          <thead><tr><th scope="col">Category</th><th scope="col">Standard monthly remuneration</th><th scope="col">Monthly limit, under 70 (4th time on)</th><th scope="col">70 and over (outpatient)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="card opt">
+      <summary>Not covered by this calculator</summary>
+      <ul class="small">
+        <li>Adding up family members or several hospitals (use the Japanese calculator).</li>
+        <li>Meals in hospital, private rooms and treatment outside insurance.</li>
+        <li>Extra benefits from your health insurance society and special rules for dialysis.</li>
+        <li>The month you turn 75, and stays that run across two months.</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>Save and export</summary>
+      <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
+        <button type="button" class="btn btn-sub" id="import">Import a file</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_highcost_draft">Delete everything saved (reset)</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">Guide, sources and FAQ (limits table, how to apply)</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./" aria-current="page">Japan High-Cost Medical Expense Benefit Calculator</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/screen.js"></script>
+  <script src="../../lib/kogaku-values.js"></script>
+  <script src="../../lib/kogaku.js"></script>
+  <script src="../../lib/high-cost-medical.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

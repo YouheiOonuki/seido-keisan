@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japan Childcare Leave Benefit Calculator (from August 2026) | yorozu-craft</title>
+  <meta name="description" content="Japan childcare leave benefit calculator for employees: the monthly benefit at 67% and 50%, maternity allowance, the 13% post-birth top-up and paternity leave. August 2026 caps, sources shown. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/en/childcare-leave/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/seido-keisan/ikukyu/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/seido-keisan/en/childcare-leave/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/seido-keisan/ikukyu/">
+
+  <meta property="og:title" content="Japan Childcare Leave Benefit Calculator | yorozu-craft">
+  <meta property="og:description" content="How much childcare leave benefit you get in Japan each month, plus maternity allowance and the 13% top-up.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/en/childcare-leave/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Japan Childcare Leave Benefit Calculator",
+    "description": "Childcare leave benefit in Japan for employees: the monthly amount at 67% and 50%, maternity allowance, the 13% post-birth top-up and paternity leave benefit, with the caps from August 2026.",
+    "url": "https://yorozu-craft.com/seido-keisan/en/childcare-leave/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../take-home-pay/take-home.css">
+  <link rel="stylesheet" href="../residence-tax/residence-tax.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Japan Childcare Leave Benefit Calculator</h1>
+    <p class="subtitle">How much you get each month on maternity and childcare leave in Japan.</p>
+    <p class="lang-switch"><a href="../../ikukyu/" hreflang="ja" lang="ja">日本語（育休・産休の給付金の計算）</a></p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ Result</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">For employees with employment insurance. Caps from <span id="asof-from">August 1, 2026</span>, checked <span id="asof-date">September 24, 2026</span>. Your inputs never leave this browser.</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>You and the birth</legend>
+        <div class="period" role="radiogroup" aria-label="Who you are">
+          <label><input type="radio" name="role" value="mother" data-k="role"> I am giving birth</label>
+          <label><input type="radio" name="role" value="partner" data-k="role"> My partner is giving birth</label>
+        </div>
+        <div class="field" data-need="salary">
+          <label for="salary">Monthly salary before tax</label>
+          <p class="hint">Include overtime and allowances. Leave out bonuses.</p>
+          <div class="money"><span class="unit">¥</span><input type="number" id="salary" data-k="salary" inputmode="numeric" min="0" step="1" placeholder="e.g. 300000"></div>
+        </div>
+        <div class="field" data-need="dueDate">
+          <label for="due">Due date</label>
+          <input type="date" id="due" data-k="dueDate">
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">Your benefits</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">Childcare leave benefit per month</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+        <ul class="small pay" id="r-notices"></ul>
+        <div class="table-wrap">
+          <table class="cmp sum">
+            <thead><tr><th scope="col">Benefit</th><th scope="col">JPY (¥)</th></tr></thead>
+            <tbody id="t-benefits"></tbody>
+          </table>
+        </div>
+        <p class="lag" id="r-tax"></p>
+        <details class="rels" id="periods-box">
+          <summary>Childcare leave benefit by payment period</summary>
+          <div class="table-wrap">
+            <table class="cmp" id="periods">
+              <thead><tr><th scope="col">#</th><th scope="col">Period</th><th scope="col">Days</th><th scope="col">Rate</th><th scope="col">¥</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+        <details class="rels" id="steps-box">
+          <summary>How the amounts were worked out</summary>
+          <table class="steps" id="steps"><tbody></tbody></table>
+        </details>
+        <p class="small">This is an estimate. The final amounts are decided by your health insurer and Hello Work. <a href="./guide.html">Guide, sources and FAQ</a></p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-leave">
+      <summary>Your leave: <span class="opt-state" id="st-leave">until the child turns 1</span></summary>
+      <div class="partner-only">
+        <label class="inline"><input type="checkbox" data-k="papa.use"> I take postnatal paternity leave (sango papa ikukyu)</label>
+        <div class="field" id="papa-row">
+          <p class="hint">Up to 28 days within 8 weeks of the birth. It is separate from childcare leave.</p>
+          <label for="papa-start">Paternity leave from</label>
+          <input type="date" id="papa-start" data-k="papa.start">
+          <label for="papa-end">Paternity leave to</label>
+          <input type="date" id="papa-end" data-k="papa.end">
+        </div>
+        <div class="field">
+          <label for="leave-start">Childcare leave starts</label>
+          <input type="date" id="leave-start" data-k="leaveStart">
+          <p class="hint" id="leave-start-hint">Leave blank to start on the birth date.</p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="leave-end">Childcare leave ends</label>
+        <input type="date" id="leave-end" data-k="leaveEnd">
+        <p class="hint" id="leave-end-hint">Leave blank to stay off until the day before the first birthday.</p>
+      </div>
+    </details>
+
+    <details class="card opt mother-only" id="d-spouse">
+      <summary>Your partner: <span class="opt-state" id="st-spouse">takes 14+ days of leave</span></summary>
+      <div class="field">
+        <label for="spouse">Your partner’s situation</label>
+        <select id="spouse" data-k="spouse">
+          <option value="leave14">Employee taking 14 days or more of leave within 8 weeks of the birth</option>
+          <option value="noLeave">Employee taking no leave, or less than 14 days</option>
+          <option value="notEmployee">Not an employee (homemaker, self-employed, freelance)</option>
+          <option value="none">No partner (single parent)</option>
+        </select>
+        <p class="hint">This decides the 13% post-birth top-up.</p>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-birth">
+      <summary>Birth details: <span class="opt-state" id="st-birth">1 baby, born on the due date</span></summary>
+      <div class="field">
+        <label for="birth">Birth date, if the baby is born</label>
+        <input type="date" id="birth" data-k="birthDate">
+      </div>
+      <div class="field">
+        <label for="babies">Number of babies</label>
+        <select id="babies" data-k="babies">
+          <option value="1">1</option>
+          <option value="2">2 (twins)</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+    </details>
+
+    <details class="card opt" id="d-pay">
+      <summary>Pay slip details: <span class="opt-state" id="st-pay">from your monthly salary</span></summary>
+      <div class="field">
+        <label for="wage6">Total pay in the 6 months before leave</label>
+        <p class="hint">Leave out bonuses. Blank means monthly salary × 6.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="wage6" data-k="wage6" inputmode="numeric" min="0" step="1" placeholder="auto"></div>
+      </div>
+      <div class="field">
+        <label for="hyojun">Standard monthly remuneration (hyojun hoshu getsugaku)</label>
+        <p class="hint">Blank means it is looked up from your salary.</p>
+        <div class="money"><span class="unit">¥</span><input type="number" id="hyojun" data-k="hyojun" inputmode="numeric" min="0" step="1" placeholder="auto"></div>
+      </div>
+      <label class="inline mother-only"><input type="checkbox" data-k="under12"> I joined my current health insurance less than 12 months ago</label>
+      <label class="inline"><input type="checkbox" data-k="over40"> I am 40 to 64 (adds nursing care insurance to the premium waiver)</label>
+    </details>
+
+    <details class="card opt">
+      <summary>Not covered by this calculator</summary>
+      <ul class="small">
+        <li>Self-employed people, National Health Insurance and public servants’ mutual aid.</li>
+        <li>Leave after the first birthday (extensions when no daycare place is available).</li>
+        <li>Pay from your employer during leave, and the shorter working hours benefit.</li>
+        <li>Health insurance other than Kyokai Kenpo Tokyo for the premium waiver.</li>
+      </ul>
+    </details>
+
+    <details class="card opt no-print" id="d-file">
+      <summary>Save and export</summary>
+      <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
+        <button type="button" class="btn btn-sub" id="import">Import a file</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_childcareleave_draft">Delete everything saved (reset)</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <p class="small" id="file-msg" role="status"></p>
+    </details>
+
+    <p class="small"><a href="./guide.html">Guide, sources and FAQ (who qualifies, when it is paid)</a> · <a href="../residence-tax/">Japan Residence Tax Calculator</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../../en/">yorozu-craft</a></li>
+        <li><a href="./" aria-current="page">Japan Childcare Leave Benefit Calculator</a></li>
+        <li><a href="./guide.html">Guide and FAQ</a></li>
+        <li><a href="../../../en/about.html">About</a></li>
+        <li><a href="../../../en/privacy-policy.html">Privacy policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/ikukyu-values.js"></script>
+  <script src="../../lib/ikukyu.js"></script>
+  <script src="../../lib/childcare-leave.js"></script>
+  <script src="../../lib/screen.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
