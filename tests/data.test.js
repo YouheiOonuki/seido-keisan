@@ -14,8 +14,32 @@ const load = name => import(path.join(root, 'tools', name));
 
 test('data/ のファイルが lib/kaitei-values.js から書き出した結果と同じ（node tools/build-data.mjs）', async () => {
   const B = await load('build-data.mjs');
-  assert.equal(read('data/kaitei.json'), B.buildJson());
-  assert.equal(read('data/kaitei.ics'), B.buildIcs());
+  const out = B.outputs();
+  assert.equal(read('data/kaitei.json'), out['data/kaitei.json']);
+  assert.equal(read('data/kaitei.ics'), out['data/kaitei.ics']);
+});
+
+// ACCEPTANCE 7.10.3 e: ファイルの中に license・generated・checked・source。generated は中身が変わったときだけ変わる
+test('generated（生成日）: JSON と ics の中にあり、中身が同じなら書き出し直しても変わらない', async () => {
+  const B = await load('build-data.mjs');
+  const d = JSON.parse(read('data/kaitei.json'));
+  assert.match(d.generated, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(d.generated >= d.checked, 'generated は checked 以後');
+  assert.deepEqual(d.source, [...new Set(V.SOURCES.map(s => s.url))]);
+  for (const u of d.source) assert.match(u, /^https:\/\//);
+  const ics = read('data/kaitei.ics');
+  assert.equal(B.generatedOf(ics), d.generated);
+  // 中身が同じなら、日付が変わっても同じファイル
+  const json = read('data/kaitei.json');
+  assert.equal(B.stamp(B.buildJson, json), json);
+  assert.equal(B.stamp(B.buildIcs, ics), ics);
+  // 中身が変わったら generated は今日（GENERATED で固定して確かめる）
+  process.env.GENERATED = '2099-01-01';
+  try {
+    const changed = json.replace('"title": "', '"title": "x');
+    assert.match(B.stamp(B.buildJson, changed), /"generated": "2099-01-01"/);
+    assert.equal(B.stamp(B.buildJson, null).includes('"generated": "2099-01-01"'), true);
+  } finally { delete process.env.GENERATED; }
 });
 
 test('kaitei.json: CC0・確認日・各行の出典の URL', () => {
@@ -70,6 +94,7 @@ test('kaitei.ics: X-WR-CALDESC に CC0・確認日・出典の URL（予定に�
   assert.ok(desc, 'X-WR-CALDESC がある');
   assert.match(desc, /CC0 1\.0/);
   assert.ok(desc.includes('確認日: ' + V.CHECKED), '確認日');
+  assert.match(desc, /\n生成日: \d{4}-\d{2}-\d{2}/, '生成日');
   const used = new Set(K.inRange(V.ITEMS, V.RANGE).flatMap(it => it.src.map(k => V.SOURCES.find(s => s.key === k).url)));
   assert.ok(used.size > 0);
   for (const u of used) assert.ok(desc.split('\n').includes(u), u);
