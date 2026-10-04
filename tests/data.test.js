@@ -138,6 +138,12 @@ test('使い方ページの「リンク・引用・埋め込みのしかた」�
   // 広告の有無は設計どおり（D118: 年金・高額療養費は広告なし）
   assert.equal(C.pageInfo('nenmatsu').ads, true);
   assert.equal(C.pageInfo('juminzei').ads, true);
+  // AdSense 審査中（2026-10-04）は script を外して meta だけ。埋め込みの例は広告ありのページとして扱う
+  for (const dir of C.REVIEW_NO_AD) {
+    const h = read(dir + '/index.html');
+    assert.ok(!/adsbygoogle\.js/.test(h), dir + ' は審査中なので広告 script なし');
+    assert.equal((h.match(/name="google-adsense-account"/g) || []).length, 1, dir + ' に所有確認の meta');
+  }
   assert.equal(C.pageInfo('kogaku-ryoyohi').ads, false);
   assert.equal(C.pageInfo('nenkin-kuriage').ads, false);
 });

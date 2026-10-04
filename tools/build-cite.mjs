@@ -21,8 +21,12 @@ export function pageInfo(dir) {
   const url = (html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
   const h1 = ((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]+>/g, '').trim();
   if (!url || !h1) throw new Error(dir + '/index.html に canonical か h1 が無い');
-  return { dir, url, name: h1, ads: /adsbygoogle\.js/.test(html) };
+  return { dir, url, name: h1, ads: /adsbygoogle\.js/.test(html) || REVIEW_NO_AD.includes(dir) };
 }
+
+// AdSense 審査が通るまで本文の薄いページは広告 script を外した（2026-10-04）。審査後に戻すので、
+// 埋め込み（iframe）の例は広告ありのページとして出さないままにする
+export const REVIEW_NO_AD = ['nenmatsu', 'juminzei'];
 
 export function block(p) {
   const link = `<a href="${p.url}">${p.name}</a>`;
