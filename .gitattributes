@@ -1,1 +1,5 @@
+# 改行は LF に固定する（PC の core.autocrlf が true でも、作業ツリーを CRLF にしない）。
+# 生成物とテストの突き合わせが CRLF で外れるため（2026-10-10、yorozu-plans BUILDLOG）
+* text=auto eol=lf
+# ics は RFC 5545 で CRLF。変換しない（上の行より後に置く。後の行が勝つ）
 data/*.ics -text
