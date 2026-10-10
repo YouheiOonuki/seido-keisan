@@ -63,6 +63,13 @@
     <p class="badge" id="asof">率は法令で決まった値（繰上げ0.4%・繰下げ0.7%）・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
 
     <form id="form" autocomplete="off" onsubmit="return false">
+
+      <!-- 声で入力（yorozu-plans ROADMAP 7.37.1 K148）。対応しないブラウザでは出さない（lib/voice-input.js） -->
+      <div class="voice-box" data-voice-form="kuriage" hidden>
+        <button type="button" class="btn voice-btn">🎤 声で入れる</button>
+        <p class="hint">例：「昭和35年4月2日生まれ、基礎年金は80万円、厚生年金は100万円、70歳から」。声の入力はサーバー（Cloudflare の AI）で文字にします。保存しません。ほかの入力は端末の外に出ません。</p>
+        <p class="voice-status" aria-live="polite"></p>
+      </div>
       <fieldset class="card req">
         <legend>生年月日と65歳からの年金</legend>
         <div class="field" data-need="birth">
@@ -221,6 +228,7 @@
   <script src="../lib/kuriage.js"></script>
   <script src="../reset-storage.js"></script>
   <script src="./app.js"></script>
+  <script src="../lib/voice-input.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
