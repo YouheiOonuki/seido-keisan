@@ -5,12 +5,13 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { pathToFileURL } = require('node:url');
 const V = require('../lib/kaitei-values.js');
 const K = require('../lib/kaitei.js');
 
 const root = path.join(__dirname, '..');
 const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
-const load = name => import(path.join(root, 'tools', name));
+const load = name => import(pathToFileURL(path.join(root, 'tools', name)).href);
 
 test('data/ のファイルが lib/kaitei-values.js から書き出した結果と同じ（node tools/build-data.mjs）', async () => {
   const B = await load('build-data.mjs');
