@@ -9,7 +9,7 @@
   "repository": "https://github.com/YouheiOonuki/seido-keisan",
   "generated_from": "lib/kaitei-values.js（tools/build-data.mjs で書き出し）",
   "checked": "2026-09-25",
-  "generated": "2026-10-03",
+  "generated": "2026-10-11",
   "source": [
     "https://www.nta.go.jp/publication/pamph/gensen/0025005-051.pdf",
     "https://www.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf",
@@ -22,6 +22,7 @@
     "https://www.soumu.go.jp/main_content/001063704.pdf",
     "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf",
     "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/zeiritsuhikisage.htm",
+    "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/0026008-127_leaflet.pdf",
     "https://www.cfa.go.jp/policies/kodomokosodateshienkinseido",
     "https://laws.e-gov.go.jp/law/334AC0000000141/20261001_506AC0000000047",
     "https://www.mext.go.jp/a_menu/shotou/career/05010502/1408866_00004.htm",
@@ -33,6 +34,7 @@
     "https://laws.e-gov.go.jp/law/329AC0000000115/20270901_507AC0000000074",
     "https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074",
     "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
+    "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
     "https://www.mhlw.go.jp/content/12400000/001713111.pdf",
     "https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240",
     "https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240",
@@ -135,8 +137,15 @@
     },
     {
       "key": "hikisage",
-      "label": "国税庁 消費税率引下げ特設サイト・リーフレット（令和8年9月15日開設）",
+      "label": "国税庁 消費税率引下げ特設サイト（令和8年9月15日開設）",
       "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/zeiritsuhikisage.htm",
+      "where": "「飲食料品に係る２年間の消費税率引下げ」／「なお、内容については、今後、法案が国会に提出され、審議を経た上で可決・成立した場合のものです。」",
+      "checked": "2026-09-25"
+    },
+    {
+      "key": "hikisageLeaflet",
+      "label": "国税庁 リーフレット「飲食料品に係る２年間の消費税率引下げについて」（令和８年９月、PDF）",
+      "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/0026008-127_leaflet.pdf",
       "where": "飲食料品の税率を令和9年4月1日から令和11年3月31日まで1%にする案。「法案が国会に提出され、審議を経た上で可決・成立した場合のもの」",
       "checked": "2026-09-25"
     },
@@ -158,7 +167,7 @@
       "key": "mextKoko",
       "label": "文部科学省「高等学校等就学支援金の支給に関する法律の一部を改正する法律の施行等について（通知）」（令和8年3月31日）",
       "url": "https://www.mext.go.jp/a_menu/shotou/career/05010502/1408866_00004.htm",
-      "where": "所得制限を撤廃、令和8年4月1日施行。支給限度額 私立の高校全日制 月38,100円（年457,200円）、公立 月9,900円",
+      "where": "「所得制限を撤廃し、就学支援金の支給に当たって保護者等の収入の状況を問わないこととしたこと。」／「高等学校全日制 9,600円 9,900円 38,100円」",
       "checked": "2026-09-25"
     },
     {
@@ -212,8 +221,15 @@
     },
     {
       "key": "mhlwNenkin",
-      "label": "厚生労働省「年金制度改正法が成立しました」・社会保険の加入対象の拡大について",
+      "label": "厚生労働省「年金制度改正法が成立しました」",
       "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
+      "where": "「年金制度改正法が成立しました」／「被用者保険の適用拡大 、 在職老齢年金制度の見直し 、 遺族年金の見直し 、 標準報酬月額の上限の段階的引上げ」",
+      "checked": "2026-09-25"
+    },
+    {
+      "key": "mhlwNenkinPdf",
+      "label": "厚生労働省「社会経済の変化を踏まえた年金制度の機能強化のための国民年金法等の一部を改正する等の法律の概要」（PDF）",
+      "url": "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
       "where": "令和7年6月13日成立。賃金要件の撤廃は公布から3年以内の政令で定める日（e-Gov の施行日は2026-10-01）。上限 68万（2027年9月）・71万（2028年9月）・75万（2029年9月）",
       "checked": "2026-09-25"
     },
@@ -487,8 +503,13 @@
           "checked": "2026-09-25"
         },
         {
-          "label": "厚生労働省「年金制度改正法が成立しました」・社会保険の加入対象の拡大について",
+          "label": "厚生労働省「年金制度改正法が成立しました」",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
+          "checked": "2026-09-25"
+        },
+        {
+          "label": "厚生労働省「社会経済の変化を踏まえた年金制度の機能強化のための国民年金法等の一部を改正する等の法律の概要」（PDF）",
+          "url": "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
           "checked": "2026-09-25"
         }
       ]
@@ -802,7 +823,7 @@
           "checked": "2026-09-25"
         },
         {
-          "label": "厚生労働省「年金制度改正法が成立しました」・社会保険の加入対象の拡大について",
+          "label": "厚生労働省「年金制度改正法が成立しました」",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
           "checked": "2026-09-25"
         }
@@ -831,8 +852,13 @@
           "checked": "2026-09-25"
         },
         {
-          "label": "厚生労働省「年金制度改正法が成立しました」・社会保険の加入対象の拡大について",
+          "label": "厚生労働省「年金制度改正法が成立しました」",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
+          "checked": "2026-09-25"
+        },
+        {
+          "label": "厚生労働省「社会経済の変化を踏まえた年金制度の機能強化のための国民年金法等の一部を改正する等の法律の概要」（PDF）",
+          "url": "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
           "checked": "2026-09-25"
         }
       ]
@@ -1139,8 +1165,13 @@
       ],
       "sources": [
         {
-          "label": "国税庁 消費税率引下げ特設サイト・リーフレット（令和8年9月15日開設）",
+          "label": "国税庁 消費税率引下げ特設サイト（令和8年9月15日開設）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/zeiritsuhikisage.htm",
+          "checked": "2026-09-25"
+        },
+        {
+          "label": "国税庁 リーフレット「飲食料品に係る２年間の消費税率引下げについて」（令和８年９月、PDF）",
+          "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/0026008-127_leaflet.pdf",
           "checked": "2026-09-25"
         }
       ]
