@@ -10,7 +10,7 @@ X-WR-CALDESC:制度の改定カレンダー（yorozu-craft）。税・社
  センス: CC0 1.0（パブリック・ドメイン提供） https://creat
  ivecommons.org/publicdomain/zero/1.0/deed.ja\n確認日: 2026-09-25（日
  付と内容は出典の原文で確かめた。制度の判断には原
- 文を確かめること）\n生成日: 2026-10-03（このファイルの
+ 文を確かめること）\n生成日: 2026-10-11（このファイルの
  中身が変わった日）\nページ: https://yorozu-craft.com/seido-kei
  san/kaitei/\n出典（各予定の説明欄にも）:\nhttps://www.nta.go.
  jp/publication/pamph/gensen/0025005-051.pdf\nhttps://www.cfa.go.jp/policie
@@ -22,21 +22,22 @@ X-WR-CALDESC:制度の改定カレンダー（yorozu-craft）。税・社
  tps://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juu
  you/kougakuiryou/index.html\nhttps://laws.e-gov.go.jp/law/329AC0000000115/
  20261001_507AC0000000074\nhttps://www.mhlw.go.jp/stf/seisakunitsuite/bunya
- /0000147284_00017.html\nhttps://www.nta.go.jp/taxes/shiraberu/zeimokubetsu
- /shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf\nhttps://law
- s.e-gov.go.jp/law/334AC0000000141/20261001_506AC0000000047\nhttps://www.nt
- a.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf\nhttps://www.nta.go.jp/p
- ublication/pamph/gensen/2026kaisei.pdf\nhttps://www.nta.go.jp/publication/
- pamph/pdf/0026005-024_02.pdf\nhttps://laws.e-gov.go.jp/law/340AC0000000033
- /20270101_508AC0000000012\nhttps://laws.e-gov.go.jp/law/332AC0000000026/20
- 270101_508AC0000000012\nhttps://laws.e-gov.go.jp/law/325AC0000000226/20270
- 101_508AC0000000002\nhttps://www.soumu.go.jp/main_content/001063704.pdf\nh
- ttps://www.moj.go.jp/MINJI/souzokutouki-gimuka/index.html\nhttps://laws.e-
- gov.go.jp/law/215IO0000000243/20270801_508CO0000000240\nhttps://laws.e-gov
- .go.jp/law/329AC0000000115/20270901_507AC0000000074\nhttps://laws.e-gov.go
- .jp/law/329AC0000000115/20271001_507AC0000000074\nhttps://laws.e-gov.go.jp
- /law/325AC0000000226/20280101_508AC0000000002\nhttps://laws.e-gov.go.jp/la
- w/349AC0000000116/20281001_506AC0000000026
+ /0000147284_00017.html\nhttps://www.mhlw.go.jp/content/12500000/001496971.
+ pdf\nhttps://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeirit
+ su/invoice-review/pdf/0026004-099-01-1.pdf\nhttps://laws.e-gov.go.jp/law/3
+ 34AC0000000141/20261001_506AC0000000047\nhttps://www.nta.go.jp/users/gense
+ n/2026kiso/pdf/0026005-024.pdf\nhttps://www.nta.go.jp/publication/pamph/ge
+ nsen/2026kaisei.pdf\nhttps://www.nta.go.jp/publication/pamph/pdf/0026005-0
+ 24_02.pdf\nhttps://laws.e-gov.go.jp/law/340AC0000000033/20270101_508AC0000
+ 000012\nhttps://laws.e-gov.go.jp/law/332AC0000000026/20270101_508AC0000000
+ 012\nhttps://laws.e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002
+ \nhttps://www.soumu.go.jp/main_content/001063704.pdf\nhttps://www.moj.go.j
+ p/MINJI/souzokutouki-gimuka/index.html\nhttps://laws.e-gov.go.jp/law/215IO
+ 0000000243/20270801_508CO0000000240\nhttps://laws.e-gov.go.jp/law/329AC000
+ 0000115/20270901_507AC0000000074\nhttps://laws.e-gov.go.jp/law/329AC000000
+ 0115/20271001_507AC0000000074\nhttps://laws.e-gov.go.jp/law/325AC000000022
+ 6/20280101_508AC0000000002\nhttps://laws.e-gov.go.jp/law/349AC0000000116/2
+ 0281001_506AC0000000026
 REFRESH-INTERVAL;VALUE=DURATION:P1W
 X-PUBLISHED-TTL:P1W
 BEGIN:VEVENT
@@ -182,10 +183,12 @@ DESCRIPTION:パート・アルバイトの厚生年金・健康保険の加
  保険の加入チェッカー\n出典: 厚生年金保険法（令和8年
  10月1日施行版。令和7年法律第74号による改正後） https:/
  /laws.e-gov.go.jp/law/329AC0000000115/20261001_507AC0000000074\n出典: 
- 厚生労働省「年金制度改正法が成立しました」・社会
- 保険の加入対象の拡大について https://www.mhlw.go.jp/stf/seis
- akunitsuite/bunya/0000147284_00017.html\n一覧: https://yorozu-craft.com/
- seido-keisan/kaitei/#i-2026-10-chingin
+ 厚生労働省「年金制度改正法が成立しました」 https://ww
+ w.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html\n出典: 厚
+ 生労働省「社会経済の変化を踏まえた年金制度の機能
+ 強化のための国民年金法等の一部を改正する等の法律
+ の概要」（PDF） https://www.mhlw.go.jp/content/12500000/001496971.pd
+ f\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-10-chingin
 URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-10-chingin
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -397,10 +400,9 @@ DESCRIPTION:上限が65万円から68万円に（報酬月額66.5万円以
  育休・産休の計算\n出典: 厚生年金保険法（令和9年9月1
  日・令和10年9月1日・令和11年9月1日施行版） https://laws.e
  -gov.go.jp/law/329AC0000000115/20270901_507AC0000000074\n出典: 厚生労
- 働省「年金制度改正法が成立しました」・社会保険の
- 加入対象の拡大について https://www.mhlw.go.jp/stf/seisakunitsui
- te/bunya/0000147284_00017.html\n一覧: https://yorozu-craft.com/seido-kei
- san/kaitei/#i-2027-09-jogen68
+ 働省「年金制度改正法が成立しました」 https://www.mhlw.go
+ .jp/stf/seisakunitsuite/bunya/0000147284_00017.html\n一覧: https://yoroz
+ u-craft.com/seido-keisan/kaitei/#i-2027-09-jogen68
 URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-09-jogen68
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -417,10 +419,13 @@ DESCRIPTION:パート・アルバイトが厚生年金・健康保険に入
  ル: 社会保険の加入チェッカー\n出典: 厚生年金保険法
  （令和9年10月1日施行版）に載る令和7年法律第74号の附
  則 https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074\
- n出典: 厚生労働省「年金制度改正法が成立しました」
- ・社会保険の加入対象の拡大について https://www.mhlw.go.jp
- /stf/seisakunitsuite/bunya/0000147284_00017.html\n一覧: https://yorozu-c
- raft.com/seido-keisan/kaitei/#i-2027-10-kibo36
+ n出典: 厚生労働省「年金制度改正法が成立しました」 h
+ ttps://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html\n出
+ 典: 厚生労働省「社会経済の変化を踏まえた年金制度の
+ 機能強化のための国民年金法等の一部を改正する等の
+ 法律の概要」（PDF） https://www.mhlw.go.jp/content/12500000/001496
+ 971.pdf\n一覧: https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-10-k
+ ibo36
 URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-10-kibo36
 TRANSP:TRANSPARENT
 END:VEVENT
