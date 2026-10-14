@@ -215,7 +215,7 @@
 
         <details class="card opt" id="opt-rel">
           <summary>扶養親族・特定親族: <span class="opt-state" id="sum-rel">0 人</span></summary>
-          <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。<strong>16歳未満の子も入れてください</strong>（非課税になるかの判定で人数に入ります）。</p>
+          <p class="small">生計を一にする親族（配偶者を除く）を1人ずつ足します。<strong>16歳未満の子も入れます</strong>（非課税になるかの判定で人数に入ります）。</p>
           <details class="rels">
             <summary>年齢の区分</summary>
             <p class="small">16歳未満の子に扶養控除はありません。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。</p>
@@ -286,7 +286,7 @@
 
         <details class="card opt" id="custom-block">
           <summary>税率・均等割を自分で直す（市区町村で違う場合）: <span class="opt-state" id="sum-city">標準の値</span></summary>
-          <p class="small">多くの市区町村は標準の税率ですが、独自に上乗せや減税をしているところがあります（例：名古屋市は市民税の所得割7.7%・均等割2,800円、横浜市は市民税の均等割3,900円・神奈川県の県民税の所得割2.025%・均等割1,300円。どちらも令和8年度の各市の案内による）。お住まいの市区町村の案内の値を入れてください。</p>
+          <p class="small">多くの市区町村は標準の税率ですが、独自に上乗せや減税をしているところがあります（例：名古屋市は市民税の所得割7.7%・均等割2,800円、横浜市は市民税の均等割3,900円・神奈川県の県民税の所得割2.025%・均等割1,300円。どちらも令和8年度の各市の案内による）。お住まいの市区町村の案内の値を入れます。</p>
           <label class="inline"><input type="checkbox" id="city-custom" data-k="city.custom"> 下の値で計算する</label>
           <div class="grid2">
             <div class="field"><label for="c-prefRate">道府県民税の所得割の税率</label><div class="money"><input type="number" id="c-prefRate" data-k="city.prefRate" inputmode="decimal" min="0" max="20" step="0.001"><span class="unit">%</span></div></div>
