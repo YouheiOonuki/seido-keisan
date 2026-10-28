@@ -21,8 +21,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -57,7 +57,7 @@
   </header>
 
   <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す。読み込み時は無い（CLS を出さない） -->
-  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+  <div class="fixed-bar fixbar-narrow" id="fixbar" role="status" hidden>
     <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
   </div>
 
@@ -75,7 +75,7 @@
           <p class="hint">源泉徴収票の「支払金額」にあたる金額です。交通費（非課税分）は含めません。給与のほかに収入がない人向けです。</p>
           <div class="money"><input type="number" id="income" data-k="income" inputmode="numeric" min="0" step="1" placeholder="例：3000000"><span class="unit">円</span><output class="yomi" for="income"></output></div>
         </div>
-        <p class="small"><button type="button" class="btn btn-sub" id="from-nenmatsu">年末調整の計算の入力を使う</button></p>
+        <p class="small"><button type="button" class="btn" id="from-nenmatsu">年末調整の計算の入力を使う</button></p>
         <p class="small" id="nenmatsu-msg" role="status"></p>
         <div class="field">
           <label for="shakai">社会保険料（給与から引かれた分＋自分で払った分）</label>
@@ -98,7 +98,7 @@
 
       <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
         <h2 id="h-result">計算の結果（令和9年度）</h2>
-        <div id="msgs" class="msg msg-warn" hidden></div>
+        <div id="msgs" class="notice" hidden></div>
         <div class="result-main" id="result-main" aria-live="polite">
           <p class="lead" id="r-lead">令和9年度の住民税（年額）</p>
           <p class="big" id="r-big">—</p>
@@ -221,7 +221,7 @@
             <p class="small">16歳未満の子に扶養控除はありません。年齢は令和8年12月31日時点です（16歳未満は平成23年1月2日以後生まれ、19〜22歳は平成16年1月2日〜平成20年1月1日生まれ、70歳以上は昭和32年1月1日以前生まれ）。</p>
           </details>
           <div id="rels"></div>
-          <button type="button" class="btn btn-sub" id="add-rel">＋ 親族を足す</button>
+          <button type="button" class="btn" id="add-rel">＋ 親族を足す</button>
         </details>
 
         <details class="card opt" id="opt-self">
@@ -294,7 +294,7 @@
             <div class="field"><label for="c-prefKinto">道府県民税の均等割</label><div class="money"><input type="number" id="c-prefKinto" data-k="city.prefKinto" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
             <div class="field"><label for="c-cityKinto">市町村民税の均等割</label><div class="money"><input type="number" id="c-cityKinto" data-k="city.cityKinto" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
           </div>
-          <button type="button" class="btn btn-sub" id="city-reset">標準の値に戻す</button>
+          <button type="button" class="btn" id="city-reset">標準の値に戻す</button>
         </details>
       </div>
 
@@ -304,9 +304,9 @@
       <summary>入力の保存・書き出し</summary>
       <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
       <div class="btn-row">
-        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
-        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_juminzei_draft">保存した内容をすべて消す（初期状態に戻す）</button>
+        <button type="button" class="btn" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn" data-reset-storage="seido-keisan_juminzei_draft">保存した内容をすべて消す（初期状態に戻す）</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="small" id="file-msg" role="status"></p>

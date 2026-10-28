@@ -18,8 +18,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -55,13 +55,13 @@
 
     <section class="card kt-controls" aria-label="絞り込みとカレンダー">
       <p class="kt-next" id="next" aria-live="polite"></p>
-      <div class="msg msg-warn" id="stale" hidden><p>最終確認日から時間がたっています。予定が変わっていることがあるので、出典で確かめてください。</p></div>
+      <div class="notice" id="stale" hidden><p>最終確認日から時間がたっています。予定が変わっていることがあるので、出典で確かめてください。</p></div>
       <div class="kt-chips" id="chips" role="group" aria-label="分類で絞り込む" hidden>
-        <button type="button" class="kt-chip" data-cat="all" aria-pressed="true">すべて</button>
-        <button type="button" class="kt-chip" data-cat="zei" aria-pressed="false">税</button>
-        <button type="button" class="kt-chip" data-cat="shaho" aria-pressed="false">社保・年金</button>
-        <button type="button" class="kt-chip" data-cat="kosodate" aria-pressed="false">子育て・教育</button>
-        <button type="button" class="kt-chip" data-cat="other" aria-pressed="false">その他</button>
+        <button type="button" class="chip kt-chip" data-cat="all" aria-pressed="true">すべて</button>
+        <button type="button" class="chip kt-chip" data-cat="zei" aria-pressed="false">税</button>
+        <button type="button" class="chip kt-chip" data-cat="shaho" aria-pressed="false">社保・年金</button>
+        <button type="button" class="chip kt-chip" data-cat="kosodate" aria-pressed="false">子育て・教育</button>
+        <button type="button" class="chip kt-chip" data-cat="other" aria-pressed="false">その他</button>
       </div>
       <p class="kt-count"><span id="shown"><!-- kaitei:count -->30<!-- /kaitei:count --></span> 件（施行日の決まったもの）</p>
       <button type="button" class="btn" id="ics-all" hidden>表示中の予定をカレンダーに入れる（.ics）</button>

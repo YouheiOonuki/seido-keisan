@@ -21,8 +21,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -58,7 +58,7 @@
   </header>
 
   <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す。読み込み時は無い（CLS を出さない） -->
-  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+  <div class="fixed-bar fixbar-narrow" id="fixbar" role="status" hidden>
     <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
   </div>
 
@@ -95,7 +95,7 @@
 
       <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
         <h2 id="h-result">計算の結果</h2>
-        <div id="msgs" class="msg msg-warn" hidden></div>
+        <div id="msgs" class="notice" hidden></div>
         <div class="result-main" id="result-main" aria-live="polite">
           <p class="lead" id="r-lead">受け取る給付の合計（目安）</p>
           <p class="big" id="r-big">—</p>
@@ -341,9 +341,9 @@
       <summary>入力の保存・書き出し</summary>
       <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
       <div class="btn-row">
-        <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
-        <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_ikukyu_draft">保存した内容をすべて消す（初期状態に戻す）</button>
+        <button type="button" class="btn" id="export">ファイルに書き出す</button>
+        <button type="button" class="btn" id="import">ファイルから読み込む</button>
+        <button type="button" class="btn" data-reset-storage="seido-keisan_ikukyu_draft">保存した内容をすべて消す（初期状態に戻す）</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="small" id="file-msg" role="status"></p>

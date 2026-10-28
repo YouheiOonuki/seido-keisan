@@ -22,8 +22,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -61,7 +61,7 @@
   </header>
 
   <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
-  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+  <div class="fixed-bar fixbar-narrow" id="fixbar" role="status" hidden>
     <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ Result</a>
   </div>
 
@@ -208,9 +208,9 @@
       <summary>Save and export</summary>
       <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
       <div class="btn-row">
-        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
-        <button type="button" class="btn btn-sub" id="import">Import a file</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_dattai_draft">Delete everything saved (reset)</button>
+        <button type="button" class="btn" id="export">Export to a file</button>
+        <button type="button" class="btn" id="import">Import a file</button>
+        <button type="button" class="btn" data-reset-storage="seido-keisan_dattai_draft">Delete everything saved (reset)</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="small" id="file-msg" role="status"></p>

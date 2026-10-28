@@ -287,7 +287,7 @@ node --test tests/*.test.js
 | `yobosesshu/index.html` / `app.js` / `yobosesshu.css` / `guide.html` | 子どもの予防接種スケジュールの画面・制御・見た目・使い方ページ |
 | `lib/yobosesshu-values.js` / `lib/yobosesshu.js` | その値（ワクチンごとの対象の期間・標準的な接種期間・間隔・出典・確認日）と日付の計算（純粋関数。事務連絡の例をテストで再現） |
 | `lib/screen.js` | 画面の骨組み（yorozu-plans の SCREEN.md 1.1）の共通部品: 「くわしく入れる」の summary の更新と上端の固定バー。年末調整・住民税・育休の画面で使う（loan-sim の `screen.js` と同じ中身） |
-| `style.css` | 見た目（和紙風の配色、ダークモード対応。全ページ共通） |
+| `style.css` | 見た目（共通の皮 v2 のトークン、ダークモード対応。全ページ共通。PC は入力を左・結果を右の 2 列） |
 | `tools/extract-kyuyo-table.mjs` | 114.pdf から表を取り出す開発用の道具 |
 | `tools/build-kaitei.mjs` | `lib/kaitei-values.js` から `kaitei/index.html` の一覧を書き出す |
 | `tools/build-data.mjs` / `data/` | 同じ値から公開データ（`data/kaitei.json`・`data/kaitei.ics`、CC0。`data/LICENSE`・`data/README.md`）を書き出す。`.ics` の CRLF を保つため `.gitattributes` で `data/*.ics -text` |

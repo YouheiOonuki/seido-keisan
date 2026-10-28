@@ -18,8 +18,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -52,11 +52,11 @@
   </header>
 
   <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
-  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+  <div class="fixed-bar fixbar-narrow" id="fixbar" role="status" hidden>
     <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
   </div>
 
-  <main class="app-main">
+  <main class="app-main layout-2col">
 
     <p class="badge" id="asof">定期接種実施要領（令和8年10月1日改正）・確認日 <span id="asof-date">2026年10月3日</span>・入力は外部に送信しません</p>
 
@@ -91,7 +91,7 @@
       </div>
       <p class="small">日付は両端の日を含みます。日付の無い回は、前の回を受けた日から間隔をあけて数えます。</p>
       <div class="btn-row no-print">
-        <button type="button" class="btn btn-sub" id="print">この一覧を印刷する</button>
+        <button type="button" class="btn-primary" id="print">この一覧を印刷する</button>
       </div>
       <p class="print-only small" id="print-note"></p>
     </section>
