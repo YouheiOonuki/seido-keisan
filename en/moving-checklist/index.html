@@ -20,8 +20,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -57,7 +57,7 @@
     <p class="subtitle">What to do, where and by when, as a printable list.</p>
   </header>
 
-  <div class="fixbar fixbar-narrow" id="fixbar" role="status" hidden>
+  <div class="fixed-bar fixbar-narrow" id="fixbar" role="status" hidden>
     <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ List</a>
   </div>
 
@@ -79,7 +79,7 @@
         <p class="detail" id="r-empty">Choose your situation to see the list.</p>
         <div id="list"></div>
       </div>
-      <div class="btn-row no-print"><button type="button" class="btn" id="print" disabled>Print the list</button></div>
+      <div class="btn-row no-print"><button type="button" class="btn-primary" id="print" disabled>Print the list</button></div>
       <p class="small">This list shows what the law and official pages say, not legal advice. Your city office or immigration bureau decides your case. <a href="./guide.html" class="no-print">Guide and sources</a></p>
     </section>
 
@@ -119,9 +119,9 @@
       <summary>Save and export</summary>
       <p class="small">Your inputs are saved only in this browser (localStorage) and are never sent anywhere. Export, import and clear with these buttons.</p>
       <div class="btn-row">
-        <button type="button" class="btn btn-sub" id="export">Export to a file</button>
-        <button type="button" class="btn btn-sub" id="import">Import a file</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_movingchecklist_draft">Delete everything saved (reset)</button>
+        <button type="button" class="btn" id="export">Export to a file</button>
+        <button type="button" class="btn" id="import">Import a file</button>
+        <button type="button" class="btn" data-reset-storage="seido-keisan_movingchecklist_draft">Delete everything saved (reset)</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <p class="small" id="file-msg" role="status"></p>

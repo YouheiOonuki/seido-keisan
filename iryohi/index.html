@@ -18,8 +18,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -50,7 +50,7 @@
 <body>
 
   <!-- 固定バー（SCREEN 0 章の 3・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
-  <div class="topbar" id="topbar" role="status" hidden>
+  <div class="fixed-bar fixbar-narrow" id="topbar" role="status" hidden>
     <span>戻る税金の目安 <strong id="topbar-num">—</strong></span>
     <a href="#result">結果へ</a>
   </div>
@@ -60,11 +60,11 @@
     <p class="subtitle">医療費控除で戻る所得税と、減る住民税の目安を出します。</p>
   </header>
 
-  <main class="app-main iryohi-main">
+  <main class="app-main layout-2col">
 
     <p class="badge" id="asof">令和8年に払った医療費（令和9年2〜3月の確定申告）・確認日 <span id="asof-date">2026年9月24日</span>・入力は外部に送信しません</p>
 
-    <form id="form" autocomplete="off" onsubmit="return false" class="iryohi-form">
+    <form id="form" autocomplete="off" onsubmit="return false">
 
       <!-- 声で入力（yorozu-plans ROADMAP 7.37.1 K148）。対応しないブラウザでは出さない（lib/voice-input.js） -->
       <div class="voice-box" data-voice-form="iryohi" hidden>
@@ -135,7 +135,7 @@
       <p class="small">医療費控除は年末調整では引かれず、確定申告で受けます。所得控除の合計は → <a href="../nenmatsu/">年末調整の計算</a>でも出せます</p>
     </section>
 
-    <div class="iryohi-more">
+    <div>
       <details class="card opt" id="d-self">
         <summary>セルフメディケーション税制: <span class="state">入力なし</span></summary>
         <label class="inline"><input type="checkbox" id="self-use" data-k="self.use"> 対象の市販薬（スイッチOTC医薬品など）を買った</label>
@@ -196,9 +196,9 @@
         <summary>入力の保存・書き出し</summary>
         <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
         <div class="btn-row">
-          <button type="button" class="btn btn-sub" id="export">ファイルに書き出す</button>
-          <button type="button" class="btn btn-sub" id="import">ファイルから読み込む</button>
-          <button type="button" class="btn btn-sub" data-reset-storage="seido-keisan_iryohi_draft">保存した内容をすべて消す（初期状態に戻す）</button>
+          <button type="button" class="btn" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn" data-reset-storage="seido-keisan_iryohi_draft">保存した内容をすべて消す（初期状態に戻す）</button>
           <input type="file" id="import-file" accept="application/json,.json" hidden>
         </div>
         <p class="small" id="file-msg" role="status"></p>

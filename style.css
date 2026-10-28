@@ -1,8 +1,4 @@
-/* ===========================
-   制度の計算機 — yorozu-craft 共通の和紙風の配色（ハブと各計算機のページで共有）
-   色はトークン（--bg / --card / --text / --muted / --accent / --border）だけを使う。
-   ダークモードは端末の設定に自動で合わせる（prefers-color-scheme。手動切替は付けない）
-   =========================== */
+/* 制度の計算機 — yorozu-craft 共通の見た目（ハブと各計算機のページで共有）。色・字・余白は皮のトークンだけを使う。暗い表示は端末の設定に自動で合わせる（手動切替は付けない） */
 /* yorozu-common:begin v2 — サイト共通の土台と皮。正本は youheioonuki.github.io の tools/common/v2/base.css と skin.css（yorozu-plans DESIGN.md）。
    この begin〜end の間は手で直さない（tools/sync-common.mjs で全ツールに配る。ツール固有の上書きは end の後に書く） */
 /* yorozu-common v2 土台の層（yorozu-plans ROADMAP 7.98 D369、DESIGN.md）。すべてのページ（見せる・遊ぶ・世界を持つページも）に当てる。
@@ -71,253 +67,177 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 :where(html:not([data-skin="base"])) :where(.notice, [data-keep]) { border-left: 4px solid var(--text); background: var(--bg-2); padding: var(--sp-2) var(--sp-3); }
 :where(html:not([data-skin="base"])) :where(.fixed-bar) { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--border); padding: var(--sp-2) var(--sp-4); }
 /* yorozu-common:end */
-/* yorozu-v1-carry — v1 の共通（和紙の色、2026-09-23〜10-17）から、このファイルのページが使っていた見た目をそのまま持ち込んだ（yorozu-plans ROADMAP 7.99、K192 段 3 の 0）。
-   段 3 の 2〜4 でこのページを v2 のトークンに載せ替えるときに、yorozu-v1-carry:end まで消す */
-:root {
-  color-scheme: light dark;
-  --bg: #f0ebe0; --bg-2: #e6dfd0; --card: #faf6ee; --text: #3a3025; --muted: #6e604f;
-  --accent: #8b4513; --accent-soft: #f3e6d8; --border: #cfc0a0; --input-border: #857561; --shadow: rgba(58, 48, 37, 0.12);
-  --error: #ce0000; --ok: #197a4b; --focus: #ffd43d; --focus-ring: #000;
-  --font-ui: "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-  --lh-body: 1.7; --lh-tight: 1.4; --radius: 8px;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1814; --bg-2: #25201a; --card: #2b251e; --text: #ece4d6; --muted: #b9ab96;
-    --accent: #e0a066; --accent-soft: #3a2e22; --border: #4a3f33; --input-border: #8c7d68; --shadow: rgba(0, 0, 0, 0.4);
-    --error: #ff8a7a; --ok: #6fcf97; --focus-ring: #ffd43d; --focus: #000;
-  }
-}
-body { font-family: var(--font-ui); background: var(--bg); color: var(--text); line-height: var(--lh-body); }
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-@media (hover: hover) { a:hover { text-decoration-thickness: 3px; } }
-:where(input, textarea)::placeholder { color: var(--muted); opacity: 1; }
-.app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
-/* yorozu-v1-carry:end */
+
+/* ===========================
+   制度の計算機の共通の見た目。色・字・余白・角・線は上の皮のトークンだけを使う（値を直に書かない）。
+   部品の名前は皮のもの: .btn（副）・.btn-primary（主。1 ページに 1 つ）・.chip・.card・.notice・.field-error・.fixed-bar・.visually-hidden。
+   app.js と lib/ が作る class（.result-main・.rel・.mini・.icon-btn・.steps・.msgs li.warn・.is-* など）は、名前をそのまま見た目だけトークンに載せている
+   =========================== */
 
 /* ヘッダー */
-.app-header {
-  text-align: center;
-  padding: 1.4rem 1rem 1.1rem;
-  background: var(--bg-2);
-  border-bottom: 2px solid var(--border);
-}
-.app-header h1 { font-size: 1.45rem; color: var(--accent); line-height: 1.4; }
-.app-header .subtitle { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
+.app-header { text-align: center; padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--border); }
+.app-header .subtitle { font-size: var(--fs-s); line-height: var(--lh-tight); color: var(--muted); margin-top: var(--sp-1); }
+.app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
+.lang-switch { font-size: var(--fs-s); }
+.lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }
+@media (max-width: 480px) { .app-header h1 { font-size: var(--fs-l); } }   /* スマホは題を 1 段小さく（1.5 画面の線に入力を収めるため） */
 
 /* レイアウト */
-.app-main { max-width: 680px; margin: 0 auto; padding: 1rem; }
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.2rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px var(--shadow);
-}
-.card h2 {
-  font-size: 1.02rem;
-  color: var(--accent);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 0.4rem;
-  margin-bottom: 0.9rem;
-}
-
-/* 入力 */
-.field { margin-bottom: 1rem; }
-.field label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
-.field .hint { font-size: var(--fs-s); color: var(--muted); margin-bottom: 0.4rem; }
-.field input[type="number"], .field input[type="text"], .field select {
-  width: 100%;
-  max-width: 16rem;
-  padding: 0.45rem 0.5rem;
-  font-size: 1rem;
-  border: 1px solid var(--input-border);
-  border-radius: 6px;
-  background: var(--card);
-  color: var(--text);
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.5rem 1.1rem;
-  border: none;
-  border-radius: 6px;
-  background: var(--accent);
-  color: var(--card);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* 読みもの（guide.html） */
-.content h3 { font-size: 0.95rem; margin: 1rem 0 0.3rem; }
-.content p, .content li { font-size: 0.9rem; }
-.content p + p { margin-top: 0.5rem; }
-.content ul, .content ol { padding-left: 1.3rem; margin: 0.3rem 0; }
-.faq dt { font-weight: 600; margin-top: 0.9rem; font-size: 0.92rem; }
-.faq dt::before { content: 'Q. '; color: var(--accent); }
-.faq dd { font-size: 0.88rem; color: var(--muted); padding: 0.2rem 0 0.5rem 1.2rem; border-bottom: 1px solid var(--border); }
-.info-list { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1.2rem; font-size: 0.9rem; }
-.info-list dt { font-weight: 600; }
-.info-list dd { color: var(--muted); }
-.small { font-size: var(--fs-s); color: var(--muted); margin-top: 0.4rem; }
-
-/* フッター */
-.app-footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: var(--fs-s);
-  color: var(--muted);
-  border-top: 1px solid var(--border);
-  margin-top: 0.5rem;
-}
-.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-bottom: 0.6rem; }
-.footer-nav a { color: var(--muted); text-decoration: none; }
-.footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
-
-@media (max-width: 480px) {
-  .app-header h1 { font-size: 1.2rem; }
-}
-
-/* ===== 制度の計算機 共通 ===== */
+.app-main { max-width: 680px; margin: 0 auto; padding: var(--sp-4); }
+.card { margin-bottom: var(--sp-4); }
+.card h2 { margin-bottom: var(--sp-3); }
+.card h3 { margin: var(--sp-4) 0 var(--sp-1); }
 /* 結果などを app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる */
 .js-loading .app-main { visibility: hidden; }
-:root { --error: #b3261e; --ok: #2e6b30; --warn-bg: #fff4d6; --warn-border: #d9a520; }
-@media (prefers-color-scheme: dark) {
-  :root { --error: #ff8a80; --ok: #9fd49a; --warn-bg: #3a3020; --warn-border: #a88420; }
-}
-.badge { text-align: center; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.8rem; }
-.badge.is-stale { color: var(--error); }
-.msg { border-radius: 6px; padding: 0.6rem 0.8rem; margin-bottom: 0.8rem; font-size: 0.88rem; }
-.msg-warn { background: var(--warn-bg); border: 1px solid var(--warn-border); }
-.msg p + p { margin-top: 0.3rem; }
-.btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.2rem 0 0.4rem; }
-.btn-sub { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--border); padding: 0.4rem 0.8rem; font-size: 0.88rem; }
-h3.sub { font-size: 0.92rem; margin: 1rem 0 0.4rem; }
 
 /* 入力 */
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0 1rem; }
-.money { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
-.money input { max-width: 11rem !important; text-align: right; }
-.money .unit { font-size: 0.9rem; }
-.money .yomi { font-size: 0.8rem; color: var(--muted); min-width: 5em; }
+.field { margin-bottom: var(--sp-4); }
+.field label, .field .label, .field-label { display: block; font-weight: 700; margin-bottom: var(--sp-1); }
+.field .hint { font-size: var(--fs-s); color: var(--muted); margin-bottom: var(--sp-2); }
+.field input[type="number"], .field input[type="text"], .field input[type="date"], .field input[type="month"], .field select { width: 100%; max-width: 16rem; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0 var(--sp-4); }
+/* 皮の .money（結果の数字）と名前が同じだが、ここは金額の入力の行（kogaku-ryoyohi/app.js も作る）。皮の大きな字・太字を打ち消す */
+.money { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; font-size: var(--fs-m); font-weight: 400; }
+.field .money input { max-width: 11rem; text-align: right; }
+.money .unit { font-size: var(--fs-m); }
+.money .yomi { font-size: var(--fs-s); font-weight: 400; color: var(--muted); min-width: 5em; }
 fieldset.field { border: none; }
-fieldset.field legend { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; }
-label.inline { display: flex; align-items: center; gap: 0.4rem; font-weight: normal !important; font-size: 0.92rem; margin: 0.2rem 0; }
-label.inline input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); flex: none; }
-.sub-block { border-left: 3px solid var(--border); padding-left: 0.8rem; margin-top: 0.4rem; }
+fieldset.field legend { font-weight: 700; margin-bottom: var(--sp-1); }
+label.inline { display: flex; align-items: center; gap: var(--sp-2); font-weight: 400 !important; min-height: var(--tap); margin: 0; }
+label.inline input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); flex: none; }
+.field input[type="checkbox"], .field input[type="radio"] { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+.sub-block { border-left: 1px solid var(--border); padding-left: var(--sp-3); margin-top: var(--sp-1); }
+/* 必須が空の欄は線を強調色にして薄く塗る（エラー文は出さない） */
+.field.is-missing :is(input, select) { border-color: var(--accent); background: var(--accent-soft); }
 
-.rel { border-top: 1px dashed var(--border); padding: 0.7rem 0 0.5rem; }
-.rel-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.3rem; }
-.rel-body { display: flex; flex-wrap: wrap; gap: 0.5rem 0.8rem; align-items: flex-end; }
-.mini { display: flex; flex-direction: column; font-size: 0.75rem; color: var(--muted); gap: 0.15rem; }
-.mini input, .mini select, .rel select {
-  padding: 0.35rem 0.4rem; font-size: 1rem; border: 1px solid var(--input-border); border-radius: 6px; background: var(--card); color: var(--text); font-family: inherit;
-}
+/* ボタン（主は .btn-primary、ほかは .btn。色と線は皮が持つ） */
+.btn, .btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); text-decoration: none; }
+.btn:disabled, .btn-primary:disabled { opacity: 0.5; cursor: default; }
+.btn-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-1) 0 var(--sp-2); }
+.icon-btn { font-size: var(--fs-s); }
+
+/* 読みもの（guide.html） */
+.content h3 { margin: var(--sp-4) 0 var(--sp-1); }
+.content p + p { margin-top: var(--sp-2); }
+.content ul, .content ol { padding-left: 1.3rem; margin: var(--sp-1) 0; }
+.faq dt { font-weight: 700; margin-top: var(--sp-4); }
+.faq dt::before { content: 'Q. '; color: var(--accent); }
+.faq dd { color: var(--muted); padding: var(--sp-1) 0 var(--sp-2) 1.2rem; border-bottom: 1px solid var(--border); }
+.info-list { display: grid; grid-template-columns: max-content 1fr; gap: var(--sp-2) var(--sp-4); }
+.info-list dt { font-weight: 700; }
+.info-list dd { color: var(--muted); }
+.small { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-2); }
+.noad { font-size: var(--fs-s); color: var(--muted); margin: 0 0 var(--sp-2); }
+
+/* フッター */
+.app-footer { text-align: center; padding: var(--sp-4); font-size: var(--fs-s); color: var(--muted); border-top: 1px solid var(--border); margin-top: var(--sp-2); }
+.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0 var(--sp-4); margin-bottom: var(--sp-2); }
+.footer-nav a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--muted); text-decoration: none; }
+.footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
+
+/* ===== 制度の計算機 共通 ===== */
+.badge { font-size: var(--fs-s); line-height: var(--lh-tight); color: var(--muted); margin-bottom: var(--sp-3); }
+.badge.is-stale { color: var(--error); }
+.notice { margin-bottom: var(--sp-3); }
+.notice p + p { margin-top: var(--sp-1); }
+.msgs { list-style: none; margin: var(--sp-2) 0; }
+.msgs:empty { display: none; }
+.msgs li { padding: var(--sp-2) var(--sp-3); margin-bottom: var(--sp-2); background: var(--accent-soft); }
+.msgs li.warn { border-left: 4px solid var(--text); background: var(--bg-2); }
+h3.sub { margin: var(--sp-4) 0 var(--sp-2); }
+
+/* 親族の行（nenmatsu・juminzei の app.js が作る） */
+.rel { border-top: 1px solid var(--border); padding: var(--sp-3) 0 var(--sp-2); }
+.rel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); font-weight: 700; margin-bottom: var(--sp-1); }
+.rel-body { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); align-items: flex-end; }
+.mini { display: flex; flex-direction: column; font-size: var(--fs-s); color: var(--muted); gap: var(--sp-1); }
 .rel-body > .mini { flex: 1 1 9rem; min-width: 0; max-width: 100%; }
 .mini input, .mini select { width: 100%; max-width: 100%; }
 .mini input { text-align: right; }
 #sp-block select, .field select { max-width: 100%; }
-.rel-note { font-size: 0.78rem; color: var(--accent); margin-top: 0.3rem; }
-.icon-btn { background: none; border: 1px solid var(--border); border-radius: 6px; color: var(--accent); cursor: pointer; font-size: 0.82rem; padding: 0.2rem 0.6rem; font-family: inherit; }
+.rel-note { font-size: var(--fs-s); color: var(--accent); margin-top: var(--sp-1); }
 
 /* 結果 */
-.result-main { text-align: center; background: var(--accent-soft); border-radius: 8px; padding: 0.9rem 0.6rem; margin-bottom: 0.8rem; }
-.result-main .lead { font-size: 0.9rem; color: var(--muted); }
-.result-main .big { font-size: clamp(1.35rem, 6.4vw, 2rem); font-weight: 700; line-height: 1.3; color: var(--accent); }
+.result-main { text-align: center; background: var(--accent-soft); border-radius: var(--radius); padding: var(--sp-4) var(--sp-3); margin-bottom: var(--sp-3); }
+.result-main .lead { color: var(--muted); }
+.result-main .big { font-size: var(--fs-xl); font-weight: 800; line-height: var(--lh-tight); color: var(--accent); overflow-wrap: anywhere; }
 .result-main.is-refund .big { color: var(--ok); }
 .result-main.is-short .big { color: var(--error); }
-.result-main .detail { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
-.steps { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-.steps th, .steps td { border-bottom: 1px solid var(--border); padding: 0.4rem 0.3rem; vertical-align: top; text-align: left; }
-.steps td { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.steps th { font-weight: 600; }
-.steps tr.sub th { font-weight: normal; padding-left: 1rem; }
-.steps tr.total th, .steps tr.total td { font-weight: 700; }
-.steps .rule { display: block; font-size: 0.75rem; color: var(--muted); font-weight: normal; }
-.table-wrap { overflow-x: auto; margin: 0.4rem 0; }
-.cmp { border-collapse: collapse; width: 100%; font-size: 0.8rem; }
-.cmp th, .cmp td { border-bottom: 1px solid var(--border); padding: 0.35rem 0.3rem; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.result-main .detail { color: var(--muted); margin-top: var(--sp-1); }
+.steps, .sum, .cmp, .tbl { width: 100%; border-collapse: collapse; }
+.steps th, .steps td, .sum th, .sum td, .cmp th, .cmp td, .tbl th, .tbl td { border-bottom: 1px solid var(--border); padding: var(--sp-2) var(--sp-1); vertical-align: top; text-align: left; }
+.steps td, .cmp td { text-align: right; white-space: nowrap; }
+.steps th, .sum th { font-weight: 700; }
+.steps tr.sub th { font-weight: 400; padding-left: var(--sp-4); }
+.steps tr.total th, .steps tr.total td, .sum tr.total th, .sum tr.total td { font-weight: 700; color: var(--accent); }
+.steps .rule { display: block; font-size: var(--fs-s); color: var(--muted); font-weight: 400; }
+.sum tr.ref th, .sum tr.ref td { color: var(--muted); font-weight: 400; }
+.sum tr.is-best th, .sum tr.is-best td { color: var(--accent); font-weight: 700; }
+.sum tr.is-off td { color: var(--muted); }
+.table-wrap { overflow-x: auto; margin: var(--sp-1) 0; }
 .cmp th:first-child { text-align: left; white-space: normal; }
-.cmp thead th { color: var(--muted); font-weight: 600; }
-details.rels { margin-top: 0.5rem; font-size: 0.85rem; }
-details.rels summary { cursor: pointer; color: var(--accent); }
-details.rels ul { padding-left: 1.2rem; margin-top: 0.3rem; }
+.cmp thead th, .tbl thead th { color: var(--muted); font-weight: 700; }
+details.rels { margin-top: var(--sp-2); }
+details.rels ul { padding-left: 1.2rem; margin-top: var(--sp-1); }
 /* 使い方ページの「リンク・引用・埋め込みのしかた」（tools/build-cite.mjs）。長い URL でも横にはみ出さない */
-.cite-code { margin: 0.2rem 0 0.6rem; padding: 0.5rem 0.6rem; background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; white-space: pre-wrap; word-break: break-all; font-size: 0.78rem; user-select: all; -webkit-user-select: all; }
+.cite-code { margin: var(--sp-1) 0 var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); white-space: pre-wrap; word-break: break-all; font-size: var(--fs-s); user-select: all; -webkit-user-select: all; }
 @media print { details.cite { display: none; } }
 
-/* ハブのカード一覧 */
-.calc-list { list-style: none; display: grid; gap: 0.8rem; }
-.calc-list a { display: block; text-decoration: none; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; background: var(--accent-soft); }
-.calc-list a:hover, .calc-list a:focus-visible { border-color: var(--accent); }
-.calc-list .name { display: block; font-weight: 700; color: var(--accent); font-size: 1.02rem; }
-.calc-list .desc { display: block; font-size: 0.86rem; color: var(--muted); margin-top: 0.2rem; }
-
-/* 使い方ページの表 */
-.tbl { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
-.tbl th, .tbl td { border-bottom: 1px solid var(--border); padding: 0.35rem 0.45rem; text-align: left; vertical-align: top; }
-.tbl thead th { color: var(--muted); }
+/* ハブの一覧（名前はリンクの書き方のまま、強調色・下線） */
+.calc-list { list-style: none; border-top: 1px solid var(--border); }
+.calc-list li { border-bottom: 1px solid var(--border); }
+.calc-list a { display: block; padding: var(--sp-3) 0; color: var(--text); text-decoration: none; }
+.calc-list .name { display: block; font-weight: 700; color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.calc-list a:hover .name { text-decoration-thickness: 3px; }
+.calc-list .desc { display: block; color: var(--muted); margin-top: var(--sp-1); }
 
 @media print {
   .app-header, .app-footer, .no-print { display: none !important; }
 }
 
 /* ===========================
-   画面の骨組み（yorozu-plans の docs/SCREEN.md 1.1）: 必須の入力 → 結果 → くわしく入れる、上端の固定バー、PC の 2 カラム
+   画面の骨組み（yorozu-plans の docs/SCREEN.md 1.1）: 必須の入力 → 結果 → くわしく入れる、上端の固定バー、PC の 2 列
    =========================== */
 fieldset.card { min-width: 0; }
 .req legend {
   float: left; width: 100%;   /* legend を枠の上に載せず、h2 と同じ見た目で枠の中に置く */
-  font-size: 1.02rem; font-weight: 700; color: var(--accent);
-  border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; margin-bottom: 0.9rem;
+  font-size: var(--fs-l); font-weight: 800; line-height: var(--lh-tight); margin-bottom: var(--sp-3);
 }
 .req legend + * { clear: both; }
-.result-card { scroll-margin-top: 56px; }   /* 固定バー（44px）で見出しが隠れないように */
+.result-card { scroll-margin-top: 56px; }   /* 固定バー（45px）で見出しが隠れないように */
 .result-card details.rels { margin: 0; }
-.result-card details.rels > summary { min-height: 44px; padding: 0.55rem 0; }   /* 1.1 の 3: 内訳は折りたたみ。タップしやすい高さ */
-.result-card details.rels > summary::before { content: '▸'; margin-right: 0.4rem; }
-.result-card details.rels[open] > summary::before { content: '▾'; }
-.result-card details.rels > summary { list-style: none; }
-.result-card details.rels > summary::-webkit-details-marker { display: none; }
-details.card.opt { padding: 0 1.2rem; margin-bottom: 0.6rem; }
-details.card.opt > summary {
-  cursor: pointer; display: block; min-height: 44px; padding: 0.6rem 0;
-  color: var(--accent); font-weight: 600; font-size: 0.95rem; list-style: none;
-}
-details.card.opt > summary::-webkit-details-marker { display: none; }
-details.card.opt > summary::before { content: '▸'; margin-right: 0.4rem; }
-details.card.opt[open] > summary::before { content: '▾'; }
-details.card.opt[open] { padding-bottom: 0.9rem; }
-details.card.opt[open] > summary { border-bottom: 1px solid var(--border); margin-bottom: 0.9rem; }
-.opt-state { color: var(--text); font-weight: normal; }
-.opts { margin-bottom: 1rem; }
+details.card.opt { padding: 0 var(--sp-4); margin-bottom: var(--sp-3); }
+details.card.opt[open] { padding-bottom: var(--sp-3); }
+details.card.opt[open] > summary { margin-bottom: var(--sp-2); }
+.opt-state, details.opt .state { color: var(--muted); font-weight: 400; margin-left: 0.3em; }
+.opt ul { padding-left: 1.2rem; }
+.opt li + li { margin-top: var(--sp-1); }
+.opt .hint { font-size: var(--fs-s); color: var(--muted); margin-bottom: var(--sp-2); }
+.opts { margin-bottom: var(--sp-4); }
 
-/* 固定バー（SCREEN.md 0 章の 3・D59）: 上端に 1 行、高さ 44px。下端は AdSense のアンカー広告が使う */
-.fixbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 44px;
-  background: var(--card); border-bottom: 2px solid var(--accent); box-shadow: 0 2px 8px var(--shadow);
+/* 固定バー（SCREEN.md 0 章の 3・D59・D413）: 上端に 1 行、押せる 44px ＋ 下の線。下端は AdSense のアンカー広告が使う。皮の .fixed-bar（下端に sticky）を上端に貼り直す */
+.fixed-bar { position: fixed; top: 0; bottom: auto; left: 0; right: 0; z-index: 50; height: calc(var(--tap) + 1px); padding: 0; border-top: 0; border-bottom: 1px solid var(--border); }
+.fixed-bar a {
+  display: block; max-width: 720px; margin: 0 auto; padding: 0 var(--sp-4); height: var(--tap); line-height: var(--tap); text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; text-decoration: none;
 }
-.fixbar a {
-  display: block; max-width: 720px; margin: 0 auto; padding: 0 1rem; height: 42px; line-height: 42px; text-align: center;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: var(--accent); text-decoration: none;
-}
-.fixbar a:focus-visible { outline-offset: -4px; }   /* 共通の輪を内側に（上端で切れないように） */
+.fixed-bar a:focus-visible { outline-offset: -4px; }   /* 共通の輪を内側に（上端で切れないように） */
+.fixed-bar strong { color: var(--accent); }
+#topbar { display: flex; align-items: center; justify-content: center; gap: var(--sp-4); }   /* iryohi: 金額の後ろにリンク */
+#topbar[hidden] { display: none; }
+#topbar a { flex: none; padding: 0 var(--sp-2); }
 
-/* PC（900px 以上）: 左に入力、右に結果（sticky）。結果が常に見えるので固定バーは出さない（D63: 制度の計算機だけ） */
+/* PC（900px 以上）: 左に入力、右に結果（sticky）。結果は最初の行から始めて、1 画面目に入力と結果が両方入るようにする。結果が常に見えるので固定バーは出さない（D63・D371） */
 @media (min-width: 900px) {
   .fixbar-narrow { display: none !important; }
-  .layout-2col { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); column-gap: 1.2rem; align-items: start; }
-  .layout-2col > * { grid-column: 1; }
-  .layout-2col > .badge { grid-column: 1 / -1; }
+  .layout-2col { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); column-gap: var(--sp-6); align-items: start; }
+  .layout-2col > *, .layout-2col > form > * { grid-column: 1; }
   .layout-2col > form { display: contents; }
-  .layout-2col > form > * { grid-column: 1; }
-  .layout-2col .result-card { grid-column: 2; grid-row: 2 / span 20; position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; }
+  .layout-2col .result-card { grid-column: 2; grid-row: 1 / span 40; position: sticky; top: var(--sp-4); max-height: calc(100vh - 2rem); overflow-y: auto; }
 }
 
 @media print {
-  .fixbar { display: none !important; }
+  .fixed-bar { display: none !important; }
   /* 印刷では折りたたみの中も出す（途中の計算・入れた控除を紙に残す） */
   main details::details-content { content-visibility: visible; display: block; }
   main details > summary::before { content: none; }
@@ -327,47 +247,43 @@ details.card.opt[open] > summary { border-bottom: 1px solid var(--border); margi
 /* ===========================
    住民税の計算（juminzei）: 均等割・所得割の判定の箱と、納める時期の一覧
    =========================== */
-.judge { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.4rem; }
-.judge-box { border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.7rem; background: var(--card); min-height: 7.5rem; }
-.judge-title { font-size: 0.82rem; color: var(--muted); }
-.judge-tag { font-size: 1.15rem; font-weight: 700; color: var(--accent); }
+.judge { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); margin-bottom: var(--sp-1); }
+.judge-box { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-2) var(--sp-3); background: var(--card); min-height: 7.5rem; }
+.judge-title { font-size: var(--fs-s); color: var(--muted); }
+.judge-tag { font-size: var(--fs-l); font-weight: 800; color: var(--accent); }
 .judge-box.is-hikazei .judge-tag { color: var(--ok); }
-.judge-why { font-size: 0.78rem; color: var(--muted); line-height: 1.55; overflow-wrap: anywhere; }
+.judge-why { font-size: var(--fs-s); color: var(--muted); overflow-wrap: anywhere; }
 @media (max-width: 420px) { .judge { grid-template-columns: 1fr; } .judge-box { min-height: 0; } }
-.pay { list-style: none; font-size: 0.9rem; }
-.pay li { padding: 0.35rem 0; border-bottom: 1px dashed var(--border); }
+.pay { list-style: none; }
+.pay li { padding: var(--sp-2) 0; border-bottom: 1px solid var(--border); }
 .pay li:last-child { border-bottom: 0; }
 .pay .pay-name { font-weight: 700; display: block; }
-.field-label { display: block; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
 #nenmatsu-msg:empty { display: none; }
 
 /* ===========================
    育休・産休の計算（ikukyu）: 給付ごとの一覧と、月ごとの表
    =========================== */
-.field input[type="date"] {
-  width: 100%; max-width: 16rem; padding: 0.4rem 0.5rem; font-size: 1rem; font-family: inherit;
-  border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text);
-}
 .benefits { list-style: none; }
-.benefits li { border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.7rem; margin-bottom: 0.5rem; background: var(--card); }
-.benefits .b-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; font-weight: 600; font-size: 0.92rem; }
-.benefits .b-head strong { color: var(--accent); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
-.benefits .b-rule { font-size: 0.8rem; color: var(--text); margin-top: 0.2rem; overflow-wrap: anywhere; }
-.benefits .b-src { font-size: 0.74rem; color: var(--muted); margin-top: 0.25rem; }
+.benefits li { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-2) var(--sp-3); margin-bottom: var(--sp-2); background: var(--card); }
+.benefits .b-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; font-weight: 700; }
+.benefits .b-head strong { color: var(--accent); font-size: var(--fs-l); font-weight: 800; }
+.benefits .b-rule { color: var(--text); margin-top: var(--sp-1); overflow-wrap: anywhere; }
+.benefits .b-src { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-1); }
 .sched td:last-child { white-space: normal; text-align: left; min-width: 9rem; }
 .sched td:nth-child(2) { white-space: normal; text-align: left; }
-.sched tr.has-pay td:last-child { color: var(--accent); font-weight: 600; }
+.sched tr.has-pay td:last-child { color: var(--accent); font-weight: 700; }
 
 /* この道具について（結果の後ろの折りたたみ。使い方ページの要約。AdSense 審査 2026-10-04） */
 details.card.opt.about-tool > summary { white-space: normal; }   /* 長い summary を折り返す */
-details.about-tool h3 { font-size: 0.95rem; margin: 0.9rem 0 0.3rem; }
-details.about-tool p, details.about-tool li { font-size: 0.9rem; line-height: 1.75; }
-details.about-tool ul { padding-left: 1.2rem; margin: 0.3rem 0 0.5rem; }
+details.about-tool h3 { margin: var(--sp-4) 0 var(--sp-1); }
+details.about-tool ul { padding-left: 1.2rem; margin: var(--sp-1) 0 var(--sp-2); }
 
-/* 声で入力（yorozu-plans ROADMAP 7.37.1 K148。lib/voice-input.js）。声で入れた欄は黄色にして、利用者が確かめる */
-.voice-box { margin: 0 0 0.8rem; }
-.voice-btn { font-size: 1.1rem; padding: 0.55rem 1.2rem; }
-.voice-btn.is-rec { background: var(--error); border-color: var(--error); color: #fff; }
-.voice-status { margin-top: 0.4rem; font-weight: 600; min-height: 1.2em; }
+/* 声で入力（yorozu-plans ROADMAP 7.37.1 K148。lib/voice-input.js）。声で入れた欄は強調色の線と淡い地にして、利用者が確かめる */
+.voice-box { margin: 0 0 var(--sp-3); }
+.voice-btn.is-rec { background: var(--error); border-color: var(--error); color: var(--on-accent); }
+.voice-status { margin-top: var(--sp-1); font-weight: 700; min-height: 1.2em; }
 .voice-status.error { color: var(--error); }
-.voice-filled, input.voice-filled, select.voice-filled { background: #fff3a8 !important; color: #3a3025 !important; outline: 2px solid #c9a200; }
+.voice-filled, input.voice-filled, select.voice-filled { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
+
+/* 1 行に 1 つのリンク（使い方への行・案内のカード・出典の一覧）も押せる高さに（DESIGN の 44px。K192 段 3 の 4 の検収） */
+:where(html:not([data-skin="base"])) :where(p, li) > a:only-child { display: inline-flex; align-items: center; min-height: var(--tap); }
