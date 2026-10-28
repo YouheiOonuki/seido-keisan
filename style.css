@@ -284,3 +284,6 @@ details.about-tool ul { padding-left: 1.2rem; margin: var(--sp-1) 0 var(--sp-2);
 .voice-status { margin-top: var(--sp-1); font-weight: 700; min-height: 1.2em; }
 .voice-status.error { color: var(--error); }
 .voice-filled, input.voice-filled, select.voice-filled { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
+
+/* 1 行に 1 つのリンク（使い方への行・案内のカード・出典の一覧）も押せる高さに（DESIGN の 44px。K192 段 3 の 4 の検収） */
+:where(html:not([data-skin="base"])) :where(p, li) > a:only-child { display: inline-flex; align-items: center; min-height: var(--tap); }
