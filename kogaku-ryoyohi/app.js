@@ -84,7 +84,7 @@
       '<label>割合<select data-r="rate"><option value="0.3">3割</option><option value="0.2">2割</option><option value="0.1">1割</option></select></label>' +
       '<label class="wide">医療費（10割）<span class="money"><input type="number" data-r="cost" inputmode="numeric" min="0" step="1" placeholder="例：100000"><span class="unit">円</span></span></label>' +
       '</div>' +
-      '<button type="button" class="btn btn-sub del" aria-label="この行を消す">消す</button>';
+      '<button type="button" class="btn del" aria-label="この行を消す">消す</button>';
     var r = state.rows[i];
     li.querySelectorAll('[data-r]').forEach(function (el) { var v = r[el.dataset.r]; el.value = el.dataset.r === 'cost' ? (v ? String(v) : '') : String(v); });
     return li;
