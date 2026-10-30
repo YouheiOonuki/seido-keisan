@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- 制度の計算機: 円の書類と電卓 -->
-  <rect x="2" y="2" width="60" height="60" rx="12" fill="#faf6ee"/>
-  <path d="M10 7 H34 L44 17 V57 H10 Z" fill="#ffffff" stroke="#8b4513" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M34 7 V17 H44" fill="none" stroke="#8b4513" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M16 17 L23 27 L30 17 M23 27 V41 M16.5 29 H29.5 M16.5 35 H29.5" fill="none" stroke="#8b4513" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="32" y="31" width="27" height="28" rx="4" fill="#d9a520" stroke="#8b4513" stroke-width="3"/>
-  <rect x="36.5" y="35.5" width="18" height="6" rx="1.5" fill="#faf6ee"/>
-  <g fill="#8b4513">
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#eef0f2"/>
+  <path d="M10 7 H34 L44 17 V57 H10 Z" fill="#ffffff" stroke="#0e5a6b" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 7 V17 H44" fill="none" stroke="#0e5a6b" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M16 17 L23 27 L30 17 M23 27 V41 M16.5 29 H29.5 M16.5 35 H29.5" fill="none" stroke="#0e5a6b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="32" y="31" width="27" height="28" rx="4" fill="#d9a520" stroke="#0e5a6b" stroke-width="3"/>
+  <rect x="36.5" y="35.5" width="18" height="6" rx="1.5" fill="#eef0f2"/>
+  <g fill="#0e5a6b">
     <rect x="36.5" y="45" width="4.5" height="4" rx="1"/><rect x="43.25" y="45" width="4.5" height="4" rx="1"/><rect x="50" y="45" width="4.5" height="4" rx="1"/>
     <rect x="36.5" y="51" width="4.5" height="4" rx="1"/><rect x="43.25" y="51" width="4.5" height="4" rx="1"/><rect x="50" y="51" width="4.5" height="4" rx="1"/>
   </g>
