@@ -314,3 +314,30 @@ test('ACCEPTANCE 2.4 届出の期限: 「2割特例か3割特例で申告した�
   assert.match(html, /2割特例か3割特例で申告した年の翌年分[^。]*その(翌)?年分の確定申告期限まで/);
   assert.equal(I.kaniDeadline(2027).tokurei, '2028-03-31');
 });
+
+// ===========================
+// 2.5 保険料控除（nenmatsu/hoken。K209）: 所得税（令和8年分）と住民税（令和9年度）の控除額
+// ===========================
+const H = require('../lib/hoken.js');
+const HOKEN_ROWS = [
+  ['行 1: 新生命保険料 80,000（計算式Ⅰ）', { a: 80000 }, 40000, 28000],
+  ['行 2: 同、23 歳未満の扶養親族あり（計算式Ⅱ）', { a: 80000, u23: true }, 50000, 28000],
+  ['行 3: 介護医療保険料 35,000', { c: 35000 }, 27500, 22750],
+  ['行 4: 新個人年金保険料 15,000', { d: 15000 }, 15000, 13500],
+  ['行 5: 旧生命保険料 45,000（計算式Ⅲ）', { b: 45000 }, 35000, 28750],
+  ['行 6: 旧個人年金保険料 120,000', { e: 120000 }, 50000, 35000],
+  ['行 7: 地震保険料 42,000・旧長期損害保険料 14,800（記載例）', { jishin: 42000, kyucho: 14800 }, 50000, 25000],
+  ['行 8: 記載例の生命保険料', { a: 80000, b: 35000, u23: true, c: 80000, d: 30000, e: 90000 }, 120000, 70000],
+];
+HOKEN_ROWS.forEach(([name, input, shotoku, jumin]) => {
+  test('ACCEPTANCE 2.5 ' + name + ' → 所得税 ' + shotoku + '・住民税 ' + jumin, () => {
+    const r = H.calc(input);
+    assert.equal(r.shotoku.total, shotoku);
+    assert.equal(r.jumin.total, jumin);
+  });
+});
+test('ACCEPTANCE 2.5 行 8 の内訳: ㋑ 60,000・㋺ 40,000・㋩ 47,500（住民税 一般 28,000・介護 28,000・年金 35,000）', () => {
+  const r = H.calc({ a: 80000, b: 35000, u23: true, c: 80000, d: 30000, e: 90000 });
+  assert.deepEqual([r.shotoku.cols['㋑'], r.shotoku.cols['㋺'], r.shotoku.cols['㋩']], [60000, 40000, 47500]);
+  assert.deepEqual([r.jumin.ippan, r.jumin.kaigo, r.jumin.nenkin], [28000, 28000, 35000]);
+});

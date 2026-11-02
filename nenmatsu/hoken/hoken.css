@@ -1,0 +1,11 @@
+/* ===========================
+   保険料控除の計算（nenmatsu/hoken）だけの見た目。値は ../../style.css のトークンだけを使う
+   =========================== */
+#cols .mark { display: inline-block; min-width: 2.2em; font-weight: 700; }
+#cols tr.is-input th, #cols tr.is-input td { color: var(--muted); }
+#cols tr.is-key th, #cols tr.is-key td { font-weight: 700; }
+#d-shiki table + table { margin-top: 0.8rem; }
+
+@media print {
+  details.opt:not([open]) { display: none !important; }
+}
