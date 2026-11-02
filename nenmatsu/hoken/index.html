@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>保険料控除 計算（令和8年分）生命保険料・地震保険料｜申告書の欄のまま｜yorozu-craft</title>
+  <meta name="description" content="控除証明書の金額を入れると、生命保険料控除と地震保険料控除の額を、令和8年分の保険料控除申告書の欄（計算式Ⅰ・Ⅱ・Ⅲ、①〜⑧、㋑㋺㋩）のまま出します。23歳未満の扶養親族がいるときの計算式Ⅱと、令和9年度の住民税の控除額も。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/nenmatsu/hoken/">
+
+  <meta property="og:title" content="保険料控除 計算（令和8年分）生命保険料・地震保険料｜申告書の欄のまま｜yorozu-craft">
+  <meta property="og:description" content="控除証明書の金額を入れると、生命保険料控除と地震保険料控除の額を、令和8年分の保険料控除申告書の欄（計算式Ⅰ・Ⅱ・Ⅲ、①〜⑧、㋑㋺㋩）のまま出します。23歳未満の扶養親族がいるときの計算式Ⅱと、令和9年度の住民税の控除額も。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/nenmatsu/hoken/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "保険料控除 計算（令和8年分）生命保険料・地震保険料",
+    "description": "控除証明書の金額を入れると、生命保険料控除と地震保険料控除の額を、令和8年分の保険料控除申告書の欄（計算式Ⅰ・Ⅱ・Ⅲ、①〜⑧、㋑㋺㋩）のまま出します。23歳未満の扶養親族がいるときの計算式Ⅱと、令和9年度の住民税の控除額も。",
+    "url": "https://yorozu-craft.com/seido-keisan/nenmatsu/hoken/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense: サイト所有確認の meta だけ（iryohi と同じ） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="./hoken.css">
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <div class="fixed-bar fixbar-narrow" id="topbar" role="status" hidden>
+    <span>控除額（所得税） <strong id="topbar-num">—</strong></span>
+    <a href="#result">結果へ</a>
+  </div>
+
+  <header class="app-header">
+    <h1>保険料控除の計算（令和8年分）</h1>
+    <p class="subtitle">生命保険料控除と地震保険料控除を、保険料控除申告書の欄のまま出します。</p>
+  </header>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">令和8年分の年末調整・確定申告と令和9年度の住民税・確認日 <span id="asof-date">2026年11月2日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card">
+        <legend>一般の生命保険料</legend>
+        <div class="field">
+          <label for="a">A 新保険料等の合計</label>
+          <p class="hint">控除証明書の適用制度が「新制度」の分。</p>
+          <div class="money"><input type="number" id="a" data-k="a" inputmode="numeric" min="0" step="1" placeholder="例：80000"><span class="unit">円</span><output class="yomi" for="a"></output></div>
+        </div>
+        <div class="field">
+          <label for="b">B 旧保険料等の合計</label>
+          <p class="hint">「旧制度」の分。</p>
+          <div class="money"><input type="number" id="b" data-k="b" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="b"></output></div>
+        </div>
+        <label class="inline"><input type="checkbox" id="u23" data-k="u23"> 年齢23歳未満の扶養親族がいる（計算式Ⅱ）</label>
+      </fieldset>
+      <fieldset class="card">
+        <legend>介護医療保険料</legend>
+        <div class="field">
+          <label for="c">C 介護医療保険料の合計</label>
+          <div class="money"><input type="number" id="c" data-k="c" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="c"></output></div>
+        </div>
+      </fieldset>
+      <fieldset class="card">
+        <legend>個人年金保険料</legend>
+        <div class="field">
+          <label for="d">D 新保険料等の合計</label>
+          <div class="money"><input type="number" id="d" data-k="d" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="d"></output></div>
+        </div>
+        <div class="field">
+          <label for="e">E 旧保険料等の合計</label>
+          <div class="money"><input type="number" id="e" data-k="e" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="e"></output></div>
+        </div>
+      </fieldset>
+      <fieldset class="card">
+        <legend>地震保険料</legend>
+        <div class="field">
+          <label for="jishin">Ⓑ 地震保険料の合計</label>
+          <div class="money"><input type="number" id="jishin" data-k="jishin" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="jishin"></output></div>
+        </div>
+        <div class="field">
+          <label for="kyucho">Ⓒ 旧長期損害保険料の合計</label>
+          <div class="money"><input type="number" id="kyucho" data-k="kyucho" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="kyucho"></output></div>
+        </div>
+      </fieldset>
+    </form>
+
+    <section class="card result-card" id="result" aria-labelledby="h-result">
+      <h2 id="h-result">控除額</h2>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead">所得税（令和8年分）</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail">金額を入れると出ます。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="cmp sum">
+          <thead><tr><th scope="col"></th><th scope="col">所得税</th><th scope="col">住民税（令和9年度）</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">生命保険料控除</th><td id="s-seimei">—</td><td id="j-seimei">—</td></tr>
+            <tr><th scope="row">地震保険料控除</th><td id="s-jishin">—</td><td id="j-jishin">—</td></tr>
+            <tr class="total"><th scope="row">合計</th><td id="s-total">—</td><td id="j-total">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>申告書に写す数字</h3>
+      <div class="table-wrap">
+        <table class="steps" id="cols"><tbody></tbody></table>
+      </div>
+      <p class="small">この計算は目安です。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。給与・扶養も入れた年税額は → <a href="../">年末調整の計算</a></p>
+    </section>
+
+    <div>
+      <details class="card opt" id="d-shiki">
+        <summary>計算式Ⅰ・計算式Ⅱ・計算式Ⅲ</summary>
+        <div class="table-wrap">
+          <table class="cmp">
+            <caption class="small">計算式Ⅰ（新保険料等用。A・C・D）</caption>
+            <tbody>
+              <tr><th scope="row">20,000円以下</th><td>全額</td></tr>
+              <tr><th scope="row">20,001〜40,000円</th><td>× 1/2 ＋ 10,000円</td></tr>
+              <tr><th scope="row">40,001〜80,000円</th><td>× 1/4 ＋ 20,000円</td></tr>
+              <tr><th scope="row">80,001円以上</th><td>一律 40,000円</td></tr>
+            </tbody>
+          </table>
+          <table class="cmp">
+            <caption class="small">計算式Ⅱ（23歳未満の扶養親族がいるときの A）</caption>
+            <tbody>
+              <tr><th scope="row">30,000円以下</th><td>全額</td></tr>
+              <tr><th scope="row">30,001〜60,000円</th><td>× 1/2 ＋ 15,000円</td></tr>
+              <tr><th scope="row">60,001〜120,000円</th><td>× 1/4 ＋ 30,000円</td></tr>
+              <tr><th scope="row">120,001円以上</th><td>一律 60,000円</td></tr>
+            </tbody>
+          </table>
+          <table class="cmp">
+            <caption class="small">計算式Ⅲ（旧保険料等用。B・E）</caption>
+            <tbody>
+              <tr><th scope="row">25,000円以下</th><td>全額</td></tr>
+              <tr><th scope="row">25,001〜50,000円</th><td>× 1/2 ＋ 12,500円</td></tr>
+              <tr><th scope="row">50,001〜100,000円</th><td>× 1/4 ＋ 25,000円</td></tr>
+              <tr><th scope="row">100,001円以上</th><td>一律 50,000円</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">1円未満の端数は切り上げます。</p>
+      </details>
+
+      <details class="card opt no-print" id="d-file">
+        <summary>入力の保存・書き出し</summary>
+        <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。</p>
+        <div class="btn-row">
+          <button type="button" class="btn" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn" data-reset-storage="seido-keisan_hoken_draft">保存した内容をすべて消す（初期状態に戻す）</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small" id="file-msg" role="status"></p>
+      </details>
+
+      <!-- about-tool: 道具の説明（使い方ページの要約） -->
+      <details class="about-tool card opt no-print" id="about-tool">
+        <summary>この道具について（使い方・計算のしくみ・注意）</summary>
+        <h3>保険料控除の計算でわかること</h3>
+        <p>年末調整で出す「給与所得者の保険料控除申告書」の生命保険料控除と地震保険料控除の額を、申告書の欄の記号（A〜E、①〜⑧、㋑㋺㋩、Ⓑ Ⓒ）のまま出します。申告書に写す前の検算や、新しい保険に入ったら控除がいくら増えるかを見たいときに使います。</p>
+        <h3>使い方の要点</h3>
+        <ul>
+          <li>保険会社から届いた控除証明書の金額を、生命保険・介護医療保険・個人年金保険・地震保険に分け、生命保険と個人年金保険は「適用制度」の新と旧に分けて合計します。</li>
+          <li>年齢23歳未満の扶養親族がいる人は、チェックを入れると計算式Ⅱで計算します。</li>
+        </ul>
+        <h3>計算のしくみ</h3>
+        <p>区分ごとに計算式Ⅰ・Ⅱ・Ⅲに当てはめ、申告書の順に足して上限で切ります。所得税は国税庁「令和8年分 年末調整のしかた」と申告書の記載例、住民税（令和9年度）は地方税法の式です。記載例の数字はテストで1円まで再現しています。</p>
+        <h3>注意</h3>
+        <p>どの保険がどの区分に当たるかは判定しません。控除額は税金そのものではなく、所得から引く額です。</p>
+        <p><a href="./guide.html">使い方・根拠・よくある質問（新と旧の見分け方・23歳未満の扶養親族）</a></p>
+      </details>
+      <!-- /about-tool -->
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../../">yorozu-craft トップ</a></li>
+        <li><a href="../../">制度の計算機</a></li>
+        <li><a href="../">年末調整の計算</a></li>
+        <li><a href="./" aria-current="page">保険料控除の計算</a></li>
+        <li><a href="../../juminzei/">住民税の計算</a></li>
+        <li><a href="../../iryohi/">医療費控除の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../../about.html">運営者情報</a></li>
+        <li><a href="../../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/tax2026.js"></script>
+  <script src="../../lib/nenmatsu.js"></script>
+  <script src="../../lib/juminzei-values.js"></script>
+  <script src="../../lib/juminzei.js"></script>
+  <script src="../../lib/hoken.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
