@@ -25,6 +25,9 @@ const PAGE_PREFIXES = {
   "nenmatsu/hoken/index.html": [
     "seido-keisan_hoken_draft"
   ],
+  "shobyo/index.html": [
+    "seido-keisan_shobyo_draft"
+  ],
   "juminzei/index.html": [
     "seido-keisan_juminzei_draft"
   ],

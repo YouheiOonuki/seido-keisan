@@ -341,3 +341,34 @@ test('ACCEPTANCE 2.5 行 8 の内訳: ㋑ 60,000・㋺ 40,000・㋩ 47,500（住
   assert.deepEqual([r.shotoku.cols['㋑'], r.shotoku.cols['㋺'], r.shotoku.cols['㋩']], [60000, 40000, 47500]);
   assert.deepEqual([r.jumin.ippan, r.jumin.kaigo, r.jumin.nenkin], [28000, 28000, 35000]);
 });
+
+// ===========================
+// 2.6 傷病手当金（shobyo。K210）: 1 日あたりの額と、休んだ期間の支給額
+// ===========================
+const SB = require('../lib/shobyo.js');
+const SHOBYO_DAILY = [
+  ['行 1: 協会けんぽの記載例（16 万円 × 6・18 万円 × 6、支給開始 2026-02-15）', { from: '2026-02-12', byMonth: [180000, 180000, 180000, 180000, 180000, 180000, 160000, 160000, 160000, 160000, 160000, 160000] }, '2026-02-15', 3780],
+  ['行 2: 12 か月とも 30 万円', { hyojun: 300000, from: '2026-11-01' }, '2026-11-04', 6667],
+  ['行 3: 加入 6 か月・36 万円（支給開始 2026-05-01）', { hyojun: 360000, months: 6, from: '2026-04-28' }, '2026-05-01', 7113],
+  ['行 4: 加入 6 か月・20 万円（支給開始 2026-05-01）', { hyojun: 200000, months: 6, from: '2026-04-28' }, '2026-05-01', 4447],
+  ['行 5: 加入 3 か月・41 万円（支給開始 2025-03-10、全被保険者 30 万円）', { hyojun: 410000, months: 3, from: '2025-03-07' }, '2025-03-10', 6667],
+];
+SHOBYO_DAILY.forEach(([name, input, start, daily]) => {
+  test('ACCEPTANCE 2.6 表 1 ' + name + ' → 1 日 ' + daily, () => {
+    const r = SB.calc(input);
+    assert.equal(r.start, start);
+    assert.equal(r.daily, daily);
+  });
+});
+const SHOBYO_TOTAL = [
+  ['行 1: 2026-11-01〜11-14（14 日）', {}, 11, 73337],
+  ['行 2: 同、休んだ日に給与 1 日 3,000 円', { kyuyo: 3000 }, 11, 40337],
+  ['行 3: 同、休んだ日に給与 1 日 7,000 円', { kyuyo: 7000 }, 11, 0],
+];
+SHOBYO_TOTAL.forEach(([name, extra, days, total]) => {
+  test('ACCEPTANCE 2.6 表 2 ' + name + ' → ' + days + ' 日・' + total, () => {
+    const r = SB.calc(Object.assign({ hyojun: 300000, from: '2026-11-01', to: '2026-11-14' }, extra));
+    assert.equal(r.paidDays, days);
+    assert.equal(r.total, total);
+  });
+});

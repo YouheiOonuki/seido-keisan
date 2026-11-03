@@ -1,0 +1,6 @@
+/* 傷病手当金の計算だけの見た目（共通は ../style.css） */
+#steps .is-key th, #steps .is-key td { font-weight: 700; }
+#steps .is-sub th, #steps .is-sub td { color: var(--muted); }
+#by-month { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .5rem .75rem; margin-top: .5rem; }
+#by-month label { font-size: .9rem; }
+#by-month input { width: 100%; }

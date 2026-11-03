@@ -18,6 +18,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 住民税の計算の使い方 | https://yorozu-craft.com/seido-keisan/juminzei/guide.html |
 | 育休・産休の給付金の計算 | https://yorozu-craft.com/seido-keisan/ikukyu/ |
 | 育休・産休の計算の使い方 | https://yorozu-craft.com/seido-keisan/ikukyu/guide.html |
+| 傷病手当金の計算 | https://yorozu-craft.com/seido-keisan/shobyo/ |
+| 傷病手当金の計算の使い方 | https://yorozu-craft.com/seido-keisan/shobyo/guide.html |
 | 医療費控除の計算（令和8年分） | https://yorozu-craft.com/seido-keisan/iryohi/ |
 | 医療費控除の計算の使い方 | https://yorozu-craft.com/seido-keisan/iryohi/guide.html |
 | 高校無償化の計算（2026年度） | https://yorozu-craft.com/seido-keisan/koko-mushoka/ |

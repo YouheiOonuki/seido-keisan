@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>傷病手当金 計算｜1日あたり・土日の待期・12か月未満｜協会けんぽの式｜yorozu-craft</title>
+  <meta name="description" content="標準報酬月額と休んだ日を入れると、傷病手当金の1日あたりの額と支給額を出します。待期3日は土日・祝日も数え、加入12か月未満は全被保険者の平均（32万円）と比べます。休んだ日に給与が出たときの差額も。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/shobyo/">
+
+  <meta property="og:title" content="傷病手当金 計算｜1日あたり・土日の待期・12か月未満｜協会けんぽの式｜yorozu-craft">
+  <meta property="og:description" content="標準報酬月額と休んだ日を入れると、傷病手当金の1日あたりの額と支給額を出します。待期3日は土日・祝日も数え、加入12か月未満は全被保険者の平均（32万円）と比べます。休んだ日に給与が出たときの差額も。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/shobyo/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "傷病手当金の計算",
+    "description": "標準報酬月額と休んだ日を入れると、傷病手当金の1日あたりの額と支給額を出します。待期3日は土日・祝日も数え、加入12か月未満は全被保険者の平均（32万円）と比べます。休んだ日に給与が出たときの差額も。",
+    "url": "https://yorozu-craft.com/seido-keisan/shobyo/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense: サイト所有確認の meta だけ（iryohi と同じ） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./shobyo.css">
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <div class="fixed-bar fixbar-narrow" id="topbar" role="status" hidden>
+    <span>1日あたり <strong id="topbar-num">—</strong></span>
+    <a href="#result">結果へ</a>
+  </div>
+
+  <header class="app-header">
+    <h1>傷病手当金の計算</h1>
+    <p class="subtitle">1日あたりの額と、休んだ日数ぶんの支給額を出します。</p>
+  </header>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">協会けんぽ（健康保険法99条）・確認日 <span id="asof-date">2026年11月3日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card">
+        <legend>休んだ日</legend>
+        <div class="field">
+          <label for="from">休み始めた日</label>
+          <input type="date" id="from" data-k="from" min="2024-01-01" max="2099-12-31">
+        </div>
+        <div class="field">
+          <label for="to">休んだ最後の日</label>
+          <input type="date" id="to" data-k="to" min="2024-01-01" max="2099-12-31">
+        </div>
+      </fieldset>
+      <fieldset class="card">
+        <legend>標準報酬月額</legend>
+        <div class="field">
+          <label for="hyojun">標準報酬月額</label>
+          <p class="hint">月の給与の総支給額でも、等級の額に直して計算します。</p>
+          <div class="money"><input type="number" id="hyojun" data-k="hyojun" inputmode="numeric" min="0" step="1" placeholder="例：300000"><span class="unit">円</span><output class="yomi" for="hyojun"></output></div>
+        </div>
+        <div class="field">
+          <label for="months">加入している期間</label>
+          <select id="months" data-k="months">
+            <option value="12">12か月以上</option>
+            <option value="11">11か月</option><option value="10">10か月</option><option value="9">9か月</option>
+            <option value="8">8か月</option><option value="7">7か月</option><option value="6">6か月</option>
+            <option value="5">5か月</option><option value="4">4か月</option><option value="3">3か月</option>
+            <option value="2">2か月</option><option value="1">1か月</option>
+          </select>
+        </div>
+        <details class="opt" id="d-months">
+          <summary>途中で標準報酬月額が変わった</summary>
+          <div id="by-month"></div>
+        </details>
+      </fieldset>
+      <fieldset class="card">
+        <legend>休んだ日の給与</legend>
+        <div class="field">
+          <label for="kyuyo">会社から出た給与（1日あたり）</label>
+          <div class="money"><input type="number" id="kyuyo" data-k="kyuyo" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="kyuyo"></output></div>
+        </div>
+      </fieldset>
+    </form>
+
+    <section class="card result-card" id="result" aria-labelledby="h-result">
+      <h2 id="h-result">傷病手当金</h2>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead">1日あたり</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail">標準報酬月額を入れると出ます。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="steps" id="steps"><tbody></tbody></table>
+      </div>
+      <p class="small">この計算は目安です。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。産休中の出産手当金は → <a href="../ikukyu/">育休・産休の計算</a></p>
+    </section>
+
+    <div>
+      <details class="card opt no-print" id="d-file">
+        <summary>入力の保存・書き出し</summary>
+        <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。</p>
+        <div class="btn-row">
+          <button type="button" class="btn" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn" data-reset-storage="seido-keisan_shobyo_draft">保存した内容をすべて消す（初期状態に戻す）</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small" id="file-msg" role="status"></p>
+      </details>
+
+      <!-- about-tool: 道具の説明（使い方ページの要約） -->
+      <details class="about-tool card opt no-print" id="about-tool">
+        <summary>この道具について（使い方・計算のしくみ・注意）</summary>
+        <h3>傷病手当金の計算でわかること</h3>
+        <p>会社員が病気やけがで仕事を休み、給与が出ないときに健康保険から出る傷病手当金の、1日あたりの額と休んだ期間の支給額を出します。協会けんぽに加入している人の式です。</p>
+        <h3>使い方の要点</h3>
+        <ul>
+          <li>標準報酬月額は健康保険料を決めるもとになる額で、会社の給与の担当に聞くとわかります。わからなければ月の総支給額でもかまいません。等級の額に直します。</li>
+          <li>休み始めた日から連続して3日休むと待期が終わり、4日目から支給されます。土日・祝日・有給休暇の日も3日に数えます。</li>
+          <li>加入して12か月たっていない人は期間を選びます。その期間の平均と、全被保険者の平均（32万円）の低いほうで計算します。</li>
+        </ul>
+        <h3>計算のしくみ</h3>
+        <p>支給開始日の月以前12か月の標準報酬月額の平均を30で割って10円単位にし、その3分の2を1円単位にしたものが1日あたりの額です。協会けんぽの計算例（3,780円）はテストで1円まで再現しています。</p>
+        <h3>注意</h3>
+        <p>健康保険組合の上乗せ（付加給付）は入れていません。支給は支給開始日から通算1年6か月までです。</p>
+        <p><a href="./guide.html">使い方・根拠・よくある質問（土日の数え方・12か月未満・給与が出た日）</a></p>
+      </details>
+      <!-- /about-tool -->
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">傷病手当金の計算</a></li>
+        <li><a href="../ikukyu/">育休・産休の計算</a></li>
+        <li><a href="../kogaku-ryoyohi/">高額療養費の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/ikukyu-values.js"></script>
+  <script src="../lib/ikukyu.js"></script>
+  <script src="../lib/shobyo.js"></script>
+  <script src="../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
