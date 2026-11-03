@@ -28,6 +28,9 @@ const PAGE_PREFIXES = {
   "shobyo/index.html": [
     "seido-keisan_shobyo_draft"
   ],
+  "gensen/index.html": [
+    "seido-keisan_gensen_draft"
+  ],
   "juminzei/index.html": [
     "seido-keisan_juminzei_draft"
   ],

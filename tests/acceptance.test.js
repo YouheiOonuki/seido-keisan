@@ -372,3 +372,35 @@ SHOBYO_TOTAL.forEach(([name, extra, days, total]) => {
     assert.equal(r.total, total);
   });
 });
+
+// ===========================
+// 2.7 源泉徴収票の見方と手取り（gensen。K208）: 国税庁の手引（令和8年分）の記載例 1・2・4
+// ===========================
+const GS = require('../lib/gensen.js');
+const KISAI1 = { shiharai: 9620000, kyuyoGo: 7558000, kojoGoukei: 4564283, gensen: 206000, shakai: 1659483, spouseKojo: 380000, spouseShotoku: 400000,
+  other: 1, rojin: 1, rojinDokyo: 1, u16: 1, tokushin: 1, tokushinKojo: 510000, shogaiIppan: 1,
+  newIppan: 24000, oldIppan: 36000, kaigo: 48000, newNenkin: 53000, oldNenkin: 72000, jishinKojo: 44800, oldLong: 19600, chosei: 112000 };
+const KISAI2 = { shiharai: 5870000, kyuyoGo: 4254400, kojoGoukei: 2636110, gensen: 82500, shakai: 836110, spouseKojo: 380000, spouseShotoku: 0, other: 1 };
+const KISAI4 = { shiharai: 1650000, gensen: 27250, shakai: 259457, mitei: true, spouseShotoku: 300000 };
+[
+  ['行 1: 記載例 1（年末調整をした一般の受給者）', KISAI1, 9620000, 7754517, 206000],
+  ['行 2: 記載例 2（就職前の給与を通算して年末調整）', KISAI2, 5870000, 4951390, 82500],
+  ['行 3: 記載例 4（年末調整をしていない）', KISAI4, 1650000, 1363293, 27250],
+].forEach(([name, input, nenshu, tedori, zei]) => {
+  test('ACCEPTANCE 2.7 表 1 ' + name + ' → 年収 ' + nenshu + '・手取り ' + tedori + '・所得税 ' + zei, () => {
+    const r = GS.calc(input);
+    assert.equal(r.nenshu, nenshu);
+    assert.equal(r.tedori, tedori);
+    assert.equal(r.shotokuzei, zei);
+  });
+});
+[
+  ['行 1: 記載例 1 の内訳から', KISAI1, [7558000, 4564283, 206000]],
+  ['行 2: 記載例 2 の内訳から', KISAI2, [4254400, 2636110, 82500]],
+].forEach(([name, input, want]) => {
+  test('ACCEPTANCE 2.7 表 2 ' + name + ' → 給与所得控除後・所得控除の合計・源泉徴収税額が票と一致', () => {
+    const r = GS.calc(input);
+    assert.equal(r.check.status, 'ok');
+    assert.deepEqual(r.check.rows.map((x) => x.calc), want);
+  });
+});
