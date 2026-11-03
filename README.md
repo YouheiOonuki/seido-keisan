@@ -14,6 +14,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 年末調整の計算の使い方 | https://yorozu-craft.com/seido-keisan/nenmatsu/guide.html |
 | 保険料控除の計算（令和8年分。申告書の欄のまま） | https://yorozu-craft.com/seido-keisan/nenmatsu/hoken/ |
 | 保険料控除の計算の使い方 | https://yorozu-craft.com/seido-keisan/nenmatsu/hoken/guide.html |
+| 源泉徴収票の見方と手取り（令和8年分） | https://yorozu-craft.com/seido-keisan/gensen/ |
+| 源泉徴収票の見方（使い方） | https://yorozu-craft.com/seido-keisan/gensen/guide.html |
 | 住民税の計算・非課税判定（令和9年度） | https://yorozu-craft.com/seido-keisan/juminzei/ |
 | 住民税の計算の使い方 | https://yorozu-craft.com/seido-keisan/juminzei/guide.html |
 | 育休・産休の給付金の計算 | https://yorozu-craft.com/seido-keisan/ikukyu/ |

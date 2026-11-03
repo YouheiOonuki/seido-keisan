@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>源泉徴収票の見方 —— 年収と手取りはどこを見るか（令和8年分）｜yorozu-craft</title>
+  <meta name="description" content="給与所得の源泉徴収票の見方を、欄ごとに説明します。年収（額面）は支払金額、1年の所得税は源泉徴収税額、手取りは票に書かれていないので計算で出します。いつもらえるか、社会保険料等の金額の小さい数字、年末調整をしていない票、ふるさと納税の上限の目安の出し方も。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/gensen/guide.html">
+
+  <meta property="og:title" content="源泉徴収票の見方 —— 年収と手取りはどこを見るか（令和8年分）｜yorozu-craft">
+  <meta property="og:description" content="給与所得の源泉徴収票の見方を、欄ごとに説明します。年収（額面）は支払金額、1年の所得税は源泉徴収税額、手取りは票に書かれていないので計算で出します。いつもらえるか、社会保険料等の金額の小さい数字、年末調整をしていない票、ふるさと納税の上限の目安の出し方も。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/gensen/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- よくある質問（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "源泉徴収票はいつもらえますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "会社は、年末調整の後、翌年1月31日までに渡すことになっています（所得税法226条）。年の途中で退職したときは、退職の日から1か月以内です。" }
+      },
+      {
+        "@type": "Question",
+        "name": "年収はどの欄ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "「支払金額」です。1年に支払いが確定した給与と賞与の合計（税金や社会保険料を引く前の額面）です。転職して前の会社の分も通算して年末調整をしたときは、前の会社の分も含みます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "手取りはどこに書いてありますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "源泉徴収票には書いてありません。支払金額から、源泉徴収税額・社会保険料等の金額・住民税の1年分を引くと、手取りの目安になります。住民税は票に無いので、給与明細の住民税の月額を12倍します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "社会保険料等の金額の欄にある小さい数字は何ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "小規模企業共済等掛金の額の内書きです。iDeCo（個人型確定拠出年金）や企業型の確定拠出年金の本人の掛金などで、大きい数字のほうにすでに含まれています。" }
+      },
+      {
+        "@type": "Question",
+        "name": "年末調整をしていない票はどう見ますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "年の途中で退職した人や、ほかの会社がメインの人の票は、源泉徴収税額が1年の所得税として確定していません。生命保険料などの控除も入っていないので、確定申告で精算すると戻ることがあります。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>源泉徴収票の見方 —— 年収と手取りはどこを見るか</h1>
+    <p class="subtitle">欄ごとの意味・手取りの出し方・ふるさと納税の上限の目安・根拠と確認日・よくある質問</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ 源泉徴収票の見方と手取りの計算を使う</a></p>
+
+    <article class="card content" id="howto">
+      <h2>欄ごとの意味</h2>
+      <p>給与所得の源泉徴収票は、1年（1月〜12月）に会社から支払われた給与と、そこから引かれた税金・社会保険料をまとめた書類です。計算に使うのは主に次の5つの欄です。</p>
+      <ol>
+        <li><strong>支払金額</strong>：年収（額面）。給与と賞与の合計です。</li>
+        <li><strong>給与所得控除後の金額</strong>：支払金額から給与所得控除（会社員の必要経費にあたる額）を引いた額。所得税と住民税の「所得」はここからです。</li>
+        <li><strong>所得控除の額の合計額</strong>：社会保険料控除・生命保険料控除・配偶者控除・扶養控除・基礎控除などの合計。</li>
+        <li><strong>源泉徴収税額</strong>：年末調整をした票なら、1年の所得税（復興特別所得税を含む）の確定額です。</li>
+        <li><strong>社会保険料等の金額</strong>：健康保険・厚生年金・雇用保険などの本人負担の1年分。</li>
+      </ol>
+      <p>②から③を引いて1,000円未満を切り捨てたものが、所得税のかかる「課税される所得」です。所得税の税率（5%〜45%）はこの額で決まります。</p>
+    </article>
+
+    <article class="card content" id="tedori">
+      <h2>手取りとふるさと納税の上限の目安の出し方</h2>
+      <p>手取りの目安は、支払金額 − 源泉徴収税額 − 社会保険料等の金額 − 住民税の月額 × 12 です。住民税は前の年の所得にかかり、6月から翌年5月まで給与から引かれるので、票の年の住民税とは1年ずれます。</p>
+      <h3>ふるさと納税の上限の目安</h3>
+      <p>自己負担2,000円に収まる寄附の上限は、住民税の所得割から決まります。この計算では、票の内訳の欄（配偶者・扶養親族の数・障害者の数・生命保険料の金額の内訳など）を年末調整の計算にかけ直し、所得控除の額の合計額と源泉徴収税額が票と一致したときだけ、令和9年度（令和8年の所得）の住民税の式で上限の目安を出します。一致しないときは、票に書かれていない控除があるとみなして出しません。</p>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>根拠: 所得税法226条（源泉徴収票の交付）、国税庁「令和8年分 給与所得の源泉徴収票等の法定調書の作成と提出の手引」第2章（欄ごとの記載事項と記載例）。ふるさと納税の上限は地方税法37条の2・314条の7（寄附金税額控除の特例控除額）。最終確認日 <time datetime="2026-11-03">2026-11-03</time>。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul>
+          <li><a href="https://laws.e-gov.go.jp/law/340AC0000000033" target="_blank" rel="noopener noreferrer">所得税法</a>（226条1項 翌年1月31日まで・退職の日以後1か月以内に交付）</li>
+          <li>国税庁「<a href="https://www.nta.go.jp/publication/pamph/hotei/tebiki2026/PDF/02.pdf" target="_blank" rel="noopener noreferrer">令和8年分 給与所得の源泉徴収票等の法定調書の作成と提出の手引 第2章</a>」（支払金額・給与所得控除後の金額・所得控除の額の合計額・源泉徴収税額・社会保険料等の金額と小規模企業共済等掛金の内書き・生命保険料の金額の内訳・配偶者の合計所得。記載例1〜4。記載例1・2の所得控除の額の合計額と源泉徴収税額を、このツールのテストで1円まで再現しています）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/325AC0000000226" target="_blank" rel="noopener noreferrer">地方税法</a>（37条の2・314条の7 寄附金税額控除。上限の式は<a href="../juminzei/guide.html">住民税の計算の使い方</a>に）</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>源泉徴収票はいつもらえますか？</dt>
+        <dd>会社は、年末調整の後、翌年1月31日までに渡すことになっています（所得税法226条）。年の途中で退職したときは、退職の日から1か月以内です。</dd>
+        <dt>年収はどの欄ですか？</dt>
+        <dd>「支払金額」です。1年に支払いが確定した給与と賞与の合計（税金や社会保険料を引く前の額面）です。転職して前の会社の分も通算して年末調整をしたときは、前の会社の分も含みます。</dd>
+        <dt>手取りはどこに書いてありますか？</dt>
+        <dd>源泉徴収票には書いてありません。支払金額から、源泉徴収税額・社会保険料等の金額・住民税の1年分を引くと、手取りの目安になります。住民税は票に無いので、給与明細の住民税の月額を12倍します。</dd>
+        <dt>社会保険料等の金額の欄にある小さい数字は何ですか？</dt>
+        <dd>小規模企業共済等掛金の額の内書きです。iDeCo（個人型確定拠出年金）や企業型の確定拠出年金の本人の掛金などで、大きい数字のほうにすでに含まれています。</dd>
+        <dt>年末調整をしていない票はどう見ますか？</dt>
+        <dd>年の途中で退職した人や、ほかの会社がメインの人の票は、源泉徴収税額が1年の所得税として確定していません。生命保険料などの控除も入っていないので、確定申告で精算すると戻ることがあります。</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。票の数字が正しいかは判定しません。所得税の確定額は票と勤務先の年末調整、住民税はお住まいの市区町村が決めます。</li>
+        <li>ふるさと納税の上限の目安は、給与のほかに所得がなく、医療費控除や住宅ローン控除を確定申告で受けない人の目安です。</li>
+        <li>入力内容はこの端末のブラウザ（localStorage、キー <code>seido-keisan_gensen_draft</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去は計算の画面のボタンから。</li>
+        <li>税の助言ではありません。</li>
+      </ul>
+      <p><a href="/post/?from=/seido-keisan/gensen/guide.html">ご要望・不具合の報告</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-11-03">2026年11月3日</time> 公開（令和8年分。国税庁の手引と所得税法・地方税法で確認）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./">源泉徴収票の見方と手取り</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,20 @@
+/* 源泉徴収票の見方と手取りだけの見た目（共通は ../style.css） */
+.hyo { display: block; width: 100%; height: auto; margin-top: .5rem; }
+.hyo-frame { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.hyo-cell { fill: none; stroke: var(--muted); stroke-width: 1; }
+.hyo-key { fill: none; stroke: currentColor; stroke-width: 2.5; }
+.hyo-cap { font-size: 15px; font-weight: 700; fill: currentColor; }
+.hyo-l { font-size: 13px; font-weight: 700; fill: currentColor; }
+.hyo-s { font-size: 11.5px; fill: currentColor; }
+#steps .is-key th, #steps .is-key td { font-weight: 700; }
+#steps .is-sub th, #steps .is-sub td { color: var(--muted); }
+.furusato { font-size: 1.15rem; font-weight: 700; }
+.furusato.is-note { font-size: 1rem; font-weight: 400; }
+fieldset.sub { border: 0; padding: 0; margin: 1rem 0 0; }
+fieldset.sub legend { font-weight: 700; padding: 0; margin-bottom: .25rem; }
+.grid2, .grid3 { display: grid; gap: 0 .75rem; }
+.grid2 { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+.grid3 { grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); }
+.grid2 input, .grid3 input { width: 100%; }
+.grid2 .money, .grid3 .money { display: flex; align-items: center; gap: .25rem; }
+.grid2 .money input, .grid3 .money input { flex: 1 1 auto; min-width: 0; width: auto; }

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>源泉徴収票の見方 —— 年収と手取りはどこを見るか｜計算つき（令和8年分）｜yorozu-craft</title>
+  <meta name="description" content="源泉徴収票の欄の数字を写すと、年収（額面）・手取りの目安・1年の所得税・課税される所得と税率を出します。票の内訳も入れると、ふるさと納税の上限の目安（令和9年度の住民税）も。票のどこを見るかの図つき。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/gensen/">
+
+  <meta property="og:title" content="源泉徴収票の見方 —— 年収と手取りはどこを見るか｜計算つき（令和8年分）｜yorozu-craft">
+  <meta property="og:description" content="源泉徴収票の欄の数字を写すと、年収（額面）・手取りの目安・1年の所得税・課税される所得と税率を出します。票の内訳も入れると、ふるさと納税の上限の目安（令和9年度の住民税）も。票のどこを見るかの図つき。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/gensen/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "源泉徴収票の見方と手取りの計算（令和8年分）",
+    "description": "源泉徴収票の欄の数字を写すと、年収（額面）・手取りの目安・1年の所得税・課税される所得と税率を出します。票の内訳も入れると、ふるさと納税の上限の目安（令和9年度の住民税）も。",
+    "url": "https://yorozu-craft.com/seido-keisan/gensen/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense: サイト所有確認の meta だけ（iryohi と同じ） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./gensen.css">
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <div class="fixed-bar fixbar-narrow" id="topbar" role="status" hidden>
+    <span>手取りの目安 <strong id="topbar-num">—</strong></span>
+    <a href="#result">結果へ</a>
+  </div>
+
+  <header class="app-header">
+    <h1>源泉徴収票の見方と手取り</h1>
+    <p class="subtitle">票の欄の数字を写すと、年収・手取り・所得税が出ます。</p>
+  </header>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">令和8年分の源泉徴収票・確認日 <span id="asof-date">2026年11月3日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <details class="card opt" id="d-zu">
+        <summary>票のどこを見るか</summary>
+        <svg class="hyo" viewBox="0 0 640 300" role="img" aria-labelledby="zu-t">
+          <title id="zu-t">給与所得の源泉徴収票の欄の並び。上の段に左から 支払金額、給与所得控除後の金額、所得控除の額の合計額、源泉徴収税額。3 段目の左に 社会保険料等の金額。下のほうに 生命保険料の金額の内訳 と 配偶者の合計所得。</title>
+          <rect class="hyo-frame" x="1" y="1" width="638" height="298" rx="4"/>
+          <text class="hyo-cap" x="320" y="22" text-anchor="middle">令和8年分 給与所得の源泉徴収票</text>
+          <rect class="hyo-cell" x="12" y="34" width="76" height="46"/><text class="hyo-l" x="50" y="62" text-anchor="middle">種別</text>
+          <rect class="hyo-key" x="92" y="34" width="132" height="46"/><text class="hyo-l" x="158" y="54" text-anchor="middle">① 支払金額</text><text class="hyo-s" x="158" y="72" text-anchor="middle">年収（額面）</text>
+          <rect class="hyo-key" x="228" y="34" width="132" height="46"/><text class="hyo-l" x="294" y="54" text-anchor="middle">② 給与所得控除後</text><text class="hyo-s" x="294" y="72" text-anchor="middle">の金額</text>
+          <rect class="hyo-key" x="364" y="34" width="132" height="46"/><text class="hyo-l" x="430" y="54" text-anchor="middle">③ 所得控除の額</text><text class="hyo-s" x="430" y="72" text-anchor="middle">の合計額</text>
+          <rect class="hyo-key" x="500" y="34" width="128" height="46"/><text class="hyo-l" x="564" y="54" text-anchor="middle">④ 源泉徴収税額</text><text class="hyo-s" x="564" y="72" text-anchor="middle">1年の所得税</text>
+          <rect class="hyo-cell" x="12" y="86" width="616" height="40"/><text class="hyo-s" x="320" y="111" text-anchor="middle">控除対象配偶者の有無・配偶者（特別）控除の額・扶養親族の数・16歳未満扶養親族の数・障害者の数</text>
+          <rect class="hyo-key" x="12" y="132" width="160" height="40"/><text class="hyo-l" x="92" y="157" text-anchor="middle">⑤ 社会保険料等の金額</text>
+          <rect class="hyo-cell" x="176" y="132" width="452" height="40"/><text class="hyo-s" x="402" y="157" text-anchor="middle">生命保険料の控除額・地震保険料の控除額・住宅借入金等特別控除の額</text>
+          <rect class="hyo-cell" x="12" y="178" width="616" height="30"/><text class="hyo-s" x="320" y="198" text-anchor="middle">摘要</text>
+          <rect class="hyo-cell" x="12" y="214" width="616" height="34"/><text class="hyo-s" x="320" y="236" text-anchor="middle">生命保険料の金額の内訳（新生命・旧生命・介護医療・新個人年金・旧個人年金）</text>
+          <rect class="hyo-cell" x="12" y="254" width="616" height="34"/><text class="hyo-s" x="320" y="276" text-anchor="middle">配偶者の合計所得・旧長期損害保険料の金額・基礎控除の額・所得金額調整控除額</text>
+        </svg>
+      </details>
+
+      <fieldset class="card">
+        <legend>票の上の段</legend>
+        <div class="field">
+          <label for="shiharai">① 支払金額</label>
+          <div class="money"><input type="number" id="shiharai" data-k="shiharai" inputmode="numeric" min="0" step="1" placeholder="例：5000000"><span class="unit">円</span><output class="yomi" for="shiharai"></output></div>
+        </div>
+        <div class="field">
+          <label for="kyuyoGo">② 給与所得控除後の金額</label>
+          <div class="money"><input type="number" id="kyuyoGo" data-k="kyuyoGo" inputmode="numeric" min="0" step="1"><span class="unit">円</span><output class="yomi" for="kyuyoGo"></output></div>
+        </div>
+        <div class="field">
+          <label for="kojoGoukei">③ 所得控除の額の合計額</label>
+          <div class="money"><input type="number" id="kojoGoukei" data-k="kojoGoukei" inputmode="numeric" min="0" step="1"><span class="unit">円</span><output class="yomi" for="kojoGoukei"></output></div>
+        </div>
+        <div class="field">
+          <label for="gensen">④ 源泉徴収税額</label>
+          <div class="money"><input type="number" id="gensen" data-k="gensen" inputmode="numeric" min="0" step="1"><span class="unit">円</span><output class="yomi" for="gensen"></output></div>
+        </div>
+        <div class="field">
+          <label for="shakai">⑤ 社会保険料等の金額</label>
+          <div class="money"><input type="number" id="shakai" data-k="shakai" inputmode="numeric" min="0" step="1"><span class="unit">円</span><output class="yomi" for="shakai"></output></div>
+        </div>
+        <label class="inline"><input type="checkbox" id="mitei" data-k="mitei"> 年末調整をしていない票（摘要に「年調未済」など）</label>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>給与明細から</legend>
+        <div class="field">
+          <label for="juminMonth">住民税の月額</label>
+          <div class="money"><input type="number" id="juminMonth" data-k="juminMonth" inputmode="numeric" min="0" step="1" placeholder="0"><span class="unit">円</span><output class="yomi" for="juminMonth"></output></div>
+        </div>
+      </fieldset>
+
+      <details class="card opt" id="d-uchiwake">
+        <summary>票の内訳（ふるさと納税の上限の目安に使う）</summary>
+        <label class="inline"><input type="checkbox" id="blank" data-k="blank"> 内訳の欄はどれも空欄</label>
+        <fieldset class="sub">
+          <legend>配偶者</legend>
+          <div class="grid2">
+            <div class="field"><label for="spouseKojo">配偶者（特別）控除の額</label><div class="money"><input type="number" id="spouseKojo" data-k="spouseKojo" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="spouseShotoku">配偶者の合計所得</label><div class="money"><input type="number" id="spouseShotoku" data-k="spouseShotoku" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+          </div>
+          <label class="inline"><input type="checkbox" id="spouseRojin" data-k="spouseRojin"> 控除対象配偶者の「老人」に印</label>
+        </fieldset>
+        <fieldset class="sub">
+          <legend>控除対象扶養親族の数・16歳未満扶養親族の数</legend>
+          <div class="grid3">
+            <div class="field"><label for="tokutei">特定</label><input type="number" id="tokutei" data-k="tokutei" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="rojin">老人</label><input type="number" id="rojin" data-k="rojin" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="rojinDokyo">老人のうち同居（内）</label><input type="number" id="rojinDokyo" data-k="rojinDokyo" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="other">その他</label><input type="number" id="other" data-k="other" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="u16">16歳未満</label><input type="number" id="u16" data-k="u16" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+          </div>
+        </fieldset>
+        <fieldset class="sub">
+          <legend>特定親族（特親）</legend>
+          <div class="grid2">
+            <div class="field"><label for="tokushin">人数</label><input type="number" id="tokushin" data-k="tokushin" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="tokushinKojo">特定親族特別控除の額</label><div class="money"><input type="number" id="tokushinKojo" data-k="tokushinKojo" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+          </div>
+        </fieldset>
+        <fieldset class="sub">
+          <legend>障害者の数（本人を除く）・本人</legend>
+          <div class="grid3">
+            <div class="field"><label for="shogaiTokubetsu">特別</label><input type="number" id="shogaiTokubetsu" data-k="shogaiTokubetsu" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="shogaiDokyo">特別のうち同居（内）</label><input type="number" id="shogaiDokyo" data-k="shogaiDokyo" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+            <div class="field"><label for="shogaiIppan">その他</label><input type="number" id="shogaiIppan" data-k="shogaiIppan" inputmode="numeric" min="0" max="20" step="1" placeholder="0"></div>
+          </div>
+          <div class="field">
+            <label for="self">本人の欄の印</label>
+            <select id="self" data-k="self">
+              <option value="none">なし</option>
+              <option value="ippan">障害者（その他）</option>
+              <option value="tokubetsu">障害者（特別）</option>
+              <option value="kafu">寡婦</option>
+              <option value="hitorioya">ひとり親</option>
+              <option value="kinro">勤労学生</option>
+            </select>
+          </div>
+        </fieldset>
+        <fieldset class="sub">
+          <legend>生命保険料の金額の内訳</legend>
+          <div class="grid3">
+            <div class="field"><label for="newIppan">新生命保険料</label><div class="money"><input type="number" id="newIppan" data-k="newIppan" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="oldIppan">旧生命保険料</label><div class="money"><input type="number" id="oldIppan" data-k="oldIppan" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="kaigo">介護医療保険料</label><div class="money"><input type="number" id="kaigo" data-k="kaigo" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="newNenkin">新個人年金保険料</label><div class="money"><input type="number" id="newNenkin" data-k="newNenkin" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="oldNenkin">旧個人年金保険料</label><div class="money"><input type="number" id="oldNenkin" data-k="oldNenkin" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+          </div>
+        </fieldset>
+        <fieldset class="sub">
+          <legend>そのほかの欄</legend>
+          <div class="grid2">
+            <div class="field"><label for="jishinKojo">地震保険料の控除額</label><div class="money"><input type="number" id="jishinKojo" data-k="jishinKojo" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="oldLong">旧長期損害保険料の金額</label><div class="money"><input type="number" id="oldLong" data-k="oldLong" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="jutaku">住宅借入金等特別控除の額</label><div class="money"><input type="number" id="jutaku" data-k="jutaku" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+            <div class="field"><label for="chosei">所得金額調整控除額</label><div class="money"><input type="number" id="chosei" data-k="chosei" inputmode="numeric" min="0" step="1"><span class="unit">円</span></div></div>
+          </div>
+        </fieldset>
+      </details>
+    </form>
+
+    <section class="card result-card" id="result" aria-labelledby="h-result">
+      <h2 id="h-result">年収と手取り</h2>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead">手取りの目安（1年）</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail">支払金額を入れると出ます。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="steps" id="steps"><tbody></tbody></table>
+      </div>
+      <p class="small">手取りの目安 ＝ ① − ④ − ⑤ − 住民税の月額 × 12</p>
+      <h3>ふるさと納税の上限の目安</h3>
+      <p class="furusato" id="furusato" aria-live="polite">—</p>
+      <div class="table-wrap" id="check-wrap" hidden>
+        <table class="cmp" id="check">
+          <thead><tr><th scope="col"></th><th scope="col">票</th><th scope="col">内訳からの計算</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="small">この計算は目安です。根拠と注意は<a href="./guide.html#basis">使い方ページ</a>に。住民税を細かく見るなら → <a href="../juminzei/">住民税の計算</a></p>
+    </section>
+
+    <div>
+      <details class="card opt no-print" id="d-file">
+        <summary>入力の保存・書き出し</summary>
+        <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。</p>
+        <div class="btn-row">
+          <button type="button" class="btn" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn" data-reset-storage="seido-keisan_gensen_draft">保存した内容をすべて消す（初期状態に戻す）</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small" id="file-msg" role="status"></p>
+      </details>
+
+      <!-- about-tool: 道具の説明（使い方ページの要約） -->
+      <details class="about-tool card opt no-print" id="about-tool">
+        <summary>この道具について（使い方・計算のしくみ・注意）</summary>
+        <h3>源泉徴収票の見方と手取りでわかること</h3>
+        <p>会社から年末か退職のときに渡される給与所得の源泉徴収票の数字から、1年の年収（額面）、手取りの目安、1年の所得税、課税される所得と所得税の税率を出します。票の内訳も写すと、ふるさと納税で自己負担2,000円に収まる寄附の上限の目安も出します。</p>
+        <h3>使い方の要点</h3>
+        <ul>
+          <li>票の上の段の①〜④と、3段目の⑤社会保険料等の金額を写します。住民税の月額は、6月以降の給与明細の住民税の欄です。</li>
+          <li>ふるさと納税の上限の目安は、配偶者・扶養親族・生命保険料の金額の内訳などの欄も写したときに出ます。</li>
+        </ul>
+        <h3>計算のしくみ</h3>
+        <p>手取りは①から④⑤と住民税の1年分を引いた額です。上限の目安は、内訳を年末調整の計算にかけ直して③と④が票と一致したときに、令和9年度の住民税の式で出します。国税庁の手引の記載例2つで、③④が1円まで一致することをテストで確かめています。</p>
+        <h3>注意</h3>
+        <p>票の数字が正しいかは判定しません。上限の目安は、給与のほかに所得がない人の目安です。</p>
+        <p><a href="./guide.html">使い方・根拠・よくある質問（いつもらえるか・年収はどこか）</a></p>
+      </details>
+      <!-- /about-tool -->
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">源泉徴収票の見方と手取り</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/kyuyo-table-2026.js"></script>
+  <script src="../lib/kyuyo-table-2025.js"></script>
+  <script src="../lib/tax2026.js"></script>
+  <script src="../lib/nenmatsu.js"></script>
+  <script src="../lib/juminzei-values.js"></script>
+  <script src="../lib/juminzei.js"></script>
+  <script src="../lib/gensen.js"></script>
+  <script src="../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
