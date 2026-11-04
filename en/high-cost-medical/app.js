@@ -150,6 +150,7 @@
     if (p.id !== K.periodFor(todayYm).id) msg('Calculated with the limits for another month (' + H.periodEn(p) + ').');
 
     setBar('You pay ' + round(r.self));
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';
