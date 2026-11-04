@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医療費控除の明細書を作る（令和8年分）CSV・印刷｜yorozu-craft</title>
+  <meta name="description" content="領収書の医療費を、国税庁の医療費控除の明細書と同じ列（医療を受けた方・支払先・区分・支払った額・補塡される額）で入れると、合計と10万円を超えた分が出ます。CSVと印刷つき。入力は端末の外に出ません。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/iryohi/meisai/">
+
+  <meta property="og:title" content="医療費控除の明細書を作る（令和8年分）CSV・印刷｜yorozu-craft">
+  <meta property="og:description" content="領収書の医療費を、国税庁の医療費控除の明細書と同じ列（医療を受けた方・支払先・区分・支払った額・補塡される額）で入れると、合計と10万円を超えた分が出ます。CSVと印刷つき。入力は端末の外に出ません。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/iryohi/meisai/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/iryohi/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "医療費控除の明細書を作る（令和8年分）",
+    "description": "領収書の医療費を、国税庁の医療費控除の明細書と同じ列（医療を受けた方・支払先・区分・支払った額・補塡される額）で入れると、合計と10万円を超えた分が出ます。CSVと印刷つき。入力は端末の外に出ません。",
+    "url": "https://yorozu-craft.com/seido-keisan/iryohi/meisai/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense: サイト所有確認の meta だけ。医療費控除の計算（../）と同じ扱い（AdSense 審査が通るまで広告 script を外す。2026-10-04） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="./meisai.css">
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <!-- 固定バー（SCREEN 0 章の 3・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixed-bar fixbar-narrow no-print" id="topbar" role="status" hidden>
+    <span>医療費控除の目安 <strong id="topbar-num">—</strong></span>
+    <a href="#result">結果へ</a>
+  </div>
+
+  <header class="app-header">
+    <h1>医療費控除の明細書を作る（令和8年分）</h1>
+    <p class="subtitle">国税庁の明細書の列で医療費を並べ、合計と控除の目安を出します。</p>
+  </header>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge no-print" id="asof">令和8年に払った医療費・確認日 <span id="asof-date">2026年11月5日</span>・入力は外部に送信しません</p>
+
+    <form id="form" class="no-print" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req" id="meisai">
+        <legend>医療費の明細</legend>
+        <ol class="m-rows" id="rows"></ol>
+        <div class="btn-row">
+          <button type="button" class="btn" id="add">＋ 行を足す</button>
+        </div>
+        <datalist id="names"></datalist>
+      </fieldset>
+    </form>
+
+    <section class="card result-card no-print" id="result" aria-labelledby="h-result">
+      <h2 id="h-result">医療費控除の目安</h2>
+      <div class="result-main" id="result-main" aria-live="polite">
+        <p class="lead" id="r-lead">10万円を超えた分</p>
+        <p class="big" id="r-big">—</p>
+        <p class="detail" id="r-detail">支払った医療費の額を入れると出ます。</p>
+      </div>
+      <div class="table-wrap" tabindex="0">
+        <table class="cmp sum" id="sum">
+          <tbody>
+            <tr><th scope="row">支払った医療費（A）</th><td id="s-a">—</td></tr>
+            <tr><th scope="row">補塡される金額（B）</th><td id="s-b">—</td></tr>
+            <tr><th scope="row">差引金額（C ＝ A − B）</th><td id="s-c">—</td></tr>
+            <tr><th scope="row" id="s-f-label">引く額（F）</th><td id="s-f">—</td></tr>
+            <tr id="s-tax-row" hidden><th scope="row">戻る税金の目安（所得税＋住民税）</th><td id="s-tax">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small note" id="r-note"></p>
+      <div class="btn-row">
+        <button type="button" class="btn" id="csv">CSV をダウンロード</button>
+        <button type="button" class="btn" id="print">印刷する（A4）</button>
+      </div>
+      <p class="small">この計算は目安です。実際の額は税務署と市区町村が決めます。</p>
+      <p class="small">申告は国税庁の<a href="https://www.keisan.nta.go.jp/" target="_blank" rel="noopener noreferrer">確定申告書等作成コーナー</a>で。</p>
+      <p class="small">領収書は提出しませんが、確定申告期限等から5年間は自宅等で保存します。</p>
+    </section>
+
+    <div class="no-print">
+      <details class="card opt" id="d-tax">
+        <summary>戻る税金の目安: <span class="state">入力なし</span></summary>
+        <div class="field">
+          <label for="income">給与の収入金額</label>
+          <p class="hint">源泉徴収票の「支払金額」。</p>
+          <div class="money"><input type="number" id="income" inputmode="numeric" min="0" step="1" placeholder="例：5000000"><span class="unit">円</span></div>
+        </div>
+        <div class="field">
+          <label for="kojo">所得控除の額の合計額</label>
+          <p class="hint">源泉徴収票の同じ名前の欄。</p>
+          <div class="money"><input type="number" id="kojo" inputmode="numeric" min="0" step="1" placeholder="例：1800000"><span class="unit">円</span></div>
+        </div>
+        <p class="small">この 2 つは保存しません。給与以外の所得がある人は<a href="../">医療費控除の計算</a>へ。</p>
+      </details>
+
+      <details class="card opt" id="d-file">
+        <summary>入力の保存・書き出し</summary>
+        <p class="small">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+        <div class="btn-row">
+          <button type="button" class="btn" id="export">ファイルに書き出す</button>
+          <button type="button" class="btn" id="import">ファイルから読み込む</button>
+          <button type="button" class="btn" data-reset-storage="seido-keisan_box">保存した内容をすべて消す（初期状態に戻す）</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small" id="file-msg" role="status"></p>
+      </details>
+
+      <!-- about-tool: 道具の説明（使い方ページの要約。WRITING 1 章） -->
+      <details class="about-tool card opt" id="about-tool">
+        <summary>この道具について（使い方・計算のしくみ・注意）</summary>
+        <h3>明細書づくりでわかること</h3>
+        <p>令和8年に払った医療費を、国税庁の「医療費控除の明細書【内訳書】」と同じ5つの列で並べます。医療費の合計、保険金などで補塡される金額の合計、10万円を超えた分が出て、CSVと印刷で写せます。</p>
+        <h3>使い方の要点</h3>
+        <ul>
+          <li>医療を受けた人と病院・薬局ごとに1行。領収書1枚ずつでなくてもかまいません。</li>
+          <li>区分は当てはまるものを全部選びます。2回目からは人の名前を候補から選べます。</li>
+          <li>源泉徴収票の支払金額と所得控除の合計を入れると、戻る税金の目安も出ます。</li>
+        </ul>
+        <h3>計算のしくみ</h3>
+        <p>補塡される金額は、その行の支払った額までを引きます。差引金額から10万円（所得の5%が少なければその額）を引いた額が控除の目安で、最高200万円です。税金の目安は医療費控除の計算と同じ式です。</p>
+        <h3>注意</h3>
+        <p>どの支払いが医療費控除の対象になるかは判定しません。医療費のお知らせ（医療費通知）を添付する分は、この表に入れません。</p>
+      </details>
+      <!-- /about-tool -->
+
+      <p class="small"><a href="./guide.html">使い方・根拠・よくある質問（明細書の書き方・医療費のお知らせ）</a></p>
+    </div>
+
+    <!-- 印刷用（A4）。列の名前と並びは国税庁の様式のまま。画面では出さない -->
+    <section class="print-only" id="print-form" aria-hidden="true">
+      <h2 id="p-title">令和8年分　医療費控除の明細書【内訳書】</h2>
+      <p class="p-sub">2　医療費（医療費通知に記載されたもの以外）の明細</p>
+      <table class="p-table">
+        <thead><tr><th>(1) 医療を受けた方の氏名</th><th>(2) 病院・薬局などの支払先の名称</th><th>(3) 医療費の区分</th><th>(4) 支払った医療費の額</th><th>(5) (4)のうち生命保険や社会保険（高額療養費など）などで補塡される金額</th></tr></thead>
+        <tbody id="p-rows"></tbody>
+      </table>
+      <p class="p-sub">3　控除額の計算</p>
+      <table class="p-table p-calc"><tbody id="p-calc"></tbody></table>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../../">yorozu-craft トップ</a></li>
+        <li><a href="../../">制度の計算機</a></li>
+        <li><a href="../">医療費控除の計算</a></li>
+        <li><a href="./" aria-current="page">医療費控除の明細書を作る</a></li>
+        <li><a href="./guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../../about.html">運営者情報</a></li>
+        <li><a href="../../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../../lib/kyuyo-table-2026.js"></script>
+  <script src="../../lib/tax2026.js"></script>
+  <script src="../../lib/nenmatsu.js"></script>
+  <script src="../../lib/iryohi-values.js"></script>
+  <script src="../../lib/iryohi.js"></script>
+  <script src="../../lib/box.js"></script>
+  <script src="../../lib/meisai.js"></script>
+  <script src="../../reset-storage.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -24,6 +24,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 傷病手当金の計算の使い方 | https://yorozu-craft.com/seido-keisan/shobyo/guide.html |
 | 医療費控除の計算（令和8年分） | https://yorozu-craft.com/seido-keisan/iryohi/ |
 | 医療費控除の計算の使い方 | https://yorozu-craft.com/seido-keisan/iryohi/guide.html |
+| 医療費控除の明細書を作る（令和8年分。明細書の列・CSV・印刷） | https://yorozu-craft.com/seido-keisan/iryohi/meisai/ |
+| 医療費控除の明細書の書き方（使い方） | https://yorozu-craft.com/seido-keisan/iryohi/meisai/guide.html |
 | 高校無償化の計算（2026年度） | https://yorozu-craft.com/seido-keisan/koko-mushoka/ |
 | 高校無償化の計算の使い方 | https://yorozu-craft.com/seido-keisan/koko-mushoka/guide.html |
 | 制度の改定カレンダー（施行日の一覧と .ics。データは `lib/kaitei-values.js`、一覧は `node tools/build-kaitei.mjs` で書き出す。企画書 24） | https://yorozu-craft.com/seido-keisan/kaitei/ |
@@ -149,6 +151,14 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 
 対象外（画面と使い方ページに明記）: どの支払いが医療費控除の対象になるかの判定、医療費通知の読み方の細部、家族の医療費を合計してよいかの判定、所得金額調整控除、住宅ローン控除などの税額控除、住民税の調整控除の変化。
 
+### 医療費控除の明細書を作る（`iryohi/meisai/`。yorozu-plans 企画書 100、ROADMAP 7.180 D471・7.183 D475）
+
+- 国税庁「医療費控除の明細書【内訳書】」の「2 医療費（上記1以外）の明細」と同じ 5 列（医療を受けた方の氏名・支払先の名称・医療費の区分 4 つ〈複数可〉・支払った医療費の額・補塡される金額）の表を手で入れる。行の追加・削除・並べ替え。氏名は前に打った名前が候補に出る（写真から読まない）
+- 補塡される金額は行ごとに支払った額が上限（記載要領・Excel 版の式）。合計 A・B、差引 C、「10 万円を超えた分」。源泉徴収票の支払金額と所得控除の合計を入れると `lib/iryohi.js` の `calc` で戻る税金の目安（その 2 欄は保存しない）
+- 明細書の列の順の CSV（UTF-8 の BOM・CRLF、最後の行が「2 の合計」、式に見える値は先頭に `'`）と A4 の印刷（列の順の表と「3 控除額の計算」A〜G）
+- 保存は表だけを「家庭の書類の箱」`lib/box.js`（localStorage `seido-keisan_box`、`years[年].meisai.rows`。年ごとの入れ物で、知らない区画は消さない）。書き出しは箱ごと（`{ tool: 'seido-keisan-box', version: 1, exportedAt, data }`、`seido-keisan-box-backup-YYYYMMDD.json`）。キー名と形は `lib/box.js` だけが決め、医療費控除の計算・年末調整・保険料控除は後で同じ箱を読む（ROADMAP 7.184 の A）
+- 列の名前と出典・確認日は `lib/iryohi-values.js` の `MEISAI` と `SOURCES`（`meisaiPdf`・`meisaiKi`・`meisaiXlsx`・`ta1119`）。写真の読み取り（枝 2）と医療費通知（枝 3）はまだ無い
+
 ### 医療費控除の仕様・根拠
 
 所得税法 73 条・89 条・190 条、租税特別措置法 41 条の 17（令和 9 年 1 月 1 日施行版も）、復興財源確保法 13 条、地方税法（34 条・314 条の 2・附則 4 条の 5）を e-Gov で、国税庁のタックスアンサー（No.1120・1129・1131・2260・2030。令和8年4月1日現在法令等）・医療費控除の明細書・暮らしの税情報（令和8年度版）を 2026-09-24 に読んで値を入れた。値と出典は `lib/iryohi-values.js` の `SOURCES`。
@@ -266,6 +276,9 @@ node --test tests/*.test.js
 | `iryohi/index.html` / `iryohi/app.js` / `iryohi/iryohi.css` / `iryohi/guide.html` | 医療費控除の計算の画面・制御・画面だけの見た目・使い方ページ |
 | `lib/iryohi-values.js` | 医療費控除の値の表（5%・10万円・200万円、セルフメディケーション税制、速算表の 4,000 万円超まで。値・出典・確認日） |
 | `lib/iryohi.js` | 医療費控除と戻る税金の計算（純粋関数）と、入力の正規化・ファイル形式 |
+| `iryohi/meisai/index.html` / `app.js` / `meisai.css` / `guide.html` | 医療費控除の明細書を作る画面・制御・見た目（印刷の表）・使い方ページ |
+| `lib/meisai.js` | 明細の合計・補塡の上限・「10万円を超えた分」・税金の目安（`lib/iryohi.js` を呼ぶ）・CSV（純粋関数） |
+| `lib/box.js` | 家庭の書類の箱: localStorage のキー `seido-keisan_box` と形（年ごとの入れ物）、正規化・読み書き・JSON の書き出しと読み込み |
 | `dattai-ichiji/index.html` / `dattai-ichiji/guide.html` | 脱退一時金の計算の画面と使い方ページ（日本語。値の持ち主で hreflang の対） |
 | `en/pension-refund/index.html` / `en/pension-refund/guide.html` | Japan Pension Refund Calculator の画面と使い方ページ（英語。同じ値・同じ計算を読む） |
 | `en/residence-tax/index.html` / `app.js` / `guide.html` / `guide.js` / `residence-tax.css` | Japan Residence Tax Calculator の画面・制御・使い方ページ・使い方の数字の差し込み・画面だけの見た目（英語。見た目の共通部分は `en/take-home-pay/take-home.css`） |
