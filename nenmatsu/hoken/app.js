@@ -103,6 +103,7 @@
     $('topbar-num').textContent = r.empty ? '—' : yen(s.total);
     if (!r.empty) shown = true;
     updateTopbar();
+    window.yzUsed?.();
   }
 
   var resultVisible = true;

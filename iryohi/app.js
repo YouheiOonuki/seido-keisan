@@ -139,6 +139,7 @@
     $('topbar-num').textContent = r.ready ? yen(r.total) : '—';
     if (r.ready) shown = true;
     updateTopbar();
+    window.yzUsed?.();
   }
 
   // --- 固定バー: 結果が一度出たあと、結果が画面の外にあるときだけ（SCREEN 3 章） ---

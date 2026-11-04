@@ -110,6 +110,7 @@
     $('topbar-num').textContent = yen(r.daily);
     shown = true;
     updateTopbar();
+    window.yzUsed?.();
   }
 
   var resultVisible = true;

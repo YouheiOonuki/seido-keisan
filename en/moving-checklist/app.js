@@ -90,6 +90,7 @@
       sec.appendChild(ul); list.appendChild(sec);
     });
     setBar(b.count ? b.count + (b.count === 1 ? ' step' : ' steps') : '');
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

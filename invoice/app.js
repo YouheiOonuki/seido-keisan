@@ -154,6 +154,7 @@
     });
 
     setBar(best ? best.name.replace(/（.*/, '') + ' ' + amt(best.r.total) : '');
+    window.yzUsed?.();
   }
 
   // 中身が同じなら描き直さない。保存は 300ms まとめる

@@ -171,6 +171,7 @@
     $('steps-box').hidden = false;
 
     setBar('Residence tax ' + yen(j.total) + ' a year');
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

@@ -316,6 +316,7 @@
       td2.textContent = '給与の収入金額を入れると比べます。';
       tr2.appendChild(td2); cb.appendChild(tr2);
     }
+    window.yzUsed?.();
   }
 
   // --- 「くわしく入れる」の summary（入力の状態。控除が付くかどうかは結果の「途中の計算」で見る） ---

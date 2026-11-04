@@ -105,6 +105,7 @@
     $('topbar-num').textContent = yen(r.tedori);
     shown = true;
     updateTopbar();
+    window.yzUsed?.();
   }
 
   var resultVisible = true;
