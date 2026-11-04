@@ -179,6 +179,7 @@
     }
     if (r.shien.ok) row(sb, ['13% top-up: daily wage × ' + r.shien.days + ' days × ' + k.shien.rate + '%', yen(r.shien.amount)]);
     $('steps-box').hidden = false;
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

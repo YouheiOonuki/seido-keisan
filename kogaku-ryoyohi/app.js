@@ -245,6 +245,7 @@
     t.appendChild(tb); box.appendChild(t);
 
     setBar('自己負担 ' + yen(r.self));
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

@@ -60,6 +60,7 @@
       return '<tr class="' + cls + '"><th scope="row">' + esc(f.name) + '<small>定期接種 ' + Y.short(f.target.to) + 'まで</small><small class="tt">' + esc(f.targetText) + '</small></th><td><ul class="doses">' + lines + '</ul></td></tr>';
     }).join('');
     $('print-note').textContent = '生年月日 ' + Y.ja(s.birth) + '・' + Y.ja(today) + ' に yorozu-craft.com/seido-keisan/yobosesshu/ で作成。厚生労働省「定期接種実施要領」（' + V.YOURYOU_REVISION + '）と予防接種法施行令による。実際の接種の日は市区町村の案内とかかりつけの医師が決めます。';
+    window.yzUsed?.();
   }
 
   $('oos').innerHTML = V.OUT_OF_SCOPE.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');

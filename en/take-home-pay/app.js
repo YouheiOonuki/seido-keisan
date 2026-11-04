@@ -168,6 +168,7 @@
     $('steps-box').hidden = false;
 
     setBar('Take-home ' + yen(m.net) + ' a month');
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

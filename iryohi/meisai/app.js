@@ -103,6 +103,7 @@
     updateTopbar();
     setState();
     drawPrint(t, est, useIncome, kojoVal, f);
+    window.yzUsed?.();
   }
   function setState() {
     $('d-tax').querySelector('.state').textContent = income === null ? '入力なし' : '支払金額 ' + yen(income) + (kojo === null ? '（所得控除の合計が未入力）' : '');

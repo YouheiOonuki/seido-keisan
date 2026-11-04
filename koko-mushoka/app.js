@@ -187,6 +187,7 @@
     if (f.selfFee > 0) note.push('授業料が支援の上限を超える分が自己負担です。');
     $('r-note').textContent = note.join(' ');
     setBar('自己負担（1年） ' + yen(f.selfFee));
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

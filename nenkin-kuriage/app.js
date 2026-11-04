@@ -182,6 +182,7 @@
     $('work-note').textContent = d.wage ? '在職で止まる額は月' + yen(r.stop) + '（' + V.zairo.fiscalYear + 'の基準額' + man(V.zairo.base) + 'で計算。基準額は毎年度変わる）。' : '';
 
     setBar(ageStr(C.ageOf(r.k1)) + 'から 年' + man(r.total));
+    window.yzUsed?.();
   }
 
   var saveTimer = null, lastSig = '';

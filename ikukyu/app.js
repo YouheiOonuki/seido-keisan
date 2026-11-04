@@ -252,6 +252,7 @@
       var frag = document.createDocumentFragment(); frag.appendChild(th); frag.appendChild(rule);
       row(st, [frag, s.amount === null ? s.days + '日' : yen(s.amount)]);
     });
+    window.yzUsed?.();
   }
 
   // --- 「くわしく入れる」の summary（入力の状態） ---
