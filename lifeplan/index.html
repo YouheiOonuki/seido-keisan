@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ライフプランの時間軸（住宅ローンと年金を0〜100歳の線に）｜制度の計算機｜yorozu-craft</title>
+  <meta name="description" content="今の年齢を入れると、0〜100歳の時間軸に住宅ローンの返済（元金と利息）と年金の受け取り（60〜75歳の開始）が並びます。計算は住宅ローン返済シミュレーターと年金の繰上げ・繰下げの計算と同じ。登録なし、入力は端末の外に出ません。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/lifeplan/">
+
+  <meta property="og:title" content="ライフプランの時間軸（住宅ローンと年金を0〜100歳の線に）｜yorozu-craft">
+  <meta property="og:description" content="今の年齢を入れると、住宅ローンの返済と年金の受け取りが0〜100歳の1本の線に並びます。登録なし、入力は端末の外に出ません。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/lifeplan/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "人生の数字を1枚に",
+    "description": "今の年齢を入れると、0〜100歳の時間軸に住宅ローンの返済と年金の受け取りが並びます。",
+    "url": "https://yorozu-craft.com/seido-keisan/lifeplan/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense: サイト所有確認の meta だけ。AdSense 審査が通るまで本文の薄いページは広告 script を外す（2026-10-04）。通ったら本文を足してから戻す -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./lifeplan.css">
+  <!-- 結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
+</head>
+
+<body>
+
+  <header class="app-header">
+    <h1>人生の数字を1枚に</h1>
+    <p class="subtitle">住宅ローンの返済と年金の受け取りを、0〜100歳の1本の線に並べます。</p>
+  </header>
+
+  <!-- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果が画面の外にあるときだけ上端に出す -->
+  <div class="fixed-bar fixbar-narrow" id="fixbar" role="status" hidden>
+    <a href="#result-card" id="fixbar-link"><span id="fixbar-text"></span> ▸ 結果へ</a>
+  </div>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">年金の率は法令の値・満額は令和8年度・確認日 <span id="asof-date">2026年9月25日</span>・入力は外部に送信しません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req" id="req">
+        <legend>年齢と年金の受け取り</legend>
+        <div class="field">
+          <label for="age">今の年齢</label>
+          <div class="money"><input type="number" id="age" data-k="age" inputmode="numeric" min="0" max="99" step="1" placeholder="例：40"><span class="unit">歳</span></div>
+        </div>
+        <div class="field">
+          <label for="pensionStart">年金を受け取り始める年齢: <output id="pensionStart-out" for="pensionStart">65歳</output></label>
+          <input type="range" id="pensionStart" data-k="pensionStart" min="60" max="75" step="1" value="65">
+          <p class="hint">60〜64歳は繰上げ（減る）、66〜75歳は繰下げ（増える）。</p>
+        </div>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
+        <h2 id="h-result">0〜100歳の時間軸</h2>
+        <div class="result-main" id="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">年金の月額の目安</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail">今の年齢を入れると出ます。</p>
+          <p class="detail" id="r-loan"></p>
+        </div>
+        <div class="timeline" id="timeline"></div>
+        <p class="small" id="r-note">将来の金利・物価は入れていません。今の値のまま並べた目安です。</p>
+        <details class="rels" id="rows-box">
+          <summary>年ごとの数字（表）</summary>
+          <div class="table-wrap" tabindex="0">
+            <table class="tbl num" id="rows">
+              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+        <p class="small">この計算は目安です。根拠と注意は<a href="./guide.html">使い方ページ</a>に。</p>
+      </section>
+
+      <details class="card opt" id="d-loan">
+        <summary>住宅ローン: <span class="opt-state" id="s-loan">なし</span></summary>
+        <div class="field">
+          <label for="principal">借入額</label>
+          <div class="money"><input type="number" id="principal" data-k="loan.principal" inputmode="numeric" min="0" step="10000" placeholder="例：30000000"><span class="unit">円</span><output class="yomi" for="principal"></output></div>
+        </div>
+        <div class="field">
+          <label for="years">返済期間</label>
+          <div class="money"><input type="number" id="years" data-k="loan.years" inputmode="numeric" min="1" max="50" step="1" placeholder="例：35"><span class="unit">年</span></div>
+        </div>
+        <div class="field">
+          <label for="rate">金利（年利）</label>
+          <div class="money"><input type="number" id="rate" data-k="loan.rate" inputmode="decimal" min="0" max="20" step="0.01" placeholder="例：1.0"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label for="startAge">借りた（借りる）年齢</label>
+          <div class="money"><input type="number" id="startAge" data-k="loan.startAge" inputmode="numeric" min="18" max="99" step="1" placeholder="例：35"><span class="unit">歳</span></div>
+        </div>
+        <p class="small">元利均等返済・金利は返済の終わりまで同じとして計算します。金利の見直し・繰上返済は<a href="../../loan-sim/">住宅ローン 返済シミュレーター</a>で。</p>
+        <p class="small error-text" id="loan-msg" role="status"></p>
+      </details>
+
+      <details class="card opt">
+        <summary>年金の額の前提</summary>
+        <ul class="small">
+          <li>65歳からの額は、老齢基礎年金の満額（令和8年度、月70,608円。1956年4月1日以前生まれは月70,408円）として計算します。厚生年金は入れていません。自分の額は<a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a>に、ねんきん定期便の見込額を入れて確かめられます。</li>
+          <li>年齢だけを入れるので、今日が誕生日の人として生まれ年を決めています。1962年4月1日以前生まれ（繰上げは1か月0.5%）と1952年4月1日以前生まれ（繰下げは70歳まで）の境の年齢では、1歳ずれることがあります。</li>
+          <li>受け取り始める年は、その年齢に達した月の翌月分からなので11か月分で並べます。</li>
+        </ul>
+      </details>
+
+      <details class="card opt">
+        <summary>この画面で計算しないこと</summary>
+        <ul class="small">
+          <li>将来の金利・物価・給料・運用の利回り。年金の毎年の改定。</li>
+          <li>税・社会保険料、教育費、医療費（あとから層として足します）。</li>
+          <li>金融商品・保険の比較や推奨。</li>
+        </ul>
+      </details>
+
+      <!-- about-tool: 道具の説明（使い方ページの要約。AdSense 審査 2026-10-04） -->
+      <details class="about-tool card opt no-print" id="about-tool">
+        <summary>この道具について（使い方・計算のしくみ・注意）</summary>
+        <h3>人生の数字を1枚にでわかること</h3>
+        <p>住宅ローンを返す年と年金を受け取る年が、0〜100歳の1本の線の上でどう並ぶかがわかります。何歳で返し終わるか、年金を受け取り始めるまで何年あるか、返済と年金が重なる年があるかを、1枚の図で見られます。</p>
+        <h3>使い方の要点</h3>
+        <ul>
+        <li>今の年齢を入れ、年金を受け取り始める年齢をつまみで選びます。</li>
+        <li>住宅ローンがあるときは、借入額・返済期間・金利・借りた年齢を入れます。</li>
+        <li>年ごとの数字は、図の下の表で見られます。</li>
+        </ul>
+        <h3>計算のしくみ</h3>
+        <p>住宅ローンは、このサイトの住宅ローン返済シミュレーターと同じ計算（元利均等返済）で、1年ごとに元金と利息に分けて足します。年金は、年金の繰上げ・繰下げの計算と同じ計算で、65歳より早めると1か月0.4%減り、遅らせると1か月0.7%増える率をかけます。2つの道具と同じファイルを使うので、同じ入力なら同じ数字になります。</p>
+        <h3>注意</h3>
+        <p>年金の額は老齢基礎年金の満額での目安で、厚生年金・税・保険料は入れていません。将来の金利・物価も入れず、今の値のまま並べています。</p>
+        <p>計算の根拠と出典は<a href="./guide.html">人生の数字を1枚にの使い方</a>に。</p>
+      </details>
+      <!-- /about-tool -->
+      <p class="small"><a href="./guide.html">使い方・根拠（住宅ローンと年金の計算、出典）</a></p>
+    </form>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./" aria-current="page">人生の数字を1枚に</a></li>
+        <li><a href="./guide.html">使い方</a></li>
+        <li><a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a></li>
+        <li><a href="../../loan-sim/">住宅ローン 返済シミュレーター</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../used.js"></script>
+  <script src="../lib/screen.js"></script>
+  <script src="../lib/loan.js"></script>
+  <script src="../lib/kuriage-values.js"></script>
+  <script src="../lib/kuriage.js"></script>
+  <script src="../lib/lifeplan.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -28,6 +28,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 医療費控除の明細書の書き方（使い方） | https://yorozu-craft.com/seido-keisan/iryohi/meisai/guide.html |
 | 高校無償化の計算（2026年度） | https://yorozu-craft.com/seido-keisan/koko-mushoka/ |
 | 高校無償化の計算の使い方 | https://yorozu-craft.com/seido-keisan/koko-mushoka/guide.html |
+| 人生の数字を1枚に（住宅ローンと年金の時間軸。yorozu-plans 企画書 102） | https://yorozu-craft.com/seido-keisan/lifeplan/ |
+| 人生の数字を1枚にの使い方 | https://yorozu-craft.com/seido-keisan/lifeplan/guide.html |
 | 制度の改定カレンダー（施行日の一覧と .ics。データは `lib/kaitei-values.js`、一覧は `node tools/build-kaitei.mjs` で書き出す。企画書 24） | https://yorozu-craft.com/seido-keisan/kaitei/ |
 | 脱退一時金の計算 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/ |
 | 脱退一時金の計算の使い方 | https://yorozu-craft.com/seido-keisan/dattai-ichiji/guide.html |
@@ -246,11 +248,11 @@ node --test tests/*.test.js
 | 3 か月ごと（2027 年中は毎月） | 国税庁「令和８年度税制改正特集」・消費税率引下げ特設サイト（飲食料品 1% の法案が成立したか）、3割特例・7・5・3割控除の Q&A の改訂 | `lib/invoice-values.js`（`years`・`keika`・`SOURCES`・`CHECKED`）、テスト、`invoice/guide.html` の確認日と更新履歴。令和12年分からは年分の選択肢を足す |
 | 毎年 2〜4 月（令和9年度の率は 2027 年春） | こども家庭庁「子ども・子育て支援金制度について」と協会けんぽの支援金率・保険料額表の新年度版。任意継続の標準報酬月額の上限 | `lib/shienkin-values.js`（`rate`・`fiscalYear`・`rateFrom`/`rateTo`・`ninkeiMax`・`MIKOMI`・`MODEL8`・`CHECKED`）、`lib/ikukyu-values.js` の `hoken.shienRate`（同じ率。テストで一致を確かめる）、`tests/shienkin.test.js` の額表の欄、`shienkin/guide.html` の早見表・FAQ・更新履歴。画面は 2027 年 4 月に入ると「令和9年度の率は反映していません」と出す |
 
-| 毎年4月ごろ | 日本年金機構「在職老齢年金の計算方法」の新年度の支給停止調整額（令和8年度65万円）と老齢基礎年金の満額 | `lib/kuriage-values.js`（`zairo`・`mangaku`・`CHECKED`）、`lib/kaitei-values.js` の在職の行、`nenkin-kuriage/guide.html` の基準額の記述と更新履歴。画面は新年度の4月に入ると注意を出す |
+| 毎年4月ごろ | 日本年金機構「在職老齢年金の計算方法」の新年度の支給停止調整額（令和8年度65万円）と老齢基礎年金の満額 | youheioonuki.github.io の `tools/common/calc/pension-values.js`（`zairo`・`mangaku`・`CHECKED`）と `kaitei-data.js` の在職の行（正本。`node tools/sync-common.mjs --calc` で `lib/kuriage-values.js`・`lib/kaitei-values.js` に配る。D484）、`nenkin-kuriage/guide.html` の基準額の記述と更新履歴。画面は新年度の4月に入ると注意を出す |
 | 毎年6〜8月（8月診療分から） | 厚生労働省「高額療養費制度を利用される皆さまへ」と e-Gov の健康保険法施行令の新しい施行版（上限額の見直し）。2027年8月からの表（施行済みの政令の値）が変わっていないか | `lib/kogaku-values.js`（`PERIODS`・`CHECKED`）、`tests/kogaku.test.js`、`kogaku-ryoyohi/guide.html` の上限額の表と更新履歴 |
 | 毎年 10 月（実施要領の改正のたび） | 厚生労働省「予防接種・ワクチン情報」の「定期接種実施要領」の改正後全文（2026 年は 3・6・9・10 月に改正）と e-Gov の予防接種法施行令 3 条・施行規則。定期接種の追加・対象年齢・標準的な接種期間の変更。国立健康危機管理研究機構「日本の予防接種スケジュール」の図と突き合わせ | `lib/yobosesshu-values.js`（`VACCINES`・`YOURYOU_REVISION`・`CHECKED`）、`tests/yobosesshu.test.js`、`yobosesshu/guide.html` の根拠と更新履歴 |
 
-値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。`lib/kaitei-values.js` を直したら `node tools/build-kaitei.mjs` と `node tools/build-data.mjs` を走らせる（テストが書き出し忘れを落とす）。
+値や計算を直したら、そのページの `guide.html` の「更新履歴」に日付と内容を 1 行足す。`lib/kaitei-values.js`・`lib/kuriage*.js`・`lib/loan.js` は**生成物**で、正本は youheioonuki.github.io の `tools/common/calc/`（yorozu-plans D484。道具をまたいで使う計算）。直すときは正本を直して `node tools/sync-common.mjs --calc <このリポジトリ>` で配り、改定カレンダーなら続けて `node tools/build-kaitei.mjs` と `node tools/build-data.mjs` を走らせる（テストが書き出し忘れを落とす）。
 
 ## データの公開と、リンク・引用のしかた（yorozu-plans ROADMAP 7.10.3 d・e）
 
@@ -294,13 +296,16 @@ node --test tests/*.test.js
 | `lib/pension-refund.js` | 脱退一時金・還付の目安・期限の計算（純粋関数）と、入力の正規化・ファイル形式 |
 | `lib/pension-refund-text.js` | 結果に合わせて変わる文言（`en`・`ja`。キーは同じ） |
 | `koko-mushoka/index.html` / `koko-mushoka/app.js` / `koko-mushoka/koko.css` / `koko-mushoka/guide.html` | 高校無償化の計算の画面・制御・画面だけの見た目・使い方ページ |
+| `lifeplan/index.html` / `app.js` / `lifeplan.css` / `guide.html` | 人生の数字を1枚にの画面・制御・見た目・使い方ページ（企画書 102。枝 1 は住宅ローンと年金の 2 層。入力は保存も送信もしない） |
+| `lib/lifeplan.js` | 時間軸の層を組み立てる（純粋関数）。数は持たず、`lib/loan.js`（住宅ローン 返済シミュレーターと同じ）と `lib/kuriage.js`・`kuriage-values.js` を呼ぶだけ |
+| `lib/loan.js` | 住宅ローンの返済の計算。**生成物**: 正本は youheioonuki.github.io の `tools/common/calc/loan.js`（D484。loan-sim の `calc.js` と同じ中身） |
 | `lib/koko-values.js` / `lib/koko.js` | 高校無償化の値の表（支給限度額・単位制・旧制度の水準・都府県の上乗せ。値・出典・確認日）と、自己負担の計算（純粋関数）・入力の正規化・ファイル形式 |
 | `invoice/index.html` / `invoice/app.js` / `invoice/invoice.css` / `invoice/guide.html` | 2割特例の終了後の消費税（3割特例・簡易課税・本則課税の比較）の画面・制御・見た目・使い方ページ |
 | `lib/invoice-values.js` / `lib/invoice.js` | その値の表（みなし仕入率、経過措置の割合、申告期限。値・出典・確認日）と計算（純粋関数。国税庁の2割特例の設例をテストで再現） |
 | `shienkin/index.html` / `shienkin/app.js` / `shienkin/shienkin.css` / `shienkin/guide.html` | 子ども・子育て支援金（いくら引かれる）の画面・制御・見た目・使い方ページ |
 | `lib/shienkin-values.js` / `lib/shienkin.js` | その値の表（率 0.23%・上限・国の試算と見込み。値・出典・確認日。等級表は `lib/ikukyu-values.js` を使う）と計算（純粋関数。協会けんぽの額表の支援金の欄を 50 等級すべてテストで再現） |
 | `nenkin-kuriage/index.html` / `app.js` / `kuriage.css` / `guide.html` | 年金の繰上げ・繰下げの計算の画面・制御・見た目（`kuriage.css` は高額療養費の画面も読む）・使い方ページ。広告のスクリプトは読まない（D118） |
-| `lib/kuriage-values.js` / `lib/kuriage.js` | その値の表（0.4%・0.5%・0.7%・75歳・在職の基準額65万円・特別支給の年齢。値・出典・確認日）と計算（純粋関数。機構の早見表3つの全月をテストで再現） |
+| `lib/kuriage-values.js` / `lib/kuriage.js` | その値の表（0.4%・0.5%・0.7%・75歳・在職の基準額65万円・特別支給の年齢。値・出典・確認日）と計算（純粋関数。機構の早見表3つの全月をテストで再現）。**生成物**: 正本は youheioonuki.github.io の `tools/common/calc/pension-values.js`・`pension.js`（D484） |
 | `kogaku-ryoyohi/index.html` / `app.js` / `kogaku.css` / `guide.html` | 高額療養費の計算の画面・制御・見た目・使い方ページ。広告のスクリプトは読まない（D118） |
 | `lib/kogaku-values.js` / `lib/kogaku.js` | その値の表（診療月で3つの表: 〜2026-07、2026-08〜2027-07、2027-08〜。値・出典・確認日）と計算（純粋関数。施行令41条の順: 70歳以上の外来 → 70歳以上の世帯 → 世帯全体。厚生労働省の計算例をテストで再現） |
 | `yobosesshu/index.html` / `app.js` / `yobosesshu.css` / `guide.html` | 子どもの予防接種スケジュールの画面・制御・見た目・使い方ページ |

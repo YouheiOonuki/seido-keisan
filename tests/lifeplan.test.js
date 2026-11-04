@@ -1,0 +1,106 @@
+// 人生の数字を 1 枚に（/seido-keisan/lifeplan/、yorozu-plans 企画書 102 の枝 1）のテスト: node --test tests/*.test.js
+// 企画書 7 章の完了の目印: 2 本の計算（住宅ローン・年金）が元の道具と同じ値（deepEqual）。5.3: 送信なし・判定文なし。4 章: D117 の 1 文
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const L = require('../lib/lifeplan.js');
+const Loan = require('../lib/loan.js');
+const Kuriage = require('../lib/kuriage.js');
+const KV = require('../lib/kuriage-values.js');
+
+const TODAY = { y: 2026, m: 11, d: 5 };
+const MAN = 10000;
+const read = (p) => fs.readFileSync(path.join(__dirname, '..', p), 'utf8');
+
+test('住宅ローンの層は、住宅ローン 返済シミュレーター（loan-sim）と同じ simulate・yearly の値（deepEqual）', () => {
+  for (const [principal, years, rate, startAge] of [[3000 * MAN, 35, 1.0, 35], [2000 * MAN, 25, 0.5, 30], [4500 * MAN, 40, 2.3, 45], [1000 * MAN, 10, 0, 60]]) {
+    const layer = L.loanLayer(L.normalizeInput({ loan: { principal, years, rate, startAge } }).loan);
+    const sim = Loan.simulate({ principal, months: years * 12, method: 'annuity', rates: [{ from: 1, rate }], rule5: false, rule125: false, prepayments: [], prepayFee: 0 });
+    assert.deepEqual(layer.byAge.map(r => [r.age - startAge, r.paid, r.principal, r.interest, r.balance]),
+      Loan.yearly(sim.rows, 0, 1).map(y => [y.year, y.paid, y.principal, y.interest, y.balance]));
+    assert.equal(layer.monthly, sim.payments[0].payment);
+    assert.equal(layer.totalInterest, sim.totalInterest);
+    assert.equal(layer.payoffAge, startAge + years - 1);
+  }
+});
+
+test('住宅ローンの層: 3,000万円・35年・1.0% は毎月 84,686 円（loan-sim の受け入れの値、yorozu-plans 01 の 6 章）。35 歳で借りると 69 歳の年に完済', () => {
+  const b = L.build({ age: 40, loan: { principal: 3000 * MAN, years: 35, rate: 1.0, startAge: 35 } }, TODAY);
+  assert.equal(Math.round(b.loan.monthly), 84686);
+  assert.equal(b.loan.payoffAge, 69);
+  assert.equal(Math.round(b.loan.totalInterest / 1000) / 10, 556.8);
+});
+
+test('年金の層は、年金の繰上げ・繰下げの計算（nenkin-kuriage）と同じ calc の値（deepEqual）。65 歳からの額は老齢基礎年金の満額', () => {
+  for (const age of [30, 45, 60, 63, 64]) for (let start = 60; start <= 75; start++) {
+    const p = L.pensionLayer(age, start, TODAY);
+    const want = Kuriage.calc({ birth: L.birthOf(age, TODAY), kiso: KV.mangaku.monthly * 12, age: start, mon: 0 }, '2026-11');
+    assert.deepEqual([p.annual, p.pct, p.startAge], [want.kiso, want.pct1, 65 + Math.floor(want.k1 / 12)], `${age} 歳・${start} 歳から`);
+  }
+});
+
+test('年金の層: 65 歳から 0%、70 歳から +42%、75 歳から +84%、60 歳から −24%（1962-04-02 以降生まれ）。月額は満額 70,608 円が基準', () => {
+  const pct = (s) => L.pensionLayer(40, s, TODAY).pct;
+  assert.deepEqual([pct(60), pct(65), pct(70), pct(75)], [-24, 0, 42, 84]);
+  assert.equal(KV.mangaku.monthly, 70608);
+  assert.equal(L.pensionLayer(40, 65, TODAY).monthly, 70608);
+  // 開始の年は翌月分から 11 か月、次の年から 12 か月
+  const p = L.pensionLayer(40, 65, TODAY);
+  assert.equal(p.byAge[0].age, 65);
+  assert.equal(p.byAge[0].annual, p.annual * 11 / 12);
+  assert.equal(p.byAge[1].annual, p.annual);
+  assert.equal(p.byAge[p.byAge.length - 1].age, 100);
+});
+
+test('年金の層: 1952-04-01 以前生まれ（今 75 歳など）は 70 歳までしか繰り下げられず、満額は 1956-04-01 以前生まれの額', () => {
+  const p = L.pensionLayer(80, 75, TODAY);
+  assert.equal(p.startAge, 70);
+  assert.equal(p.clipped, true);
+  assert.equal(p.full, KV.mangaku.monthlyOld);
+});
+
+test('年齢が無いと線を出さない。住宅ローンは 4 つ揃ったときだけ層になる', () => {
+  assert.equal(L.build({}, TODAY).ready, false);
+  assert.equal(L.build({ age: 'abc' }, TODAY).ready, false);
+  const b = L.build({ age: 40, loan: { principal: 3000 * MAN, years: 35, rate: 1.0 } }, TODAY);
+  assert.equal(b.ready, true);
+  assert.equal(b.loan, null);
+  assert.ok(b.pension);
+  assert.equal(L.normalizeInput({ pensionStart: 80 }).pensionStart, 65);
+});
+
+test('年ごとの行: 今の年齢から 100 歳まで、返済か年金がある年だけ', () => {
+  const b = L.build({ age: 40, pensionStart: 70, loan: { principal: 3000 * MAN, years: 35, rate: 1.0, startAge: 35 } }, TODAY);
+  const r = L.rows(b);
+  assert.equal(r[0].age, 40);
+  assert.equal(r[r.length - 1].age, 100);
+  assert.ok(r.every(x => x.loanPaid > 0 || x.pension > 0));
+  assert.equal(r.find(x => x.age === 69).loanPaid > 0, true);
+  assert.equal(r.find(x => x.age === 70).loanPaid, 0);
+});
+
+test('送信しない・保存しない（企画書 102 の 5.3）。used.js だけが送る', () => {
+  for (const f of ['lifeplan/app.js', 'lib/lifeplan.js']) {
+    const s = read(f);
+    for (const w of ['fetch(', 'sendBeacon', 'XMLHttpRequest', 'localStorage', 'WebSocket']) assert.ok(!s.includes(w), `${f} に ${w}`);
+  }
+  const html = read('lifeplan/index.html');
+  assert.match(html, /<script src="\.\.\/used\.js"><\/script>/);
+  assert.ok(read('lifeplan/app.js').includes('window.yzUsed?.()'));
+});
+
+test('画面: 結果の下に D117 の 1 文。判定・おすすめの言い回しを置かない（D117・企画書 102 の 5.3）', () => {
+  const html = read('lifeplan/index.html');
+  assert.ok(html.includes('将来の金利・物価は入れていません。今の値のまま並べた目安です。'));
+  const body = html.replace(/<script[\s\S]*?<\/script>/g, '');
+  for (const w of ['大丈夫', '不足しています', '足りません', 'おすすめ', '安心です']) assert.ok(!body.includes(w), w);
+  assert.ok(!read('lifeplan/app.js').match(/大丈夫|不足|足りません|おすすめ/));
+});
+
+test('画面が読む計算は生成物（root の tools/common/calc、D484）で、数をこの画面で持たない', () => {
+  for (const f of ['lib/loan.js', 'lib/kuriage.js', 'lib/kuriage-values.js']) assert.match(read(f), /^\/\/ 生成物。正本は youheioonuki\.github\.io の tools\/common\/calc\//);
+  const html = read('lifeplan/index.html');
+  for (const s of ['../lib/loan.js', '../lib/kuriage-values.js', '../lib/kuriage.js', '../lib/lifeplan.js']) assert.ok(html.includes(`<script src="${s}"></script>`), s);
+  assert.ok(!/\d{2},\d{3}|0\.00[47]/.test(read('lifeplan/app.js')), 'app.js に制度の値を書かない');
+});
