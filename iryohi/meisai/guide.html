@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医療費控除の明細書の書き方（令和8年分）区分・交通費｜yorozu-craft</title>
+  <meta name="description" content="医療費控除の明細書【内訳書】の5つの列の書き方と、領収書をまとめて書く方法、通院の交通費の区分、医療費のお知らせがあるとき、家族の分の書き方を、国税庁の様式と記載要領にもとづいて説明します。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/iryohi/meisai/guide.html">
+
+  <meta property="og:title" content="医療費控除の明細書の書き方（令和8年分）区分・交通費｜yorozu-craft">
+  <meta property="og:description" content="医療費控除の明細書【内訳書】の5つの列の書き方と、領収書をまとめて書く方法、通院の交通費の区分、医療費のお知らせがあるとき、家族の分の書き方を、国税庁の様式と記載要領にもとづいて説明します。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/iryohi/meisai/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/iryohi/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- よくある質問（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "医療費控除の明細書は領収書1枚ずつ書きますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "1枚ずつでなくてかまいません。国税庁の記載要領のとおり、医療を受けた方と病院・薬局などの支払先ごとにまとめて1行に書けます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "通院の交通費は明細書のどの区分ですか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "「その他の医療費」です。通常必要な通院費が対象で、乗り継ぎで支払先が複数あるときは「JR、○○バス」のように1行にまとめて書いてかまいません。" }
+      },
+      {
+        "@type": "Question",
+        "name": "医療費のお知らせ（医療費通知）があるときはどう書きますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "医療費通知を添付すると明細書の記載を簡略化でき、その分の領収書の保存も要りません。通知の分は明細書の「1 医療費通知に記載された事項」に書き、この表には入れません。" }
+      },
+      {
+        "@type": "Question",
+        "name": "家族の医療費は明細書にどう書きますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "自分と生計を一にする配偶者やその他の親族のために支払った医療費は合計でき、「医療を受けた方の氏名」の列にその人の名前を書きます。当てはまるかどうかは、このツールでは判定しません。" }
+      },
+      {
+        "@type": "Question",
+        "name": "補塡される金額が医療費より多いときはどうなりますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "保険金などは、その給付の目的になった医療費の額までしか引かず、余った分をほかの医療費から引きません。この表も行ごとに、支払った額までを引きます。" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>医療費控除の明細書の書き方と使い方（令和8年分）</h1>
+    <p class="subtitle">使い方・計算の前提・根拠と確認日・よくある質問・ご利用上の注意</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ 医療費控除の明細書を作る（令和8年分）を使う</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>医療を受けた人と病院・薬局ごとに、1行に支払った額を入れます。</li>
+        <li>医療費の区分を、当てはまるものすべて選びます。</li>
+        <li>保険金や高額療養費で補塡される金額があれば入れます。</li>
+        <li>結果の「10万円を超えた分」と合計を確かめます。</li>
+        <li>CSV か印刷で、作成コーナーや様式に写します。</li>
+      </ol>
+      <details class="rels">
+        <summary>戻る税金の目安・行の並べ替え・CSV の形</summary>
+        <ul>
+          <li>結果の下の「戻る税金の目安」に源泉徴収票の「支払金額」と「所得控除の額の合計額」を入れると、<a href="../">医療費控除の計算</a>と同じ式で所得税と住民税の目安が出ます。この2つは保存しません。</li>
+          <li>行の ↑ ↓ で並べ替え、「消す」でその行を消します。</li>
+          <li>CSV の列は明細書の (1)〜(5) の順で、最後の行が「2 の合計」です。文字コードは UTF-8（BOM 付き）、区分が複数のときは「／」で区切ります。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>計算の前提</h2>
+      <ul>
+        <li>令和8年（2026年1〜12月）に支払った医療費を、明細書の「2 医療費（上記1以外）の明細」の形で並べます。</li>
+        <li>補塡される金額は、行ごとに支払った医療費の額を上限に引きます。</li>
+        <li>所得を入れないときは、差引金額から10万円を引いた額を出します。</li>
+        <li>所得を入れたときは、総所得金額等の5%と10万円の少ないほうを引きます（最高200万円）。</li>
+      </ul>
+      <details class="rels">
+        <summary>対象外のもの</summary>
+        <ul>
+          <li>どの支払いが医療費控除の対象になるかの判定（<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1122.htm" target="_blank" rel="noopener noreferrer">国税庁 No.1122</a>）。</li>
+          <li>明細書の「1 医療費通知に記載された事項」の欄、セルフメディケーション税制の明細書。</li>
+          <li>給与以外の所得がある人の税金の目安（<a href="../">医療費控除の計算</a>で「所得の金額」を選びます）。</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>根拠: 所得税法73条、国税庁「医療費控除の明細書【内訳書】」と記載要領。最終確認日 <time datetime="2026-11-05">2026-11-05</time>。令和8年分（2026年1〜12月の支払い）に使います。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul>
+          <li>国税庁「<a href="https://www.nta.go.jp/taxes/shiraberu/shinkoku/yoshiki/04/pdf/ref1.pdf" target="_blank" rel="noopener noreferrer">医療費控除の明細書【内訳書】</a>」（PDF。版 07.11）: 列は (1) 医療を受けた方の氏名、(2) 病院・薬局などの支払先の名称、(3) 医療費の区分（診療・治療／介護保険サービス／医薬品購入／その他の医療費）、(4) 支払った医療費の額、(5) (4)のうち生命保険や社会保険（高額療養費など）などで補塡される金額。控除額の計算は A〜G の欄</li>
+          <li>国税庁「<a href="https://www.nta.go.jp/taxes/shiraberu/shinkoku/yoshiki/04/pdf/ref1-ki.pdf" target="_blank" rel="noopener noreferrer">医療費控除の明細書の記載要領</a>」（まとめて記入できる、区分は該当するものを全てチェック、補塡される金額の限度）</li>
+          <li>国税庁「<a href="https://www.nta.go.jp/taxes/shiraberu/shinkoku/yoshiki/02/xlsx/ref1.xlsx" target="_blank" rel="noopener noreferrer">医療費控除の明細書</a>」（Excel 版。(5) を行ごとに (4) までにする式、E は1円未満切り捨て）</li>
+          <li>国税庁 タックスアンサー <a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1119.htm" target="_blank" rel="noopener noreferrer">No.1119</a>（領収書の5年保存、医療費通知の添付）・<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1120.htm" target="_blank" rel="noopener noreferrer">No.1120</a>（控除額の式、生計を一にする親族）</li>
+          <li><a href="https://laws.e-gov.go.jp/law/340AC0000000033" target="_blank" rel="noopener noreferrer">所得税法</a>（73条 医療費控除）。税金の目安の根拠は<a href="../guide.html#basis">医療費控除の計算の使い方</a>に</li>
+        </ul>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>医療費控除の明細書は領収書1枚ずつ書きますか？</dt>
+        <dd>1枚ずつでなくてかまいません。国税庁の記載要領のとおり、医療を受けた方と病院・薬局などの支払先ごとにまとめて1行に書けます。</dd>
+        <dt>通院の交通費は明細書のどの区分ですか？</dt>
+        <dd>「その他の医療費」です。通常必要な通院費が対象で、乗り継ぎで支払先が複数あるときは「JR、○○バス」のように1行にまとめて書いてかまいません。</dd>
+        <dt>医療費のお知らせ（医療費通知）があるときはどう書きますか？</dt>
+        <dd>医療費通知を添付すると明細書の記載を簡略化でき、その分の領収書の保存も要りません。通知の分は明細書の「1 医療費通知に記載された事項」に書き、この表には入れません。</dd>
+        <dt>家族の医療費は明細書にどう書きますか？</dt>
+        <dd>自分と生計を一にする配偶者やその他の親族のために支払った医療費は合計でき、「医療を受けた方の氏名」の列にその人の名前を書きます。当てはまるかどうかは、このツールでは判定しません。</dd>
+        <dt>補塡される金額が医療費より多いときはどうなりますか？</dt>
+        <dd>保険金などは、その給付の目的になった医療費の額までしか引かず、余った分をほかの医療費から引きません。この表も行ごとに、支払った額までを引きます。</dd>
+      </dl>
+    </article>
+
+    <!-- README「ツールを追加するとき」8: ツール固有の注意・データの扱いはここに書く -->
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。実際の額は、税務署（所得税）とお住まいの市区町村（住民税）が決めます。</li>
+        <li>入力内容はこの端末のブラウザ（localStorage、キー <code>seido-keisan_box</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去は明細書の画面のボタンから。</li>
+        <li>保存するのは明細の表だけで、所得の2つの欄は保存しません。書き出したファイル（<code>seido-keisan-box-backup-年月日.json</code>）と CSV には氏名と医療費が入ります。</li>
+        <li>領収書は申告書に添付しませんが、確定申告期限等から5年間は自宅等で保存します。</li>
+      </ul>
+      <p><a href="/post/?from=/seido-keisan/iryohi/meisai/guide.html">ご要望・不具合の報告</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../../about.html">こちら</a>、プライバシーポリシーは<a href="../../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-11-05">2026年11月5日</time> 公開（令和8年分。国税庁の明細書の様式・記載要領・タックスアンサーで確認）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../../">yorozu-craft トップ</a></li>
+        <li><a href="../../">制度の計算機</a></li>
+        <li><a href="../">医療費控除の計算</a></li>
+        <li><a href="./">医療費控除の明細書を作る</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
+        <li><a href="../../../about.html">運営者情報</a></li>
+        <li><a href="../../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
