@@ -1,0 +1,31 @@
+/* ===========================
+   医療費控除の明細書を作る（iryohi/meisai）だけの見た目。値は ../../style.css のトークンだけを使う
+   画面: 1 行 ＝ 1 つの枠（スマホで 5 列の表は横にはみ出すため）。印刷: 国税庁の様式の列の順の表を A4 縦に
+   =========================== */
+.m-rows { list-style: none; margin: 0 0 var(--sp-3); padding: 0; }
+.m-row { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3); margin-bottom: var(--sp-3); }
+.m-head { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+.m-no { font-weight: 800; margin-right: auto; }
+.m-head .btn { min-width: 44px; min-height: 44px; }
+.m-kubun { border: 0; margin: 0 0 var(--sp-3); padding: 0; min-width: 0; }
+.m-kubun legend { font-weight: 700; margin-bottom: var(--sp-1); }
+.m-kubun label.inline { display: inline-flex; align-items: center; gap: var(--sp-1); min-height: 44px; margin-right: var(--sp-3); }
+.result-card .note:empty { display: none; }
+.print-only { display: none; }
+
+@media print {
+  @page { size: A4 portrait; margin: 12mm; }
+  .no-print, details { display: none !important; }
+  .app-main.layout-2col { display: block; max-width: none; }
+  .print-only { display: block; color: #000; background: #fff; }
+  .print-only h2 { font-size: 14pt; text-align: center; margin: 0 0 4mm; }
+  .p-sub { font-weight: 700; margin: 4mm 0 2mm; }
+  .p-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  .p-table th, .p-table td { border: 1px solid #000; padding: 1.5mm 2mm; vertical-align: top; }
+  .p-table thead th { font-weight: 700; text-align: center; }
+  .p-table .num { text-align: right; white-space: nowrap; }
+  .p-total th { text-align: center; }
+  .p-calc { width: 70%; }
+  .p-calc .p-key { width: 8mm; text-align: center; }
+  .p-table tr { break-inside: avoid; }
+}

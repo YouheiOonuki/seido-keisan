@@ -104,7 +104,7 @@
     <article class="card content" id="nendo">
       <h2>計算する年度</h2>
       <p><strong>令和8年の所得にかかり、令和9年6月から納める「令和9年度」</strong>の住民税を計算します。令和8年度の制度での結果も並べます。</p>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table class="tbl">
           <thead><tr><th scope="col">項目</th><th scope="col">令和9年度</th><th scope="col">令和8年度</th></tr></thead>
           <tbody>
@@ -126,6 +126,11 @@
         </ul>
         <p class="small">勤労学生の要件は、地方税法が所得税法の定義を使う（準用する）ため、令和8年12月1日に施行される所得税法の改正（85万円→89万円）が令和9年度の住民税に反映されるものとして計算しています。</p>
       </details>
+      <!-- QUEUE Q-089・ROADMAP 7.184。総務省のポータル・取扱通知と地方税法附則7条の原文で確認（2026-11-05） -->
+      <h3 id="furusato">ふるさと納税のワンストップ特例の期限は？</h3>
+      <p>申請書は寄附するときに寄附先の自治体へ出します。出した後に住所などが変わったら、寄附した翌年の1月10日までに申請先へ届け出ます。</p>
+      <p>使えるのは確定申告が要らない給与所得者等で、寄附先が5団体以内の人です。6団体以上に申請した人や、確定申告・住民税の申告をした人は特例が適用されません。特例では所得税から引かれず、全額が翌年度の住民税から引かれます。</p>
+      <p class="small">出典: <a href="https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/furusato/mechanism/procedure.html" target="_blank" rel="noopener noreferrer">総務省 ふるさと納税ポータル「ふるさと納税の流れ」</a>・<a href="https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/furusato/file/20160818.pdf" target="_blank" rel="noopener noreferrer">「ワンストップ特例を申請する皆様へ」</a>、地方税法附則7条。確認日 <time datetime="2026-11-05">2026-11-05</time>。</p>
     </article>
 
     <article class="card content" id="basis">
@@ -154,8 +159,9 @@
           <li>計算例の確認: <a href="https://www.city.yokohama.lg.jp/kurashi/koseki-zei-hoken/zeikin/y-shizei/kojin-shiminzei-kenminzei/kojin-shiminzei-shosai/kojinkeisan.html" target="_blank" rel="noopener noreferrer">横浜市「令和８年度市民税・県民税・森林環境税の計算（例）」</a>と<a href="https://www.city.nagoya.jp/kurashi/zeikin/1037356/1011880/1011883/1011891.html" target="_blank" rel="noopener noreferrer">名古屋市「市民税・県民税の計算例」（令和8年度）</a>の数字を、このツールのテストで1円まで再現しています。</li>
         </ul>
       </details>
-      <h3>主な値</h3>
-      <div class="table-wrap">
+      <details class="rels">
+        <summary>主な値（税率・均等割・人的控除の額）</summary>
+      <div class="table-wrap" tabindex="0">
         <table class="tbl">
           <thead><tr><th scope="col">項目</th><th scope="col">住民税の額</th></tr></thead>
           <tbody>
@@ -168,9 +174,10 @@
           </tbody>
         </table>
       </div>
+      </details>
       <details class="rels">
         <summary>そのほかの控除の額（配偶者特別控除・特定親族・保険料）</summary>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0">
           <table class="tbl">
             <thead><tr><th scope="col">項目</th><th scope="col">住民税の額</th></tr></thead>
             <tbody>
@@ -221,7 +228,7 @@
         </ul>
         <p>人数は「同一生計配偶者＋扶養親族（16歳未満の子を含む）」です。特定親族（19〜22歳で所得62万円超）は数えません。</p>
       </details>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table class="tbl">
           <thead><tr><th scope="col">区分</th><th scope="col">非課税になる合計所得金額</th></tr></thead>
           <tbody>
@@ -233,7 +240,7 @@
         </table>
       </div>
       <p>給与だけの人の目安（令和9年度。この金額以下の給与の収入なら非課税）:</p>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table class="tbl">
           <thead><tr><th scope="col">家族</th><th scope="col">均等割 1級地</th><th scope="col">2級地</th><th scope="col">3級地</th><th scope="col">所得割</th></tr></thead>
           <tbody>
@@ -302,6 +309,7 @@
     <article class="card content" id="changelog">
       <h2>更新履歴</h2>
       <ul>
+        <li><time datetime="2026-11-05">2026年11月5日</time> 「ふるさと納税のワンストップ特例の期限は？」を追加（総務省のふるさと納税ポータルと地方税法附則7条で確認）</li>
         <li><time datetime="2026-09-24">2026年9月24日</time> 公開（令和9年度。地方税法の令和9年1月1日施行版と総務省の資料で確認。令和8年度との比較つき）</li>
       </ul>
       <p class="small">制度の値や計算を直したときは、ここに日付と内容を残します。</p>

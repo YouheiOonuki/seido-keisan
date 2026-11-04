@@ -25,7 +25,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "制度の改定カレンダー（税・社会保険・給付の施行日）",
+    "name": "制度の改定カレンダー",
     "description": "2025年10月〜2029年の税・社会保険・給付の制度の施行日と、何が変わるか。出典は法令と省庁の原文。",
     "url": "https://yorozu-craft.com/seido-keisan/kaitei/",
     "dateModified": "2026-09-25",
@@ -427,6 +427,13 @@
 <!-- /kaitei:yearly -->
     </section>
 
+    <!-- 問いの節（QUEUE Q-079・ROADMAP 7.183）。build-kaitei.mjs のマーカーの外に置く。日付は国税庁の原文で確認（2026-11-05） -->
+    <section class="card content" aria-labelledby="h-shinkoku">
+      <h2 id="h-shinkoku">確定申告はいつから？（2027年・令和8年分）</h2>
+      <p>令和8年分の所得税の確定申告は、2027年（令和9年）2月16日（火）から3月15日（月）までです。申告の義務がない人が税金を戻してもらう還付申告は、2月15日（月）以前でも受け付けていて、2027年1月1日から5年間出せます。</p>
+      <p class="small">このサイト: <a href="../iryohi/">医療費控除の計算</a>。出典: 国税庁「<a href="https://www.nta.go.jp/publication/pamph/koho/kurashi/html/06_1.htm" target="_blank" rel="noopener noreferrer">暮らしの税情報（令和8年度版）申告と納税</a>」、<a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/2030.htm" target="_blank" rel="noopener noreferrer">タックスアンサー No.2030 還付申告</a>（令和8年4月1日現在法令等）。確認日 <time datetime="2026-11-05">2026-11-05</time>。</p>
+    </section>
+
     <section class="card content" aria-labelledby="h-pending">
       <h2 id="h-pending">施行日が決まっていないもの・法律になっていないもの</h2>
       <p>法律が成立していない案と、施行日が政令待ちのもの。日付が決まったら上の一覧に移します。</p>
@@ -462,6 +469,7 @@
     <section class="card content" aria-labelledby="h-log">
       <h2 id="h-log">更新履歴</h2>
       <ul>
+        <li><time datetime="2026-11-05">2026年11月5日</time> 「確定申告はいつから？」の節を追加（国税庁の原文で確認）</li>
         <li><time datetime="2026-10-01">2026年10月1日</time> 同じデータを CC0 の JSON と .ics で公開</li>
         <li><time datetime="2026-09-25">2026年9月25日</time> 高額療養費の見直し（2026年8月・2027年8月）の2件を追加し、年金の繰上げ・繰下げと高額療養費の計算へのリンクを足した（2025年10月〜2029年の 30 件）</li>
         <li><time datetime="2026-09-25">2026年9月25日</time> 公開（2025年10月〜2029年の 28 件）</li>

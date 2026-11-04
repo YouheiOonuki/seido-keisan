@@ -25,7 +25,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "源泉徴収票の見方と手取りの計算（令和8年分）",
+    "name": "源泉徴収票の見方と手取り",
     "description": "源泉徴収票の欄の数字を写すと、年収（額面）・手取りの目安・1年の所得税・課税される所得と税率を出します。票の内訳も入れると、ふるさと納税の上限の目安（令和9年度の住民税）も。",
     "url": "https://yorozu-craft.com/seido-keisan/gensen/",
     "applicationCategory": "FinanceApplication",
@@ -192,7 +192,7 @@
         <p class="big" id="r-big">—</p>
         <p class="detail" id="r-detail">支払金額を入れると出ます。</p>
       </div>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table class="steps" id="steps"><tbody></tbody></table>
       </div>
       <p class="small">手取りの目安 ＝ ① − ④ − ⑤ − 住民税の月額 × 12</p>
@@ -200,7 +200,7 @@
       <p class="furusato" id="furusato" aria-live="polite">—</p>
       <div class="table-wrap" id="check-wrap" hidden>
         <table class="cmp" id="check">
-          <thead><tr><th scope="col"></th><th scope="col">票</th><th scope="col">内訳からの計算</th></tr></thead>
+          <thead><tr><td></td><th scope="col">票</th><th scope="col">内訳からの計算</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>

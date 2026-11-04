@@ -25,7 +25,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "年金の繰上げ・繰下げ シミュレーション",
+    "name": "年金の繰上げ・繰下げの計算",
     "description": "60〜75歳で受け取り始めたときの年額と、65歳からと累計が逆転する年齢を計算。基礎と厚生を別々に繰り下げる計算、在職老齢年金の影響にも対応。",
     "url": "https://yorozu-craft.com/seido-keisan/nenkin-kuriage/",
     "applicationCategory": "FinanceApplication",
@@ -118,7 +118,7 @@
         <ul class="msgs" id="r-msgs"></ul>
         <details class="rels" id="totals-box">
           <summary>年齢ごとの累計（65歳からとの差）</summary>
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0">
             <table class="tbl num" id="totals">
               <thead><tr><th scope="col">年齢（に達した月の分まで）</th><th scope="col">この受け取り方</th><th scope="col">65歳から</th><th scope="col">差</th></tr></thead>
               <tbody></tbody>
@@ -165,7 +165,7 @@
     <details class="card opt" id="d-compare">
       <summary>受け取り始める年齢ごとの比較（表）</summary>
       <p class="small">今の額で、基礎と厚生を同じ年齢で受け取り始めた場合です。</p>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table class="tbl num" id="compare">
           <thead><tr><th scope="col">開始</th><th scope="col">増減</th><th scope="col">年額</th><th scope="col">損益分岐</th></tr></thead>
           <tbody></tbody>
