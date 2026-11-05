@@ -56,6 +56,8 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | 高額療養費の計算の使い方 | https://yorozu-craft.com/seido-keisan/kogaku-ryoyohi/guide.html |
 | 子どもの予防接種スケジュール | https://yorozu-craft.com/seido-keisan/yobosesshu/ |
 | 子どもの予防接種スケジュールの使い方 | https://yorozu-craft.com/seido-keisan/yobosesshu/guide.html |
+| 引越しの手続きの一覧（期限の日付つき。項目・期限・出典は `lib/hikkoshi-values.js`、済んだ印は箱 `lib/box.js` の区画 `hikkoshi`。yorozu-plans D488） | https://yorozu-craft.com/seido-keisan/hikkoshi/ |
+| 引越しの手続きの使い方 | https://yorozu-craft.com/seido-keisan/hikkoshi/guide.html |
 
 ## 機能（年末調整の計算）
 

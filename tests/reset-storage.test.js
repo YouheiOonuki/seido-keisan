@@ -25,6 +25,9 @@ const PAGE_PREFIXES = {
   "iryohi/meisai/index.html": [
     "seido-keisan_box"
   ],
+  "hikkoshi/index.html": [
+    "seido-keisan_box"
+  ],
   "nenmatsu/hoken/index.html": [
     "seido-keisan_hoken_draft"
   ],
