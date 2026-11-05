@@ -93,6 +93,9 @@ test('送信しない・保存しない（企画書 102 の 5.3）。used.js だ
 test('画面: 結果の下に D117 の 1 文。判定・おすすめの言い回しを置かない（D117・企画書 102 の 5.3）', () => {
   const html = read('lifeplan/index.html');
   assert.ok(html.includes('将来の金利・物価は入れていません。今の値のまま並べた目安です。'));
+  // 帯の上に、年金の額の前提の 1 文（yorozu-plans 7.189 の続き 3）
+  assert.ok(html.indexOf('年金の帯は、老齢基礎年金の満額の場合です。') < html.indexOf('id="timeline"'));
+  assert.ok(html.includes('年金の帯は、老齢基礎年金の満額の場合です。'));
   const body = html.replace(/<script[\s\S]*?<\/script>/g, '');
   for (const w of ['大丈夫', '不足しています', '足りません', 'おすすめ', '安心です']) assert.ok(!body.includes(w), w);
   assert.ok(!read('lifeplan/app.js').match(/大丈夫|不足|足りません|おすすめ/));
