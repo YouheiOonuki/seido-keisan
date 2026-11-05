@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人生の数字を1枚に の使い方（住宅ローンと年金の時間軸の計算と出典）｜yorozu-craft</title>
+  <meta name="description" content="住宅ローンの返済と年金の受け取りを0〜100歳の時間軸に並べる画面の使い方。住宅ローンは元利均等返済、年金は繰上げ1か月0.4%・繰下げ1か月0.7%と老齢基礎年金の満額（令和8年度）で計算します。根拠と確認日つき。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/lifeplan/guide.html">
+
+  <meta property="og:title" content="人生の数字を1枚に の使い方（住宅ローンと年金の時間軸）｜yorozu-craft">
+  <meta property="og:description" content="住宅ローンの返済と年金の受け取りを0〜100歳の時間軸に並べる画面の使い方と、計算の根拠・確認日。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/lifeplan/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- よくある質問（下の #faq と内容をそろえる） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "年金の額はどう決めていますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "65歳からの額を老齢基礎年金の満額（令和8年度、月70,608円）とし、受け取り始める年齢の増減率をかけています。厚生年金は入れていません。自分の額は年金の繰上げ・繰下げの計算で確かめられます。" } },
+      { "@type": "Question", "name": "金利や物価が上がったらどうなりますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "この画面は将来の金利・物価を入れず、今の値のまま並べています。金利の見直しは住宅ローン返済シミュレーターで試せます。" } },
+      { "@type": "Question", "name": "入力した内容は保存されますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "保存しません。ページを閉じると消えます。入力は端末の外に送信しません。" } }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>人生の数字を1枚に の使い方</h1>
+    <p class="subtitle">使い方・計算の前提・根拠と確認日・よくある質問・ご利用上の注意</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card" style="text-align:center"><a href="./">▶ 人生の数字を1枚にを使う</a></p>
+
+    <article class="card content" id="howto">
+      <h2>使い方</h2>
+      <ol>
+        <li>今の年齢を入れます。</li>
+        <li>年金を受け取り始める年齢（60〜75歳）をつまみで選びます。</li>
+        <li>住宅ローンがあれば、「住宅ローン」を開いて借入額・返済期間・金利・借りた年齢を入れます。</li>
+        <li>0〜100歳の時間軸に、住宅ローンの返済（元金と利息）と年金の受け取りが並びます。年ごとの数字は図の下の表です。</li>
+      </ol>
+    </article>
+
+    <article class="card content" id="premise">
+      <h2>計算の前提</h2>
+      <ul>
+        <li>住宅ローンは元利均等返済で、金利は返済の終わりまで同じとします。計算は<a href="../../loan-sim/">住宅ローン 返済シミュレーター</a>と同じファイルです。</li>
+        <li>年金は<a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a>と同じファイルで、65歳より早めると1か月0.4%減り（1962年4月1日以前生まれは0.5%）、遅らせると1か月0.7%増えます。</li>
+        <li>65歳からの額は老齢基礎年金の満額（令和8年度）です。厚生年金・税・社会保険料は入れていません。</li>
+        <li>年齢だけを入れるので、今日が誕生日の人として生まれ年を決めます。</li>
+        <li>将来の金利・物価・給料・運用の利回りは入れていません。今の値のまま並べた目安です。</li>
+      </ul>
+    </article>
+
+    <article class="card content" id="basis">
+      <h2>根拠と確認日</h2>
+      <p>年金の率と満額は、国民年金法・同施行令と日本年金機構のページの原文で確かめた値です。最終確認日 <time datetime="2026-09-25">2026-09-25</time>。</p>
+      <details class="rels">
+        <summary>原文と条文</summary>
+        <ul id="sources"></ul>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>よくある質問</h2>
+      <dl class="faq">
+        <dt>年金の額はどう決めていますか？</dt>
+        <dd>65歳からの額を老齢基礎年金の満額（令和8年度、月70,608円）とし、受け取り始める年齢の増減率をかけています。厚生年金は入れていません。自分の額は年金の繰上げ・繰下げの計算で確かめられます。</dd>
+        <dt>金利や物価が上がったらどうなりますか？</dt>
+        <dd>この画面は将来の金利・物価を入れず、今の値のまま並べています。金利の見直しは住宅ローン返済シミュレーターで試せます。</dd>
+        <dt>入力した内容は保存されますか？</dt>
+        <dd>保存しません。ページを閉じると消えます。入力は端末の外に送信しません。</dd>
+      </dl>
+    </article>
+
+    <!-- README「ツールを追加するとき」8: ツール固有の注意・データの扱いはここに書く -->
+    <article class="card content" id="notes">
+      <h2>ご利用上の注意・データの扱い</h2>
+      <ul>
+        <li>この計算は目安です。実際の返済額は金融機関が、年金の額は日本年金機構が決めます。</li>
+        <li>入力内容は保存も送信もしません。共有リンクの機能はありません。</li>
+      </ul>
+      <p><a href="/post/?from=/seido-keisan/lifeplan/guide.html">ご要望・不具合の報告</a>：いただいた内容をもとに直します。</p>
+      <p>サイト全体の運営者情報・免責事項は<a href="../../about.html">こちら</a>、プライバシーポリシーは<a href="../../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
+    </article>
+
+    <article class="card content" id="changelog">
+      <h2>更新履歴</h2>
+      <ul>
+        <li><time datetime="2026-11-05">2026年11月5日</time> 公開（住宅ローンと年金の2つの層）</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="./">人生の数字を1枚に</a></li>
+        <li><a href="./guide.html" aria-current="page">使い方</a></li>
+        <li><a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a></li>
+        <li><a href="../../loan-sim/">住宅ローン 返済シミュレーター</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../lib/kuriage-values.js"></script>
+  <script>
+    // 出典の一覧は lib/kuriage-values.js の SOURCES から描く（値と出典を 1 か所に保つ）
+    (function () {
+      var ul = document.getElementById('sources');
+      window.KuriageValues.SOURCES.forEach(function (s) {
+        var li = document.createElement('li');
+        var a = document.createElement('a'); a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = s.label;
+        li.appendChild(a); li.appendChild(document.createTextNode('（' + s.where + '）'));
+        ul.appendChild(li);
+      });
+    })();
+  </script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,19 @@
+/* ===========================
+   人生の数字を 1 枚に（lifeplan）だけの見た目。値は ../style.css のトークンだけを使う
+   骨組み（必須の入力 → 結果 → くわしく入れる、固定バー、PC の 2 列）は style.css の共通部分
+   =========================== */
+.timeline { margin: var(--sp-3) 0; }
+.timeline .tl { display: block; width: 100%; height: auto; }
+.tl-name { font-size: 12px; fill: var(--text); font-weight: 600; }
+.tl-num { font-size: 11px; fill: var(--muted); }
+.tl-tick { font-size: 10px; fill: var(--muted); text-anchor: middle; }
+.tl-base { stroke: var(--border); stroke-width: 1; }
+.tl-principal, .sw-principal { fill: var(--accent); background: var(--accent); }
+.tl-interest, .sw-interest { fill: var(--accent-soft); background: var(--accent-soft); }
+.tl-pension, .sw-pension { fill: var(--ok); background: var(--ok); }
+.tl-now { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 3 2; }
+.tl-now-label { font-size: 11px; fill: var(--text); }
+.tl-legend .sw { display: inline-block; width: 0.9em; height: 0.9em; vertical-align: -0.1em; margin-left: var(--sp-2); border: 1px solid var(--border); }
+.tl-legend .sw:first-child { margin-left: 0; }
+input[type="range"] { width: 100%; min-height: var(--tap); }
+#r-loan:empty, #loan-msg:empty { display: none; }
