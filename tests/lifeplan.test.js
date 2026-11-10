@@ -10,6 +10,7 @@ const Kuriage = require('../lib/kuriage.js');
 const KV = require('../lib/kuriage-values.js');
 const Gakunen = require('../lib/gakunen.js');
 const Koko = require('../lib/koko.js');
+const TakeHome = require('../lib/take-home.js');
 
 const TODAY = { y: 2026, m: 11, d: 5 };
 const MAN = 10000;
@@ -106,7 +107,7 @@ test('画面: 結果の下に D117 の 1 文。判定・おすすめの言い回
 test('画面が読む計算は生成物（root の tools/common/calc、D484）で、数をこの画面で持たない', () => {
   for (const f of ['lib/loan.js', 'lib/kuriage.js', 'lib/kuriage-values.js', 'lib/gakunen.js']) assert.match(read(f), /^\/\/ 生成物。正本は youheioonuki\.github\.io の tools\/common\/calc\//);
   const html = read('lifeplan/index.html');
-  for (const s of ['../lib/loan.js', '../lib/kuriage-values.js', '../lib/kuriage.js', '../lib/gakunen.js', '../lib/koko-values.js', '../lib/koko.js', '../lib/lifeplan.js']) assert.ok(html.includes(`<script src="${s}"></script>`), s);
+  for (const s of ['../lib/loan.js', '../lib/kuriage-values.js', '../lib/kuriage.js', '../lib/gakunen.js', '../lib/koko-values.js', '../lib/koko.js', '../lib/take-home-values.js', '../lib/take-home.js', '../lib/lifeplan.js']) assert.ok(html.includes(`<script src="${s}"></script>`), s);
   assert.ok(!/\d{2},\d{3}|0\.00[47]/.test(read('lifeplan/app.js')), 'app.js に制度の値を書かない');
 });
 
@@ -175,4 +176,50 @@ test('子の層: 3 人まで、n は入力の順番。大学卒業の親の年�
   assert.ok(r.find(x => x.age === 48 && x.loanPaid === 0 && x.pension === 0));
   assert.equal(r.find(x => x.age === 48).grades[0], '高2');
   assert.ok(r.every(x => x.grades.length === 2));
+});
+
+// --- 枝 3: 税と社会保険（企画書 102 の 5.2.2、Q-150） ---
+
+test('税と社会保険の層: 年収 3 例 × 年齢 39・40・64 で、3 つの額と手取りが TakeHome.calc と同じ', () => {
+  for (const income of [3000000, 5000000, 12000000]) {
+    for (const age of [39, 40, 64]) {
+      const t = L.build({ age, income }, TODAY).tax;
+      const r = t.byAge[0];
+      const y = TakeHome.calc({ period: 'year', amount: income, bonus: 0, over40: age >= 40 }).year;
+      assert.equal(r.age, age);
+      assert.deepEqual([r.si, r.incomeTax, r.resident, r.net], [y.si, y.incomeTax, y.resident, y.net], `${income} ${age}`);
+      assert.equal(r.total, y.si + y.incomeTax + y.resident);
+      assert.equal(t.byAge[t.byAge.length - 1].age, 64);
+    }
+  }
+  // 39 歳から並べると、40 歳で介護保険料のぶん社会保険料が増える
+  const b = L.build({ age: 39, income: 5000000 }, TODAY).tax.byAge;
+  assert.ok(b[1].si > b[0].si);
+  assert.equal(b.length, 26);
+});
+
+test('税と社会保険の層: 65 歳以上は行なし、2,000 万円を超える年収は over', () => {
+  assert.deepEqual(L.build({ age: 65, income: 5000000 }, TODAY).tax.byAge, []);
+  const o = L.build({ age: 40, income: 20000001 }, TODAY).tax;
+  assert.equal(o.error, 'over');
+  assert.deepEqual(o.byAge, []);
+});
+
+test('年収が無い（空・0・読めない値）なら、枝 2 までの build・rows と deepEqual', () => {
+  const raw = { age: 40, pensionStart: 70, loan: { principal: 3000 * MAN, years: 35, rate: 1.0, startAge: 35 }, children: [{ y: 2018, m: 6 }] };
+  const base = L.build(raw, TODAY);
+  for (const income of [undefined, '', 0, 'abc', -1]) {
+    const b = L.build(Object.assign({}, raw, { income }), TODAY);
+    assert.deepEqual(b, base);
+    assert.deepEqual(L.rows(b, TODAY), L.rows(base, TODAY));
+  }
+  assert.ok(!('tax' in base) && !('income' in base.input));
+});
+
+test('税と社会保険の層: 年ごとの行に tax（3 つの合計）。64 歳までは返済も年金も無くても行がある', () => {
+  const b = L.build({ age: 30, income: 5000000 }, TODAY);
+  const r = L.rows(b, TODAY);
+  assert.equal(r.find(x => x.age === 30).tax, b.tax.byAge[0].total);
+  assert.ok(r.find(x => x.age === 50 && x.loanPaid === 0 && x.pension === 0 && x.tax > 0));
+  assert.equal(r.find(x => x.age === 66).tax, 0);
 });
