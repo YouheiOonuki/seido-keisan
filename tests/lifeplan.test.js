@@ -8,6 +8,8 @@ const L = require('../lib/lifeplan.js');
 const Loan = require('../lib/loan.js');
 const Kuriage = require('../lib/kuriage.js');
 const KV = require('../lib/kuriage-values.js');
+const Gakunen = require('../lib/gakunen.js');
+const Koko = require('../lib/koko.js');
 
 const TODAY = { y: 2026, m: 11, d: 5 };
 const MAN = 10000;
@@ -102,8 +104,75 @@ test('画面: 結果の下に D117 の 1 文。判定・おすすめの言い回
 });
 
 test('画面が読む計算は生成物（root の tools/common/calc、D484）で、数をこの画面で持たない', () => {
-  for (const f of ['lib/loan.js', 'lib/kuriage.js', 'lib/kuriage-values.js']) assert.match(read(f), /^\/\/ 生成物。正本は youheioonuki\.github\.io の tools\/common\/calc\//);
+  for (const f of ['lib/loan.js', 'lib/kuriage.js', 'lib/kuriage-values.js', 'lib/gakunen.js']) assert.match(read(f), /^\/\/ 生成物。正本は youheioonuki\.github\.io の tools\/common\/calc\//);
   const html = read('lifeplan/index.html');
-  for (const s of ['../lib/loan.js', '../lib/kuriage-values.js', '../lib/kuriage.js', '../lib/lifeplan.js']) assert.ok(html.includes(`<script src="${s}"></script>`), s);
+  for (const s of ['../lib/loan.js', '../lib/kuriage-values.js', '../lib/kuriage.js', '../lib/gakunen.js', '../lib/koko-values.js', '../lib/koko.js', '../lib/lifeplan.js']) assert.ok(html.includes(`<script src="${s}"></script>`), s);
   assert.ok(!/\d{2},\d{3}|0\.00[47]/.test(read('lifeplan/app.js')), 'app.js に制度の値を書かない');
+});
+
+// --- 枝 2: 子の学年の節目（企画書 102 の 5.2.1、Q-147） ---
+
+test('子の層: 帯の入学・卒業の日は学年早見の schoolHistory と同じ（4 月生まれ・3 月の早生まれ・12 月生まれ。2 日生まれとして渡す）', () => {
+  for (const [y, m] of [[2020, 4], [2021, 3], [2019, 12]]) {
+    const b = L.build({ age: 40, children: [{ y, m }] }, TODAY);
+    const got = b.children[0].bands.map(bd => [bd.key, bd.inDate, bd.outDate]);
+    const h = Gakunen.schoolHistory({ y, m, d: 2 });
+    const want = ['elementary', 'junior', 'high', 'university'].map(k => [k,
+      h.find(e => e.key === k && e.event === 'in').date, h.find(e => e.key === k && e.event === 'out').date]);
+    assert.deepEqual(got, want, `${y}-${m}`);
+  }
+  // 4 月生まれは 4 月 2 日以降の学年（2020 年 4 月生まれは 2027 年に小学校）。3 月生まれは早生まれ（2021 年 3 月生まれも 2027 年）
+  assert.equal(L.build({ age: 40, children: [{ y: 2020, m: 4 }] }, TODAY).children[0].bands[0].inDate.y, 2027);
+  assert.equal(L.build({ age: 40, children: [{ y: 2021, m: 3 }] }, TODAY).children[0].bands[0].inDate.y, 2027);
+});
+
+test('子の層: 横の位置の境。入学の 4 月 1 日は、今日が 3 月 31 日なら少し先、4 月 1 日なら今の年齢ちょうど、4 月 2 日なら 1 年前の年齢', () => {
+  const kid = [{ y: 2020, m: 5 }];   // 2027-04-01 に小学校
+  const at = (t) => L.build({ age: 40, children: kid }, t).children[0].bands[0];
+  const b331 = at({ y: 2027, m: 3, d: 31 }), b401 = at({ y: 2027, m: 4, d: 1 }), b402 = at({ y: 2027, m: 4, d: 2 });
+  assert.ok(b331.from > 40 && b331.from < 40.01);
+  assert.equal(b331.entryAge, 40);
+  assert.equal(b401.from, 40);
+  assert.equal(b401.entryAge, 40);
+  assert.ok(b402.from < 40 && b402.from > 39.99);
+  assert.equal(b402.entryAge, 39);
+  // 0 歳より前・100 歳より後は切る
+  const old = L.build({ age: 95, children: [{ y: 2020, m: 5 }] }, TODAY).children[0].bands[3];
+  assert.equal(old.to, 101);
+});
+
+test('子が 0 人（空・読めない値）なら、枝 1 と同じ build・rows（deepEqual）', () => {
+  const raw = { age: 40, pensionStart: 70, loan: { principal: 3000 * MAN, years: 35, rate: 1.0, startAge: 35 } };
+  const base = L.build(raw, TODAY);
+  for (const children of [undefined, [], [{}], [{ y: 'x', m: 4 }, { y: 2020 }]]) {
+    const b = L.build(Object.assign({}, raw, { children }), TODAY);
+    assert.deepEqual(b, base);
+    assert.deepEqual(L.rows(b, TODAY), L.rows(base));
+  }
+  assert.ok(!('children' in base) && !('children' in base.input));
+});
+
+test('子の層: 高校の縁取りの長さは就学支援金の支給期間（全日制、Koko.supportYears）', () => {
+  assert.equal(Koko.supportYears('zen'), 3);
+  for (const [y, m] of [[2020, 4], [2021, 3], [2019, 12]]) {
+    const c = L.build({ age: 40, children: [{ y, m }] }, TODAY).children[0];
+    assert.equal(c.support.to - c.support.from, Koko.supportYears('zen'));
+    assert.equal(c.support.from, c.bands[2].from);
+  }
+});
+
+test('子の層: 3 人まで、n は入力の順番。大学卒業の親の年齢と、年ごとの行の学年（4 月時点）', () => {
+  const b = L.build({ age: 40, children: [{ y: 2018, m: 6 }, {}, { y: 2022, m: 1 }, { y: 2023, m: 1 }] }, TODAY);
+  assert.deepEqual(b.children.map(c => c.n), [1, 3]);
+  // 2018 年 6 月生まれ: 2025-04 に小 1。親は 2026-11-05 に 40 歳 → 2041-03-31（大学卒業）は 54 歳
+  assert.equal(b.children[0].bands[0].entryAge, 38);
+  assert.equal(b.children[0].gradAge, 54);
+  const r = L.rows(b, TODAY);
+  // 親 40 歳の年の 4 月 1 日は 2027-04-01: 1 人目は小 3、3 人目（2022 年 1 月の早生まれ）は年長で在学でない
+  assert.deepEqual(r.find(x => x.age === 40).grades, ['小3', '']);
+  assert.deepEqual(r.find(x => x.age === 41).grades, ['小4', '小1']);
+  // 返済も年金も無い年でも、在学なら行がある
+  assert.ok(r.find(x => x.age === 48 && x.loanPaid === 0 && x.pension === 0));
+  assert.equal(r.find(x => x.age === 48).grades[0], '高2');
+  assert.ok(r.every(x => x.grades.length === 2));
 });

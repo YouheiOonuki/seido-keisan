@@ -84,6 +84,7 @@
           <p class="big" id="r-big">—</p>
           <p class="detail" id="r-detail">今の年齢を入れると出ます。</p>
           <p class="detail" id="r-loan"></p>
+          <p class="detail" id="r-kids"></p>
         </div>
         <p class="small" id="r-premise">年金の帯は、老齢基礎年金の満額の場合です。</p>
         <div class="timeline" id="timeline"></div>
@@ -92,7 +93,7 @@
           <summary>年ごとの数字（表）</summary>
           <div class="table-wrap" tabindex="0">
             <table class="tbl num" id="rows">
-              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th></tr></thead>
+              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-kids" hidden>子の学年</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -120,6 +121,11 @@
         </div>
         <p class="small">元利均等返済・金利は返済の終わりまで同じとして計算します。金利の見直し・繰上返済は<a href="../../loan-sim/">住宅ローン 返済シミュレーター</a>で。</p>
         <p class="small error-text" id="loan-msg" role="status"></p>
+      </details>
+      <details class="card opt" id="d-kids">
+        <summary>子: <span class="opt-state" id="s-kids">なし</span></summary>
+        <div class="kid-rows" id="kid-rows"></div>
+        <p class="small">生まれた日は聞かず、2日生まれとして学年を決めます。4月1日生まれの子は1学年上になります。</p>
       </details>
 
       <details class="card opt">
@@ -184,6 +190,9 @@
   <script src="../lib/loan.js"></script>
   <script src="../lib/kuriage-values.js"></script>
   <script src="../lib/kuriage.js"></script>
+  <script src="../lib/gakunen.js"></script>
+  <script src="../lib/koko-values.js"></script>
+  <script src="../lib/koko.js"></script>
   <script src="../lib/lifeplan.js"></script>
   <script src="./app.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
