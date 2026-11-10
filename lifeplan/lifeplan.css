@@ -16,4 +16,14 @@
 .tl-legend .sw { display: inline-block; width: 0.9em; height: 0.9em; vertical-align: -0.1em; margin-left: var(--sp-2); border: 1px solid var(--border); }
 .tl-legend .sw:first-child { margin-left: 0; }
 input[type="range"] { width: 100%; min-height: var(--tap); }
-#r-loan:empty, #loan-msg:empty { display: none; }
+#r-loan:empty, #r-kids:empty, #loan-msg:empty { display: none; }
+/* 子の学年の帯（企画書 102 の 5.2.1）。4 色は既存のトークンの混ぜ合わせ */
+.tl-elementary, .sw-elementary { fill: color-mix(in srgb, var(--ok) 40%, var(--card)); background: color-mix(in srgb, var(--ok) 40%, var(--card)); }
+.tl-junior, .sw-junior { fill: var(--ok); background: var(--ok); }
+.tl-high, .sw-high { fill: color-mix(in srgb, var(--accent) 45%, var(--card)); background: color-mix(in srgb, var(--accent) 45%, var(--card)); }
+.tl-university, .sw-university { fill: var(--accent); background: var(--accent); }
+.tl-support { fill: none; stroke: var(--text); stroke-width: 1.5; }
+.tl-legend .sw-support { background: transparent; border: 2px solid var(--text); }
+.kid-rows { display: grid; gap: var(--sp-2); }
+.kid-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.kid-row .kid-n { min-width: 4em; }
