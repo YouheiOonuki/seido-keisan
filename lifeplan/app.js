@@ -1,6 +1,6 @@
 // ===========================
 // 人生の数字を 1 枚に（/seido-keisan/lifeplan/、yorozu-plans 企画書 102 の枝 1）— 画面の制御
-// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js をそのまま呼ぶ）。数をここで作らない
+// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js をそのまま呼ぶ）。数をここで作らない
 // 入力は保存も送信もしない（箱への保存は企画書 102 の枝 7）
 // ===========================
 (function () {
@@ -45,6 +45,7 @@
     box.textContent = '';
     if (!b.ready) return;
     var layers = [];
+    if (b.tax && b.tax.byAge.length) layers.push('tax');
     if (b.loan && b.loan.byAge) layers.push('loan');
     if (b.pension) layers.push('pension');
     var kids = b.children || [];
@@ -53,16 +54,24 @@
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'tl' });
     var bw = (W - PAD_L - PAD_R) / 101;
     var max = 0;
-    layers.forEach(function (k) { b[k].byAge.forEach(function (r) { max = Math.max(max, k === 'loan' ? r.paid : r.annual); }); });
+    var val = function (k, r) { return k === 'loan' ? r.paid : k === 'tax' ? r.total : r.annual; };
+    layers.forEach(function (k) { b[k].byAge.forEach(function (r) { max = Math.max(max, val(k, r)); }); });
     var yNext = TOP;
     layers.forEach(function (k) {
       var y0 = yNext;
       yNext += ROW_H + GAP;
-      var name = k === 'loan' ? '住宅ローンの返済' : '年金';
+      var name = k === 'loan' ? '住宅ローンの返済' : k === 'tax' ? '税と社会保険' : '年金';
       svg.appendChild(el('text', { x: PAD_L, y: y0 - 5, class: 'tl-name' }, name));
       svg.appendChild(el('line', { x1: PAD_L, x2: W - PAD_R, y1: y0 + ROW_H, y2: y0 + ROW_H, class: 'tl-base' }));
       b[k].byAge.forEach(function (r) {
-        if (k === 'loan') {
+        if (k === 'tax') {
+          var yy = y0 + ROW_H;
+          [['si', 'tl-si'], ['incomeTax', 'tl-itax'], ['resident', 'tl-rtax']].forEach(function (p) {
+            var hh = ROW_H * r[p[0]] / max;
+            yy -= hh;
+            svg.appendChild(el('rect', { x: x(r.age), y: yy, width: bw, height: hh, class: p[1] }));
+          });
+        } else if (k === 'loan') {
           var hp = ROW_H * r.principal / max, hi = ROW_H * r.interest / max;
           svg.appendChild(el('rect', { x: x(r.age), y: y0 + ROW_H - hp, width: bw, height: hp, class: 'tl-principal' }));
           svg.appendChild(el('rect', { x: x(r.age), y: y0 + ROW_H - hp - hi, width: bw, height: hi, class: 'tl-interest' }));
@@ -72,11 +81,11 @@
         }
       });
       var first = b[k].byAge[0], last = b[k].byAge[b[k].byAge.length - 1];
-      var full = k === 'loan' ? first.paid : (b[k].byAge[1] || first).annual;
-      var t = first.age + '歳から 年' + man(full);
+      var full = k === 'loan' ? first.paid : k === 'tax' ? first.total : (b[k].byAge[1] || first).annual;
+      var t = k === 'tax' ? '年' + man(full) + '（手取り 年' + man(first.net) + '）' : first.age + '歳から 年' + man(full);
       var tx = Math.min(x(first.age), W - PAD_R - 7 * t.length);
       svg.appendChild(el('text', { x: tx, y: y0 + ROW_H + 14, class: 'tl-num' }, t));
-      label.push(name + ': ' + first.age + '〜' + last.age + '歳、年' + man(full));
+      label.push(name + ': ' + first.age + '〜' + last.age + '歳、年' + man(full) + (k === 'tax' ? '（手取り 年' + man(first.net) + '）' : ''));
     });
     // 子の学年: 1 人 1 行、小・中・高・大学の帯。高校の帯のうち就学支援金の対象の年数に縁取り
     kids.forEach(function (c) {
@@ -95,12 +104,18 @@
       label.push(name + ': 入学の年の親の年齢 ' + c.bands.map(function (bd) { return STAGE_NAME[bd.key] + ' ' + bd.entryAge + '歳'; }).join('、'));
     });
     // 目盛り（10 歳ごと）と今の年齢
-    for (var a = 0; a <= 100; a += 10) svg.appendChild(el('text', { x: x(a), y: H - 2, class: 'tl-tick' }, String(a)));
+    for (var a = 0; a <= 100; a += 10) svg.appendChild(el('text', a === 100 ? { x: W - PAD_R, y: H - 2, class: 'tl-tick tl-tick-end' } : { x: x(a), y: H - 2, class: 'tl-tick' }, String(a)));   // 100 は右端に寄せる（中央寄せだと右にはみ出して切れる）
     var nx = x(b.input.age) + bw / 2;
     svg.appendChild(el('line', { x1: nx, x2: nx, y1: 4, y2: H - 14, class: 'tl-now' }));
     svg.appendChild(el('text', { x: Math.min(nx + 3, W - 40), y: 11, class: 'tl-now-label' }, '今 ' + b.input.age + '歳'));
     svg.setAttribute('aria-label', label.join('。'));
     box.appendChild(svg);
+    if (layers.indexOf('tax') >= 0) {
+      var tg = document.createElement('p');
+      tg.className = 'small tl-legend';
+      tg.innerHTML = '<span class="sw sw-si"></span>社会保険料 <span class="sw sw-itax"></span>所得税 <span class="sw sw-rtax"></span>住民税';
+      box.appendChild(tg);
+    }
     if (layers.indexOf('loan') >= 0) {
       var lg = document.createElement('p');
       lg.className = 'small tl-legend';
@@ -126,6 +141,10 @@
     var kids = b.children || [];
     $('s-kids').textContent = d.children ? d.children.length + '人' : 'なし';
     page.querySelectorAll('.col-kids').forEach(function (c) { c.hidden = !kids.length; });
+    var taxOn = !!(b.tax && b.tax.byAge.length);
+    page.querySelectorAll('.col-tax').forEach(function (c) { c.hidden = !taxOn; });
+    $('income-msg').textContent = !b.tax ? '' : b.tax.error === 'over' ? '年収が2,000万円を超えると、税と社会保険の層は出せません（年末調整の対象外のため）。' :
+      b.tax.error ? '税と社会保険の層は出せません。' : taxOn ? '' : '税と社会保険の層は64歳までです。';
     if (!b.ready || !b.pension) {
       SP.setText('r-big', '—');
       SP.setText('r-detail', '今の年齢を入れると出ます。');
@@ -149,6 +168,7 @@
     L.rows(b, today()).forEach(function (r) {
       var tr = document.createElement('tr');
       var cells = [r.age + '歳', r.loanPaid ? yen(r.loanPaid) : '', r.loanInterest ? yen(r.loanInterest) : '', r.pension ? yen(r.pension) : ''];
+      if (taxOn) cells.push(r.tax ? yen(r.tax) : '');
       if (r.grades) cells.push(r.grades.filter(function (g) { return g; }).join('・'));
       cells.forEach(function (v, i) {
         var c = document.createElement(i ? 'td' : 'th');

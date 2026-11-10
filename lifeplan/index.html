@@ -71,6 +71,11 @@
           <div class="money"><input type="number" id="age" data-k="age" inputmode="numeric" min="0" max="99" step="1" placeholder="例：40"><span class="unit">歳</span></div>
         </div>
         <div class="field">
+          <label for="income">年収（任意）</label>
+          <div class="money"><input type="number" id="income" data-k="income" inputmode="numeric" min="0" step="10000" placeholder="例：5000000"><span class="unit">円</span><output class="yomi" for="income"></output></div>
+          <p class="small error-text" id="income-msg" role="status"></p>
+        </div>
+        <div class="field">
           <label for="pensionStart">年金を受け取り始める年齢: <output id="pensionStart-out" for="pensionStart">65歳</output></label>
           <input type="range" id="pensionStart" data-k="pensionStart" min="60" max="75" step="1" value="65">
           <p class="hint">60〜64歳は繰上げ（減る）、66〜75歳は繰下げ（増える）。</p>
@@ -93,7 +98,7 @@
           <summary>年ごとの数字（表）</summary>
           <div class="table-wrap" tabindex="0">
             <table class="tbl num" id="rows">
-              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-kids" hidden>子の学年</th></tr></thead>
+              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-kids" hidden>子の学年</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -138,10 +143,15 @@
       </details>
 
       <details class="card opt">
+        <summary>税と社会保険の前提</summary>
+        <p class="small">会社員（協会けんぽ・厚生年金・雇用保険）で、協会けんぽ・東京都の料率、扶養なし、賞与なしの年収として計算し、40〜64歳の介護保険料のほかは今年の表のまま64歳まで並べます。</p>
+      </details>
+
+      <details class="card opt">
         <summary>この画面で計算しないこと</summary>
         <ul class="small">
           <li>将来の金利・物価・給料・運用の利回り。年金の毎年の改定。</li>
-          <li>税・社会保険料、教育費、医療費（あとから層として足します）。</li>
+          <li>教育費、医療費（あとから層として足します）。</li>
           <li>金融商品・保険の比較や推奨。</li>
         </ul>
       </details>
@@ -193,6 +203,19 @@
   <script src="../lib/gakunen.js"></script>
   <script src="../lib/koko-values.js"></script>
   <script src="../lib/koko.js"></script>
+  <script src="../lib/kyuyo-table-2026.js"></script>
+  <script src="../lib/kyuyo-table-2025.js"></script>
+  <script src="../lib/tax2026.js"></script>
+  <script src="../lib/nenmatsu.js"></script>
+  <script src="../lib/juminzei-values.js"></script>
+  <script src="../lib/juminzei.js"></script>
+  <script src="../lib/ikukyu-values.js"></script>
+  <script src="../lib/ikukyu.js"></script>
+  <script src="../lib/shienkin-values.js"></script>
+  <script src="../lib/shienkin.js"></script>
+  <script src="../lib/dattai-values.js"></script>
+  <script src="../lib/take-home-values.js"></script>
+  <script src="../lib/take-home.js"></script>
   <script src="../lib/lifeplan.js"></script>
   <script src="./app.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
