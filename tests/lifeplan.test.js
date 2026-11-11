@@ -601,8 +601,20 @@ test('枝 9: 画面に見込額の欄、帯の上の 1 文の差し替え、ね�
   assert.ok(app.includes("'入力した見込み額の場合'") && app.includes("'老齢基礎年金の満額の場合'"));
   assert.ok(!/mikomi/.test(app.slice(app.indexOf('yzUsed'), app.indexOf('yzUsed') + 40)), 'used に乗せない');
   assert.match(LV.CHECKED, /^\d{4}-\d{2}-\d{2}$/);
-  assert.deepEqual(LV.SOURCES.map(s => s.key), ['teikibinPage', 'teikibin50ijyou', 'teikibin50miman']);
-  for (const s of LV.SOURCES) assert.match(s.url, /^https:\/\/www\.nenkin\.go\.jp\/service\/nenkinkiroku\/torikumi\/teikibin\//);
+  assert.deepEqual(LV.SOURCES.map(s => s.key), ['teikibinPage', 'teikibin50ijyou', 'teikibin50miman', 'kouneiRei', 'kouneihoMikomi', 'kokunenhoMikomi']);
+  for (const s of LV.SOURCES) assert.match(s.url, /^https:\/\/(www\.nenkin\.go\.jp\/service\/nenkinkiroku\/torikumi\/teikibin\/|laws\.e-gov\.go\.jp\/law\/)/);
   assert.ok(read('lifeplan/guide.html').includes('<script src="../lib/lifeplan-values.js"></script>'));
+});
+
+test('Q-213: 見込額を入れたときの注意・FAQ・計算しないことの文（企画書 102 の 5.2.8）。条文は lib/lifeplan-values.js', () => {
+  const html = read('lifeplan/index.html');
+  assert.ok(html.includes('<p>年金の額は、見込み額を入れなければ老齢基礎年金の満額での目安で、厚生年金は入れていません。見込み額を入れたときは、その額の全体に同じ率をかけます。働きながら受け取って止まる分と加給年金は繰下げでも増えず、基礎年金と厚生年金は別々の年齢で繰り下げられるので、実際の額とは違うことがあります。'));
+  assert.ok(html.includes('<li>特別支給の老齢厚生年金（受け取れる生まれの人は、繰上げの減り方が違います）</li>'));
+  const guide = read('lifeplan/guide.html');
+  const faq = '見込み額を入れないときは、65歳からの額を老齢基礎年金の満額（令和8年度、月70,608円）とし、受け取り始める年齢の増減率をかけています。厚生年金は入れていません。ねんきん定期便の見込み額を入れると、その額に同じ増減率をかけます。自分の額は年金の繰上げ・繰下げの計算で確かめられます。';
+  assert.ok(guide.includes('"text": "' + faq + '"'), 'JSON-LD');
+  assert.ok(guide.includes('<dd>' + faq + '</dd>'), '本文');
+  const where = LV.SOURCES.map(s => s.where).join('');
+  for (const art of ['3条の5の2', '6条の3', '8条の2の3', '44条の3第4項', '附則7条の3第2項', '附則13条の4', '28条1項', '附則9条の2第2項']) assert.ok(where.includes(art), art);
 });
 
