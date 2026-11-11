@@ -426,6 +426,36 @@ test('枝 4: 4 つの額は、それぞれ期間の終わりの日の年（出�
   assert.equal(L.rows(b, TODAY)[0].age, b.ikukyu.byAge[0].age);
 });
 
+test('枝 4 (9): 今の年齢より前の行は 1 つで、表と CSV は年齢と育休・産休の給付のほかが空。子がいない・これから生まれる子では、その行が無い（Q-193）', () => {
+  // 半年前に生まれた子。ほかの列（住宅ローン・年金・税と社会保険・医療費控除・子の学年・制度の改定）もそろえて、空になることを見る
+  const raw = { ...IK_BASE, iryohi: '250000', pensionStart: 67, loan: { principal: '30000000', years: '35', rate: '1.1', startAge: '30' }, children: [{ y: '2026', m: '5' }, { y: '2020', m: '4' }] };
+  const b = L.build(raw, TODAY);
+  assert.ok(b.ikukyu && b.tax && b.iryohi && b.loan && b.pension && b.kaitei && b.children);
+  const list = L.rows(b, TODAY);
+  const pre = list.filter((r) => r.age < 33);
+  assert.equal(pre.length, 1);
+  assert.equal(pre[0].ikukyu, b.ikukyu.byAge[0].amount);
+  assert.ok(pre[0].ikukyu > 0);
+  const csv = L.csvRows(list);
+  const head = csv[0];
+  const row = csv[1 + list.indexOf(pre[0])];
+  assert.ok(head.length >= 9);
+  head.forEach((h, i) => {
+    const v = L.cell(row[i]);
+    if (h === '年齢') assert.equal(v, String(pre[0].age));
+    else if (h === '育休・産休の給付（円）') assert.equal(v, String(pre[0].ikukyu));
+    else assert.equal(v, '', `${h} は空`);
+  });
+  assert.ok(L.toCsv(list).split('\r\n')[1 + list.indexOf(pre[0])].startsWith(`${pre[0].age},,,,`));
+  // 今の年齢からの行は、これまでどおり 0 を数で持つ（この直しは今の年齢より前の行だけ）
+  assert.equal(list.find((r) => r.age === 33).pension, 0);
+  for (const r2 of [{ age: '33', income: '6000000' }, { ...IK_BASE, children: [{ y: '2027', m: '2' }] }, { ...raw, children: [{ y: '2027', m: '2' }] }]) {
+    const l2 = L.rows(L.build(r2, TODAY), TODAY);
+    assert.ok(l2.length > 0);
+    assert.equal(l2.filter((r) => r.age < 33).length, 0, JSON.stringify(r2.children));
+  }
+});
+
 test('枝 4 (2): 条件に当たる子がいない・年収が無いときは、枝 7 までと同じ build・rows・CSV（select の値で変わらない）', () => {
   for (const raw of [RAW, { ...IK_BASE, children: [{ y: '2025', m: '11' }] }, { age: '33', children: [{ y: '2026', m: '11' }] }, { age: '33', income: '6000000' }]) {
     const b = L.build(raw, TODAY);
