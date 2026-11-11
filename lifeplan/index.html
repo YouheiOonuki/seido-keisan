@@ -93,12 +93,13 @@
         </div>
         <p class="small" id="r-premise">年金の帯は、老齢基礎年金の満額の場合です。</p>
         <div class="timeline" id="timeline"></div>
+          <div class="small kai-detail" id="kai-detail" aria-live="polite" hidden></div>
         <p class="small" id="r-note">将来の金利・物価は入れていません。今の値のまま並べた目安です。</p>
         <details class="rels" id="rows-box">
           <summary>年ごとの数字（表）</summary>
           <div class="table-wrap" tabindex="0">
             <table class="tbl num" id="rows">
-              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-kids" hidden>子の学年</th></tr></thead>
+              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-kids" hidden>子の学年</th><th scope="col" class="col-kai" hidden>制度の改定</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -216,6 +217,8 @@
   <script src="../lib/dattai-values.js"></script>
   <script src="../lib/take-home-values.js"></script>
   <script src="../lib/take-home.js"></script>
+  <script src="../lib/kaitei-values.js"></script>
+  <script src="../lib/kaitei.js"></script>
   <script src="../lib/lifeplan.js"></script>
   <script src="./app.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->

@@ -1,6 +1,6 @@
 // ===========================
 // 人生の数字を 1 枚に（/seido-keisan/lifeplan/、yorozu-plans 企画書 102 の枝 1）— 画面の制御
-// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js をそのまま呼ぶ）。数をここで作らない
+// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js、制度の改定は ../lib/kaitei.js をそのまま呼ぶ）。数をここで作らない
 // 入力は保存も送信もしない（箱への保存は企画書 102 の枝 7）
 // ===========================
 (function () {
@@ -30,7 +30,7 @@
   }
 
   // --- 時間軸（SVG）: 横 0〜100 歳、住宅ローンの帯（元金と利息の 2 色）と年金の帯、今の年齢の縦の線 ---
-  var W = 400, PAD_L = 4, PAD_R = 4, ROW_H = 44, GAP = 22, TOP = 30, KID_H = 14;
+  var W = 400, PAD_L = 4, PAD_R = 4, ROW_H = 44, GAP = 22, TOP = 30, KID_H = 14, KAI_H = 18;
   var STAGE_NAME = { elementary: '小学校', junior: '中学校', high: '高校', university: '大学' };
   var STAGE_SHORT = { elementary: '小', junior: '中', high: '高', university: '大' };
   function x(age) { return PAD_L + (W - PAD_L - PAD_R) * age / 101; }
@@ -49,7 +49,8 @@
     if (b.loan && b.loan.byAge) layers.push('loan');
     if (b.pension) layers.push('pension');
     var kids = b.children || [];
-    var H = TOP + layers.length * (ROW_H + GAP) + kids.length * (KID_H + GAP) + 18;
+    var kai = b.kaitei ? b.kaitei.byAge : [];
+    var H = TOP + layers.length * (ROW_H + GAP) + kids.length * (KID_H + GAP) + (kai.length ? KAI_H + GAP : 0) + 18;
     var label = ['0〜100歳の時間軸。今の年齢 ' + b.input.age + '歳'];
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'tl' });
     var bw = (W - PAD_L - PAD_R) / 101;
@@ -103,6 +104,20 @@
       svg.appendChild(el('text', { x: Math.max(PAD_L, Math.min(x(c.bands[0].from), W - PAD_R - 9 * t.length)), y: y0 + KID_H + 13, class: 'tl-num' }, t));
       label.push(name + ': 入学の年の親の年齢 ' + c.bands.map(function (bd) { return STAGE_NAME[bd.key] + ' ' + bd.entryAge + '歳'; }).join('、'));
     });
+    // 制度の改定: 1 行。年ごとに印 1 つ（その年の件数）。1 年の幅はスマホで 4px ほどで指で押せないので、
+    // 時間軸の上の印は見せるだけにし、押すのは時間軸の下の年ごとのボタン（その年の項目の題と施行日、/kaitei/ へのリンク）
+    if (kai.length) {
+      var ky = yNext;
+      yNext += KAI_H + GAP;
+      svg.appendChild(el('text', { x: PAD_L, y: ky - 5, class: 'tl-name' }, '制度の改定'));
+      kai.forEach(function (r) {
+        svg.appendChild(el('rect', { x: x(r.age), y: ky, width: bw, height: KAI_H, class: 'tl-kai' }));
+      });
+      var kn = kai.reduce(function (s, r) { return s + r.items.length; }, 0);
+      var kt = kn + '件（' + kai[0].age + (kai.length > 1 ? '〜' + kai[kai.length - 1].age : '') + '歳の年）';
+      svg.appendChild(el('text', { x: Math.min(x(kai[0].age), W - PAD_R - 7 * kt.length), y: ky + KAI_H + 14, class: 'tl-num' }, kt));
+      label.push('制度の改定: ' + kai.map(function (r) { return r.age + '歳の年 ' + r.items.length + '件'; }).join('、'));
+    }
     // 目盛り（10 歳ごと）と今の年齢
     for (var a = 0; a <= 100; a += 10) svg.appendChild(el('text', a === 100 ? { x: W - PAD_R, y: H - 2, class: 'tl-tick tl-tick-end' } : { x: x(a), y: H - 2, class: 'tl-tick' }, String(a)));   // 100 は右端に寄せる（中央寄せだと右にはみ出して切れる）
     var nx = x(b.input.age) + bw / 2;
@@ -129,6 +144,40 @@
         '<span class="sw sw-support"></span>就学支援金の対象の期間（全日制の場合。<a href="../koko-mushoka/">高校無償化の計算</a>）';
       box.appendChild(kg);
     }
+    if (kai.length) {
+      var kb = document.createElement('div');
+      kb.className = 'kai-years';
+      kai.forEach(function (r) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = r.age + '歳 ' + r.items.length + '件';
+        btn.setAttribute('aria-controls', 'kai-detail');
+        btn.addEventListener('click', function () { showKai(r); });
+        kb.appendChild(btn);
+      });
+      box.appendChild(kb);
+    }
+  }
+
+  function jdate(s) { var p = s.split('-'); return +p[0] + '年' + (+p[1]) + '月' + (+p[2]) + '日'; }
+  function showKai(r) {
+    var p = $('kai-detail');
+    p.textContent = '';
+    var h = document.createElement('p');
+    h.textContent = r.age + '歳の年の制度の改定';
+    p.appendChild(h);
+    var ul = document.createElement('ul');
+    r.items.forEach(function (it) {
+      var li = document.createElement('li');
+      li.textContent = jdate(it.date) + '　' + it.title;
+      ul.appendChild(li);
+    });
+    p.appendChild(ul);
+    var a = document.createElement('a');
+    a.href = '../kaitei/';
+    a.textContent = '制度の改定カレンダー';
+    p.appendChild(a);
+    p.hidden = false;
   }
 
   function render() {
@@ -143,6 +192,9 @@
     page.querySelectorAll('.col-kids').forEach(function (c) { c.hidden = !kids.length; });
     var taxOn = !!(b.tax && b.tax.byAge.length);
     page.querySelectorAll('.col-tax').forEach(function (c) { c.hidden = !taxOn; });
+    var kaiOn = !!b.kaitei;
+    page.querySelectorAll('.col-kai').forEach(function (c) { c.hidden = !kaiOn; });
+    $('kai-detail').hidden = true;
     $('income-msg').textContent = !b.tax ? '' : b.tax.error === 'over' ? '年収が2,000万円を超えると、税と社会保険の層は出せません（年末調整の対象外のため）。' :
       b.tax.error ? '税と社会保険の層は出せません。' : taxOn ? '' : '税と社会保険の層は64歳までです。';
     if (!b.ready || !b.pension) {
@@ -170,6 +222,7 @@
       var cells = [r.age + '歳', r.loanPaid ? yen(r.loanPaid) : '', r.loanInterest ? yen(r.loanInterest) : '', r.pension ? yen(r.pension) : ''];
       if (taxOn) cells.push(r.tax ? yen(r.tax) : '');
       if (r.grades) cells.push(r.grades.filter(function (g) { return g; }).join('・'));
+      if (kaiOn) cells.push(r.kaitei ? r.kaitei + '件' : '');
       cells.forEach(function (v, i) {
         var c = document.createElement(i ? 'td' : 'th');
         if (!i) c.scope = 'row';
