@@ -8,8 +8,8 @@
   "ics_url": "https://yorozu-craft.com/seido-keisan/data/kaitei.ics",
   "repository": "https://github.com/YouheiOonuki/seido-keisan",
   "generated_from": "lib/kaitei-values.js（tools/build-data.mjs で書き出し）",
-  "checked": "2026-09-25",
-  "generated": "2026-10-11",
+  "checked": "2026-11-12",
+  "generated": "2026-11-12",
   "source": [
     "https://www.nta.go.jp/publication/pamph/gensen/0025005-051.pdf",
     "https://www.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf",
@@ -70,231 +70,231 @@
       "label": "国税庁「令和７年度税制改正による所得税の基礎控除の見直し等に関するＱ＆Ａ」",
       "url": "https://www.nta.go.jp/publication/pamph/gensen/0025005-051.pdf",
       "where": "令和7年12月1日に施行、令和7年分以後の所得税に適用。特定親族は19歳以上23歳未満、合計所得金額58万円超123万円以下",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "ntaKiso8",
       "label": "国税庁「令和８年度税制改正（所得税の基礎控除の引上げ等関係）Ｑ＆Ａ」",
       "url": "https://www.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf",
       "where": "Q1-1: 基礎控除の引上げ・給与所得控除の最低保障額・扶養親族等の所得要件は令和8年12月1日施行、令和8年分以後に適用。源泉徴収税額表の改正は令和9年1月1日施行",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "ntaAramashi8",
       "label": "国税庁「源泉所得税の改正のあらまし」（令和8年4月）",
       "url": "https://www.nta.go.jp/publication/pamph/gensen/2026kaisei.pdf",
       "where": "基礎控除 令和8・9年分 104万円（合計所得489万円以下）、令和10年分以後は132万円以下で99万円。給与所得控除の最低保障額 令和8・9年分 74万円・令和10年分以後 69万円。扶養親族等の所得要件 62万円以下、勤労学生 89万円以下",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "ntaBouei",
       "label": "国税庁「防衛特別所得税及び復興特別所得税の源泉徴収のあらまし（令和９年１月以後の源泉徴収）」",
       "url": "https://www.nta.go.jp/publication/pamph/pdf/0026005-024_02.pdf",
       "where": "防衛特別所得税（所得税額の1%）を創設、復興特別所得税は2.1%→1.1%。令和9年1月1日以後に生ずる所得に適用。合計2.1%は同じ",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "shotoku2027",
       "label": "所得税法（令和9年1月1日施行版。令和8年法律第12号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/340AC0000000033/20270101_508AC0000000012",
       "where": "81条 ひとり親控除 35万円→38万円",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "sochi2027",
       "label": "租税特別措置法（令和9年1月1日施行版。令和8年法律第12号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/332AC0000000026/20270101_508AC0000000012",
       "where": "41条の17 セルフメディケーション税制: スイッチOTC医薬品は平成29年1月1日以後（期限なし）、それ以外は令和13年12月31日まで",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "chiho2027",
       "label": "地方税法（令和9年1月1日施行版。令和8年法律第2号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002",
       "where": "292条 同一生計配偶者・扶養親族の合計所得金額 58万円→62万円以下",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "chiho2028",
       "label": "地方税法（令和10年1月1日施行版。令和8年法律第2号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/325AC0000000226/20280101_508AC0000000002",
       "where": "314条の2 ひとり親控除 30万円→33万円",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "soumu8",
       "label": "総務省「地方税法等の一部を改正する法律の概要」（令和8年度）",
       "url": "https://www.soumu.go.jp/main_content/001063704.pdf",
       "where": "給与所得控除の最低保障額74万円は令和9年度分の個人住民税から、ひとり親控除33万円は令和10年度分から",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "invoiceLeaflet",
       "label": "国税庁 リーフレット「インボイス制度に関する令和８年度税制改正について」（令和8年4月、5月改訂）",
       "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf",
       "where": "2割特例は令和8年9月30日の属する課税期間で終了。個人事業者の令和9年分・令和10年分は3割特例。インボイスのない仕入れの控除 80%→70%（令和8年10月）→50%（令和10年10月）→30%（令和12年10月）→0%（令和13年10月）",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "hikisage",
       "label": "国税庁 消費税率引下げ特設サイト（令和8年9月15日開設）",
       "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/zeiritsuhikisage.htm",
       "where": "「飲食料品に係る２年間の消費税率引下げ」／「なお、内容については、今後、法案が国会に提出され、審議を経た上で可決・成立した場合のものです。」",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "hikisageLeaflet",
       "label": "国税庁 リーフレット「飲食料品に係る２年間の消費税率引下げについて」（令和８年９月、PDF）",
       "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/0026008-127_leaflet.pdf",
       "where": "飲食料品の税率を令和9年4月1日から令和11年3月31日まで1%にする案。「法案が国会に提出され、審議を経た上で可決・成立した場合のもの」",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "cfaShien",
       "label": "こども家庭庁「子ども・子育て支援金制度について」被用者保険加入者向けリーフレット（令和8年4月1日更新）",
       "url": "https://www.cfa.go.jp/policies/kodomokosodateshienkinseido",
       "where": "令和8年4月保険料（5月に給与天引き）から拠出。支援金率0.23%、半分は事業主。賞与からも拠出。国民年金の育児期間中の保険料免除は令和8年10月分から",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kokunen2026",
       "label": "国民年金法（令和8年10月1日施行版。令和6年法律第47号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/334AC0000000141/20261001_506AC0000000047",
       "where": "88条の3 第1号被保険者が子を養育する期間の保険料の免除を新設",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mextKoko",
       "label": "文部科学省「高等学校等就学支援金の支給に関する法律の一部を改正する法律の施行等について（通知）」（令和8年3月31日）",
       "url": "https://www.mext.go.jp/a_menu/shotou/career/05010502/1408866_00004.htm",
       "where": "「所得制限を撤廃し、就学支援金の支給に当たって保護者等の収入の状況を問わないこととしたこと。」／「高等学校全日制 9,600円 9,900円 38,100円」",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "nenkinZairo",
       "label": "日本年金機構「在職老齢年金制度が改正されました」（更新 2026-04-01）",
       "url": "https://www.nenkin.go.jp/tokusetsu/zairoukaisei.html",
       "where": "令和8年4月から、年金が減額になる基準額（賃金と老齢厚生年金の合計）が月51万円から65万円に",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mhlwGendo",
       "label": "厚生労働省「令和８年８月１日から支給限度額が変更になります」",
       "url": "https://www.mhlw.go.jp/content/001728499.pdf",
       "where": "育児休業給付金 支給上限額（67%）323,811円→332,454円、休業開始時賃金月額の上限 483,300円→496,200円",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "koyo18",
       "label": "雇用保険法 18条（賃金日額の自動変更）",
       "url": "https://laws.e-gov.go.jp/law/349AC0000000116",
       "where": "毎月勤労統計の平均給与額が上下したら、その比率に応じて翌年度の8月1日以後の額を変更",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "koyo2028",
       "label": "雇用保険法（令和10年10月1日施行版。令和6年法律第26号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/349AC0000000116/20281001_506AC0000000026",
       "where": "6条 適用除外が「1週間の所定労働時間が20時間未満」→「10時間未満」",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kounen2026",
       "label": "厚生年金保険法（令和8年10月1日施行版。令和7年法律第74号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20261001_507AC0000000074",
       "where": "12条 短時間労働者の適用除外から報酬 8万8千円未満の要件がなくなる（最低賃金の減額特例の人は附則4条の6）",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kounen2027",
       "label": "厚生年金保険法（令和9年9月1日・令和10年9月1日・令和11年9月1日施行版）",
       "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20270901_507AC0000000074",
       "where": "20条の等級表: 第33級 68万円（2027-09）、第34級 71万円（2028-09）、第35級 75万円（2029-09）。今は第32級 65万円が上限",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kounenSize",
       "label": "厚生年金保険法（令和9年10月1日施行版）に載る令和7年法律第74号の附則",
       "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074",
       "where": "特定適用事業所の規模: 令和9年10月1日から36人以上、令和11年10月1日から21人以上、令和14年10月1日から11人以上、令和17年10月1日から規模要件なし",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mhlwNenkin",
       "label": "厚生労働省「年金制度改正法が成立しました」",
       "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
       "where": "「年金制度改正法が成立しました」／「被用者保険の適用拡大 、 在職老齢年金制度の見直し 、 遺族年金の見直し 、 標準報酬月額の上限の段階的引上げ」",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mhlwNenkinPdf",
       "label": "厚生労働省「社会経済の変化を踏まえた年金制度の機能強化のための国民年金法等の一部を改正する等の法律の概要」（PDF）",
       "url": "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
       "where": "令和7年6月13日成立。賃金要件の撤廃は公布から3年以内の政令で定める日（e-Gov の施行日は2026-10-01）。上限 68万（2027年9月）・71万（2028年9月）・75万（2029年9月）",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mhlwKenpo8",
       "label": "厚生労働省「健康保険法等の一部を改正する法律（令和８年法律第31号）の概要」",
       "url": "https://www.mhlw.go.jp/content/12400000/001713111.pdf",
       "where": "出産の標準的な費用の給付体系の見直し（現物給付化・全妊婦への現金給付）は「公布後２年以内に政令で定める日」。公布は令和8年6月5日",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kenpoRei2026",
       "label": "健康保険法施行令（令和8年8月1日施行版。令和8年政令第240号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240",
       "where": "42条 高額療養費算定基準額（70歳未満の区分ウ 85,800円＋（医療費−286,000円）×1% など）、41条の3・42条11項 年間の上限額（計算期間 8月1日〜翌年7月31日）",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kenpoRei2027",
       "label": "健康保険法施行令（令和9年8月1日施行版。同じ政令、未施行）",
       "url": "https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240",
       "where": "42条1項 70歳未満の所得区分が13に（標準報酬月額127万円以上 342,000円＋1% 〜 16万円未満 61,500円・多数回34,500円）、5項 70歳以上の外来 28,000円など",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mhlwKogaku",
       "label": "厚生労働省「高額療養費制度を利用される皆さまへ」（更新 2026年7月31日）",
       "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html",
       "where": "令和8年8月から月の上限額の見直しと年間上限の新設、令和9年8月から所得区分の細分化と年収200万円未満の多数回該当の引下げ。多数回該当の額は据え置き",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mhlwDattai",
       "label": "厚生労働省「年金制度改正法の主な改正内容」",
       "url": "https://www.mhlw.go.jp/content/12500000/001537487.pdf",
       "where": "脱退一時金の支給上限 5年→8年。施行は公布から4年以内の政令で定める日",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mojSouzoku",
       "label": "法務省「相続登記の申請義務化」",
       "url": "https://www.moj.go.jp/MINJI/souzokutouki-gimuka/index.html",
       "where": "令和6年4月1日から義務化。それより前に相続したことを知った不動産は令和9年3月31日までに登記",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "mojJusho",
       "label": "法務省「住所等変更登記の義務化について」",
       "url": "https://www.moj.go.jp/MINJI/minji05_00693.html",
       "where": "令和8年4月1日施行。変更日から2年以内。施行日より前の変更は令和10年3月31日まで（令和3年法律第24号 附則5条7項）",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kokunenHokenryo",
       "label": "日本年金機構「国民年金保険料」",
       "url": "https://www.nenkin.go.jp/service/kokunen/hokenryo/hokenryo.html",
       "where": "令和8年度 月17,920円",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     },
     {
       "key": "kyokaiRate",
       "label": "協会けんぽ「令和8年度都道府県単位保険料率」",
       "url": "https://www.kyoukaikenpo.or.jp/about/business/insurance_rate/rate_prefectures/r08/index.html",
       "where": "都道府県ごとの健康保険料率は3月分（4月納付分）から改定",
-      "checked": "2026-09-25"
+      "checked": "2026-11-12"
     }
   ],
   "items": [
@@ -318,7 +318,7 @@
         {
           "label": "国税庁「令和７年度税制改正による所得税の基礎控除の見直し等に関するＱ＆Ａ」",
           "url": "https://www.nta.go.jp/publication/pamph/gensen/0025005-051.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -352,7 +352,7 @@
         {
           "label": "こども家庭庁「子ども・子育て支援金制度について」被用者保険加入者向けリーフレット（令和8年4月1日更新）",
           "url": "https://www.cfa.go.jp/policies/kodomokosodateshienkinseido",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -376,7 +376,7 @@
         {
           "label": "文部科学省「高等学校等就学支援金の支給に関する法律の一部を改正する法律の施行等について（通知）」（令和8年3月31日）",
           "url": "https://www.mext.go.jp/a_menu/shotou/career/05010502/1408866_00004.htm",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -400,7 +400,7 @@
         {
           "label": "日本年金機構「在職老齢年金制度が改正されました」（更新 2026-04-01）",
           "url": "https://www.nenkin.go.jp/tokusetsu/zairoukaisei.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -418,7 +418,7 @@
         {
           "label": "法務省「住所等変更登記の義務化について」",
           "url": "https://www.moj.go.jp/MINJI/minji05_00693.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -442,12 +442,12 @@
         {
           "label": "厚生労働省「令和８年８月１日から支給限度額が変更になります」",
           "url": "https://www.mhlw.go.jp/content/001728499.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "雇用保険法 18条（賃金日額の自動変更）",
           "url": "https://laws.e-gov.go.jp/law/349AC0000000116",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -471,12 +471,12 @@
         {
           "label": "健康保険法施行令（令和8年8月1日施行版。令和8年政令第240号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/215IO0000000243/20260801_508CO0000000240",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「高額療養費制度を利用される皆さまへ」（更新 2026年7月31日）",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -500,17 +500,17 @@
         {
           "label": "厚生年金保険法（令和8年10月1日施行版。令和7年法律第74号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20261001_507AC0000000074",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「年金制度改正法が成立しました」",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「社会経済の変化を踏まえた年金制度の機能強化のための国民年金法等の一部を改正する等の法律の概要」（PDF）",
           "url": "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -534,7 +534,7 @@
         {
           "label": "国税庁 リーフレット「インボイス制度に関する令和８年度税制改正について」（令和8年4月、5月改訂）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -552,12 +552,12 @@
         {
           "label": "国民年金法（令和8年10月1日施行版。令和6年法律第47号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/334AC0000000141/20261001_506AC0000000047",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "こども家庭庁「子ども・子育て支援金制度について」被用者保険加入者向けリーフレット（令和8年4月1日更新）",
           "url": "https://www.cfa.go.jp/policies/kodomokosodateshienkinseido",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -586,12 +586,12 @@
         {
           "label": "国税庁「令和８年度税制改正（所得税の基礎控除の引上げ等関係）Ｑ＆Ａ」",
           "url": "https://www.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "国税庁「源泉所得税の改正のあらまし」（令和8年4月）",
           "url": "https://www.nta.go.jp/publication/pamph/gensen/2026kaisei.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -615,7 +615,7 @@
         {
           "label": "国税庁 リーフレット「インボイス制度に関する令和８年度税制改正について」（令和8年4月、5月改訂）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -649,7 +649,7 @@
         {
           "label": "国税庁「防衛特別所得税及び復興特別所得税の源泉徴収のあらまし（令和９年１月以後の源泉徴収）」",
           "url": "https://www.nta.go.jp/publication/pamph/pdf/0026005-024_02.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -667,7 +667,7 @@
         {
           "label": "国税庁「令和８年度税制改正（所得税の基礎控除の引上げ等関係）Ｑ＆Ａ」",
           "url": "https://www.nta.go.jp/users/gensen/2026kiso/pdf/0026005-024.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -691,7 +691,7 @@
         {
           "label": "所得税法（令和9年1月1日施行版。令和8年法律第12号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/340AC0000000033/20270101_508AC0000000012",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -715,7 +715,7 @@
         {
           "label": "租税特別措置法（令和9年1月1日施行版。令和8年法律第12号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/332AC0000000026/20270101_508AC0000000012",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -739,12 +739,12 @@
         {
           "label": "地方税法（令和9年1月1日施行版。令和8年法律第2号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "総務省「地方税法等の一部を改正する法律の概要」（令和8年度）",
           "url": "https://www.soumu.go.jp/main_content/001063704.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -762,7 +762,7 @@
         {
           "label": "法務省「相続登記の申請義務化」",
           "url": "https://www.moj.go.jp/MINJI/souzokutouki-gimuka/index.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -786,12 +786,12 @@
         {
           "label": "健康保険法施行令（令和9年8月1日施行版。同じ政令、未施行）",
           "url": "https://laws.e-gov.go.jp/law/215IO0000000243/20270801_508CO0000000240",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「高額療養費制度を利用される皆さまへ」（更新 2026年7月31日）",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/juuyou/kougakuiryou/index.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -820,12 +820,12 @@
         {
           "label": "厚生年金保険法（令和9年9月1日・令和10年9月1日・令和11年9月1日施行版）",
           "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20270901_507AC0000000074",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「年金制度改正法が成立しました」",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -849,17 +849,17 @@
         {
           "label": "厚生年金保険法（令和9年10月1日施行版）に載る令和7年法律第74号の附則",
           "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「年金制度改正法が成立しました」",
           "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000147284_00017.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「社会経済の変化を踏まえた年金制度の機能強化のための国民年金法等の一部を改正する等の法律の概要」（PDF）",
           "url": "https://www.mhlw.go.jp/content/12500000/001496971.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -883,7 +883,7 @@
         {
           "label": "国税庁「源泉所得税の改正のあらまし」（令和8年4月）",
           "url": "https://www.nta.go.jp/publication/pamph/gensen/2026kaisei.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -907,12 +907,12 @@
         {
           "label": "地方税法（令和10年1月1日施行版。令和8年法律第2号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/325AC0000000226/20280101_508AC0000000002",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "総務省「地方税法等の一部を改正する法律の概要」（令和8年度）",
           "url": "https://www.soumu.go.jp/main_content/001063704.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -930,7 +930,7 @@
         {
           "label": "法務省「住所等変更登記の義務化について」",
           "url": "https://www.moj.go.jp/MINJI/minji05_00693.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -959,7 +959,7 @@
         {
           "label": "厚生年金保険法（令和9年9月1日・令和10年9月1日・令和11年9月1日施行版）",
           "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20270901_507AC0000000074",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -983,7 +983,7 @@
         {
           "label": "国税庁 リーフレット「インボイス制度に関する令和８年度税制改正について」（令和8年4月、5月改訂）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1007,7 +1007,7 @@
         {
           "label": "雇用保険法（令和10年10月1日施行版。令和6年法律第26号による改正後）",
           "url": "https://laws.e-gov.go.jp/law/349AC0000000116/20281001_506AC0000000026",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1031,7 +1031,7 @@
         {
           "label": "国税庁 リーフレット「インボイス制度に関する令和８年度税制改正について」（令和8年4月、5月改訂）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice-review/pdf/0026004-099-01-1.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1060,7 +1060,7 @@
         {
           "label": "厚生年金保険法（令和9年9月1日・令和10年9月1日・令和11年9月1日施行版）",
           "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20270901_507AC0000000074",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1084,7 +1084,7 @@
         {
           "label": "厚生年金保険法（令和9年10月1日施行版）に載る令和7年法律第74号の附則",
           "url": "https://laws.e-gov.go.jp/law/329AC0000000115/20271001_507AC0000000074",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     }
@@ -1104,7 +1104,7 @@
         {
           "label": "協会けんぽ「令和8年度都道府県単位保険料率」",
           "url": "https://www.kyoukaikenpo.or.jp/about/business/insurance_rate/rate_prefectures/r08/index.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1122,7 +1122,7 @@
         {
           "label": "日本年金機構「国民年金保険料」",
           "url": "https://www.nenkin.go.jp/service/kokunen/hokenryo/hokenryo.html",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1140,12 +1140,12 @@
         {
           "label": "雇用保険法 18条（賃金日額の自動変更）",
           "url": "https://laws.e-gov.go.jp/law/349AC0000000116",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "厚生労働省「令和８年８月１日から支給限度額が変更になります」",
           "url": "https://www.mhlw.go.jp/content/001728499.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     }
@@ -1167,12 +1167,12 @@
         {
           "label": "国税庁 消費税率引下げ特設サイト（令和8年9月15日開設）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/zeiritsuhikisage.htm",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         },
         {
           "label": "国税庁 リーフレット「飲食料品に係る２年間の消費税率引下げについて」（令和８年９月、PDF）",
           "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/pdf/0026008-127_leaflet.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1192,7 +1192,7 @@
         {
           "label": "厚生労働省「健康保険法等の一部を改正する法律（令和８年法律第31号）の概要」",
           "url": "https://www.mhlw.go.jp/content/12400000/001713111.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     },
@@ -1212,7 +1212,7 @@
         {
           "label": "厚生労働省「年金制度改正法の主な改正内容」",
           "url": "https://www.mhlw.go.jp/content/12500000/001537487.pdf",
-          "checked": "2026-09-25"
+          "checked": "2026-11-12"
         }
       ]
     }

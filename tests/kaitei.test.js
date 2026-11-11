@@ -109,7 +109,7 @@ test('.ics は RFC 5545 の形（CRLF・75 オクテットの折り返し・終�
   const unfolded = ics.replace(/\r\n /g, '');
   assert.ok(unfolded.includes('UID:kaitei-2026-10-chingin@yorozu-craft.com'));
   assert.ok(unfolded.includes('DTSTART;VALUE=DATE:20261001\r\nDTEND;VALUE=DATE:20261002'));
-  assert.ok(unfolded.includes('DTSTAMP:20260925T000000Z'));
+  assert.ok(unfolded.includes('DTSTAMP:' + V.CHECKED.replace(/-/g, '') + 'T000000Z'), 'DTSTAMP は確認日');
   assert.ok(unfolded.includes('SUMMARY:【社保・年金】社会保険の賃金要件（月8.8万円）がなくなる'));
   assert.ok(unfolded.includes('URL:https://yorozu-craft.com/seido-keisan/kaitei/#i-2026-10-chingin'));
   // 年末・月末・うるう年の翌日
