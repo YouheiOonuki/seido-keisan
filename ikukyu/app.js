@@ -341,6 +341,7 @@
   (function () {
     var c = IV.CHECKED.split('-');
     $('asof-date').textContent = checkedJp;
+    if ($('about-checked')) $('about-checked').textContent = checkedJp;   // 「この道具について」の確認日も同じ値（HTML の値は控え）
     var now = new Date();
     var months = (now.getFullYear() - c[0]) * 12 + (now.getMonth() + 1 - c[1]);
     var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
