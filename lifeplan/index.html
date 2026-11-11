@@ -95,6 +95,7 @@
           <p class="detail" id="r-detail">今の年齢を入れると出ます。</p>
           <p class="detail" id="r-loan"></p>
           <p class="detail" id="r-kids"></p>
+          <p class="detail" id="r-ikukyu"></p>
         </div>
         <p class="small" id="r-premise">年金の帯は、老齢基礎年金の満額の場合です。</p>
         <div class="timeline" id="timeline"></div>
@@ -104,7 +105,7 @@
           <summary>年ごとの数字（表）</summary>
           <div class="table-wrap" tabindex="0">
             <table class="tbl num" id="rows">
-              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-iryohi" hidden>医療費控除で軽くなる税</th><th scope="col" class="col-kids" hidden>子の学年</th><th scope="col" class="col-kai" hidden>制度の改定</th></tr></thead>
+              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-iryohi" hidden>医療費控除で軽くなる税</th><th scope="col" class="col-ikukyu" hidden>育休・産休の給付</th><th scope="col" class="col-kids" hidden>子の学年</th><th scope="col" class="col-kai" hidden>制度の改定</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -143,6 +144,14 @@
       <details class="card opt" id="d-kids">
         <summary>子: <span class="opt-state" id="s-kids">なし</span></summary>
         <div class="kid-rows" id="kid-rows"></div>
+        <div class="field" id="f-ikukyu" hidden>
+          <label for="ikukyu">産休・育休</label>
+          <select id="ikukyu" data-k="ikukyu">
+            <option value="both">産休と育休</option>
+            <option value="leave">育休だけ</option>
+            <option value="none">取らない</option>
+          </select>
+        </div>
         <p class="small">生まれた日は聞かず、2日生まれとして学年を決めます。4月1日生まれの子は1学年上になります。</p>
       </details>
 
@@ -159,6 +168,13 @@
         <summary>税と社会保険の前提</summary>
         <p class="small">会社員（協会けんぽ・厚生年金・雇用保険）で、協会けんぽ・東京都の料率、扶養なし、賞与なしの年収として計算し、40〜64歳の介護保険料のほかは今年の表のまま64歳まで並べます。</p>
         <p class="small">医療費控除は、入れた年の医療費が毎年続くとして、保険金などの補てんなし・セルフメディケーション税制なしで計算します（<a href="../iryohi/">医療費控除の計算</a>と同じ計算）。高額療養費は月ごとの制度なので、この画面には入れていません。</p>
+      </details>
+
+      <details class="card opt" id="d-ikukyu" hidden>
+        <summary>育休・産休の給付の前提</summary>
+        <p class="small">月給は年収 ÷ 12 と置いています（賞与の分だけ、実際の給付より多く出ます）。</p>
+        <p class="small">休んでいる間の税と社会保険料の変化は、線に入れていません。</p>
+        <ul class="small" id="ikukyu-notes"></ul>
       </details>
 
       <details class="card opt">

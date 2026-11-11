@@ -1,6 +1,6 @@
 // ===========================
 // 人生の数字を 1 枚に（/seido-keisan/lifeplan/、yorozu-plans 企画書 102 の枝 1）— 画面の制御
-// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js、医療費控除は ../lib/iryohi.js、制度の改定は ../lib/kaitei.js をそのまま呼ぶ）。数をここで作らない
+// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js、医療費控除は ../lib/iryohi.js、制度の改定は ../lib/kaitei.js、育休・産休の給付は ../lib/ikukyu.js をそのまま呼ぶ）。数をここで作らない
 // 入力は送信しない。「この端末に保存」を押したときだけ、家庭の書類の箱（../lib/box.js、localStorage）の区画 lifeplan に入力を置く（企画書 102 の枝 7）
 // ===========================
 (function () {
@@ -111,9 +111,13 @@
         parts.push(STAGE_SHORT[bd.key] + ' ' + bd.entryAge);
       });
       if (c.support.to > c.support.from) svg.appendChild(el('rect', { x: x(c.support.from), y: y0, width: x(c.support.to) - x(c.support.from), height: KID_H, class: 'tl-support' }));
+      // 育休・産休の給付: 期間は 1 年ほどで帯にならないので、生まれた年の所に印 1 つ
+      var ik = b.ikukyu && b.ikukyu.n === c.n ? b.ikukyu : null;
+      if (ik) svg.appendChild(el('circle', { cx: x(ik.pos), cy: y0 + KID_H / 2, r: 4, class: 'tl-ikukyu' }));
       var t = parts.join('　');
       svg.appendChild(el('text', { x: Math.max(PAD_L, Math.min(x(c.bands[0].from), W - PAD_R - 9 * t.length)), y: y0 + KID_H + 13, class: 'tl-num' }, t));
-      label.push(name + ': 入学の年の親の年齢 ' + c.bands.map(function (bd) { return STAGE_NAME[bd.key] + ' ' + bd.entryAge + '歳'; }).join('、'));
+      label.push(name + ': 入学の年の親の年齢 ' + c.bands.map(function (bd) { return STAGE_NAME[bd.key] + ' ' + bd.entryAge + '歳'; }).join('、') +
+        (ik ? '、育休・産休の給付の印 ' + ik.birthAge + '歳の年' : ''));
     });
     // 制度の改定: 1 行。年ごとに印 1 つ（その年の件数）。1 年の幅はスマホで 4px ほどで指で押せないので、
     // 時間軸の上の印は見せるだけにし、押すのは時間軸の下の年ごとのボタン（その年の項目の題と施行日、/kaitei/ へのリンク）
@@ -152,7 +156,8 @@
       var kg = document.createElement('p');
       kg.className = 'small tl-legend';
       kg.innerHTML = '<span class="sw sw-elementary"></span>小学校 <span class="sw sw-junior"></span>中学校 <span class="sw sw-high"></span>高校 <span class="sw sw-university"></span>大学 ' +
-        '<span class="sw sw-support"></span>就学支援金の対象の期間（全日制の場合。<a href="../koko-mushoka/">高校無償化の計算</a>）';
+        '<span class="sw sw-support"></span>就学支援金の対象の期間（全日制の場合。<a href="../koko-mushoka/">高校無償化の計算</a>）' +
+        (b.ikukyu ? ' <span class="sw sw-ikukyu"></span>育休・産休の給付' : '');
       box.appendChild(kg);
     }
     if (kai.length) {
@@ -209,6 +214,24 @@
       irOn && !b.iryohi.byAge.some(function (r) { return r.total > 0; }) ? 'この医療費では、医療費控除で軽くなる税はありません。' : '';
     var kaiOn = !!b.kaitei;
     page.querySelectorAll('.col-kai').forEach(function (c) { c.hidden = !kaiOn; });
+    // 育休・産休: select は対象の子（1 歳になっていない子・これから生まれる子）と年収があるときだけ。前提の details と lib の注意は層が出ているときだけ
+    $('f-ikukyu').hidden = !(b.ready && d.children && d.income !== undefined && L.ikukyuChild(d.children, today()));
+    var ikOn = !!b.ikukyu;
+    page.querySelectorAll('.col-ikukyu').forEach(function (c) { c.hidden = !ikOn; });
+    $('d-ikukyu').hidden = !ikOn;
+    var notes = $('ikukyu-notes');
+    notes.textContent = '';
+    if (ikOn) b.ikukyu.notes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s; notes.appendChild(li); });
+    var rik = $('r-ikukyu');
+    rik.textContent = '';
+    if (ikOn) {
+      rik.appendChild(document.createTextNode((b.ikukyu.choice === 'leave' ? '育休の給付の目安' : '産休と育休の給付の目安') + ' 合計' + man(b.ikukyu.total) + '（子が1歳になるまで取った場合）'));
+      var ia = document.createElement('a');
+      ia.href = '../ikukyu/';
+      ia.textContent = '育休・産休の計算';
+      rik.appendChild(document.createTextNode(' '));
+      rik.appendChild(ia);
+    }
     $('kai-detail').hidden = true;
     $('income-msg').textContent = !b.tax ? '' : b.tax.error === 'over' ? '年収が2,000万円を超えると、税と社会保険の層は出せません（年末調整の対象外のため）。' :
       b.tax.error ? '税と社会保険の層は出せません。' : taxOn ? '' : '税と社会保険の層は64歳までです。';
@@ -238,6 +261,7 @@
       var cells = [r.age + '歳', r.loanPaid ? yen(r.loanPaid) : '', r.loanInterest ? yen(r.loanInterest) : '', r.pension ? yen(r.pension) : ''];
       if (taxOn) cells.push(r.tax ? yen(r.tax) : '');
       if (irOn) cells.push(r.iryohi ? yen(r.iryohi) : '');
+      if (ikOn) cells.push(r.ikukyu ? yen(r.ikukyu) : '');
       if (r.grades) cells.push(r.grades.filter(function (g) { return g; }).join('・'));
       if (kaiOn) cells.push(r.kaitei ? r.kaitei + '件' : '');
       cells.forEach(function (v, i) {
@@ -251,7 +275,7 @@
     setBar('年金 月' + yen(p.monthly));
     $('lp-actions').hidden = false;
     lastRows = L.rows(b, today());
-    lastLayers = ['tax', 'iryohi', 'loan', 'pension', 'children', 'kaitei'].filter(function (k) { return b[k] && !b[k].error && !b[k].errors; }).length;
+    lastLayers = ['tax', 'iryohi', 'loan', 'pension', 'children', 'kaitei', 'ikukyu'].filter(function (k) { return b[k] && !b[k].error && !b[k].errors; }).length;
     window.yzUsed?.();
   }
 

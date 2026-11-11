@@ -39,6 +39,8 @@ input[type="range"] { width: 100%; min-height: var(--tap); }
 .kai-detail ul { margin: 2px 0 4px; padding-left: 1.2em; }
 .tl-iryohi { fill: color-mix(in srgb, var(--accent) 55%, var(--card)); }   /* 年金（--ok）と分ける */
 #iryohi-msg:empty { display: none; }
+.tl-ikukyu, .tl-legend .sw-ikukyu { fill: var(--card); stroke: var(--text); stroke-width: 2; background: var(--card); border: 2px solid var(--text); border-radius: 50%; }   /* 育休・産休の給付の印（子の行の、生まれた年の所に 1 つ） */
+#r-ikukyu:empty, #ikukyu-notes:empty { display: none; }
 #lp-box-msg:empty { display: none; }
 #rows-print { display: none; }
 /* 印刷: A4 横 1 枚。入力欄・広告・固定バー・折りたたみの説明は消し（企画書 100 と同じ消し方）、
