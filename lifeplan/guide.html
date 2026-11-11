@@ -80,7 +80,8 @@
 
     <article class="card content" id="basis">
       <h2>根拠と確認日</h2>
-      <p>年金の率と満額は、国民年金法・同施行令と日本年金機構のページの原文で確かめた値です。最終確認日 <time datetime="2026-09-25">2026-09-25</time>。</p>
+      <p>年金の率と満額は、国民年金法・同施行令と日本年金機構のページの原文で確かめた値です。最終確認日 <time datetime="2026-11-11">2026-11-11</time>。</p>
+          <p>税と社会保険の層は、手取りの計算と同じ値と出典です（国税庁・総務省・厚生労働省・全国健康保険協会・こども家庭庁）。最終確認日 <time id="tax-checked" datetime="2026-10-01">2026-10-01</time>。出典の一覧は<a href="../en/take-home-pay/guide.html">手取りの計算の使い方（英語）</a>にあります。</p>
       <details class="rels">
         <summary>原文と条文</summary>
         <ul id="sources"></ul>
@@ -136,9 +137,13 @@
   </footer>
 
   <script src="../lib/kuriage-values.js"></script>
+  <script src="../lib/take-home-values.js"></script>
   <script>
     // 出典の一覧は lib/kuriage-values.js の SOURCES から描く（値と出典を 1 か所に保つ）
+    // 税と社会保険の層の確認日は lib/take-home-values.js の CHECKED（HTML の値は読み込めなかったときの控え）
     (function () {
+      var tc = document.getElementById('tax-checked');
+      if (tc && window.TakeHomeValues) { tc.dateTime = window.TakeHomeValues.CHECKED; tc.textContent = window.TakeHomeValues.CHECKED; }
       var ul = document.getElementById('sources');
       window.KuriageValues.SOURCES.forEach(function (s) {
         var li = document.createElement('li');
