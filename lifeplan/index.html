@@ -85,6 +85,10 @@
           <input type="range" id="pensionStart" data-k="pensionStart" min="60" max="75" step="1" value="65">
           <p class="hint">60〜64歳は繰上げ（減る）、66〜75歳は繰下げ（増える）。</p>
         </div>
+        <div class="field">
+          <label for="mikomi">65歳からの年金の見込額（任意・年額）</label>
+          <div class="money"><input type="number" id="mikomi" data-k="mikomi" inputmode="numeric" min="1" max="9999999" step="1" placeholder="ねんきん定期便の額"><span class="unit">円</span><output class="yomi" for="mikomi"></output></div>
+        </div>
       </fieldset>
 
       <section class="card result-card" aria-labelledby="h-result" id="result-card" tabindex="-1">
@@ -158,7 +162,8 @@
       <details class="card opt">
         <summary>年金の額の前提</summary>
         <ul class="small">
-          <li>65歳からの額は、老齢基礎年金の満額（令和8年度、月70,608円。1956年4月1日以前生まれは月70,408円）として計算します。厚生年金は入れていません。自分の額は<a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a>に、ねんきん定期便の見込額を入れて確かめられます。</li>
+          <li>見込額を入れないときは、65歳からの額を老齢基礎年金の満額（令和8年度、月70,608円。1956年4月1日以前生まれは月70,408円）とし、厚生年金は入れていません。基礎年金と厚生年金を分けて見るときは<a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a>で。</li>
+          <li>ねんきん定期便の見込額は、50歳以上（60歳未満）では今の加入条件のまま60歳まで加入したと仮定した額、50歳未満ではこれまでの加入実績だけで出した額です。</li>
           <li>年齢だけを入れるので、今日が誕生日の人として生まれ年を決めています。1962年4月1日以前生まれ（繰上げは1か月0.5%）と1952年4月1日以前生まれ（繰下げは70歳まで）の境の年齢では、1歳ずれることがあります。</li>
           <li>受け取り始める年は、その年齢に達した月の翌月分からなので11か月分で並べます。</li>
         </ul>
