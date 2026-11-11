@@ -39,3 +39,29 @@ input[type="range"] { width: 100%; min-height: var(--tap); }
 .kai-detail ul { margin: 2px 0 4px; padding-left: 1.2em; }
 .tl-iryohi { fill: color-mix(in srgb, var(--accent) 55%, var(--card)); }   /* 年金（--ok）と分ける */
 #iryohi-msg:empty { display: none; }
+#lp-box-msg:empty { display: none; }
+#rows-print { display: none; }
+/* 印刷: A4 横 1 枚。入力欄・広告・固定バー・折りたたみの説明は消し（企画書 100 と同じ消し方）、
+   左に結果と時間軸、右に年ごとの表（今の年齢から 100 歳まで最大 100 行を 1 枚に収める字の大きさ） */
+@media print {
+  @page { size: A4 landscape; margin: 8mm; }
+  .no-print, .fixed-bar, ins.adsbygoogle, .adsbygoogle, .app-footer, details.opt, #about-tool, .kai-years, .kai-detail, .app-header .subtitle, #form > p.small { display: none !important; }
+  .app-header h1 { font-size: 13pt; margin: 0 0 2mm; }
+  .app-main.layout-2col { display: block; max-width: none; padding: 0; }
+  .result-card { box-shadow: none; border: none; padding: 0; display: grid; grid-template-columns: 34% 1fr; column-gap: 5mm; align-items: start; }
+  .result-card > * { grid-column: 1; }
+  #rows-box { display: none !important; }
+  .result-card > #rows-print { grid-column: 2; grid-row: 1 / span 30; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3mm; align-items: start; }
+  .result-main { padding: 1.5mm; }
+  .result-main .big { font-size: 16pt; margin: 0; }
+  .result-main p, .result-card > p { font-size: 8pt; margin: 0.6mm 0; }
+  .timeline svg { max-height: 105mm; }
+  .tl-legend { font-size: 7pt; margin: 0.5mm 0; }
+  #rows-box > summary { display: none; }
+  .table-wrap { overflow: visible; }
+  .tbl { font-size: 6.4pt; line-height: 1.15; }
+  .tbl th, .tbl td { padding: 0.15mm 0.8mm; }
+  .tbl tbody th, .tbl td { white-space: nowrap; }
+  .tbl thead th { font-size: 5.6pt; line-height: 1.1; }
+  body { background: #fff; color: #000; }
+}

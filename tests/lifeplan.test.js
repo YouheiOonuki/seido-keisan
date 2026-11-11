@@ -83,11 +83,12 @@ test('年ごとの行: 今の年齢から 100 歳まで、返済か年金があ�
   assert.equal(r.find(x => x.age === 70).loanPaid, 0);
 });
 
-test('送信しない・保存しない（企画書 102 の 5.3）。used.js だけが送る', () => {
+test('送信しない（企画書 102 の 5.3）。used.js だけが送る。保存は画面が箱（lib/box.js）を通して端末にだけ（枝 7）', () => {
   for (const f of ['lifeplan/app.js', 'lib/lifeplan.js']) {
     const s = read(f);
-    for (const w of ['fetch(', 'sendBeacon', 'XMLHttpRequest', 'localStorage', 'WebSocket']) assert.ok(!s.includes(w), `${f} に ${w}`);
+    for (const w of ['fetch(', 'sendBeacon', 'XMLHttpRequest', 'WebSocket']) assert.ok(!s.includes(w), `${f} に ${w}`);
   }
+  assert.ok(!read('lib/lifeplan.js').includes('localStorage'), '計算の lib は保存しない');
   const html = read('lifeplan/index.html');
   assert.match(html, /<script src="\.\.\/used\.js"><\/script>/);
   assert.ok(read('lifeplan/app.js').includes('window.yzUsed?.()'));
@@ -313,5 +314,71 @@ test('枝 5: 行の列は軽くなる税の合計で、範囲は税と社会保�
   assert.deepEqual(b.iryohi.byAge.map((r) => r.age), b.tax.byAge.map((r) => r.age));
   const rs = L.rows(b, TODAY);
   for (const r of b.iryohi.byAge) assert.equal(rs.find((x) => x.age === r.age).iryohi, r.total);
+});
+
+// 枝 7（Q-166、企画書 102 の 5.2.5）: 印刷・箱・CSV
+const Box = require('../lib/box.js');
+const Meisai = require('../lib/meisai.js');
+function fakeStorage(init) {
+  const m = new Map(init ? Object.entries(init) : []);
+  return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), m };
+}
+// 画面の state は入力欄の文字のまま（数字も文字）
+const RAW = { age: '42', income: '6000000', iryohi: '250000', pensionStart: 67, loan: { principal: '30000000', years: '35', rate: '1.1', startAge: '38' }, children: [{ y: '2018', m: '4' }, {}, { y: '2023', m: '12' }] };
+
+test('枝 7: 箱の往復（保存して読み込むと build が deepEqual）', () => {
+  const st = fakeStorage();
+  assert.equal(Box.save(st, Box.setLifeplan(Box.load(st).box, { input: RAW, layers: 5 })), true);
+  const back = Box.lifeplan(Box.load(st).box);
+  assert.deepEqual(L.build(back.input, TODAY), L.build(RAW, TODAY));
+  assert.equal(back.layers, 5);
+});
+
+test('枝 7: meisai の区画は残り、明細を保存し直しても lifeplan は消えない。壊れた値は空から', () => {
+  const st = fakeStorage();
+  let box = Box.setSection(Box.empty(), 2026, 'meisai', { rows: [{ who: 'A', payee: 'B', kubun: ['shinryo'], amount: 1000, hoten: null }] });
+  Box.save(st, box);
+  Box.save(st, Box.setLifeplan(Box.load(st).box, { input: RAW, layers: 3 }));
+  assert.equal(Box.section(Box.load(st).box, 2026, 'meisai').rows.length, 1);
+  // 明細書の画面が保存し直す
+  Box.save(st, Box.setSection(Box.load(st).box, 2026, 'meisai', { rows: [] }));
+  assert.ok(Box.lifeplan(Box.load(st).box));
+  const broken = fakeStorage({ [Box.KEY]: '{not json' });
+  const r = Box.load(broken);
+  assert.equal(r.broken, true);
+  assert.equal(Box.lifeplan(r.box), null);
+  // 形の違う値は空の入力として読む（年齢が無いので層は出ない）
+  const odd = Box.lifeplan(Box.normalize({ years: {}, lifeplan: { input: { age: 'x', loan: 3, children: 'no' }, layers: -1 } }));
+  assert.equal(odd.input.age, null);
+  assert.deepEqual(odd.input.children, []);
+  assert.equal(odd.layers, 0);
+  assert.equal(L.build(odd.input, TODAY).ready, false);
+});
+
+test('枝 7: lifeplan の無い箱は前と同じ形（明細書の読み書きに鍵が増えない）', () => {
+  const box = Box.setSection(Box.empty(), 2026, 'meisai', { rows: [] });
+  assert.equal('lifeplan' in Box.normalize(box), false);
+  assert.deepEqual(Object.keys(Box.normalize(box)).sort(), ['version', 'years']);
+});
+
+test('枝 7: CSV は rows の行数 ＋ 見出し、BOM と CRLF、先頭のアポストロフィの決まりは明細書と同じ', () => {
+  const b = L.build(RAW, TODAY);
+  const list = L.rows(b, TODAY);
+  const csv = L.toCsv(list);
+  assert.ok(csv.startsWith('\uFEFF'));
+  assert.ok(csv.endsWith('\r\n'));
+  const lines = csv.slice(1).split('\r\n').filter(Boolean);
+  assert.equal(lines.length, list.length + 1);
+  assert.equal(L.csvRows(list)[0].length, lines[0].split(',').length);
+  for (const v of ['=1+1', '+81', '-5', '@x', '\tA', 'a,b', 'say "hi"', '普通', 12345, '', null]) assert.equal(L.cell(v), Meisai.cell(v), String(v));
+  assert.equal(L.CSV_NAME, 'lifeplan.csv');
+});
+
+test('枝 7: 画面は fetch・sendBeacon を使わず、localStorage は Box を通してだけ', () => {
+  const app = fs.readFileSync(path.join(__dirname, '..', 'lifeplan', 'app.js'), 'utf8');
+  assert.ok(!/\bfetch\s*\(|sendBeacon/.test(app));
+  assert.ok(!/localStorage\.(getItem|setItem)/.test(app));
+  const html = fs.readFileSync(path.join(__dirname, '..', 'lifeplan', 'index.html'), 'utf8');
+  assert.ok(html.indexOf('../lib/box.js') < html.indexOf('./app.js'));
 });
 

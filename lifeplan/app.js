@@ -1,7 +1,7 @@
 // ===========================
 // 人生の数字を 1 枚に（/seido-keisan/lifeplan/、yorozu-plans 企画書 102 の枝 1）— 画面の制御
 // 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js、医療費控除は ../lib/iryohi.js、制度の改定は ../lib/kaitei.js をそのまま呼ぶ）。数をここで作らない
-// 入力は保存も送信もしない（箱への保存は企画書 102 の枝 7）
+// 入力は送信しない。「この端末に保存」を押したときだけ、家庭の書類の箱（../lib/box.js、localStorage）の区画 lifeplan に入力を置く（企画書 102 の枝 7）
 // ===========================
 (function () {
   'use strict';
@@ -13,6 +13,9 @@
   var state = { pensionStart: 65, loan: {}, children: [{}, {}, {}] };
   var setBar = SP.fixbar();
   var SVG = 'http://www.w3.org/2000/svg';
+  var B = window.Box;
+  var lastRows = [], lastLayers = 0;
+  var store = (function () { try { return window.localStorage; } catch (e) { return null; } })();
 
   function today() { var n = new Date(); return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() }; }
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
@@ -210,6 +213,7 @@
     $('income-msg').textContent = !b.tax ? '' : b.tax.error === 'over' ? '年収が2,000万円を超えると、税と社会保険の層は出せません（年末調整の対象外のため）。' :
       b.tax.error ? '税と社会保険の層は出せません。' : taxOn ? '' : '税と社会保険の層は64歳までです。';
     if (!b.ready || !b.pension) {
+      $('lp-actions').hidden = true;
       SP.setText('r-big', '—');
       SP.setText('r-detail', '今の年齢を入れると出ます。');
       SP.setText('r-loan', '');
@@ -245,6 +249,9 @@
       tb.appendChild(tr);
     });
     setBar('年金 月' + yen(p.monthly));
+    $('lp-actions').hidden = false;
+    lastRows = L.rows(b, today());
+    lastLayers = ['tax', 'iryohi', 'loan', 'pension', 'children', 'kaitei'].filter(function (k) { return b[k] && !b[k].error && !b[k].errors; }).length;
     window.yzUsed?.();
   }
 
@@ -288,6 +295,62 @@
       render();
     });
   });
+  // --- 印刷・CSV・箱 ---
+  function download(name, blob) {
+    var a = document.createElement('a');
+    a.download = name;
+    a.href = URL.createObjectURL(blob);
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  }
+  $('lp-csv').addEventListener('click', function () { download(L.CSV_NAME, new Blob([L.toCsv(lastRows)], { type: 'text/csv;charset=utf-8' })); });
+  // 印刷では表の折りたたみを開き、終わったら元に戻す
+  // 印刷では年ごとの表を左右 2 段に組み直して A4 横 1 枚に収める（画面の表はそのまま。印刷のあとで消す）
+  window.addEventListener('beforeprint', function () {
+    var src = $('rows'), body = src.tBodies[0].rows;
+    var box = document.getElementById('rows-print') || document.createElement('div');
+    box.id = 'rows-print';
+    box.className = 'print-only';
+    box.textContent = '';
+    var half = Math.ceil(body.length / 2);
+    [[0, half], [half, body.length]].forEach(function (r) {
+      if (r[0] >= r[1]) return;
+      var t = document.createElement('table');
+      t.className = 'tbl num';
+      t.appendChild(src.tHead.cloneNode(true));
+      var tb = document.createElement('tbody');
+      for (var i = r[0]; i < r[1]; i++) tb.appendChild(body[i].cloneNode(true));
+      t.appendChild(tb);
+      box.appendChild(t);
+    });
+    $('rows-box').after(box);
+  });
+  window.addEventListener('afterprint', function () { var b = document.getElementById('rows-print'); if (b) b.remove(); });
+  $('lp-print').addEventListener('click', function () { window.print(); });
+  $('lp-save').addEventListener('click', function () {
+    var cur = B.load(store);
+    var ok = B.save(store, B.setLifeplan(cur.box, { input: state, layers: lastLayers }));
+    SP.setText('lp-box-msg', ok ? '入力をこの端末に保存しました。次に開いたとき、この入力から始まります。' : 'この端末に保存できませんでした（ブラウザの設定や容量のため）。');
+  });
+  // 箱に保存した入力があれば、そこから始める（壊れた値は空から）
+  (function () {
+    var saved = B.lifeplan(B.load(store).box);
+    if (!saved) return;
+    var i = saved.input;
+    state.pensionStart = i.pensionStart === null ? 65 : i.pensionStart;
+    page.querySelectorAll('[data-k]').forEach(function (f) {
+      var v = f.dataset.k.split('.').reduce(function (o, k) { return o === null || o === undefined ? null : o[k]; }, i);
+      if (v === null || v === undefined) return;
+      f.value = String(v);
+      setPath(state, f.dataset.k, f.value);
+      var o = page.querySelector('output.yomi[for="' + f.id + '"]');
+      if (o) o.textContent = f.value ? '（' + yomi(Number(f.value)) + '）' : '';
+    });
+  })();
+
+  // 確認日は年金の値の表（lib/kuriage-values.js の CHECKED）から。HTML の値は読み込めなかったときの控え
+  $('asof-date').textContent = jdate(window.KuriageValues.CHECKED);
   render();
   document.documentElement.classList.remove('js-loading');
 })();

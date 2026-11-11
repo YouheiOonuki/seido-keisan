@@ -28,6 +28,9 @@ const PAGE_PREFIXES = {
   "hikkoshi/index.html": [
     "seido-keisan_box"
   ],
+  "lifeplan/index.html": [
+    "seido-keisan_box"
+  ],
   "nenmatsu/hoken/index.html": [
     "seido-keisan_hoken_draft"
   ],
