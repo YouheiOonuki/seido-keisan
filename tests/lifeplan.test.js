@@ -533,3 +533,76 @@ test('枝 4: 画面に select（産休と育休・育休だけ・取らない）
   assert.ok(read('lifeplan/app.js').includes("'../ikukyu/'"));
 });
 
+// --- 枝 9: 年金の見込額（ねんきん定期便）を入れる（企画書 102 の 5.2.8、Q-181） ---
+
+const LV = require('../lib/lifeplan-values.js');
+const ikMix = { ...IK_BASE, children: [{ y: '2026', m: '5' }] };   // 今の年齢より前の行もある入力（枝 4 の (9)）
+
+test('枝 9 (1): 見込額が空なら、今の build・rows・CSV と deepEqual', () => {
+  for (const base of [RAW, ikMix, { age: '40' }]) {
+    const want = L.build(base, TODAY);
+    for (const v of ['', undefined, null]) {
+      const b = L.build({ ...base, mikomi: v }, TODAY);
+      assert.deepEqual(b, want);
+      assert.deepEqual(L.rows(b, TODAY), L.rows(want, TODAY));
+      assert.equal(L.toCsv(L.rows(b, TODAY)), L.toCsv(L.rows(want, TODAY)));
+    }
+    assert.equal('mikomi' in want.input, false);
+    assert.equal('mikomi' in want.pension, false);
+  }
+});
+
+test('枝 9 (2): 100 万円を入れると、開始 60・65・70・75 歳の帯の額は 100 万円 × 年金の繰上げ・繰下げの計算の率', () => {
+  const want = { 60: 760000, 65: 1000000, 70: 1420000, 75: 1840000 };   // −24%・0%・+42%・+84%（1962-04-02 以降生まれ）
+  for (const start of [60, 65, 70, 75]) {
+    const b = L.build({ age: '40', pensionStart: start, mikomi: '1000000' }, TODAY);
+    const k = Kuriage.calc({ birth: L.birthOf(40, TODAY), kiso: 1000000, age: start, mon: 0 }, '2026-11');
+    assert.equal(b.pension.annual, k.kiso, `${start} 歳から`);
+    assert.equal(b.pension.annual, Math.round(1000000 * (1 + b.pension.pct / 100)), `${start} 歳から`);
+    assert.equal(b.pension.annual, want[start]);
+    assert.equal(b.pension.pct, L.pensionLayer(40, start, TODAY).pct, '率は満額のときと同じ');
+    assert.equal(b.pension.mikomi, 1000000);
+    // 帯: 開始の年は 11 か月、次の年から 12 か月。表と CSV の年金の列もこの額
+    assert.equal(b.pension.byAge[0].annual, k.kiso * 11 / 12);
+    assert.equal(b.pension.byAge[1].annual, k.kiso);
+    const rows = L.rows(b, TODAY);
+    assert.equal(rows.find(r => r.age === b.pension.startAge + 1).pension, k.kiso);
+    assert.deepEqual(L.csvRows(rows)[0], L.csvRows(L.rows(L.build({ age: '40', pensionStart: start }, TODAY), TODAY))[0], 'CSV の頭は変わらない');
+  }
+});
+
+test('枝 9 (3): 範囲の外・整数でない・数字でない値は空として扱う', () => {
+  const want = L.build({ age: '40' }, TODAY);
+  for (const v of ['0', 0, '-1', '10000000', 10000000, '1000000.5', '100万', 'abc', ' ', '1e99', NaN, Infinity, true, {}, []]) {
+    assert.deepEqual(L.build({ age: '40', mikomi: v }, TODAY), want, String(v));
+  }
+  for (const v of ['1', 1, '9999999', 9999999, '0816000']) assert.ok(L.build({ age: '40', mikomi: v }, TODAY).pension.mikomi, String(v));
+  assert.equal(L.MIKOMI_MAX, 9999999);
+});
+
+test('枝 9 (4): 箱に見込額を持つ。欄の無い古いファイルは空として読める', () => {
+  const st = fakeStorage();
+  const raw = { ...RAW, mikomi: '1200000' };
+  Box.save(st, Box.setLifeplan(Box.load(st).box, { input: raw, layers: 5 }));
+  const back = Box.lifeplan(Box.load(st).box);
+  assert.equal(back.input.mikomi, 1200000);
+  assert.deepEqual(L.build(back.input, TODAY), L.build(raw, TODAY));
+  const old = Box.lifeplan(Box.normalize({ years: {}, lifeplan: { input: { age: 40, pensionStart: 65 }, layers: 1 } }));
+  assert.equal(old.input.mikomi, null);
+  assert.deepEqual(L.build(old.input, TODAY), L.build({ age: 40, pensionStart: 65 }, TODAY));
+});
+
+test('枝 9: 画面に見込額の欄、帯の上の 1 文の差し替え、ねんきん定期便の前提の 1 文。出典と確認日は lib/lifeplan-values.js', () => {
+  const html = read('lifeplan/index.html');
+  assert.match(html, /<input type="number" id="mikomi" data-k="mikomi"[^>]*max="9999999"/);
+  assert.ok(html.indexOf('id="mikomi"') < html.indexOf('</fieldset>'), '年金の区画（必須の区画）の中');
+  assert.ok(html.includes('50歳以上（60歳未満）では今の加入条件のまま60歳まで加入したと仮定した額、50歳未満ではこれまでの加入実績だけで出した額'));
+  const app = read('lifeplan/app.js');
+  assert.ok(app.includes("'入力した見込み額の場合'") && app.includes("'老齢基礎年金の満額の場合'"));
+  assert.ok(!/mikomi/.test(app.slice(app.indexOf('yzUsed'), app.indexOf('yzUsed') + 40)), 'used に乗せない');
+  assert.match(LV.CHECKED, /^\d{4}-\d{2}-\d{2}$/);
+  assert.deepEqual(LV.SOURCES.map(s => s.key), ['teikibinPage', 'teikibin50ijyou', 'teikibin50miman']);
+  for (const s of LV.SOURCES) assert.match(s.url, /^https:\/\/www\.nenkin\.go\.jp\/service\/nenkinkiroku\/torikumi\/teikibin\//);
+  assert.ok(read('lifeplan/guide.html').includes('<script src="../lib/lifeplan-values.js"></script>'));
+});
+

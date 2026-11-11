@@ -235,6 +235,9 @@
     $('kai-detail').hidden = true;
     $('income-msg').textContent = !b.tax ? '' : b.tax.error === 'over' ? '年収が2,000万円を超えると、税と社会保険の層は出せません（年末調整の対象外のため）。' :
       b.tax.error ? '税と社会保険の層は出せません。' : taxOn ? '' : '税と社会保険の層は64歳までです。';
+    // 年金の見込額を入れたときは、前提の語を「入力した見込み額の場合」に替える（企画書 102 の 5.2.8）
+    var basis = d.mikomi ? '入力した見込み額の場合' : '老齢基礎年金の満額の場合';
+    SP.setText('r-premise', '年金の帯は、' + basis + 'です。');
     if (!b.ready || !b.pension) {
       $('lp-actions').hidden = true;
       SP.setText('r-big', '—');
@@ -248,7 +251,7 @@
     }
     var p = b.pension;
     SP.setText('r-big', '月' + yen(p.monthly));
-    SP.setText('r-detail', p.startAge + '歳から（65歳からと比べて ' + (p.pct > 0 ? '+' : '') + p.pct + '%）。老齢基礎年金の満額の場合' +
+    SP.setText('r-detail', p.startAge + '歳から（65歳からと比べて ' + (p.pct > 0 ? '+' : '') + p.pct + '%）。' + basis +
       (p.clipped ? '。繰下げは' + p.startAge + '歳までの生まれ年です' : ''));
     SP.setText('r-loan', loanOn ? '住宅ローンは' + (b.loan.beyond ? '100歳を過ぎても続きます' : b.loan.payoffAge + '歳で完済') + '（毎月' + yen(b.loan.monthly) + '・利息の合計' + man(b.loan.totalInterest) + '）' : '');
     var last = kids.slice().sort(function (p, q) { return (q.birth.y - p.birth.y) || (q.birth.m - p.birth.m); })[0];

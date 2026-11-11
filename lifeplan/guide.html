@@ -64,7 +64,7 @@
       <h2>使い方</h2>
       <ol>
         <li>今の年齢を入れます。</li>
-        <li>年金を受け取り始める年齢（60〜75歳）をつまみで選びます。</li>
+        <li>年金を受け取り始める年齢（60〜75歳）をつまみで選びます。ねんきん定期便があれば、65歳からの見込額（年額）も入れられます。</li>
         <li>住宅ローンがあれば、「住宅ローン」を開いて借入額・返済期間・金利・借りた年齢を入れます。</li>
         <li>年収と年の医療費（どちらも任意）を入れると、税と社会保険、医療費控除で軽くなる税の層が出ます。子がいれば「子」を開いて生まれた年と月を選びます。</li>
         <li>0〜100歳の時間軸に層が並びます。制度の改定は、図の下の年のボタンで中身が出ます。年ごとの数字は図の下の表です。</li>
@@ -77,7 +77,7 @@
       <ul>
         <li>住宅ローンは元利均等返済で、金利は返済の終わりまで同じとします。計算は<a href="../../loan-sim/">住宅ローン 返済シミュレーター</a>と同じファイルです。</li>
         <li>年金は<a href="../nenkin-kuriage/">年金の繰上げ・繰下げの計算</a>と同じファイルで、65歳より早めると1か月0.4%減り（1962年4月1日以前生まれは0.5%）、遅らせると1か月0.7%増えます。</li>
-        <li>65歳からの額は老齢基礎年金の満額（令和8年度）です。厚生年金は入れていません。</li>
+        <li>65歳からの額は老齢基礎年金の満額（令和8年度）です。厚生年金は入れていません。ねんきん定期便の見込額（年額）を入れると、満額の代わりにその額で並べます。率は同じです。</li>
         <li>年収を入れると、会社員（協会けんぽ・東京都の料率、扶養なし、賞与なし）として社会保険料・所得税・住民税を出し、64歳まで並べます。年で変わるのは40〜64歳の介護保険料だけです。</li>
         <li>年齢だけを入れるので、今日が誕生日の人として生まれ年を決めます。</li>
         <li>将来の金利・物価・給料・運用の利回りは入れていません。今の値のまま並べた目安です。</li>
@@ -87,6 +87,7 @@
     <article class="card content" id="basis">
       <h2>根拠と確認日</h2>
       <p>年金の率と満額は、国民年金法・同施行令と日本年金機構のページの原文で確かめた値です。最終確認日 <time datetime="2026-11-11">2026-11-11</time>。</p>
+      <p>ねんきん定期便の見込額が年齢で何を表すかは、日本年金機構の「ねんきん定期便」の見方ガイドの原文で確かめました。確認日 <time id="teikibin-checked" datetime="2026-11-12">2026-11-12</time>。</p>
           <p>税と社会保険の層は、手取りの計算と同じ値と出典です（国税庁・総務省・厚生労働省・全国健康保険協会・こども家庭庁）。最終確認日 <time id="tax-checked" datetime="2026-10-01">2026-10-01</time>。出典の一覧は<a href="../en/take-home-pay/guide.html">手取りの計算の使い方（英語）</a>にあります。</p>
       <details class="rels">
         <summary>原文と条文</summary>
@@ -161,14 +162,17 @@
 
   <script src="../lib/kuriage-values.js"></script>
   <script src="../lib/take-home-values.js"></script>
+  <script src="../lib/lifeplan-values.js"></script>
   <script>
-    // 出典の一覧は lib/kuriage-values.js の SOURCES から描く（値と出典を 1 か所に保つ）
+    // 出典の一覧は lib/kuriage-values.js と lib/lifeplan-values.js（ねんきん定期便の見方）の SOURCES から描く（値と出典を 1 か所に保つ）
     // 税と社会保険の層の確認日は lib/take-home-values.js の CHECKED（HTML の値は読み込めなかったときの控え）
     (function () {
       var tc = document.getElementById('tax-checked');
       if (tc && window.TakeHomeValues) { tc.dateTime = window.TakeHomeValues.CHECKED; tc.textContent = window.TakeHomeValues.CHECKED; }
+      var lc = document.getElementById('teikibin-checked');
+      if (lc && window.LifeplanValues) { lc.dateTime = window.LifeplanValues.CHECKED; lc.textContent = window.LifeplanValues.CHECKED; }
       var ul = document.getElementById('sources');
-      window.KuriageValues.SOURCES.forEach(function (s) {
+      window.KuriageValues.SOURCES.concat(window.LifeplanValues ? window.LifeplanValues.SOURCES : []).forEach(function (s) {
         var li = document.createElement('li');
         var a = document.createElement('a'); a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = s.label;
         li.appendChild(a); li.appendChild(document.createTextNode('（' + s.where + '）'));
