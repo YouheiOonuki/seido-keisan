@@ -275,3 +275,43 @@ test('枝 6: 行の制度の改定の列は件数で、印のある年はほか�
     assert.equal(row.kaitei, r.items.length);
   }
 });
+
+// 枝 5（Q-165、企画書 102 の 5.2.4）: 医療費控除
+const Iryohi = require('../lib/iryohi.js');
+
+test('枝 5: 年収 3 例 × 医療費 3 例 × 年齢 39・40 で、控除額と軽くなる税が Iryohi.calc と一致', () => {
+  for (const income of [3000000, 5000000, 9000000]) {
+    for (const hiyo of [0, 100000, 500000]) {   // 100000 は総所得金額等が 200 万円以上なら控除額 0 になる額
+      const b = L.build({ age: 39, income, iryohi: hiyo }, TODAY);
+      for (const age of [39, 40]) {
+        const t = b.tax.byAge.find((r) => r.age === age);
+        const want = Iryohi.calc({ mode: 'kyuyo', income, hiyo, shakai: t.si });
+        const got = b.iryohi.byAge.find((r) => r.age === age);
+        assert.equal(got.kojo, want.kojo, `${income} ${hiyo} ${age} 控除額`);
+        assert.equal(got.incomeTax, want.tax.refund, `${income} ${hiyo} ${age} 所得税`);
+        assert.equal(got.resident, want.jumin, `${income} ${hiyo} ${age} 住民税`);
+        assert.equal(got.total, want.total);
+      }
+      if (hiyo === 100000) assert.ok(b.iryohi.byAge.every((r) => r.kojo === 0));
+      if (hiyo === 0) assert.ok(b.iryohi.byAge.every((r) => r.total === 0));
+    }
+  }
+});
+
+test('枝 5: 医療費なしなら前の枝までと同じ形、年収なしなら医療費だけでは層を出さない', () => {
+  const raw = { age: 45, income: 6000000, loan: { principal: 20000000, years: 30, rate: 1.2, startAge: 40 } };
+  const a = L.build(raw, TODAY), c = L.build({ ...raw, iryohi: undefined }, TODAY);
+  assert.deepEqual(a, c);
+  assert.equal('iryohi' in a, false);
+  assert.ok(L.rows(a, TODAY).every((r) => !('iryohi' in r)));
+  const noIncome = L.build({ age: 45, iryohi: 300000 }, TODAY);
+  assert.equal('iryohi' in noIncome, false);
+});
+
+test('枝 5: 行の列は軽くなる税の合計で、範囲は税と社会保険の層と同じ', () => {
+  const b = L.build({ age: 50, income: 5000000, iryohi: 400000 }, TODAY);
+  assert.deepEqual(b.iryohi.byAge.map((r) => r.age), b.tax.byAge.map((r) => r.age));
+  const rs = L.rows(b, TODAY);
+  for (const r of b.iryohi.byAge) assert.equal(rs.find((x) => x.age === r.age).iryohi, r.total);
+});
+
