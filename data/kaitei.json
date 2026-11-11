@@ -111,7 +111,7 @@
       "key": "chiho2027",
       "label": "地方税法（令和9年1月1日施行版。令和8年法律第2号による改正後）",
       "url": "https://laws.e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002",
-      "where": "292条 同一生計配偶者・扶養親族の合計所得金額 58万円→62万円以下",
+      "where": "292条 同一生計配偶者・扶養親族の合計所得金額 58万円→62万円以下。37条の2第11項・314条の7第11項 ふるさと納税の特例控除額に上限（道府県民税 77万2千円・市町村民税 115万8千円、指定都市は 38万6千円・154万4千円）。令和8年法律第2号 附則3条9項・11条8項 令和10年度分から",
       "checked": "2026-11-12"
     },
     {
@@ -580,6 +580,11 @@
           "name": "医療費控除の計算",
           "url": "https://yorozu-craft.com/seido-keisan/iryohi/",
           "note": "所得控除の合計を見積もるときの基礎控除に使う"
+        },
+        {
+          "name": "源泉徴収票の見方と手取り",
+          "url": "https://yorozu-craft.com/seido-keisan/gensen/",
+          "note": "票の所得控除の合計額と源泉徴収税額を、令和8年分のこの値で計算し直して確かめる"
         }
       ],
       "sources": [
@@ -733,6 +738,11 @@
           "name": "住民税の計算",
           "url": "https://yorozu-craft.com/seido-keisan/juminzei/",
           "note": "令和9年度分をこの値で計算する"
+        },
+        {
+          "name": "源泉徴収票の見方と手取り",
+          "url": "https://yorozu-craft.com/seido-keisan/gensen/",
+          "note": "ふるさと納税の上限の目安を、令和9年度分のこの値で出す"
         }
       ],
       "sources": [
@@ -744,6 +754,35 @@
         {
           "label": "総務省「地方税法等の一部を改正する法律の概要」（令和8年度）",
           "url": "https://www.soumu.go.jp/main_content/001063704.pdf",
+          "checked": "2026-11-12"
+        }
+      ]
+    },
+    {
+      "id": "2027-01-furusato",
+      "date": "2027-01-01",
+      "category": "zei",
+      "category_label": "税",
+      "title": "ふるさと納税の特例控除に上限193万円",
+      "what": "ふるさと納税で住民税から引かれる特例控除に、上限193万円ができる（令和9年の寄附から。令和10年度分の住民税）",
+      "who": "ふるさと納税をする人のうち、住民税の所得割が年およそ965万円を超える人",
+      "url": "https://yorozu-craft.com/seido-keisan/kaitei/#i-2027-01-furusato",
+      "tools": [
+        {
+          "name": "住民税の計算",
+          "url": "https://yorozu-craft.com/seido-keisan/juminzei/",
+          "note": "令和10年度分を足すときに入れる"
+        },
+        {
+          "name": "源泉徴収票の見方と手取り",
+          "url": "https://yorozu-craft.com/seido-keisan/gensen/",
+          "note": "令和10年度分を足すときに入れる"
+        }
+      ],
+      "sources": [
+        {
+          "label": "地方税法（令和9年1月1日施行版。令和8年法律第2号による改正後）",
+          "url": "https://laws.e-gov.go.jp/law/325AC0000000226/20270101_508AC0000000002",
           "checked": "2026-11-12"
         }
       ]
