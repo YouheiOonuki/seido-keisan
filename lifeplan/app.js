@@ -262,7 +262,7 @@
       if (taxOn) cells.push(r.tax ? yen(r.tax) : '');
       if (irOn) cells.push(r.iryohi ? yen(r.iryohi) : '');
       if (ikOn) cells.push(r.ikukyu ? yen(r.ikukyu) : '');
-      if (r.grades) cells.push(r.grades.filter(function (g) { return g; }).join('・'));
+      if ('grades' in r) cells.push(r.grades ? r.grades.filter(function (g) { return g; }).join('・') : '');
       if (kaiOn) cells.push(r.kaitei ? r.kaitei + '件' : '');
       cells.forEach(function (v, i) {
         var c = document.createElement(i ? 'td' : 'th');
