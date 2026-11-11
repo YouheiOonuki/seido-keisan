@@ -601,8 +601,8 @@ test('枝 9: 画面に見込額の欄、帯の上の 1 文の差し替え、ね�
   assert.ok(app.includes("'入力した見込み額の場合'") && app.includes("'老齢基礎年金の満額の場合'"));
   assert.ok(!/mikomi/.test(app.slice(app.indexOf('yzUsed'), app.indexOf('yzUsed') + 40)), 'used に乗せない');
   assert.match(LV.CHECKED, /^\d{4}-\d{2}-\d{2}$/);
-  assert.deepEqual(LV.SOURCES.map(s => s.key), ['teikibinPage', 'teikibin50ijyou', 'teikibin50miman', 'kouneiRei', 'kouneihoMikomi', 'kokunenhoMikomi']);
-  for (const s of LV.SOURCES) assert.match(s.url, /^https:\/\/(www\.nenkin\.go\.jp\/service\/nenkinkiroku\/torikumi\/teikibin\/|laws\.e-gov\.go\.jp\/law\/)/);
+  assert.deepEqual(LV.SOURCES.map(s => s.key), ['teikibinPage', 'teikibin50ijyou', 'teikibin50miman', 'kouneiRei', 'kouneihoMikomi', 'kokunenhoMikomi', 'kurisageMikomi']);
+  for (const s of LV.SOURCES) assert.match(s.url, /^https:\/\/(www\.nenkin\.go\.jp\/service\/(nenkinkiroku\/torikumi\/teikibin\/|jukyu\/seido\/roureinenkin\/kuriage-kurisage\/)|laws\.e-gov\.go\.jp\/law\/)/);
   assert.ok(read('lifeplan/guide.html').includes('<script src="../lib/lifeplan-values.js"></script>'));
 });
 
@@ -615,6 +615,28 @@ test('Q-213: 見込額を入れたときの注意・FAQ・計算しないこと�
   assert.ok(guide.includes('"text": "' + faq + '"'), 'JSON-LD');
   assert.ok(guide.includes('<dd>' + faq + '</dd>'), '本文');
   const where = LV.SOURCES.map(s => s.where).join('');
-  for (const art of ['3条の5の2', '6条の3', '8条の2の3', '44条の3第4項', '附則7条の3第2項', '附則13条の4', '28条1項', '附則9条の2第2項']) assert.ok(where.includes(art), art);
+  for (const art of ['3条の5の2', '6条の3', '8条の2の3', '44条の3第4項', '附則7条の3第2項', '附則13条の4', '附則9条の2第2項']) assert.ok(where.includes(art), art);
+  // 条文の行には条文に書いてあることだけ。「別々に繰り下げられる」「加給年金は増えない」は明記のある日本年金機構のページを根拠にする
+  for (const s of LV.SOURCES.filter(s => s.url.startsWith('https://laws.e-gov.go.jp/'))) assert.ok(!/定めは無い|加給/.test(s.where), s.key);
+  const ks = LV.SOURCES.find(s => s.key === 'kurisageMikomi');
+  assert.equal(ks.url, KV.SOURCES.find(s => s.key === 'kurisage').url);
+  assert.ok(ks.where.includes('「老齢基礎年金と老齢厚生年金は別々に繰り下げすることができます。」'));
+  assert.ok(ks.where.includes('「加給年金額や振替加算額は増額の対象になりません。」'));
+});
+
+test('Q-213: guide の出典一覧は同じ URL を 1 行にまとめて描く（where は並べる）', () => {
+  const vm = require('node:vm');
+  const guide = read('lifeplan/guide.html');
+  const code = guide.match(/<script>\s*(\/\/ 出典の一覧[\s\S]*?)<\/script>/)[1];
+  const lis = [];
+  const el = (tag) => ({ tag, children: [], text: '', appendChild(c) { this.children.push(c); }, set textContent(v) { this.text = v; } });
+  const ul = { appendChild: (li) => lis.push(li) };
+  const document = { getElementById: (id) => (id === 'sources' ? ul : null), createElement: el, createTextNode: (t) => ({ text: t }) };
+  vm.runInNewContext(code, { document, window: { KuriageValues: KV, LifeplanValues: LV } });
+  const urls = lis.map(li => li.children[0].href);
+  const all = [...KV.SOURCES, ...LV.SOURCES];
+  assert.equal(urls.length, new Set(urls).size, '同じ URL が 2 行出ない');
+  assert.deepEqual(new Set(urls), new Set(all.map(s => s.url)));
+  for (const s of all) assert.ok(lis[urls.indexOf(s.url)].children[1].text.includes(s.where), s.key);
 });
 
