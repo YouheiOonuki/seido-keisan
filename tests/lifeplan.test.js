@@ -382,3 +382,124 @@ test('枝 7: 画面は fetch・sendBeacon を使わず、localStorage は Box �
   assert.ok(html.indexOf('../lib/box.js') < html.indexOf('./app.js'));
 });
 
+// --- 枝 4: 育休・産休の給付（企画書 102 の 5.2.7、Q-178） ---
+
+const Ikukyu = require('../lib/ikukyu.js');
+// TODAY は 2026-11-05。生まれ月 3 例: 今月（もう生まれた）・半年前・3 か月先（まだ生まれていない）
+const IK_KIDS = [{ y: 2026, m: 11 }, { y: 2026, m: 5 }, { y: 2027, m: 2 }];
+const IK_BASE = { age: '33', income: '6000000', children: [{ y: '2026', m: '11' }] };
+const ikWant = (choice, k, income) => {
+  const due = `${k.y}-${String(k.m).padStart(2, '0')}-02`;
+  return Ikukyu.calc({ role: choice === 'leave' ? 'father' : 'mother', salary: Math.floor(income / 12), dueDate: due, birthDate: due <= '2026-11-05' ? due : '' });
+};
+const withoutIkukyu = (b) => { const c = { ...b }; delete c.ikukyu; return c; };
+
+test('枝 4 (1)(8): select 2 通り × 生まれ月 3 例で、層の合計は Ikukyu.calc の total、表と CSV の列の年ごとの和も total', () => {
+  for (const choice of ['both', 'leave']) for (const k of IK_KIDS) {
+    const raw = { age: '33', income: '6000000', children: [{ y: String(k.y), m: String(k.m) }], ikukyu: choice };
+    const b = L.build(raw, TODAY);
+    const want = ikWant(choice, k, 6000000);
+    assert.equal(want.ok, true);
+    assert.equal(b.ikukyu.total, want.total, `${choice} ${k.y}-${k.m}`);
+    assert.equal(b.ikukyu.byAge.reduce((s, r) => s + r.amount, 0), want.total);
+    const list = L.rows(b, TODAY);
+    assert.equal(list.reduce((s, r) => s + r.ikukyu, 0), want.total, `表の和 ${choice} ${k.y}-${k.m}`);
+    const csv = L.csvRows(list);
+    const col = csv[0].indexOf('育休・産休の給付（円）');
+    assert.ok(col > 0);
+    assert.equal(csv.slice(1).reduce((s, r) => s + r[col], 0), want.total);
+  }
+});
+
+test('枝 4: 4 つの額は、それぞれ期間の終わりの日の年（出産手当金・育児休業給付金の支給単位期間・出生後休業支援給付金）', () => {
+  const b = L.build({ ...IK_BASE, children: [{ y: '2026', m: '5' }] }, TODAY);
+  const r = ikWant('both', { y: 2026, m: 5 }, 6000000);
+  const at = (n) => { const [y, m, d] = Ikukyu.fmt(n).split('-').map(Number); return L.ageOn(33, TODAY, { y, m, d }).age; };
+  const want = {};
+  const put = (n, v) => { want[at(n)] = (want[at(n)] || 0) + v; };
+  put(r.teate.period.end, r.teate.total);
+  r.leave.periods.forEach((p) => put(p.end, p.amount));
+  if (r.shien.amount) put(r.shien.windowEnd, r.shien.amount);
+  assert.deepEqual(Object.fromEntries(b.ikukyu.byAge.map((x) => [x.age, x.amount])), want);
+  // 半年前に生まれた子は、終わった期間の額が今の年齢より前の年に入り、表はその年から始まる
+  assert.ok(b.ikukyu.byAge[0].age < 33);
+  assert.equal(L.rows(b, TODAY)[0].age, b.ikukyu.byAge[0].age);
+});
+
+test('枝 4 (2): 条件に当たる子がいない・年収が無いときは、枝 7 までと同じ build・rows・CSV（select の値で変わらない）', () => {
+  for (const raw of [RAW, { ...IK_BASE, children: [{ y: '2025', m: '11' }] }, { age: '33', children: [{ y: '2026', m: '11' }] }, { age: '33', income: '6000000' }]) {
+    const b = L.build(raw, TODAY);
+    assert.equal('ikukyu' in b, false);
+    for (const choice of ['both', 'leave', 'none']) {
+      const c = L.build({ ...raw, ikukyu: choice }, TODAY);
+      assert.deepEqual(c, b);
+      assert.deepEqual(L.rows(c, TODAY), L.rows(b, TODAY));
+      assert.equal(L.toCsv(L.rows(c, TODAY)), L.toCsv(L.rows(b, TODAY)));
+    }
+    assert.ok(!L.toCsv(L.rows(b, TODAY)).includes('育休'));
+  }
+});
+
+test('枝 4 (3): 「取らない」では層が無く、build・rows・CSV は層の無い形と同じ', () => {
+  for (const k of IK_KIDS) {
+    const raw = { ...IK_BASE, children: [{ y: String(k.y), m: String(k.m) }] };
+    const none = L.build({ ...raw, ikukyu: 'none' }, TODAY);
+    const base = withoutIkukyu(L.build(raw, TODAY));
+    assert.deepEqual(none, base);
+    assert.deepEqual(L.rows(none, TODAY), L.rows(base, TODAY));
+    assert.equal(L.toCsv(L.rows(none, TODAY)), L.toCsv(L.rows(base, TODAY)));
+    assert.ok(!L.toCsv(L.rows(none, TODAY)).includes('育休'));
+  }
+});
+
+test('枝 4 (4): 境。今日がちょうど 1 歳の誕生月の子は当たらず、その翌月生まれは当たる。2 人ならいちばん下の 1 人', () => {
+  assert.equal(L.ikukyuChild([{ n: 1, y: 2025, m: 11 }], TODAY), null);
+  assert.equal(L.ikukyuChild([{ n: 1, y: 2025, m: 12 }], TODAY).n, 1);
+  assert.equal(L.ikukyuChild([{ n: 1, y: 2026, m: 3 }, { n: 2, y: 2027, m: 1 }, { n: 3, y: 2020, m: 4 }], TODAY).n, 2);
+  assert.equal(L.build({ ...IK_BASE, children: [{ y: '2025', m: '11' }] }, TODAY).ikukyu, undefined);
+  assert.equal(L.build({ ...IK_BASE, children: [{ y: '2025', m: '12' }] }, TODAY).ikukyu.n, 1);
+  // 子 2 人のうち、層は下の子の行に
+  assert.equal(L.build({ ...IK_BASE, children: [{ y: '2026', m: '1' }, { y: '2027', m: '3' }] }, TODAY).ikukyu.n, 2);
+});
+
+test('枝 4 (6): 年収 600 万円では lib の notes と同じ文が同じ数だけ層に入る。300 万円では上限の文が無い', () => {
+  for (const k of IK_KIDS) for (const choice of ['both', 'leave']) {
+    const b = L.build({ ...IK_BASE, children: [{ y: String(k.y), m: String(k.m) }], ikukyu: choice }, TODAY);
+    assert.deepEqual(b.ikukyu.notes, ikWant(choice, k, 6000000).notes);
+    assert.ok(b.ikukyu.notes.some((s) => s.startsWith('賃金日額が上限')));
+    const low = L.build({ ...IK_BASE, income: '3000000', children: [{ y: String(k.y), m: String(k.m) }], ikukyu: choice }, TODAY);
+    assert.deepEqual(low.ikukyu.notes, ikWant(choice, k, 3000000).notes);
+    assert.ok(!low.ikukyu.notes.some((s) => s.startsWith('賃金日額が上限')));
+  }
+});
+
+test('枝 4 (7): 年収 11 円（月給 0 円で lib が ok: false）では層を出さず、層の無い形と同じ', () => {
+  const raw = { ...IK_BASE, income: '11' };
+  assert.equal(ikWant('both', IK_KIDS[0], 11).ok, false);
+  const b = L.build(raw, TODAY);
+  assert.equal('ikukyu' in b, false);
+  assert.deepEqual(b, L.build({ ...raw, ikukyu: 'none' }, TODAY));
+  // 12 円からは ok
+  assert.ok(L.build({ ...raw, income: '12' }, TODAY).ikukyu);
+});
+
+test('枝 4: 箱に select の値を持つ。欄の無い古いファイルは「産休と育休」として読める', () => {
+  const st = fakeStorage();
+  Box.save(st, Box.setLifeplan(Box.load(st).box, { input: { ...IK_BASE, ikukyu: 'leave' }, layers: 4 }));
+  const back = Box.lifeplan(Box.load(st).box);
+  assert.equal(back.input.ikukyu, 'leave');
+  assert.deepEqual(L.build(back.input, TODAY), L.build({ ...IK_BASE, ikukyu: 'leave' }, TODAY));
+  const old = Box.lifeplan(Box.normalize({ years: {}, lifeplan: { input: { age: 33, income: 6000000, children: [{ y: 2026, m: 11 }] }, layers: 2 } }));
+  assert.equal(old.input.ikukyu, 'both');
+  assert.equal(L.build(old.input, TODAY).ikukyu.choice, 'both');
+});
+
+test('枝 4: 画面に select（産休と育休・育休だけ・取らない）、前提の details、表の列、/ikukyu/ へのリンク', () => {
+  const html = read('lifeplan/index.html');
+  assert.match(html, /<select id="ikukyu" data-k="ikukyu">\s*<option value="both">産休と育休<\/option>\s*<option value="leave">育休だけ<\/option>\s*<option value="none">取らない<\/option>/);
+  assert.ok(html.includes('<summary>育休・産休の給付の前提</summary>'));
+  assert.ok(html.includes('class="col-ikukyu" hidden>育休・産休の給付</th>'));
+  assert.ok(html.indexOf('../lib/ikukyu.js') < html.indexOf('../lib/lifeplan.js'));
+  assert.ok(read('lifeplan/app.js').includes("'../ikukyu/'"));
+});
+
