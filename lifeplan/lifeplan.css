@@ -12,8 +12,8 @@
 .tl-principal, .sw-principal { fill: var(--accent); background: var(--accent); }
 .tl-interest, .sw-interest { fill: var(--accent-soft); background: var(--accent-soft); }
 .tl-pension, .sw-pension { fill: var(--ok); background: var(--ok); }
-.tl-now { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 3 2; }
-.tl-now-label { font-size: 11px; fill: var(--text); }
+.tl-now { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 3 2; pointer-events: none; }   /* 今の年齢の印（制度の改定）を押せるように */
+.tl-now-label { font-size: 11px; fill: var(--text); pointer-events: none; }
 .tl-legend .sw { display: inline-block; width: 0.9em; height: 0.9em; vertical-align: -0.1em; margin-left: var(--sp-2); border: 1px solid var(--border); }
 .tl-legend .sw:first-child { margin-left: 0; }
 input[type="range"] { width: 100%; min-height: var(--tap); }
@@ -32,3 +32,8 @@ input[type="range"] { width: 100%; min-height: var(--tap); }
 .kid-rows { display: grid; gap: var(--sp-2); }
 .kid-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 .kid-row .kid-n { min-width: 4em; }
+.tl-kai { fill: var(--text); }
+.kai-years { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
+.kai-years button { font: inherit; font-size: 13px; padding: 6px 10px; min-height: 36px; border: 1px solid var(--text); border-radius: 6px; background: var(--card); color: var(--text); cursor: pointer; }
+.kai-detail p { margin: 8px 0 2px; }
+.kai-detail ul { margin: 2px 0 4px; padding-left: 1.2em; }

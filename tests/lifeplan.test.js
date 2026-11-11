@@ -223,3 +223,55 @@ test('税と社会保険の層: 年ごとの行に tax（3 つの合計）。64 
   assert.ok(r.find(x => x.age === 50 && x.loanPaid === 0 && x.pension === 0 && x.tax > 0));
   assert.equal(r.find(x => x.age === 66).tax, 0);
 });
+
+// 枝 6（Q-164、企画書 102 の 5.2.3）: 制度の改定の印
+const Kaitei = require('../lib/kaitei.js');
+const KaiteiV = require('../lib/kaitei-values.js');
+const iso = (t) => `${t.y}-${String(t.m).padStart(2, '0')}-${String(t.d).padStart(2, '0')}`;
+
+test('枝 6: 層の項目の id は ITEMS の「まだ施行されていない」と一致し、位置は ageOn と同じ（today 2 つ）', () => {
+  for (const today of [{ y: 2026, m: 3, d: 31 }, { y: 2026, m: 11, d: 11 }]) {
+    const b = L.build({ age: 40 }, today);
+    const ids = b.kaitei.byAge.flatMap((r) => r.items.map((it) => it.id)).sort();
+    const want = KaiteiV.ITEMS.filter((it) => !Kaitei.isEnforced(it.date, iso(today))).map((it) => it.id).sort();
+    assert.deepEqual(ids, want);
+    assert.ok(want.length > 0);
+    for (const r of b.kaitei.byAge) for (const it of r.items) {
+      const [y, m, d] = it.date.split('-').map(Number);
+      const at = L.ageOn(40, today, { y, m, d });
+      assert.equal(it.pos, at.pos);
+      assert.equal(r.age, at.age);
+    }
+    assert.ok(KaiteiV.PENDING.every((p) => !ids.includes(p.id)));
+  }
+});
+
+test('枝 6: 施行日の当日は施行済み（入らない）、前日は入る', () => {
+  const it = KaiteiV.ITEMS.slice().sort((a, b) => (a.date < b.date ? 1 : -1))[0];   // いちばん遅い項目
+  const [y, m, d] = it.date.split('-').map(Number);
+  const on = L.build({ age: 40 }, { y, m, d });
+  assert.ok(!on.kaitei || !on.kaitei.byAge.some((r) => r.items.some((x) => x.id === it.id)));
+  const prev = new Date(Date.UTC(y, m - 1, d - 1));
+  const before = L.build({ age: 40 }, { y: prev.getUTCFullYear(), m: prev.getUTCMonth() + 1, d: prev.getUTCDate() });
+  assert.ok(before.kaitei.byAge.some((r) => r.items.some((x) => x.id === it.id)));
+});
+
+test('枝 6: today がどの項目よりも後なら kaitei の鍵も行の列も無い（枝 3 までと同じ形）', () => {
+  const today = { y: 2100, m: 1, d: 1 };
+  const raw = { age: 40, income: 5000000, loan: { principal: 30000000, years: 35, rate: 1, startAge: 40 }, children: [{ y: 2090, m: 5 }] };
+  const b = L.build(raw, today);
+  assert.equal('kaitei' in b, false);
+  const rs = L.rows(b, today);
+  assert.ok(rs.length > 0);
+  assert.ok(rs.every((r) => !('kaitei' in r)));
+});
+
+test('枝 6: 行の制度の改定の列は件数で、印のある年はほかの層が無くても行が出る', () => {
+  const b = L.build({ age: 40, pensionStart: 75 }, TODAY);
+  const rs = L.rows(b, TODAY);
+  for (const r of b.kaitei.byAge) {
+    const row = rs.find((x) => x.age === r.age);
+    assert.ok(row, `${r.age} 歳の行`);
+    assert.equal(row.kaitei, r.items.length);
+  }
+});
