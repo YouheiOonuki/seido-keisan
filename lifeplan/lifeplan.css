@@ -37,3 +37,5 @@ input[type="range"] { width: 100%; min-height: var(--tap); }
 .kai-years button { font: inherit; font-size: 13px; padding: 6px 10px; min-height: 36px; border: 1px solid var(--text); border-radius: 6px; background: var(--card); color: var(--text); cursor: pointer; }
 .kai-detail p { margin: 8px 0 2px; }
 .kai-detail ul { margin: 2px 0 4px; padding-left: 1.2em; }
+.tl-iryohi { fill: color-mix(in srgb, var(--accent) 55%, var(--card)); }   /* 年金（--ok）と分ける */
+#iryohi-msg:empty { display: none; }

@@ -76,6 +76,11 @@
           <p class="small error-text" id="income-msg" role="status"></p>
         </div>
         <div class="field">
+          <label for="iryohi">年の医療費（任意）</label>
+          <div class="money"><input type="number" id="iryohi" data-k="iryohi" inputmode="numeric" min="0" step="1000" placeholder="例：150000"><span class="unit">円</span><output class="yomi" for="iryohi"></output></div>
+          <p class="small error-text" id="iryohi-msg" role="status"></p>
+        </div>
+        <div class="field">
           <label for="pensionStart">年金を受け取り始める年齢: <output id="pensionStart-out" for="pensionStart">65歳</output></label>
           <input type="range" id="pensionStart" data-k="pensionStart" min="60" max="75" step="1" value="65">
           <p class="hint">60〜64歳は繰上げ（減る）、66〜75歳は繰下げ（増える）。</p>
@@ -99,7 +104,7 @@
           <summary>年ごとの数字（表）</summary>
           <div class="table-wrap" tabindex="0">
             <table class="tbl num" id="rows">
-              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-kids" hidden>子の学年</th><th scope="col" class="col-kai" hidden>制度の改定</th></tr></thead>
+              <thead><tr><th scope="col">年齢</th><th scope="col">住宅ローンの返済</th><th scope="col">うち利息</th><th scope="col">年金</th><th scope="col" class="col-tax" hidden>税と社会保険</th><th scope="col" class="col-iryohi" hidden>医療費控除で軽くなる税</th><th scope="col" class="col-kids" hidden>子の学年</th><th scope="col" class="col-kai" hidden>制度の改定</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -146,6 +151,7 @@
       <details class="card opt">
         <summary>税と社会保険の前提</summary>
         <p class="small">会社員（協会けんぽ・厚生年金・雇用保険）で、協会けんぽ・東京都の料率、扶養なし、賞与なしの年収として計算し、40〜64歳の介護保険料のほかは今年の表のまま64歳まで並べます。</p>
+        <p class="small">医療費控除は、入れた年の医療費が毎年続くとして、保険金などの補てんなし・セルフメディケーション税制なしで計算します（<a href="../iryohi/">医療費控除の計算</a>と同じ計算）。高額療養費は月ごとの制度なので、この画面には入れていません。</p>
       </details>
 
       <details class="card opt">
@@ -217,6 +223,8 @@
   <script src="../lib/dattai-values.js"></script>
   <script src="../lib/take-home-values.js"></script>
   <script src="../lib/take-home.js"></script>
+  <script src="../lib/iryohi-values.js"></script>
+  <script src="../lib/iryohi.js"></script>
   <script src="../lib/kaitei-values.js"></script>
   <script src="../lib/kaitei.js"></script>
   <script src="../lib/lifeplan.js"></script>

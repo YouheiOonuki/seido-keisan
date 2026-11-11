@@ -1,6 +1,6 @@
 // ===========================
 // 人生の数字を 1 枚に（/seido-keisan/lifeplan/、yorozu-plans 企画書 102 の枝 1）— 画面の制御
-// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js、制度の改定は ../lib/kaitei.js をそのまま呼ぶ）。数をここで作らない
+// 計算は ../lib/lifeplan.js（住宅ローンは ../lib/loan.js、年金は ../lib/kuriage.js、子の学年は ../lib/gakunen.js、税と社会保険は ../lib/take-home.js、医療費控除は ../lib/iryohi.js、制度の改定は ../lib/kaitei.js をそのまま呼ぶ）。数をここで作らない
 // 入力は保存も送信もしない（箱への保存は企画書 102 の枝 7）
 // ===========================
 (function () {
@@ -46,6 +46,7 @@
     if (!b.ready) return;
     var layers = [];
     if (b.tax && b.tax.byAge.length) layers.push('tax');
+    if (b.iryohi && b.iryohi.byAge.some(function (r) { return r.total > 0; })) layers.push('iryohi');
     if (b.loan && b.loan.byAge) layers.push('loan');
     if (b.pension) layers.push('pension');
     var kids = b.children || [];
@@ -55,13 +56,16 @@
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'tl' });
     var bw = (W - PAD_L - PAD_R) / 101;
     var max = 0;
-    var val = function (k, r) { return k === 'loan' ? r.paid : k === 'tax' ? r.total : r.annual; };
-    layers.forEach(function (k) { b[k].byAge.forEach(function (r) { max = Math.max(max, val(k, r)); }); });
+    var val = function (k, r) { return k === 'loan' ? r.paid : (k === 'tax' || k === 'iryohi') ? r.total : r.annual; };
+    // 医療費控除の軽くなる税は桁が小さいので、ほかの層と同じ物差しにせず、その行の中の最大で描く
+    layers.forEach(function (k) { if (k !== 'iryohi') b[k].byAge.forEach(function (r) { max = Math.max(max, val(k, r)); }); });
+    var maxIr = 0;
+    if (layers.indexOf('iryohi') >= 0) b.iryohi.byAge.forEach(function (r) { maxIr = Math.max(maxIr, r.total); });
     var yNext = TOP;
     layers.forEach(function (k) {
       var y0 = yNext;
       yNext += ROW_H + GAP;
-      var name = k === 'loan' ? '住宅ローンの返済' : k === 'tax' ? '税と社会保険' : '年金';
+      var name = k === 'loan' ? '住宅ローンの返済' : k === 'tax' ? '税と社会保険' : k === 'iryohi' ? '医療費控除で軽くなる税' : '年金';
       svg.appendChild(el('text', { x: PAD_L, y: y0 - 5, class: 'tl-name' }, name));
       svg.appendChild(el('line', { x1: PAD_L, x2: W - PAD_R, y1: y0 + ROW_H, y2: y0 + ROW_H, class: 'tl-base' }));
       b[k].byAge.forEach(function (r) {
@@ -72,6 +76,10 @@
             yy -= hh;
             svg.appendChild(el('rect', { x: x(r.age), y: yy, width: bw, height: hh, class: p[1] }));
           });
+        } else if (k === 'iryohi') {
+          if (!r.total) return;
+          var hr = ROW_H * r.total / maxIr;
+          svg.appendChild(el('rect', { x: x(r.age), y: y0 + ROW_H - hr, width: bw, height: hr, class: 'tl-iryohi' }));
         } else if (k === 'loan') {
           var hp = ROW_H * r.principal / max, hi = ROW_H * r.interest / max;
           svg.appendChild(el('rect', { x: x(r.age), y: y0 + ROW_H - hp, width: bw, height: hp, class: 'tl-principal' }));
@@ -82,11 +90,11 @@
         }
       });
       var first = b[k].byAge[0], last = b[k].byAge[b[k].byAge.length - 1];
-      var full = k === 'loan' ? first.paid : k === 'tax' ? first.total : (b[k].byAge[1] || first).annual;
-      var t = k === 'tax' ? '年' + man(full) + '（手取り 年' + man(first.net) + '）' : first.age + '歳から 年' + man(full);
+      var full = k === 'loan' ? first.paid : (k === 'tax' || k === 'iryohi') ? first.total : (b[k].byAge[1] || first).annual;
+      var t = k === 'tax' ? '年' + man(full) + '（手取り 年' + man(first.net) + '）' : k === 'iryohi' ? '軽くなる税 年' + yen(full) : first.age + '歳から 年' + man(full);
       var tx = Math.min(x(first.age), W - PAD_R - 7 * t.length);
       svg.appendChild(el('text', { x: tx, y: y0 + ROW_H + 14, class: 'tl-num' }, t));
-      label.push(name + ': ' + first.age + '〜' + last.age + '歳、年' + man(full) + (k === 'tax' ? '（手取り 年' + man(first.net) + '）' : ''));
+      label.push(name + ': ' + first.age + '〜' + last.age + '歳、年' + (k === 'iryohi' ? yen(full) : man(full)) + (k === 'tax' ? '（手取り 年' + man(first.net) + '）' : ''));
     });
     // 子の学年: 1 人 1 行、小・中・高・大学の帯。高校の帯のうち就学支援金の対象の年数に縁取り
     kids.forEach(function (c) {
@@ -192,6 +200,10 @@
     page.querySelectorAll('.col-kids').forEach(function (c) { c.hidden = !kids.length; });
     var taxOn = !!(b.tax && b.tax.byAge.length);
     page.querySelectorAll('.col-tax').forEach(function (c) { c.hidden = !taxOn; });
+    var irOn = !!(b.iryohi && b.iryohi.byAge.length);
+    page.querySelectorAll('.col-iryohi').forEach(function (c) { c.hidden = !irOn; });
+    $('iryohi-msg').textContent = d.iryohi === undefined ? '' : !taxOn ? '医療費控除の層は、年収を入れると出ます（64歳まで）。' :
+      irOn && !b.iryohi.byAge.some(function (r) { return r.total > 0; }) ? 'この医療費では、医療費控除で軽くなる税はありません。' : '';
     var kaiOn = !!b.kaitei;
     page.querySelectorAll('.col-kai').forEach(function (c) { c.hidden = !kaiOn; });
     $('kai-detail').hidden = true;
@@ -221,6 +233,7 @@
       var tr = document.createElement('tr');
       var cells = [r.age + '歳', r.loanPaid ? yen(r.loanPaid) : '', r.loanInterest ? yen(r.loanInterest) : '', r.pension ? yen(r.pension) : ''];
       if (taxOn) cells.push(r.tax ? yen(r.tax) : '');
+      if (irOn) cells.push(r.iryohi ? yen(r.iryohi) : '');
       if (r.grades) cells.push(r.grades.filter(function (g) { return g; }).join('・'));
       if (kaiOn) cells.push(r.kaitei ? r.kaitei + '件' : '');
       cells.forEach(function (v, i) {
