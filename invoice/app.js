@@ -222,6 +222,7 @@
   (function () {
     var c = V.CHECKED.split('-');
     $('asof-date').textContent = c[0] + '年' + (+c[1]) + '月' + (+c[2]) + '日';
+    if ($('about-checked')) $('about-checked').textContent = $('asof-date').textContent;   // 「この道具について」の確認日も同じ値（HTML の値は控え）
     var now = new Date();
     var months = (now.getFullYear() - c[0]) * 12 + (now.getMonth() + 1 - c[1]);
     if (months >= V.STALE_MONTHS) {
