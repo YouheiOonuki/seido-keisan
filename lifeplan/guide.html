@@ -171,11 +171,17 @@
       if (tc && window.TakeHomeValues) { tc.dateTime = window.TakeHomeValues.CHECKED; tc.textContent = window.TakeHomeValues.CHECKED; }
       var lc = document.getElementById('teikibin-checked');
       if (lc && window.LifeplanValues) { lc.dateTime = window.LifeplanValues.CHECKED; lc.textContent = window.LifeplanValues.CHECKED; }
+      // 同じ URL の行は 1 行にまとめ、名前は先に出た行のもの、where は「／」で並べる（Q-213）
       var ul = document.getElementById('sources');
+      var rows = [], byUrl = {};
       window.KuriageValues.SOURCES.concat(window.LifeplanValues ? window.LifeplanValues.SOURCES : []).forEach(function (s) {
+        if (byUrl[s.url]) { byUrl[s.url].where.push(s.where); return; }
+        byUrl[s.url] = { url: s.url, label: s.label, where: [s.where] }; rows.push(byUrl[s.url]);
+      });
+      rows.forEach(function (s) {
         var li = document.createElement('li');
         var a = document.createElement('a'); a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = s.label;
-        li.appendChild(a); li.appendChild(document.createTextNode('（' + s.where + '）'));
+        li.appendChild(a); li.appendChild(document.createTextNode('（' + s.where.join('／') + '）'));
         ul.appendChild(li);
       });
     })();
