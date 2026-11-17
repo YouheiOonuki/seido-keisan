@@ -13,4 +13,10 @@
 .lag, #r-warn { padding: var(--sp-2) var(--sp-3); margin: var(--sp-2) 0; background: var(--accent-soft); }
 #r-warn { border-left: 4px solid var(--text); background: var(--bg-2); }
 .lag:empty, #r-bonus:empty, #r-warn:empty { display: none; }
+.bands svg { width: 100%; height: auto; display: block; }
+.bands .bar { fill: var(--muted); }
+.bands .bar.is-you { fill: var(--accent); stroke: var(--text); stroke-width: 3; }
+.bands .bar-label { fill: var(--text); font-size: 20px; }
+.bands .bar-label.is-you { font-weight: 800; }
+.bands .bar-value { fill: var(--muted); font-size: 20px; }
 .kids { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--sp-2); }
