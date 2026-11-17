@@ -15,3 +15,20 @@
 /* 途中の計算: 見出しの列を狭めすぎない */
 #steps th { width: 45%; white-space: normal; }
 #steps td { white-space: normal; }
+
+/* 受け取る額の累計の図（Q-407）。2 本は色と線の種類で分ける */
+.zu-box { margin: var(--sp-3) 0; }
+.zu { display: block; width: 100%; height: auto; max-height: 360px; }
+.zu-grid { stroke: var(--border); stroke-width: 1; }
+.zu-tick { font-size: 12px; fill: var(--muted); text-anchor: middle; }
+.zu-tick-y { text-anchor: end; }
+.zu-tick-end { text-anchor: end; }
+.zu-opt { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.zu-base { fill: none; stroke: var(--text); stroke-width: 2; stroke-dasharray: 5 4; }
+.zu-name { font-size: 13px; fill: var(--text); text-anchor: end; }
+.zu-name-opt { fill: var(--accent); font-weight: 700; }
+.zu-be { fill: var(--card); stroke: var(--text); stroke-width: 2; }
+.zu-be-label { font-size: 13px; fill: var(--text); text-anchor: end; font-weight: 700; }
+.zu-pick { stroke: var(--muted); stroke-width: 1.5; }
+.zu-box input[type="range"] { width: 100%; min-height: var(--tap); margin: 0; }
+.zu-line { margin: 0; font-variant-numeric: tabular-nums; }

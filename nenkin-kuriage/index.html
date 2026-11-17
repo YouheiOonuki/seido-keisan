@@ -116,6 +116,11 @@
           </table>
         </div>
         <ul class="msgs" id="r-msgs"></ul>
+        <div class="zu-box" id="zu-box" hidden>
+          <div id="zu"></div>
+          <input type="range" id="zu-pick" min="60" max="100" step="1" value="70" aria-label="累計を読む年齢">
+          <p class="zu-line" id="zu-line" aria-live="polite"></p>
+        </div>
         <details class="rels" id="totals-box">
           <summary>年齢ごとの累計（65歳からとの差）</summary>
           <div class="table-wrap" tabindex="0">
@@ -245,6 +250,7 @@
   <script src="../lib/screen.js"></script>
   <script src="../lib/kuriage-values.js"></script>
   <script src="../lib/kuriage.js"></script>
+  <script src="./chart.js"></script>
   <script src="../reset-storage.js"></script>
   <script src="./app.js"></script>
   <script src="../lib/voice-input.js"></script>

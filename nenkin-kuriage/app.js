@@ -8,6 +8,7 @@
   var C = window.Kuriage;
   var V = window.KuriageValues;
   var S = window.ScreenParts;
+  var KC = window.KuriageChart;
 
   // --- ブラウザへの保存（README「ツールを追加するとき」12）。キーは必ず "seido-keisan_" で始める ---
   var KEY_PREFIX = 'seido-keisan_';
@@ -28,7 +29,7 @@
   var todayYm = now.getFullYear() + '-' + (now.getMonth() < 9 ? '0' : '') + (now.getMonth() + 1);
 
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
-  function man(n) { return (Math.round(n / 1000) / 10).toLocaleString('ja-JP') + '万円'; }
+  var man = KC.man;
   function yomi(n) {
     n = Number(n) || 0;
     if (n < 10000) return n ? n.toLocaleString('ja-JP') + '円' : '';
@@ -104,6 +105,7 @@
     $('s-work').textContent = d.wage ? '賃金 ' + man(d.wage) + '・' + d.workTo + '歳まで' : '働かない';
     $('totals-box').hidden = !r.ready;
     $('steps-box').hidden = !r.ready;
+    $('zu-box').hidden = !r.ready;
 
     if (!r.ready) {
       $('r-lead').textContent = '受け取り始める年齢を選ぶと';
@@ -112,6 +114,8 @@
       ['be', 'kiso', 'kosei', 'base', 'start'].forEach(function (k) { $('t-' + k).textContent = '—'; });
       $('compare').tBodies[0].textContent = '';
       $('work-note').textContent = '';
+      $('zu').textContent = '';
+      zu = null;
       setBar('');
       return;
     }
@@ -150,6 +154,8 @@
     tb.textContent = '';
     r.totals.forEach(function (x) { tr(tb, [x.age + '歳', man(x.opt), man(x.base), (x.diff >= 0 ? '＋' : '−') + man(Math.abs(x.diff))], x.diff >= 0 ? 'plus' : 'minus'); });
 
+    drawZu(r);
+
     // 途中の計算
     var box = $('steps');
     box.textContent = '';
@@ -184,6 +190,71 @@
     setBar(ageStr(C.ageOf(r.k1)) + 'から 年' + man(r.total));
     window.yzUsed?.();
   }
+
+  // --- 受け取る額の累計の図（60〜100歳）。つまみは読む所で、保存しない・結果を変えない ---
+  var SVG = 'http://www.w3.org/2000/svg';
+  var W = 400, H = 230, PL = 56, PR = 8, PT = 14, PB = 22;
+  var zu = null;   // { s: 図の累計, x, y, svg }
+  function el(name, attrs, text) {
+    var e = document.createElementNS(SVG, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function niceStep(max) {
+    var raw = max / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p;
+  }
+  function drawZu(r) {
+    var box = $('zu');
+    box.textContent = '';
+    var s = KC.series(C, r);
+    var n = s.opt.length - 1;
+    var top = Math.max(s.opt[n], s.base[n], 1);
+    var step = niceStep(top), ymax = Math.ceil(top / step) * step;
+    var x = function (i) { return PL + (W - PL - PR) * i / n; };
+    var y = function (v) { return PT + (H - PT - PB) * (1 - v / ymax); };
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'zu', 'aria-label': '60〜100歳の受け取る額の累計。この受け取り方と65歳から' });
+    for (var v = 0; v <= ymax + 0.5; v += step) {
+      svg.appendChild(el('line', { x1: PL, x2: W - PR, y1: y(v), y2: y(v), class: 'zu-grid' }));
+      svg.appendChild(el('text', { x: PL - 4, y: y(v) + 4, class: 'zu-tick zu-tick-y' }, v ? (v / 10000).toLocaleString('ja-JP') + '万' : '0'));
+    }
+    [60, 65, 70, 80, 90, 100].forEach(function (a) {
+      var i = (a - KC.FROM_AGE) * 12;
+      svg.appendChild(el('text', { x: x(i), y: H - 6, class: 'zu-tick' + (a === KC.TO_AGE ? ' zu-tick-end' : '') }, a + '歳'));
+    });
+    function path(arr) { var p = ''; for (var i = 0; i <= n; i++) p += (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(arr[i]).toFixed(1); return p; }
+    svg.appendChild(el('path', { d: path(s.base), class: 'zu-base' }));
+    svg.appendChild(el('path', { d: path(s.opt), class: 'zu-opt' }));
+    // 線の端の名前（上の線は上に、下の線は下に）
+    var yo = y(s.opt[n]), yb = y(s.base[n]);
+    var upOpt = yo <= yb;
+    svg.appendChild(el('text', { x: W - PR, y: (upOpt ? Math.min(yo, yb) - 6 : Math.max(yo, yb) + 14), class: 'zu-name zu-name-opt' }, 'この受け取り方'));
+    svg.appendChild(el('text', { x: W - PR, y: (upOpt ? Math.max(yo, yb) + 14 : Math.min(yo, yb) - 6), class: 'zu-name' }, '65歳から'));
+    // 逆転する月の印
+    var be = r.breakEven;
+    if (be && !be.never) {
+      var bi = be.t - s.t0, bx = x(bi), by = y(s.opt[bi]);
+      svg.appendChild(el('path', { d: 'M' + bx + ' ' + (by - 6) + 'L' + (bx + 6) + ' ' + by + 'L' + bx + ' ' + (by + 6) + 'L' + (bx - 6) + ' ' + by + 'Z', class: 'zu-be' }));
+      svg.appendChild(el('text', { x: bx - 8, y: by - 8, class: 'zu-be-label' }, ageStr(be.age)));
+    }
+    var mark = el('line', { y1: PT, y2: H - PB, class: 'zu-pick' });
+    svg.appendChild(mark);
+    box.appendChild(svg);
+    zu = { s: s, x: x, mark: mark };
+    var pick = $('zu-pick');
+    if (pickAge === null) pick.value = String(KC.defaultAge(r));
+    readZu();
+  }
+  var pickAge = null;   // 動かした年齢（このページを開いている間だけ）
+  function readZu() {
+    if (!zu) return;
+    var a = Number($('zu-pick').value);
+    var px = zu.x((a - KC.FROM_AGE) * 12);
+    zu.mark.setAttribute('x1', px); zu.mark.setAttribute('x2', px);
+    $('zu-line').textContent = KC.line(KC.at(zu.s, a));
+  }
+  $('zu-pick').addEventListener('input', function () { pickAge = Number(this.value); readZu(); });
 
   var saveTimer = null, lastSig = '';
   function update() {

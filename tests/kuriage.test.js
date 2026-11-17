@@ -197,3 +197,84 @@ test('使い方ページの表（増減と損益分岐）が計算と同じ', ()
     assert.equal(beText, r.breakEven.age.y + '歳' + r.breakEven.age.m + 'か月', age);
   }
 });
+
+// --- 受け取る額の累計の図（Q-407）: 図の点 ＝ lib の cumulativeTo の値、表の年齢では 図の数 ＝ 表の数 ---
+const KC = require('../nenkin-kuriage/chart.js');
+// cumulativeTo は lib の外に出していないので、lib の本文をそのまま読み、api に足しただけの写しで呼ぶ（計算は lib のまま）
+const LIB = (() => {
+  const vm = require('node:vm');
+  const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'kuriage.js'), 'utf8').replace('var api = {', 'var api = { cumulativeTo: cumulativeTo,');
+  const sb = { module: { exports: {} }, require: (p) => require(path.join(__dirname, '..', 'lib', p)) };
+  vm.runInNewContext(src, sb);
+  return sb.module.exports;
+})();
+const ZU_CASES = [
+  ['60歳から（繰上げ）', { birth: '1966-05-10', kiso: 800000, kosei: 1000000, age: 60 }],
+  ['65歳から', { birth: '1966-05-10', kiso: 800000, kosei: 1000000, age: 65 }],
+  ['75歳から（繰下げ）', { birth: '1966-05-10', kiso: 800000, kosei: 1000000, age: 75 }],
+  ['生年月日の境（1962-04-01 は 0.5%）・62歳3か月から', { birth: '1962-04-01', kiso: 780000, kosei: 0, age: 62, mon: 3 }],
+  ['生年月日の境（1962-04-02 は 0.4%）・62歳3か月から', { birth: '1962-04-02', kiso: 780000, kosei: 0, age: 62, mon: 3 }],
+  ['働きながら 70歳から（在職の分は calc のとおり累計に入る）', { birth: '1966-05-10', kiso: 800000, kosei: 2400000, age: 70, wage: 600000, workTo: 70 }],
+  ['基礎は65歳・厚生は72歳から', { birth: '1966-05-10', kiso: 800000, kosei: 1500000, age: 65, sep: true, kAge: 72 }],
+];
+
+test('図の点は、60〜100歳の全月で lib の cumulativeTo の値と同じ（60・65・75歳から、生年月日の境、在職、別々）', () => {
+  for (const [name, inp] of ZU_CASES) {
+    const r = C.calc(inp);
+    const s = KC.series(C, r);
+    assert.equal(s.opt.length, 481, name);
+    const d = Math.min(r.k1, r.k2) < 0 ? { ...r.input, wage: 0 } : r.input;
+    const opt = LIB.plan(d, r.k1, r.k2), base = LIB.plan(d, 0, 0);
+    const fromT = Math.min(r.k1, r.k2, 0) + 1;
+    for (let i = 0; i < 481; i++) {
+      const t = s.t0 + i;
+      assert.equal(s.opt[i], LIB.cumulativeTo(opt, fromT, t), name + ' t=' + t);
+      assert.equal(s.base[i], LIB.cumulativeTo(base, fromT, t), name + ' t=' + t);
+    }
+  }
+});
+
+test('表の年齢では、図の数 ＝ 表の数（totals の全行）', () => {
+  for (const [name, inp] of ZU_CASES) {
+    const r = C.calc(inp);
+    const s = KC.series(C, r);
+    for (const row of r.totals) assert.deepEqual(KC.at(s, row.age), row, name + ' ' + row.age + '歳');
+  }
+});
+
+test('つまみの既定: 逆転する年齢（か月があれば次の歳）、逆転なし・65歳からは表のいちばん上の年齢', () => {
+  const late = C.calc(ZU_CASES[2][1]);   // 75歳から: 逆転は 86歳11か月
+  assert.equal(late.breakEven.age.y, 86);
+  assert.equal(KC.defaultAge(late), 87);
+  assert.equal(KC.defaultAge(C.calc(ZU_CASES[1][1])), V.TOTAL_AGES[0]);
+  // 逆転なし: 厚生だけ 75歳から・働いて全部止まる → 100歳までに追いつかない
+  const never = C.calc({ birth: '1966-05-10', kiso: 0, kosei: 2400000, age: 75, wage: 2000000, workTo: 75 });
+  assert.ok(never.breakEven.never);
+  assert.equal(KC.defaultAge(never), V.TOTAL_AGES[0]);
+  // 逆転なしの線は 100 歳まで交わらない（図の数で）
+  const s = KC.series(C, never);
+  assert.ok(s.opt[480] <= s.base[480]);
+});
+
+test('つまみの 1 行: 動かした年齢までの 2 本の累計と差を、表と同じ書き方で', () => {
+  const r = C.calc({ birth: '1966-05-10', kiso: 800000, kosei: 1000000, age: 70 });
+  const s = KC.series(C, r);
+  // 70歳から: 年額 1,800,000 × 1.42 ＝ 2,556,000。80歳に達した月の分まで 10 年 ＝ 25,560,000、65歳からは 15 年 ＝ 27,000,000
+  assert.equal(KC.line(KC.at(s, 80)), '80歳まで　この受け取り方 2,556万円・65歳から 2,700万円・差 −144万円');
+  assert.equal(KC.line(KC.at(s, 60)), '60歳まで　この受け取り方 0万円・65歳から 0万円・差 ＋0万円');
+  const row = r.totals.find((x) => x.age === 90);
+  assert.equal(KC.line(KC.at(s, 90)), '90歳まで　この受け取り方 ' + KC.man(row.opt) + '・65歳から ' + KC.man(row.base) + '・差 ＋' + KC.man(row.diff));
+});
+
+test('年金の額が空のときは calc が ready にならない（図を出さない）・画面に「得」「損」「おすすめ」の語を足していない', () => {
+  assert.equal(C.calc({ birth: '1966-05-10' }).ready, false);
+  const app = fs.readFileSync(path.join(__dirname, '..', 'nenkin-kuriage', 'app.js'), 'utf8');
+  assert.match(app, /\$\('zu-box'\)\.hidden = !r\.ready/);
+  const chart = fs.readFileSync(path.join(__dirname, '..', 'nenkin-kuriage', 'chart.js'), 'utf8');
+  for (const w of ['得', '損', 'おすすめ']) assert.ok(!chart.includes("'" + w) && !/[^益]損|お得|得す|おすすめ/.test(chart.replace(/\/\/.*$/gm, '')), w);
+  const html = fs.readFileSync(path.join(__dirname, '..', 'nenkin-kuriage', 'index.html'), 'utf8');
+  assert.ok(html.indexOf('./chart.js') > html.indexOf('../lib/kuriage.js') && html.indexOf('./chart.js') < html.indexOf('./app.js'));
+  // つまみは保存しない（data-k を持たない）
+  assert.match(html, /<input type="range" id="zu-pick" min="60" max="100" step="1"/);
+  assert.doesNotMatch(html, /id="zu-pick"[^>]*data-k/);
+});
