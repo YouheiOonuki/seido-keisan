@@ -30,9 +30,13 @@
     nendo1: String(TV.juminNendo + 1),
     taxYear: String(TV.taxYear),
   };
+  // 給与階級別の構成比の図の出典の確認日（lib/kyuyo-bunpu-values.js）
+  var KB = window.KyuyoBunpuValues, q = KB.CHECKED.split('-');
+  v.bandsChecked = MONTHS[Number(q[1]) - 1] + ' ' + Number(q[2]) + ', ' + q[0];
   document.querySelectorAll('[data-v]').forEach(function (el) {
     var k = el.getAttribute('data-v');
     if (v[k] !== undefined) el.textContent = v[k];
     if (k === 'checked') el.setAttribute('datetime', TV.CHECKED);
+    if (k === 'bandsChecked') el.setAttribute('datetime', KB.CHECKED);
   });
 })();

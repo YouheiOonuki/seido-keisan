@@ -115,8 +115,53 @@
   }
   var CELLS = ['gross', 'health', 'shien', 'pension', 'koyo', 'tax', 'res', 'net'];
 
+  // --- 給与階級別の構成比の図（lib/kyuyo-bunpu-values.js。年齢は聞かない）。印は画面が年収に直した額（月給 × 12 ＋ 賞与）の階級 ---
+  var KB = window.KyuyoBunpuValues;
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function man(y) { return '¥' + (y / 1000000) + 'M'; }
+  function bandLabel(bars, i) {
+    var b = bars[i];
+    if (i === 0) return man(b.upTo) + ' or less';
+    if (b.upTo === null) return 'Over ' + man(bars[i - 1].upTo);
+    return man(bars[i - 1].upTo) + '–' + (b.upTo / 1000000) + 'M';
+  }
+  function share1(x) { return (Math.round(x * 10) / 10).toFixed(1) + '%'; }
+  function renderBands(yearYen) {
+    var g = T.salaryBands(KB, yearYen);
+    var box = $('bands');
+    box.textContent = '';
+    var W = 440, L = 140, R = 70, rowH = 32, H = g.bars.length * rowH + 4;
+    var max = g.bars.reduce(function (m, b) { return Math.max(m, b.share); }, 0);
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Employees by yearly salary: ' + g.bars.map(function (b, i) { return bandLabel(g.bars, i) + ' ' + share1(b.share); }).join(', ') +
+      (g.mark === null ? '' : '. Your salary is in ' + bandLabel(g.bars, g.mark)));
+    function el(name, attrs, text) {
+      var e = document.createElementNS(SVGNS, name);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      svg.appendChild(e); return e;
+    }
+    g.bars.forEach(function (b, i) {
+      var y = i * rowH + 2, you = i === g.mark ? ' is-you' : '';
+      var w = Math.max(2, (W - L - R) * b.share / max);
+      el('text', { x: L - 8, y: y + 22, 'text-anchor': 'end', class: 'bar-label' + you }, bandLabel(g.bars, i));
+      el('rect', { x: L, y: y + 5, width: w, height: 22, rx: 3, class: 'bar' + you, 'data-band': i });
+      el('text', { x: L + w + 8, y: y + 22, class: 'bar-value' }, share1(b.share));
+    });
+    box.appendChild(svg);
+    S.setText('bands-cum', g.mark === null ? '' : 'Up to this band: ' + share1(g.cumShare) + ' of employees who worked the whole year.');
+  }
+  (function () {
+    S.setText('bands-year', String(KB.year));
+    $('bands-checked').textContent = dateEn(KB.CHECKED);
+    $('bands-checked').setAttribute('datetime', KB.CHECKED);
+  })();
+
   function render() {
     var r = T.calc(state);
+    renderBands(r.ready ? r.year.gross : 0);
     var d = r.input;
     page.querySelector('[data-need="amount"]').classList.toggle('is-missing', !d.amount);
     S.setText('r-warn', r.error === 'over' ? 'Yearly pay over ¥20 million is outside this calculator: you file a tax return, and the year-end adjustment does not apply.' : '');
