@@ -151,7 +151,7 @@
       el('text', { x: L + w + 8, y: y + 22, class: 'bar-value' }, share1(b.share));
     });
     box.appendChild(svg);
-    S.setText('bands-cum', g.mark === null ? '' : 'Up to this band: ' + share1(g.cumShare) + ' of all employees.');
+    S.setText('bands-cum', g.mark === null ? '' : 'Up to this band: ' + share1(g.cumShare) + ' of employees who worked the whole year.');
   }
   (function () {
     S.setText('bands-year', String(KB.year));
