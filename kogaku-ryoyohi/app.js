@@ -234,7 +234,7 @@
     // 途中の計算
     var box = $('steps');
     box.textContent = '';
-    var t = document.createElement('table'); t.className = 'steps tbl';
+    var t = document.createElement('table'); t.className = 'steps tbl steps-wide-th';
     var tb = document.createElement('tbody');
     r.rows.forEach(function (x) { tr(tb, [WHO_LABEL[x.who] + '・' + (x.age === 'u70' ? '70歳未満' : '70歳以上') + '・' + (x.place === 'in' ? '入院' : '外来'), yen(x.cost) + ' × ' + Math.round(x.rate * 10) + '割 ＝ ' + yen(x.pay)]); });
     r.steps.forEach(function (s) {

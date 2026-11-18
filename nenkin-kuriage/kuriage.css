@@ -1,5 +1,6 @@
 /* ===========================
-   年金の繰上げ・繰下げ（nenkin-kuriage）と高額療養費（kogaku-ryoyohi）の画面だけの見た目。値は ../style.css のトークンだけを使う
+   年金の繰上げ・繰下げ（nenkin-kuriage）と高額療養費（kogaku-ryoyohi）の画面の見た目。値は ../style.css のトークンだけを使う
+   図の .zu-* は住民税（juminzei）の画面も読む（juminzei.css に写さない。Q-561）
    骨組みは style.css の SCREEN.md 1.1 の部品（.req・.fixed-bar・.layout-2col・details.card.opt）
    =========================== */
 .agepick { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
@@ -12,9 +13,9 @@
 /* 結果の要約表: 見出しの列を狭めすぎない・値は折り返す */
 .sum th { width: 42%; white-space: normal; }
 .sum td { white-space: normal; text-align: left; }
-/* 途中の計算: 見出しの列を狭めすぎない */
-#steps th { width: 45%; white-space: normal; }
-#steps td { white-space: normal; }
+/* 途中の計算: 見出しの列を狭めすぎない（年金と高額療養費の app.js が描く表だけ。#steps の裸の形は住民税の「途中の計算」の表にも当たった。Q-561） */
+.steps-wide-th th { width: 45%; white-space: normal; }
+.steps-wide-th td { white-space: normal; }
 
 /* 受け取る額の累計の図（Q-407）。2 本は色と線の種類で分ける */
 .zu-box { margin: var(--sp-3) 0; }

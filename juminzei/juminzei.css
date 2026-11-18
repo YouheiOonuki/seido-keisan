@@ -1,13 +1,5 @@
 /* 給与の収入と住民税の図（Q-509）。印は図の上のボタン（当たり 44px）。図も印も紙には出さない（紙の枚数を変えない）
-   線・目盛りの .zu-* は ../nenkin-kuriage/kuriage.css と同じ形。kuriage.css は読まない（その #steps th・td の幅がこの画面の「途中の計算」の表に当たり、紙が 6 枚 → 7 枚になった） */
-.zu-box { margin: var(--sp-3) 0; }
-.zu { display: block; width: 100%; height: auto; max-height: 360px; }
-.zu-grid { stroke: var(--border); stroke-width: 1; }
-.zu-tick { font-size: 12px; fill: var(--muted); text-anchor: middle; }
-.zu-tick-y { text-anchor: end; }
-.zu-tick-end { text-anchor: end; }
-.zu-opt { fill: none; stroke: var(--accent); stroke-width: 2.5; }
-.zu-pick { stroke: var(--muted); stroke-width: 1.5; }
+   線・目盛りの .zu-* は ../nenkin-kuriage/kuriage.css にあり、この画面はそれを先に読む（Q-561）。ここは住民税の図だけの .jzu-* */
 .jzu { position: relative; }
 .jzu-line { stroke: var(--muted); stroke-width: 1; }
 .jzu-line-name { font-size: 12px; fill: var(--muted); }
