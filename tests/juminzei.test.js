@@ -484,3 +484,100 @@ test('使い方ページの「給与だけの人の目安」の表と一致す�
     assert.equal(J.incomeLine(J.shotokuwariLimit(n, R9), R9), sho, `${n} 人・所得割`);
   }
 });
+
+// --- 給与の収入と住民税の図（Q-509）: 線の点 ＝ calc の年税額（画面の #r-big の数）。縦の線 ＝ incomeLine の額 ---
+const fs = require('node:fs');
+const path = require('node:path');
+const JC = require('../juminzei/chart.js');
+const zuInputs = () => {
+  const out = [];
+  for (const nendo of [R9, R8]) for (const sp of [false, true]) for (const k of [0, 2]) {
+    out.push({ name: `${nendo} 配偶者${sp ? 'あり' : 'なし'} 扶養${k}`, nendo, s: { income: 0, shakai: 0, spouse: { has: sp, amount: 0 }, relatives: Array.from({ length: k }, () => ({ age: '16-18' })) } });
+  }
+  return out;
+};
+const ZU_INCOMES = [100000, 1000000, 1100000, 1190000, 1200000, 2100000, 2560000, 3000000, 5000000, 8500000, 12000000, 20000000, 30000000];
+
+test('図（Q-509）: 印の所の線の高さ ＝ 年税額（年度 2 つ × 配偶者の有無 × 扶養 0・2 人の 8 通り）、縦の線 ＝ incomeLine の額', () => {
+  let n = 0;
+  for (const { name, nendo, s } of zuInputs()) for (const inc of ZU_INCOMES) {
+    const st = Object.assign({}, s, { income: inc });
+    const r = J.calc(J.normalizeInput(st), nendo);
+    assert.ok(JC.shows(J.normalizeInput(st)), name);
+    const f = JC.frame(J, st, nendo, r);
+    const pt = f.line.find((p) => p.income === inc);
+    assert.ok(pt, `${name} ${inc} の点が線にある`);
+    assert.equal(pt.total, r.total, `${name} ${inc}`);
+    assert.equal(f.hikazei, r.kintoLine, name);
+    assert.equal(f.hikazei, J.incomeLine(r.kintoLimit, nendo), name);
+    assert.ok(f.xMax >= inc * 2, `${name} 横の端は今の収入の 2 倍以上`);
+    if (f.hikazei > 0) {
+      assert.ok(f.xMax >= f.hikazei, `${name} 横の端は縦の線より先`);
+      assert.equal(f.line.find((p) => p.income === f.hikazei).total, 0, `${name} 縦の線の所は 0`);
+      assert.ok(f.line.find((p) => p.income === f.hikazei + 1).total > 0, `${name} 縦の線の 1 円先は 0 より大きい`);
+    }
+    for (const p of f.line) assert.equal(p.total, J.calc(J.normalizeInput(Object.assign({}, st, { income: p.income })), nendo).total);
+    n++;
+  }
+  assert.equal(n, 8 * ZU_INCOMES.length);
+});
+
+test('図を出さない（Q-509）: 給与の収入が空・0。生活保護で非課税のときは縦の線を引かない', () => {
+  assert.equal(JC.shows(J.normalizeInput({})), false);
+  assert.equal(JC.shows(J.normalizeInput({ income: '' })), false);
+  assert.equal(JC.shows(J.normalizeInput({ income: 0, self: { seikatsuhogo: true } })), false);
+  assert.equal(JC.shows(J.normalizeInput({ income: 100000 })), true);
+  const r = J.calc(J.normalizeInput({ income: 3000000, self: { seikatsuhogo: true } }), R9);
+  assert.equal(JC.hikazeiLine(r), -1);
+});
+
+test('図の印（Q-509）: ← → で 10 万円・Shift で 100 万円、引くと 10 万円きざみ、0 円と lib の上限の外へは動かない', () => {
+  assert.equal(JC.keyStep('ArrowRight', false), 100000);
+  assert.equal(JC.keyStep('ArrowLeft', false), -100000);
+  assert.equal(JC.keyStep('ArrowRight', true), 1000000);
+  assert.equal(JC.keyStep('ArrowLeft', true), -1000000);
+  assert.equal(JC.keyStep('Enter', false), 0);
+  const f = { xMax: 6000000 };
+  assert.equal(JC.incomeAtRatio(0.5, f), 3000000);
+  assert.equal(JC.incomeAtRatio(0.123456, f), 700000);
+  assert.equal(JC.incomeAtRatio(-1, f), 0);
+  assert.equal(JC.incomeAtRatio(2, f), 6000000);
+  assert.equal(JC.allowed(J, 0, '0', ''), false, '0 円は図が消える');
+  assert.equal(JC.allowed(J, -100000, '0', ''), false);
+  assert.equal(JC.allowed(J, 100000, '0', ''), true);
+  assert.equal(JC.allowed(J, 100000, '200000', ''), false, 'min より下');
+  assert.equal(JC.allowed(J, 100000000, '0', ''), true, 'lib の上限ちょうど');
+  assert.equal(JC.allowed(J, 100100000, '0', ''), false, 'lib が丸める額');
+});
+
+test('図の印（Q-509）: → を 5 回押す間、目盛りは同じで印は同じ幅ずつ右へ。端に着いた次の → で端が 2 倍。フォーカスを外すと開き直した時の端', () => {
+  const st = { income: 3000000 };
+  let held = JC.frame(J, st, R9, J.calc(J.normalizeInput(st), R9)).xMax;
+  const first = held, ats = [st.income / held];
+  for (let i = 0; i < 5; i++) {
+    const v = st.income + JC.keyStep('ArrowRight', false);
+    held = JC.growEnd(held, v); st.income = v;
+    const f = JC.frame(J, st, R9, J.calc(J.normalizeInput(st), R9), held);
+    assert.equal(f.xMax, first); assert.equal(f.xStep, JC.frame(J, { income: 3000000 }, R9, J.calc(J.normalizeInput({ income: 3000000 }), R9)).xStep);
+    ats.push(st.income / f.xMax);
+  }
+  for (let i = 1; i < ats.length; i++) assert.ok(Math.abs(ats[i] - ats[i - 1] - (ats[1] - ats[0])) < 1e-12);
+  assert.equal(JC.growEnd(first, first), first);
+  assert.equal(JC.growEnd(first, first + 100000), first * 2);
+  const fresh = JC.frame(J, st, R9, J.calc(J.normalizeInput(st), R9), 0);
+  assert.equal(fresh.xMax, JC.frame(J, st, R9, J.calc(J.normalizeInput(st), R9)).xMax);
+  const app = fs.readFileSync(path.join(__dirname, '..', 'juminzei', 'app.js'), 'utf8');
+  assert.match(app, /JC\.frame\(J, state, CUR, r, held\)/);
+  assert.match(app, /markBtn\.addEventListener\('focus', function \(\) \{ if \(zu\) held = zu\.f\.xMax; \}\)/);
+  assert.match(app, /markBtn\.addEventListener\('blur'[\s\S]{0,80}held = 0;/);
+});
+
+test('図は税の式を持たない（calc を呼ぶだけ）。chart.js は juminzei.js の後・app.js の前。図は紙に出さない', () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'juminzei', 'chart.js'), 'utf8').replace(/\/\/.*$/gm, '');
+  assert.doesNotMatch(src, /kyuyoShotoku|kintowariLimit|shotokuwariLimit|hikazei\.|mulRate|JuminzeiValues|0\.0[0-9]/);
+  const html = fs.readFileSync(path.join(__dirname, '..', 'juminzei', 'index.html'), 'utf8');
+  const i = html.indexOf('<script src="./chart.js"></script>');
+  assert.ok(i > html.indexOf('../lib/juminzei.js') && i < html.indexOf('./app.js'));
+  assert.match(html, /<button type="button" class="jzu-mark" id="jzu-mark">/);
+  assert.match(fs.readFileSync(path.join(__dirname, '..', 'juminzei', 'juminzei.css'), 'utf8'), /@media print \{ #jzu-box \{ display: none; \} \}/);
+});

@@ -45,6 +45,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./juminzei.css">
   <!-- 家族の行と結果は app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
   <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
 </head>
@@ -103,6 +104,9 @@
           <p class="lead" id="r-lead">令和9年度の住民税（年額）</p>
           <p class="big" id="r-big">—</p>
           <p class="detail" id="r-detail"></p>
+        </div>
+        <div class="zu-box" id="jzu-box" hidden>
+          <div class="jzu" id="jzu"><button type="button" class="jzu-mark" id="jzu-mark"><span class="jzu-mark-dot" aria-hidden="true"></span></button></div>
         </div>
 
         <div class="judge" id="judge">
@@ -359,6 +363,7 @@
   <script src="../lib/nenmatsu.js"></script>
   <script src="../lib/juminzei-values.js"></script>
   <script src="../lib/juminzei.js"></script>
+  <script src="./chart.js"></script>
   <script src="../lib/screen.js"></script>
   <script src="../reset-storage.js"></script>
   <script src="./app.js"></script>

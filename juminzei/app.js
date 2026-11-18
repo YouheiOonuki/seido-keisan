@@ -254,6 +254,7 @@
     updateSummaries(d);
     // 固定バーの文言は結果の大きな数字に名前を付けたもの
     setBar(!has ? '' : r.total === 0 ? '住民税 ' + $('r-big').textContent : '住民税（年額） ' + $('r-big').textContent);
+    drawZu(r, d);
 
     // 均等割・所得割の判定
     judge('j-kinto', r.kintoHikazei, r.reasons.kinto, has);
@@ -359,6 +360,112 @@
     }
     window.yzUsed?.();
   }
+
+  // --- 給与の収入と住民税の図（Q-509）: 線は収入だけを変えて calc を呼んだ年税額。印を左右に引く・← → で、給与の収入の欄を変える ---
+  // 線の点は chart.js が calc を呼んだ値。範囲は欄の min（属性から取る）と、lib が丸めない額
+  var JC = window.JuminzeiChart;
+  var SVG = 'http://www.w3.org/2000/svg';
+  var W = 400, H = 230, PL = 52, PR = 10, PT = 14, PB = 22;
+  var zu = null;        // 直近の { f: 枠 }（引くときに使う）
+  var slow = false;     // 1 回の計算と描き直しが 50 ms を超えたら、引いている間は計算せず、指を離した時だけ計算する
+  var drag = null;
+  var held = 0;         // 引いている間と、印にフォーカスがある間は横の端を保つ（Q-489 と同じ線）。0 は保たない
+  function el(name, attrs, text) {
+    var e = document.createElementNS(SVG, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function man(v) { return v ? (v / 10000).toLocaleString('ja-JP') + '万' : '0'; }
+  function drawZu(r, d) {
+    var box = $('jzu-box'), btn = $('jzu-mark'), old = $('jzu').querySelector('svg');
+    var show = JC.shows(d);
+    box.hidden = !show;
+    if (!show) { if (old) old.remove(); zu = null; return; }
+    var f = JC.frame(J, state, CUR, r, held);
+    var x = function (v) { return PL + (W - PL - PR) * v / f.xMax; };
+    var y = function (v) { return PT + (H - PT - PB) * (1 - v / f.yMax); };
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'zu', 'aria-label': '給与の収入と住民税（年額）' });
+    var yu = f.yMax >= 10000;   // 縦は 1 万円から上なら「万」で、下なら円の数字で
+    for (var v = 0; v <= f.yMax + 0.5; v += f.yStep) {
+      svg.appendChild(el('line', { x1: PL, x2: W - PR, y1: y(v), y2: y(v), class: 'zu-grid' }));
+      svg.appendChild(el('text', { x: PL - 4, y: y(v) + 4, class: 'zu-tick zu-tick-y' }, yu ? man(v) : v.toLocaleString('ja-JP')));
+    }
+    for (var c = 0; c <= f.xMax + 0.5; c += f.xStep) {
+      svg.appendChild(el('text', { x: x(c), y: H - 6, class: 'zu-tick' + (c + f.xStep > f.xMax + 0.5 ? ' zu-tick-end' : '') }, man(c)));
+    }
+    if (f.hikazei > 0 && f.hikazei <= f.xMax) {
+      var hx = x(f.hikazei);
+      svg.appendChild(el('line', { x1: hx, x2: hx, y1: PT, y2: H - PB, class: 'jzu-line' }));
+      svg.appendChild(el('text', { x: hx + 4, y: PT + 12, class: 'jzu-line-name' }, '非課税'));
+    }
+    svg.appendChild(el('path', { d: f.line.map(function (p, i) { return (i ? 'L' : 'M') + x(p.income).toFixed(1) + ' ' + y(p.total).toFixed(1); }).join(''), class: 'zu-opt' }));
+    var cx = x(d.income), cy = y(r.total);
+    svg.appendChild(el('line', { x1: cx, x2: cx, y1: PT, y2: H - PB, class: 'zu-pick' }));
+    if (old) $('jzu').replaceChild(svg, old); else $('jzu').insertBefore(svg, btn);
+    zu = { f: f };
+    btn.style.left = (cx / W * 100) + '%';
+    btn.style.top = (cy / H * 100) + '%';
+    btn.setAttribute('aria-label', '給与の収入 ' + yen(d.income));
+  }
+  function setIncome(v) {
+    $('income').value = String(v);
+    state.income = v;
+    updateYomi();
+  }
+  function runNow() {
+    var t0 = performance.now();
+    update();
+    slow = performance.now() - t0 > 50;
+  }
+  function tryIncome(v, compute) {
+    var fi = $('income');
+    if (v === J.normalizeInput(state).income || !JC.allowed(J, v, fi.min, fi.max)) return false;   // 0 円と lib の上限の外へは動かない
+    setIncome(v);
+    if (compute) runNow();
+    return true;
+  }
+  var markBtn = $('jzu-mark');
+  markBtn.addEventListener('keydown', function (e) {
+    var step = JC.keyStep(e.key, e.shiftKey);
+    if (!step || !zu) return;
+    e.preventDefault();
+    var prev = held, v = J.normalizeInput(state).income + step;
+    held = JC.growEnd(held || zu.f.xMax, v);   // 端に着いた次の → だけ、端を 2 倍にして描き直す
+    if (!tryIncome(v, true)) held = prev;
+  });
+  markBtn.addEventListener('focus', function () { if (zu) held = zu.f.xMax; });
+  markBtn.addEventListener('blur', function () {
+    if (drag) return;
+    held = 0;
+    var d = J.normalizeInput(state);
+    if (zu) drawZu(J.calc(d, CUR), d);   // 横の端を今の収入に合わせて描き直す（開き直した時と同じ端）
+  });
+  markBtn.addEventListener('pointerdown', function (e) {
+    if (e.button !== 0 || !zu) return;
+    e.preventDefault();
+    this.focus();
+    this.setPointerCapture(e.pointerId);
+    var rect = $('jzu').querySelector('svg').getBoundingClientRect();
+    drag = { id: e.pointerId, f: zu.f, left: rect.left + rect.width * PL / W, width: rect.width * (W - PL - PR) / W, moved: false };
+  });
+  markBtn.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var v = JC.incomeAtRatio((e.clientX - drag.left) / drag.width, drag.f);
+    if (tryIncome(v, !slow)) {
+      drag.moved = true;
+      if (slow) markBtn.style.left = ((PL + (W - PL - PR) * v / drag.f.xMax) / W * 100) + '%';   // 計算は指を離した時。印だけ指の下に付いてくる
+    }
+  });
+  function markUp(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var moved = drag.moved;
+    drag = null;
+    if (moved) { held = 0; lastSig = ''; runNow(); }   // 横の端を今の収入に合わせて描き直す
+    held = zu && document.activeElement === markBtn ? zu.f.xMax : 0;   // フォーカスが残る間は、描き直した端を保つ
+  }
+  markBtn.addEventListener('pointerup', markUp);
+  markBtn.addEventListener('pointercancel', markUp);
 
   // --- 「くわしく入れる」の summary（入力の状態。控除が付くかどうかは結果の「途中の計算」で見る） ---
   var setText = window.ScreenParts.setText, optText = window.ScreenParts.optText;
