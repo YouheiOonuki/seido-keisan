@@ -199,6 +199,7 @@
     $('s-year').textContent = d.yearPaid ? yen(d.yearPaid) : '入力なし';
     $('steps-box').hidden = !r.ready;
     renderTable();
+    drawZu(r);
     $('year-note').textContent = c && c.year ? p.label + 'の' + (c.o70name && ageplan() !== 'u70' ? c.o70name : c.name) + 'の年間上限は' + yen(c.year) + '。8月〜翌年7月の自己負担が超えた分は申請で戻ります（申請は2027年8月から）。' : '年間上限は2026年8月診療分からです。';
 
     if (!r.ready) {
@@ -247,6 +248,107 @@
     setBar('自己負担 ' + yen(r.self));
     window.yzUsed?.();
   }
+
+  // --- 医療費と払う額の図（Q-480）: 窓口の負担（破線）と自己負担（実線）。印を左右に引く・← → で、1か月の医療費の欄を変える ---
+  // 線の点は chart.js が calc を呼んだ値。範囲は欄の min・max（属性から取る）と、calc が結果を出せる額
+  var KC = window.KogakuChart;
+  var SVG = 'http://www.w3.org/2000/svg';
+  var W = 400, H = 230, PL = 52, PR = 10, PT = 14, PB = 22;
+  var zu = null;        // 直近の { f: 枠, x, y }（引くときに使う）
+  var slow = false;     // 1 回の計算と描き直しが 50 ms を超えたら、引いている間は計算せず、指を離した時だけ計算する
+  var drag = null;
+  function el(name, attrs, text) {
+    var e = document.createElementNS(SVG, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function man(v) { return v ? (v / 10000).toLocaleString('ja-JP') + '万' : '0'; }
+  function drawZu(r) {
+    var box = $('kzu-box'), btn = $('kzu-mark'), old = $('kzu').querySelector('svg');
+    var show = KC.shows(r);
+    box.hidden = !show;
+    if (!show) { if (old) old.remove(); zu = null; return; }
+    var f = KC.frame(C, state, todayYm, r, drag ? drag.f.xMax : 0);
+    var x = function (v) { return PL + (W - PL - PR) * v / f.xMax; };
+    var y = function (v) { return PT + (H - PT - PB) * (1 - v / f.yMax); };
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'zu', 'aria-label': '1か月の医療費と、窓口の負担・自己負担' });
+    for (var v = 0; v <= f.yMax + 0.5; v += f.yStep) {
+      svg.appendChild(el('line', { x1: PL, x2: W - PR, y1: y(v), y2: y(v), class: 'zu-grid' }));
+      svg.appendChild(el('text', { x: PL - 4, y: y(v) + 4, class: 'zu-tick zu-tick-y' }, man(v)));
+    }
+    for (var c = 0; c <= f.xMax + 0.5; c += f.xStep) {
+      svg.appendChild(el('text', { x: x(c), y: H - 6, class: 'zu-tick' + (c + f.xStep > f.xMax + 0.5 ? ' zu-tick-end' : '') }, man(c)));
+    }
+    function path(k) { return f.line.map(function (p, i) { return (i ? 'L' : 'M') + x(p.cost).toFixed(1) + ' ' + y(p[k]).toFixed(1); }).join(''); }
+    svg.appendChild(el('path', { d: path('paid'), class: 'zu-base' }));
+    svg.appendChild(el('path', { d: path('self'), class: 'zu-opt' }));
+    // 線の端の名前
+    var end = f.line[f.line.length - 1], mid = f.line[Math.round((f.line.length - 1) * 0.75)];   // 破線は右上がりなので、名前は 3/4 の所の線の左上に
+    svg.appendChild(el('text', { x: x(mid.cost) - 4, y: y(mid.paid) - 6, class: 'zu-name' }, '窓口の負担'));
+    svg.appendChild(el('text', { x: W - PR, y: y(end.self) - 6, class: 'zu-name zu-name-opt' }, '自己負担'));
+    // 今の医療費の所: 2 本の間（戻る額）
+    var cx = x(r.input.rows[0].cost), yp = y(r.paid), ys = y(r.self);
+    svg.appendChild(el('line', { x1: cx, x2: cx, y1: PT, y2: H - PB, class: 'zu-pick' }));
+    if (r.refund > 0) {
+      svg.appendChild(el('line', { x1: cx, x2: cx, y1: yp, y2: ys, class: 'zu-gap' }));
+      var right = cx < W * 0.6;
+      svg.appendChild(el('text', { x: cx + (right ? 6 : -6), y: (yp + ys) / 2 + 4, class: 'zu-gap-label' + (right ? '' : ' zu-gap-label-l') }, '戻る額 ' + yen(r.refund)));
+    }
+    if (old) $('kzu').replaceChild(svg, old); else $('kzu').insertBefore(svg, btn);
+    zu = { f: f };
+    btn.style.left = (cx / W * 100) + '%';
+    btn.style.top = (ys / H * 100) + '%';
+    btn.setAttribute('aria-label', '1か月の医療費 ' + yen(r.input.rows[0].cost));
+  }
+  function setCost(v) {
+    $('cost0').value = String(v);
+    state.rows[0].cost = v;
+    updateYomi();
+  }
+  function runNow(force) {
+    var t0 = performance.now();
+    update(force);
+    slow = performance.now() - t0 > 50;
+  }
+  function tryCost(v, compute) {
+    var ci = $('cost0');
+    if (v === state.rows[0].cost || !KC.allowed(C, state, todayYm, v, ci.min, ci.max)) return false;   // 結果が出ない額へは動かない
+    setCost(v);
+    if (compute) runNow();
+    return true;
+  }
+  var markBtn = $('kzu-mark');
+  markBtn.addEventListener('keydown', function (e) {
+    var d = KC.keyStep(e.key, e.shiftKey);
+    if (!d || !zu) return;
+    e.preventDefault();
+    tryCost(state.rows[0].cost + d, true);
+  });
+  markBtn.addEventListener('pointerdown', function (e) {
+    if (e.button !== 0 || !zu) return;
+    e.preventDefault();
+    this.focus();
+    this.setPointerCapture(e.pointerId);
+    var rect = $('kzu').querySelector('svg').getBoundingClientRect();
+    drag = { id: e.pointerId, f: zu.f, left: rect.left + rect.width * PL / W, width: rect.width * (W - PL - PR) / W, moved: false };
+  });
+  markBtn.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var v = KC.costAtRatio((e.clientX - drag.left) / drag.width, drag.f);
+    if (tryCost(v, !slow)) {
+      drag.moved = true;
+      if (slow) markBtn.style.left = ((PL + (W - PL - PR) * v / drag.f.xMax) / W * 100) + '%';   // 計算は指を離した時。印だけ指の下に付いてくる
+    }
+  });
+  function markUp(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var moved = drag.moved;
+    drag = null;
+    if (moved) runNow(true);   // 横の端を今の医療費に合わせて描き直す
+  }
+  markBtn.addEventListener('pointerup', markUp);
+  markBtn.addEventListener('pointercancel', markUp);
 
   var saveTimer = null, lastSig = '';
   function update(force) {
