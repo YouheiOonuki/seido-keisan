@@ -213,3 +213,89 @@ test('使い方ページの上限額の表が値の表（2026年8月から）と
   assert.ok(h.includes('<td>' + fmt(o.gairai) + '（年' + fmt(o.gairaiYear) + '）</td><td>' + fmt(o.o70.base) + '〈' + fmt(o.o70.many) + '〉</td>'));
   assert.ok(h.includes('<td>' + fmt(o1.gairai) + '</td><td>' + fmt(o1.o70.base) + '</td>'));
 });
+
+// --- 医療費と払う額の図（Q-480）: 線の点 ＝ calc の値。印の所の実線の高さ ＝ 結果の自己負担 ---
+const KC = require('../kogaku-ryoyohi/chart.js');
+const ZU_COSTS = [10000, 50000, 120000, 200000, 286000, 300000, 597000, 901000, 1000000, 1140000, 2500000, 5000000];
+const zuInputs = () => {
+  const out = [];
+  for (const p of V.PERIODS) for (const c of p.cats) for (const ap of ['u70', 'o70', 'kouki']) {
+    if (ap === 'u70' && c.o70only) continue;
+    for (const many of [false, true]) for (const place of ['in', 'out']) {
+      const age = ap === 'u70' ? 'u70' : 'o70', plan = ap === 'kouki' ? 'kouki' : 'kenpo';
+      const rate = age === 'o70' && c.gairai === null ? 0.3 : C.defaultRate(age, plan);
+      out.push({ name: [p.id, c.id, ap, many ? '多数回' : '', place].join(' '), s: { period: p.id, cat: c.id, plan, many, rows: [{ cost: 0, age, place, rate }] } });
+    }
+  }
+  return out;
+};
+
+test('図: 印の所の実線の高さ ＝ 結果の自己負担、破線 ＝ 窓口の負担（区分の全部 × 70歳未満・以上・75歳以上 × 多数回 × 入院・外来）', () => {
+  let n = 0;
+  for (const { name, s } of zuInputs()) for (const cost of ZU_COSTS) {
+    const st = JSON.parse(JSON.stringify(s)); st.rows[0].cost = cost;
+    const r = C.calc(st, '2026-11');
+    assert.ok(KC.shows(r), name);
+    const f = KC.frame(C, st, '2026-11', r);
+    const pt = f.line.find(p => p.cost === cost);
+    assert.ok(pt, name + ' ' + cost + ' の点が線にある');
+    assert.equal(pt.self, r.self, name + ' ' + cost);
+    assert.equal(pt.paid, r.paid, name + ' ' + cost);
+    assert.equal(pt.refund, r.refund, name + ' ' + cost);
+    assert.ok(f.xMax >= cost * 2, name + ' 横の端は今の医療費の 2 倍以上');
+    for (const b of KC.bends(C, st, '2026-11', r)) assert.ok(f.xMax >= b, name + ' 横の端は線が折れる所より先');
+    // 線のどの点も calc と同じ（窓口の負担 ≧ 自己負担）
+    for (const p of f.line) assert.ok(p.paid >= p.self && p.self >= 0, name + ' ' + p.cost);
+    n++;
+  }
+  assert.ok(n > 1500, '組の数 ' + n);
+});
+
+test('図: 戻る額が出はじめる所は、その 1 円前で戻る額 0・その所で 0 より大きい', () => {
+  for (const { name, s } of zuInputs()) {
+    const st = JSON.parse(JSON.stringify(s)); st.rows[0].cost = 1000000;
+    const r = C.calc(st, '2026-11');
+    const b = KC.bends(C, st, '2026-11', r)[0];
+    if (!(KC.at(C, st, '2026-11', 1e9).refund > 0)) continue;
+    assert.ok(KC.at(C, st, '2026-11', b).refund > 0, name);
+    assert.equal(KC.at(C, st, '2026-11', b - 1).refund, 0, name);
+  }
+});
+
+test('図を出さない: 医療費が空、所得区分が空、世帯合算の行が 2 つ以上', () => {
+  assert.equal(KC.shows(C.calc({ cat: 'u', rows: [{ cost: 0 }] }, '2026-11')), false);
+  assert.equal(KC.shows(C.calc({ cat: '', rows: [{ cost: 100000 }] }, '2026-11')), false);
+  assert.equal(KC.shows(C.calc({ cat: 'u', rows: [{ cost: 100000 }, { who: 'f1', cost: 50000 }] }, '2026-11')), false);
+  assert.equal(KC.shows(C.calc({ cat: 'u', rows: [{ cost: 100000 }, { who: 'f1', cost: 0 }] }, '2026-11')), false);
+  assert.equal(KC.shows(C.calc({ cat: 'u', rows: [{ cost: 100000 }] }, '2026-11')), true);
+});
+
+test('図の印: ← → で 1 万円・Shift で 10 万円、引くと 1 万円きざみ、結果の出ない額と欄の min・max の外へは動かない', () => {
+  assert.equal(KC.keyStep('ArrowRight', false), 10000);
+  assert.equal(KC.keyStep('ArrowLeft', false), -10000);
+  assert.equal(KC.keyStep('ArrowRight', true), 100000);
+  assert.equal(KC.keyStep('ArrowLeft', true), -100000);
+  assert.equal(KC.keyStep('ArrowUp', false), 0);
+  const f = { xMax: 2000000 };
+  assert.equal(KC.costAtRatio(0.5, f), 1000000);
+  assert.equal(KC.costAtRatio(0.123456, f), 250000);
+  assert.equal(KC.costAtRatio(-1, f), 0);
+  assert.equal(KC.costAtRatio(2, f), 2000000);
+  const st = { cat: 'u', rows: [{ cost: 5000 }] };
+  assert.equal(KC.allowed(C, st, '2026-11', 0, '0', ''), false, '0 円は結果が出ない');
+  assert.equal(KC.allowed(C, st, '2026-11', -5000, '0', ''), false);
+  assert.equal(KC.allowed(C, st, '2026-11', 10000, '0', ''), true);
+  assert.equal(KC.allowed(C, st, '2026-11', 10000, '20000', ''), false, 'min より下');
+  assert.equal(KC.allowed(C, st, '2026-11', 90000000, '0', '80000000'), false, 'max より上');
+  assert.equal(KC.allowed(C, { cat: '', rows: [{ cost: 5000 }] }, '2026-11', 10000, '0', ''), false, '区分が空');
+});
+
+test('図は上限の式を持たない（calc を呼ぶだけ）。chart.js は kogaku.js の後・app.js の前に読む', () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'kogaku-ryoyohi', 'chart.js'), 'utf8').replace(/\/\/.*$/gm, '');
+  assert.doesNotMatch(src, /limitOf|limitFor|onePercent|selfPay|\.base\b|GASSAN_MIN|0\.01|\/ ?100\b/);
+  const html = fs.readFileSync(path.join(__dirname, '..', 'kogaku-ryoyohi', 'index.html'), 'utf8');
+  const i = html.indexOf('<script src="./chart.js"></script>');
+  assert.ok(i > html.indexOf('../lib/kogaku.js') && i < html.indexOf('./app.js'));
+  assert.match(html, /<button type="button" class="kzu-mark" id="kzu-mark">/);
+  assert.match(fs.readFileSync(path.join(__dirname, '..', 'kogaku-ryoyohi', 'kogaku.css'), 'utf8'), /@media print \{ #kzu-box \{ display: none; \} \}/);
+});
