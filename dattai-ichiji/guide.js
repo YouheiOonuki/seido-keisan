@@ -23,6 +23,7 @@
       a.textContent = LANG === 'ja' ? s.label : s.en;
       li.appendChild(a);
       if (LANG === 'ja') li.appendChild(document.createTextNode('（' + s.where + '）'));
+      else li.className = 'link-row';   // リンクだけの行（style.css の 44px の規則。Q-560）
       list.appendChild(li);
     });
   }

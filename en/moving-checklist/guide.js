@@ -25,6 +25,7 @@
     a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = s.label;
     li.appendChild(a);
     if (arts[k]) li.appendChild(document.createTextNode(': Art. ' + arts[k].filter(function (x, i, l) { return l.indexOf(x) === i; }).join(', ')));
+    else li.className = 'link-row';   // リンクだけの行（style.css の 44px の規則。Q-560）
     ul.appendChild(li);
   });
 })();
