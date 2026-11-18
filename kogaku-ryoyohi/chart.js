@@ -41,7 +41,7 @@
     return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p;
   }
 
-  // 図の枠。横の端は、今の医療費の 2 倍と、線が折れる医療費の少し先（1.15 倍）の大きいほう。xMax を渡すとその端のまま（引いている間）
+  // 図の枠。横の端は、今の医療費の 2 倍と、線が折れる医療費の少し先（1.15 倍）の大きいほう。xMax を渡すとその端のまま（引いている間と、印にフォーカスがある間。Q-489）
   function frame(C, state, todayYm, r, xMax) {
     var cost = r.input.rows[0].cost, bs = bends(C, state, todayYm, r);
     if (!xMax) {
@@ -71,6 +71,13 @@
     return (shift ? BIG : STEP) * (key === 'ArrowRight' ? 1 : -1);
   }
 
+  // 印にフォーカスがある間・引いている間に保つ横の端（Q-489）。医療費が端を超えたら、その時だけ端を 2 倍ずつ広げる
+  function growEnd(xMax, cost) {
+    if (!(xMax > 0)) return xMax;
+    while (cost > xMax) xMax *= 2;
+    return xMax;
+  }
+
   // 動かしてよい医療費か。min・max は欄の属性（空なら端なし）。calc が結果を出せない額（0 円など）へは動かさない
   function allowed(C, state, todayYm, cost, min, max) {
     if (min !== '' && min !== null && min !== undefined && cost < Number(min)) return false;
@@ -78,7 +85,7 @@
     return !!at(C, state, todayYm, cost);
   }
 
-  var api = { STEP: STEP, BIG: BIG, at: at, shows: shows, bends: bends, frame: frame, costAtRatio: costAtRatio, keyStep: keyStep, allowed: allowed };
+  var api = { STEP: STEP, BIG: BIG, at: at, shows: shows, bends: bends, frame: frame, costAtRatio: costAtRatio, keyStep: keyStep, growEnd: growEnd, allowed: allowed };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.KogakuChart = api;
 })(this);

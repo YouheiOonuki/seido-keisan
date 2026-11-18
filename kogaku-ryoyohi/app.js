@@ -257,6 +257,7 @@
   var zu = null;        // 直近の { f: 枠, x, y }（引くときに使う）
   var slow = false;     // 1 回の計算と描き直しが 50 ms を超えたら、引いている間は計算せず、指を離した時だけ計算する
   var drag = null;
+  var held = 0;         // 引いている間と、印にフォーカスがある間は横の端を保つ（Q-489）。0 は保たない
   function el(name, attrs, text) {
     var e = document.createElementNS(SVG, name);
     for (var k in attrs) e.setAttribute(k, attrs[k]);
@@ -269,7 +270,7 @@
     var show = KC.shows(r);
     box.hidden = !show;
     if (!show) { if (old) old.remove(); zu = null; return; }
-    var f = KC.frame(C, state, todayYm, r, drag ? drag.f.xMax : 0);
+    var f = KC.frame(C, state, todayYm, r, held);
     var x = function (v) { return PL + (W - PL - PR) * v / f.xMax; };
     var y = function (v) { return PT + (H - PT - PB) * (1 - v / f.yMax); };
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'zu', 'aria-label': '1か月の医療費と、窓口の負担・自己負担' });
@@ -323,7 +324,15 @@
     var d = KC.keyStep(e.key, e.shiftKey);
     if (!d || !zu) return;
     e.preventDefault();
-    tryCost(state.rows[0].cost + d, true);
+    var prev = held, v = state.rows[0].cost + d;
+    held = KC.growEnd(held || zu.f.xMax, v);   // 端に着いた次の → だけ、端を 2 倍にして描き直す
+    if (!tryCost(v, true)) held = prev;
+  });
+  markBtn.addEventListener('focus', function () { if (zu) held = zu.f.xMax; });
+  markBtn.addEventListener('blur', function () {
+    if (drag) return;
+    held = 0;
+    if (zu) drawZu(C.calc(state, todayYm));   // 横の端を今の医療費に合わせて描き直す（開き直した時と同じ端）
   });
   markBtn.addEventListener('pointerdown', function (e) {
     if (e.button !== 0 || !zu) return;
@@ -345,7 +354,8 @@
     if (!drag || e.pointerId !== drag.id) return;
     var moved = drag.moved;
     drag = null;
-    if (moved) runNow(true);   // 横の端を今の医療費に合わせて描き直す
+    if (moved) { held = 0; runNow(true); }   // 横の端を今の医療費に合わせて描き直す
+    held = zu && document.activeElement === markBtn ? zu.f.xMax : 0;   // フォーカスが残る間は、描き直した端を保つ
   }
   markBtn.addEventListener('pointerup', markUp);
   markBtn.addEventListener('pointercancel', markUp);
