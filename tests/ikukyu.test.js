@@ -350,3 +350,93 @@ test('値の表: 出典と確認日がそろっている', () => {
   IV.SOURCES.forEach((s) => assert.match(s.url, /^https:\/\//));
   assert.equal(IV.koyo.validTo, '2027-07-31');
 });
+
+// --- 月ごとの受け取りの棒（Q-481）: 棒 ＝ 月ごとの表の行、印 ＝ 育休の終わりの日 ---
+const IC = require('../ikukyu/chart.js');
+const ZU = [
+  ['本人・既定', { dueDate: '2027-01-31', salary: 300000 }],
+  ['本人・多胎・終わりの日あり', { dueDate: '2026-12-15', salary: 450000, babies: 2, leaveEnd: '2027-09-10' }],
+  ['父・産後パパ育休あり', { role: 'father', dueDate: '2027-01-31', salary: 300000, papa: { use: true, start: '2027-01-31', end: '2027-02-27' } }],
+  ['父・始まりを入れる', { role: 'father', dueDate: '2027-05-20', salary: 600000, leaveStart: '2027-06-01', leaveEnd: '2027-11-30' }],
+  ['上限の賃金・時短あり', { dueDate: '2027-03-01', salary: 1200000, jitan: { use: true, salary: 250000 } }],
+];
+
+test('棒の数 ＝ 表の行の数、棒の額の合計 ＝ 表の受け取りの合計、免除の印 ＝ 表の「免除」', () => {
+  for (const [name, inp] of ZU) {
+    const r = I.calc(inp);
+    const bs = IC.bars(r);
+    assert.equal(bs.length, r.months.length, name);
+    const tableSum = r.months.reduce((a, m) => a + m.receipts.reduce((b, p) => b + p.amount, 0), 0);
+    assert.equal(bs.reduce((a, b) => a + b.total, 0), tableSum, name);
+    assert.equal(tableSum, r.payments.reduce((a, p) => a + p.amount, 0), name + ' 受け取りの全部が表の中');
+    bs.forEach((b, i) => { assert.equal(b.exempt, r.months[i].exempt, name + ' ' + b.label); assert.equal(b.mi, r.months[i].mi); });
+  }
+});
+
+test('印の位置 ＝ #leaveEnd、空なら計算の既定（子が1歳になる前日）', () => {
+  const r = I.calc({ dueDate: '2027-01-31', salary: 300000 });
+  assert.equal(I.fmt(IC.endDay(r)), '2028-01-30');
+  assert.equal(IC.miOf(I, IC.endDay(r)), 2028 * 12 + 0);
+  const r2 = I.calc({ dueDate: '2027-01-31', salary: 300000, leaveEnd: '2027-09-15' });
+  assert.equal(I.fmt(IC.endDay(r2)), '2027-09-15');
+  const bs = IC.bars(r2);
+  assert.ok(bs.some((b) => b.mi === IC.miOf(I, IC.endDay(r2))), '終わりの月の棒がある');
+  assert.equal(IC.endDay(I.calc({ dueDate: '', salary: 300000 })), null);
+  assert.equal(IC.shows(I.calc({ dueDate: '', salary: 300000 })), false);
+  assert.equal(IC.shows(r), true);
+});
+
+test('1 か月ずつ: 日は今の日のまま、その月に無い日は月末（1/31 から・うるう年）', () => {
+  const st = { role: 'father', dueDate: '2026-12-01', salary: 300000, leaveStart: '2026-12-01', leaveEnd: '2027-01-31' };
+  const r = I.calc(st);
+  const feb = IC.stepTo(I, st, d('2027-01-31'), 1, r);
+  assert.equal(I.fmt(feb), '2027-02-28');
+  assert.equal(I.fmt(IC.stepTo(I, Object.assign({}, st, { leaveEnd: I.fmt(feb) }), feb, 1, r)), '2027-03-28', '2/28 からは 3/28（今の日のまま）');
+  const st2 = { role: 'father', dueDate: '2027-12-01', salary: 300000, leaveStart: '2027-12-01', leaveEnd: '2028-01-31' };
+  assert.equal(I.fmt(IC.stepTo(I, st2, d('2028-01-31'), 1, I.calc(st2))), '2028-02-29', 'うるう年は 2/29');
+  assert.equal(I.fmt(IC.stepTo(I, st2, d('2028-03-31'), -1, I.calc(st2))), '2028-02-29');
+  // 引いたとき（引き始めの日から数える）: 1/31 から 2 か月は 3/31
+  assert.equal(I.fmt(IC.stepTo(I, st, d('2027-01-31'), 2, r)), '2027-03-31');
+  assert.equal(IC.keyStep('ArrowRight'), 1);
+  assert.equal(IC.keyStep('ArrowLeft'), -1);
+  assert.equal(IC.keyStep('ArrowUp'), 0);
+});
+
+test('通らない月へは動かない・またいで飛ばない（始まりより前・1歳を過ぎた分・欄の min・max）', () => {
+  // 本人: 育休は 2027-03-29 から。既定の終わり 2028-01-30
+  const st = { dueDate: '2027-01-31', salary: 300000 };
+  const r = I.calc(st);
+  const end = IC.endDay(r);
+  assert.equal(IC.stepTo(I, st, end, 1, r), end, '1歳を過ぎる月へは動かない');
+  assert.equal(I.fmt(IC.stepTo(I, st, end, -100, r)), '2027-03-30', '始まりより前の月の手前で止まる');
+  assert.equal(I.calc(Object.assign({}, st, { leaveEnd: '2027-02-28' })).leave, null, '1 か月前は計算が通らない');
+  assert.equal(IC.stepTo(I, st, end, -1, r, '2028-01-01', ''), end, 'min より前へは動かない');
+  assert.equal(I.fmt(IC.stepTo(I, st, d('2027-06-30'), 3, r, '', '2027-08-31')), '2027-08-30', 'max の手前で止まる');
+});
+
+test('同じ月の中で 14 日未満になる所: 計算は通り、その月は免除にならない（棒の下の印も無い）', () => {
+  const st = { role: 'father', dueDate: '2027-02-20', salary: 300000, leaveStart: '2027-03-01', leaveEnd: '2027-04-10' };
+  const r = I.calc(st);
+  const to = IC.stepTo(I, st, d('2027-04-10'), -1, r);
+  assert.equal(I.fmt(to), '2027-03-10');
+  const r2 = I.calc(Object.assign({}, st, { leaveEnd: I.fmt(to) }));
+  assert.ok(r2.leave);
+  const mar = IC.bars(r2).find((b) => b.mi === 2027 * 12 + 2);
+  assert.equal(mar.exempt, false, '3/1〜3/10 は 10 日');
+  const r3 = I.calc(Object.assign({}, st, { leaveEnd: '2027-03-14' }));
+  assert.equal(IC.bars(r3).find((b) => b.mi === 2027 * 12 + 2).exempt, true, '3/1〜3/14 は 14 日で免除');
+});
+
+test('図は calc の months を使うだけ（足し算・給付の式を持たない）。chart.js は ikukyu.js の後・app.js の前に読む', () => {
+  const fs = require('node:fs'), path = require('node:path');
+  const src = fs.readFileSync(path.join(__dirname, '..', 'ikukyu', 'chart.js'), 'utf8').replace(/\/\/.*$/gm, '');
+  assert.doesNotMatch(src, /\+=|reduce|rateHigh|rateLow|pctFloor|wageDaily|ikukyuPeriods|IV\./);
+  const html = fs.readFileSync(path.join(__dirname, '..', 'ikukyu', 'index.html'), 'utf8');
+  const i = html.indexOf('<script src="./chart.js"></script>');
+  assert.ok(i > html.indexOf('../lib/ikukyu.js') && i < html.indexOf('./app.js'));
+  assert.match(html, /<button type="button" class="izu-mark" id="izu-mark">/);
+  // 図は「月ごとの受け取りの目安」の折りたたみの中、表の上
+  const sum = html.indexOf('<summary>月ごとの受け取りの目安</summary>');
+  assert.ok(sum > 0 && html.indexOf('id="izu-box"') > sum && html.indexOf('id="izu-box"') < html.indexOf('id="sched"'));
+  assert.match(fs.readFileSync(path.join(__dirname, '..', 'style.css'), 'utf8'), /@media print \{ #izu-box \{ display: none; \} \}/);
+});
