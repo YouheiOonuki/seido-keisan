@@ -159,7 +159,7 @@
     // 途中の計算
     var box = $('steps');
     box.textContent = '';
-    var t = document.createElement('table'); t.className = 'steps tbl';
+    var t = document.createElement('table'); t.className = 'steps tbl steps-wide-th';
     var tb2 = document.createElement('tbody');
     tr(tb2, ['65歳に達する月（誕生日の前日の月）', ymStr(r.reach65Ym)]);
     tr(tb2, ['請求・申出をする月', ymStr(r.requestYm) + (same ? '' : '（基礎）')]);

@@ -581,3 +581,15 @@ test('図は税の式を持たない（calc を呼ぶだけ）。chart.js は ju
   assert.match(html, /<button type="button" class="jzu-mark" id="jzu-mark">/);
   assert.match(fs.readFileSync(path.join(__dirname, '..', 'juminzei', 'juminzei.css'), 'utf8'), /@media print \{ #jzu-box \{ display: none; \} \}/);
 });
+
+test('図の .zu-* は kuriage.css の 1 か所だけ（住民税は kuriage.css を先に読み、juminzei.css に写さない。途中の計算の表の幅は class で名指し。Q-561）', () => {
+  const read = f => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
+  const html = read('juminzei/index.html');
+  const k = html.indexOf('<link rel="stylesheet" href="../nenkin-kuriage/kuriage.css">');
+  assert.ok(k > 0 && k < html.indexOf('<link rel="stylesheet" href="./juminzei.css">'));
+  assert.doesNotMatch(read('juminzei/juminzei.css'), /^\.zu[\s.{-]/m);
+  const css = read('nenkin-kuriage/kuriage.css');
+  assert.doesNotMatch(css, /^#steps/m);
+  assert.match(css, /^\.steps-wide-th th \{/m);
+  for (const f of ['nenkin-kuriage/app.js', 'kogaku-ryoyohi/app.js']) assert.match(read(f), /t\.className = 'steps tbl steps-wide-th';/, f);
+});
