@@ -186,7 +186,7 @@ h3.sub { margin: var(--sp-4) 0 var(--sp-2); }
 .cmp th:first-child { text-align: left; white-space: normal; }
 .cmp thead th, .tbl thead th { color: var(--muted); font-weight: 700; }
 details.rels { margin-top: var(--sp-2); }
-details.rels ul { padding-left: 1.2rem; margin-top: var(--sp-2); }
+details.rels ul { padding-left: 1.2rem; margin-top: var(--sp-2); overflow-wrap: anywhere; }   /* 字のまま載せた長い URL を折り返す（Q-585） */
 /* 使い方ページの「リンク・引用・埋め込みのしかた」（tools/build-cite.mjs）。長い URL でも横にはみ出さない */
 .cite-code { margin: var(--sp-1) 0 var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); white-space: pre-wrap; word-break: break-all; font-size: var(--fs-s); user-select: all; -webkit-user-select: all; }
 @media print { details.cite { display: none; } }
