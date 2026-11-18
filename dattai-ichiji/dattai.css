@@ -8,3 +8,4 @@
 .refund { font-weight: 700; color: var(--ok); text-align: center; }
 .refund:empty, #r-refund-note:empty, #r-deadline:empty { display: none; }
 .deadline { margin-top: var(--sp-3); }
+#other-row { margin-top: var(--sp-2); }   /* 上の「還付の目安を出す」のチェックとの間 8px（押す所の間。Q-488） */

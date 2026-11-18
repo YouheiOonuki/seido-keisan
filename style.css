@@ -84,7 +84,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .app-header .subtitle { font-size: var(--fs-s); line-height: var(--lh-tight); color: var(--muted); margin-top: var(--sp-1); }
 .app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
 .lang-switch { font-size: var(--fs-s); }
-.lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }
+.lang-switch a { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); }
 @media (max-width: 480px) { .app-header h1 { font-size: var(--fs-l); } }   /* スマホは題を 1 段小さく（1.5 画面の線に入力を収めるため） */
 
 /* レイアウト */
@@ -136,8 +136,8 @@ label.inline input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent
 
 /* フッター */
 .app-footer { text-align: center; padding: var(--sp-4); font-size: var(--fs-s); color: var(--muted); border-top: 1px solid var(--border); margin-top: var(--sp-2); }
-.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0 var(--sp-4); margin-bottom: var(--sp-2); }
-.footer-nav a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--muted); text-decoration: none; }
+.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); margin-bottom: var(--sp-2); }
+.footer-nav a { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); color: var(--muted); text-decoration: none; }
 .footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
 
 /* ===== 制度の計算機 共通 ===== */
@@ -179,11 +179,14 @@ h3.sub { margin: var(--sp-4) 0 var(--sp-2); }
 .sum tr.ref th, .sum tr.ref td { color: var(--muted); font-weight: 400; }
 .sum tr.is-best th, .sum tr.is-best td { color: var(--accent); font-weight: 700; }
 .sum tr.is-off td { color: var(--muted); }
-.table-wrap { overflow-x: auto; margin: var(--sp-1) 0; }
+.table-wrap { overflow-x: auto; }
+/* 画面では横に動かす押す所（tabindex）なので隣の押す所と 8px あける。紙は 4px（8px にすると育休の多い表で 7→8 枚。Q-488） */
+@media screen { .table-wrap { margin: var(--sp-2) 0; } }
+@media print { .table-wrap { margin: var(--sp-1) 0; } }
 .cmp th:first-child { text-align: left; white-space: normal; }
 .cmp thead th, .tbl thead th { color: var(--muted); font-weight: 700; }
 details.rels { margin-top: var(--sp-2); }
-details.rels ul { padding-left: 1.2rem; margin-top: var(--sp-1); }
+details.rels ul { padding-left: 1.2rem; margin-top: var(--sp-2); }
 /* 使い方ページの「リンク・引用・埋め込みのしかた」（tools/build-cite.mjs）。長い URL でも横にはみ出さない */
 .cite-code { margin: var(--sp-1) 0 var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); white-space: pre-wrap; word-break: break-all; font-size: var(--fs-s); user-select: all; -webkit-user-select: all; }
 @media print { details.cite { display: none; } }
@@ -317,4 +320,4 @@ details.about-tool ul { padding-left: 1.2rem; margin: var(--sp-1) 0 var(--sp-2);
 .voice-filled, input.voice-filled, select.voice-filled { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
 
 /* 1 行に 1 つのリンク（使い方への行・案内のカード・出典の一覧）も押せる高さに（DESIGN の 44px。K192 段 3 の 4 の検収） */
-:where(html:not([data-skin="base"])) :where(p, li) > a:only-child { display: inline-flex; align-items: center; min-height: var(--tap); }
+:where(html:not([data-skin="base"])) :where(p, li) > a:only-child { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); }

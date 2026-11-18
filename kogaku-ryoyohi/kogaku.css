@@ -9,6 +9,7 @@
 .row-grid select, .row-grid input { width: 100%; }
 .rows .del { margin-top: var(--sp-2); }
 .field label.inline select { margin-left: var(--sp-1); }
+.field label.inline:has(> select) { margin-top: var(--sp-1); }   /* 上の丸（外来・薬局）と割合の欄の間 8px（押す所の間。Q-488） */
 #cat { width: 100%; }
 #cat-table td, #cat-table th { font-size: var(--fs-s); }
 
