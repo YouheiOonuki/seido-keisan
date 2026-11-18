@@ -277,6 +277,32 @@ details.card.opt[open] > summary { margin-bottom: var(--sp-2); }
 .sched td:last-child { white-space: normal; text-align: left; min-width: 9rem; }
 .sched td:nth-child(2) { white-space: normal; text-align: left; }
 .sched tr.has-pay td:last-child { color: var(--accent); font-weight: 700; }
+/* 月ごとの受け取りの棒（育休。Q-481）。印は図の上のボタン（当たり 44px）。図も印も紙には出さない（紙の枚数を変えない） */
+.izu-box { margin: var(--sp-2) 0 var(--sp-3); }
+.izu { position: relative; }
+.izu-svg { display: block; width: 100%; height: auto; max-height: 360px; }
+.izu-grid { stroke: var(--border); stroke-width: 1; }
+.izu-tick { font-size: 12px; fill: var(--muted); text-anchor: middle; }
+.izu-tick-y { text-anchor: end; }
+.izu-year { text-anchor: start; }
+.izu-bar { fill: var(--accent); }
+.izu-ex { fill: none; stroke: var(--text); stroke-width: 1.5; }
+.izu-pick { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.izu-mark {
+  position: absolute; width: var(--tap); height: var(--tap); min-height: var(--tap); padding: 0; margin: 0;
+  transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;
+  background: none; border: none; border-radius: 50%; touch-action: none; cursor: ew-resize; color: var(--text);
+}
+.izu-mark[hidden] { display: none; }
+.izu-mark-dot { width: 1.25rem; height: 1.25rem; border-radius: 50%; background: var(--card); border: 3px solid var(--accent); }
+.izu-mark:hover .izu-mark-dot, .izu-mark:active .izu-mark-dot { background: var(--accent); }
+.izu-mark-label {
+  position: absolute; bottom: calc(100% - 4px); left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-size: var(--fs-s); font-weight: 700; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0 var(--sp-1);
+}
+.izu-mark[data-side="l"] .izu-mark-label { left: 0; transform: none; }
+.izu-mark[data-side="r"] .izu-mark-label { left: auto; right: 0; transform: none; }
+@media print { #izu-box { display: none; } }
 
 /* この道具について（結果の後ろの折りたたみ。使い方ページの要約。AdSense 審査 2026-10-04） */
 details.card.opt.about-tool > summary { white-space: normal; }   /* 長い summary を折り返す */

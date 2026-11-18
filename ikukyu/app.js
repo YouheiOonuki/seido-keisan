@@ -139,6 +139,7 @@
       box.hidden = true;
       judge('j-days', false, '', false); judge('j-spouse', false, '', false);
       $('period-detail').hidden = true;
+      drawBars(r);
       return;
     }
     $('period-detail').hidden = !(r.leave && r.leave.periods.length);
@@ -225,6 +226,7 @@
       var rc = m.receipts.map(function (p) { return p.name + ' ' + yen(p.amount); }).join('、');
       row(sb, [m.label, m.state, m.exempt ? '免除' : '約' + yen(m.premium), rc || '—'], m.receipts.length ? 'has-pay' : '');
     });
+    drawBars(r);
 
     // 支給単位期間
     var pb = clearTable('periods');
@@ -275,6 +277,112 @@
 
   // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen.js） ---
   var setBar = window.ScreenParts.fixbar();
+
+  // --- 月ごとの受け取りの棒（Q-481）: 棒は calc の months の receiptTotal、免除の月は棒の下に印。育休の終わりの月の印を左右に引く・← → で、#leaveEnd を 1 か月ずつ変える ---
+  // 範囲は欄の min・max（属性から取る）と、calc が通る日（育休の始まりより後・1歳まで）。欄が空なら計算が使っている日の所に印を出し、動かした時にはじめて欄に入れる
+  var IC = window.IkukyuChart;
+  var SVG = 'http://www.w3.org/2000/svg';
+  var W = 400, H = 220, PL = 44, PR = 8, PT = 12, PB = 48;
+  var zu = null;        // 直近の { r, n, first }（引くときに使う）
+  var slow = false;     // 1 回の計算と描き直しが 50 ms を超えたら、引いている間は計算せず、指を離した時だけ計算する
+  var drag = null;
+  function el(name, attrs, text) {
+    var e = document.createElementNS(SVG, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function niceStep(max) {
+    var raw = max / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p;
+  }
+  function man(v) { return v ? (v / 10000).toLocaleString('ja-JP') + '万' : '0'; }
+  function drawBars(r) {
+    var box = $('izu-box'), btn = $('izu-mark'), old = $('izu').querySelector('svg');
+    var show = IC.shows(r);
+    box.hidden = !show;
+    if (!show) { if (old) old.remove(); zu = null; return; }
+    var bs = IC.bars(r), n = bs.length;
+    var top = Math.max.apply(null, bs.map(function (b) { return b.total; }).concat([1]));
+    var step = niceStep(top), ymax = Math.ceil(top / step) * step;
+    var cw = (W - PL - PR) / n, yb = H - PB;
+    var cx = function (i) { return PL + cw * (i + 0.5); };
+    var y = function (v) { return PT + (yb - PT) * (1 - v / ymax); };
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'izu-svg', 'aria-label': '月ごとの受け取りの目安' });
+    for (var v = 0; v <= ymax + 0.5; v += step) {
+      svg.appendChild(el('line', { x1: PL, x2: W - PR, y1: y(v), y2: y(v), class: 'izu-grid' }));
+      svg.appendChild(el('text', { x: PL - 4, y: y(v) + 4, class: 'izu-tick izu-tick-y' }, man(v)));
+    }
+    var every = Math.ceil(n / 12), anyEx = false;
+    var jan = bs.findIndex(function (b) { return b.mi % 12 === 0; });   // 年の字は 1 月の所に。初めの月にも置くが、すぐ後に 1 月が来るときは重なるので置かない
+    bs.forEach(function (b, i) {
+      if (b.total > 0) svg.appendChild(el('rect', { x: cx(i) - cw * 0.35, y: y(b.total), width: cw * 0.7, height: yb - y(b.total), class: 'izu-bar' }));
+      if (b.exempt) { anyEx = true; svg.appendChild(el('path', { d: 'M' + cx(i) + ' ' + (yb + 4) + 'l5 8h-10z', class: 'izu-ex' })); }
+      var m = b.mi % 12 + 1;
+      if (i % every === 0) svg.appendChild(el('text', { x: cx(i), y: yb + 28, class: 'izu-tick' }, m + '月'));
+      if (m === 1 || (i === 0 && (jan < 0 || jan >= 3))) svg.appendChild(el('text', { x: cx(i) - cw / 2, y: yb + 42, class: 'izu-tick izu-year' }, Math.floor(b.mi / 12) + '年'));
+    });
+    if (anyEx) svg.appendChild(el('text', { x: PL - 4, y: yb + 13, class: 'izu-tick izu-tick-y' }, '免除'));
+    // 育休の終わりの月の印
+    var end = IC.endDay(r), at = end === null ? -1 : IC.miOf(I, end) - bs[0].mi;
+    var on = at >= 0 && at < n;
+    if (on) svg.appendChild(el('line', { x1: cx(at), x2: cx(at), y1: PT, y2: yb, class: 'izu-pick' }));
+    if (old) $('izu').replaceChild(svg, old); else $('izu').insertBefore(svg, btn);
+    zu = { r: r, n: n, first: bs[0].mi };
+    btn.hidden = !on;
+    if (!on) return;
+    btn.style.left = (cx(at) / W * 100) + '%';
+    btn.style.top = (yb / H * 100) + '%';
+    btn.dataset.side = cx(at) > W * 0.75 ? 'r' : cx(at) < W * 0.25 ? 'l' : 'c';
+    $('izu-mark-day').textContent = md(end);
+    btn.setAttribute('aria-label', '育休の終了日 ' + jp(end));
+  }
+  function setEnd(day, compute) {
+    var le = $('leaveEnd');
+    le.value = I.fmt(day);
+    readField(le); updateUi();
+    if (compute) runNow();
+  }
+  function runNow() {
+    var t0 = performance.now();
+    update();
+    slow = performance.now() - t0 > 50;
+  }
+  var markBtn = $('izu-mark');
+  markBtn.addEventListener('keydown', function (e) {
+    var k = IC.keyStep(e.key);
+    if (!k || !zu) return;
+    e.preventDefault();
+    var le = $('leaveEnd'), cur = IC.endDay(zu.r);
+    var next = IC.stepTo(I, state, cur, k, zu.r, le.min, le.max);
+    if (next !== cur) setEnd(next, true);   // 通らない月の手前では動かない（欄にも入れない）
+  });
+  markBtn.addEventListener('pointerdown', function (e) {
+    if (e.button !== 0 || !zu) return;
+    e.preventDefault();
+    this.focus();
+    this.setPointerCapture(e.pointerId);
+    var rect = $('izu').querySelector('svg').getBoundingClientRect();
+    drag = { id: e.pointerId, r: zu.r, n: zu.n, first: zu.first, from: IC.endDay(zu.r), left: rect.left + rect.width * PL / W, width: rect.width * (W - PL - PR) / W, day: IC.endDay(zu.r), moved: false };
+  });
+  markBtn.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var i = Math.max(0, Math.min(drag.n - 1, Math.floor((e.clientX - drag.left) / drag.width * drag.n)));
+    var k = drag.first + i - IC.miOf(I, drag.from);
+    var le = $('leaveEnd');
+    var day = k ? IC.stepTo(I, state, drag.from, k, drag.r, le.min, le.max) : drag.from;
+    if (day === drag.day) return;
+    drag.day = day; drag.moved = true;
+    setEnd(day, !slow);
+  });
+  function markUp(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var moved = drag.moved;
+    drag = null;
+    if (slow && moved) runNow();
+  }
+  markBtn.addEventListener('pointerup', markUp);
+  markBtn.addEventListener('pointercancel', markUp);
 
   // 中身が同じなら描き直さない
   var saveTimer = null, lastSig = '';

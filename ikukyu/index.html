@@ -130,6 +130,9 @@
         <details class="rels">
           <summary>月ごとの受け取りの目安</summary>
           <p class="small">申請がふつうに進んだときの時期で、勤め先の手続きで前後します。</p>
+          <div class="izu-box" id="izu-box" hidden>
+            <div class="izu" id="izu"><button type="button" class="izu-mark" id="izu-mark"><span class="izu-mark-dot" aria-hidden="true"></span><span class="izu-mark-label" id="izu-mark-day" aria-hidden="true"></span></button></div>
+          </div>
           <div class="table-wrap" tabindex="0">
             <table class="cmp sched" id="sched">
               <thead><tr><th scope="col">月</th><th scope="col">休業</th><th scope="col">社会保険料</th><th scope="col">受け取り（目安）</th></tr></thead>
@@ -393,6 +396,7 @@
   <script src="../used.js"></script>
   <script src="../lib/ikukyu-values.js"></script>
   <script src="../lib/ikukyu.js"></script>
+  <script src="./chart.js"></script>
   <script src="../lib/screen.js"></script>
   <script src="../reset-storage.js"></script>
   <script src="./app.js"></script>
