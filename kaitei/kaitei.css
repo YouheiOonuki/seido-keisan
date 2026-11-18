@@ -3,7 +3,7 @@
 .kt-next { font-weight: 700; margin-bottom: var(--sp-2); }
 .kt-next:empty { display: none; }
 .kt-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-1) 0 var(--sp-2); }
-.kt-chip { font: inherit; cursor: pointer; }
+.kt-chip { font: inherit; cursor: pointer; min-width: var(--tap); justify-content: center; }
 .kt-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .kt-count { color: var(--muted); }
 
