@@ -1,6 +1,6 @@
 // ===========================
 // 年金の繰上げ・繰下げ — 受け取る額の累計の図（60〜100歳）とつまみの 1 行（純粋関数）
-// 累計は lib/kuriage.js の plan の month を、calc の累計の表（cumulativeTo）と同じ順で 1 か月ずつ足す。
+// 累計は lib/kuriage.js の cumulativeTo（calc の累計の表と同じ関数）で出す。ここでは足さない。
 // calc と同じ受け取り方（繰上げのときは在職を入れない）を使うので、表の年齢では 図の数 ＝ 表の数（tests/kuriage.test.js）。
 // ブラウザでは window.KuriageChart、Node（テスト）では module.exports で使う
 // ===========================
@@ -18,11 +18,8 @@
     if (Math.min(r.k1, r.k2) < 0) { dd = {}; for (var k in d) dd[k] = d[k]; dd.wage = 0; }
     var opt = C.plan(dd, r.k1, r.k2), base = C.plan(dd, 0, 0);
     var fromT = Math.min(r.k1, r.k2, 0) + 1;
-    var so = 0, sb = 0, o = [], b = [];
-    for (var t = T0; t <= T1; t++) {
-      if (t >= fromT) { so += opt.month(t); sb += base.month(t); }
-      o.push(so); b.push(sb);
-    }
+    var o = [], b = [];
+    for (var t = T0; t <= T1; t++) { o.push(C.cumulativeTo(opt, fromT, t)); b.push(C.cumulativeTo(base, fromT, t)); }
     return { t0: T0, opt: o, base: b };
   }
   // その年齢に達した月の分までの累計を、表と同じ丸めで

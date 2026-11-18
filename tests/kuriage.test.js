@@ -200,14 +200,6 @@ test('使い方ページの表（増減と損益分岐）が計算と同じ', ()
 
 // --- 受け取る額の累計の図（Q-407）: 図の点 ＝ lib の cumulativeTo の値、表の年齢では 図の数 ＝ 表の数 ---
 const KC = require('../nenkin-kuriage/chart.js');
-// cumulativeTo は lib の外に出していないので、lib の本文をそのまま読み、api に足しただけの写しで呼ぶ（計算は lib のまま）
-const LIB = (() => {
-  const vm = require('node:vm');
-  const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'kuriage.js'), 'utf8').replace('var api = {', 'var api = { cumulativeTo: cumulativeTo,');
-  const sb = { module: { exports: {} }, require: (p) => require(path.join(__dirname, '..', 'lib', p)) };
-  vm.runInNewContext(src, sb);
-  return sb.module.exports;
-})();
 const ZU_CASES = [
   ['60歳から（繰上げ）', { birth: '1966-05-10', kiso: 800000, kosei: 1000000, age: 60 }],
   ['65歳から', { birth: '1966-05-10', kiso: 800000, kosei: 1000000, age: 65 }],
@@ -219,17 +211,19 @@ const ZU_CASES = [
 ];
 
 test('図の点は、60〜100歳の全月で lib の cumulativeTo の値と同じ（60・65・75歳から、生年月日の境、在職、別々）', () => {
+  // 図は足し方を持たない（月の額を読まず、lib の cumulativeTo を呼ぶだけ。Q-414）
+  assert.doesNotMatch(fs.readFileSync(path.join(__dirname, '..', 'nenkin-kuriage', 'chart.js'), 'utf8').replace(/\/\/.*$/gm, ''), /\.month\(|\+=/);
   for (const [name, inp] of ZU_CASES) {
     const r = C.calc(inp);
     const s = KC.series(C, r);
     assert.equal(s.opt.length, 481, name);
     const d = Math.min(r.k1, r.k2) < 0 ? { ...r.input, wage: 0 } : r.input;
-    const opt = LIB.plan(d, r.k1, r.k2), base = LIB.plan(d, 0, 0);
+    const opt = C.plan(d, r.k1, r.k2), base = C.plan(d, 0, 0);
     const fromT = Math.min(r.k1, r.k2, 0) + 1;
     for (let i = 0; i < 481; i++) {
       const t = s.t0 + i;
-      assert.equal(s.opt[i], LIB.cumulativeTo(opt, fromT, t), name + ' t=' + t);
-      assert.equal(s.base[i], LIB.cumulativeTo(base, fromT, t), name + ' t=' + t);
+      assert.equal(s.opt[i], C.cumulativeTo(opt, fromT, t), name + ' t=' + t);
+      assert.equal(s.base[i], C.cumulativeTo(base, fromT, t), name + ' t=' + t);
     }
   }
 });
