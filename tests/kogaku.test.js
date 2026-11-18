@@ -290,6 +290,60 @@ test('図の印: ← → で 1 万円・Shift で 10 万円、引くと 1 万円
   assert.equal(KC.allowed(C, { cat: '', rows: [{ cost: 5000 }] }, '2026-11', 10000, '0', ''), false, '区分が空');
 });
 
+// --- Q-489: 印にフォーカスがある間は横の端を保つ。端に着いた次の → だけ端を 2 倍に。フォーカスが外れたら開き直した時の端 ---
+const keyRun = (cost0, presses) => {
+  const st = { cat: 'u', plan: 'kenpo', rows: [{ cost: cost0, age: 'u70', place: 'in', rate: 0.3 }] };
+  let held = KC.frame(C, st, '2026-11', C.calc(st, '2026-11')).xMax;   // フォーカスした時の端
+  const out = [];
+  for (let i = 0; i <= presses; i++) {
+    if (i) { const v = st.rows[0].cost + KC.keyStep('ArrowRight', false); held = KC.growEnd(held, v); st.rows[0].cost = v; }
+    const f = KC.frame(C, st, '2026-11', C.calc(st, '2026-11'), held);
+    const ticks = []; for (let c = 0; c <= f.xMax + 0.5; c += f.xStep) ticks.push(c);
+    out.push({ cost: st.rows[0].cost, xMax: f.xMax, ticks: ticks.join(' '), at: st.rows[0].cost / f.xMax, st: JSON.parse(JSON.stringify(st)) });
+  }
+  return out;
+};
+
+test('図の印（Q-489）: → を 5 回押す間、目盛りの字の並びは同じで、印は毎回同じ幅だけ右へ（端に着かない値で）', () => {
+  for (const cost0 of [100000, 300000, 1000000]) {
+    const run = keyRun(cost0, 5);
+    assert.ok(run[5].cost < run[0].xMax, cost0 + ' 端に着かない');
+    for (const x of run) assert.equal(x.ticks, run[0].ticks, cost0 + ' → ' + x.cost);
+    const d = run[1].at - run[0].at;
+    assert.ok(d > 0);
+    for (let i = 1; i < run.length; i++) assert.ok(Math.abs(run[i].at - run[i - 1].at - d) < 1e-9, cost0 + ' ' + i + ' 回目');
+  }
+});
+
+test('図の印（Q-489）: 端に着いた次の → で、端の値が 2 倍になる（その時だけ描き直す）', () => {
+  const first = keyRun(300000, 0)[0];
+  const n = (first.xMax - 300000) / 10000;
+  const run = keyRun(300000, n + 2);
+  assert.equal(run[n].cost, first.xMax, '端に着いた');
+  assert.equal(run[n].xMax, first.xMax);
+  assert.equal(run[n + 1].xMax, first.xMax * 2, '次の → で 2 倍');
+  assert.equal(run[n + 2].xMax, first.xMax * 2, 'その後は保つ');
+  assert.equal(KC.growEnd(600000, 590000), 600000);
+  assert.equal(KC.growEnd(600000, 600000), 600000);
+  assert.equal(KC.growEnd(600000, 610000), 1200000);
+  assert.equal(KC.growEnd(600000, 1300000), 2400000, 'Shift で大きく超えても、届くまで 2 倍ずつ');
+});
+
+test('図の印（Q-489）: フォーカスを外した後の端 ＝ 同じ入力で開き直した時の端。app.js は focus・blur で端を保つ・戻す', () => {
+  for (const cost0 of [300000, 590000]) {
+    const run = keyRun(cost0, 5), last = run[run.length - 1];
+    const fresh = KC.frame(C, last.st, '2026-11', C.calc(last.st, '2026-11'));
+    const after = KC.frame(C, last.st, '2026-11', C.calc(last.st, '2026-11'), 0);   // blur で held = 0
+    assert.equal(after.xMax, fresh.xMax);
+    assert.deepEqual(after.line, fresh.line);
+  }
+  const app = fs.readFileSync(path.join(__dirname, '..', 'kogaku-ryoyohi', 'app.js'), 'utf8');
+  assert.match(app, /KC\.frame\(C, state, todayYm, r, held\)/);
+  assert.match(app, /markBtn\.addEventListener\('focus', function \(\) \{ if \(zu\) held = zu\.f\.xMax; \}\)/);
+  assert.match(app, /markBtn\.addEventListener\('blur'[\s\S]{0,80}held = 0;/);
+  assert.match(app, /held = KC\.growEnd\(held \|\| zu\.f\.xMax, v\)/);
+});
+
 test('図は上限の式を持たない（calc を呼ぶだけ）。chart.js は kogaku.js の後・app.js の前に読む', () => {
   const src = fs.readFileSync(path.join(__dirname, '..', 'kogaku-ryoyohi', 'chart.js'), 'utf8').replace(/\/\/.*$/gm, '');
   assert.doesNotMatch(src, /limitOf|limitFor|onePercent|selfPay|\.base\b|GASSAN_MIN|0\.01|\/ ?100\b/);
