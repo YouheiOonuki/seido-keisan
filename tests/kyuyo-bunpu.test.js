@@ -13,7 +13,7 @@ const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 test('値: 令和7年分 第16表の計（千人）と構成比を、表の区切りのまま写している', () => {
   assert.equal(KB.year, 2025);
   assert.match(KB.CHECKED, /^\d{4}-\d{2}-\d{2}$/);
-  assert.ok(KB.CHECKED <= new Date().toISOString().slice(0, 10));
+  assert.ok(KB.CHECKED <= new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10) /* 今日は日本時間で数える（UTC だと 0〜9 時に当日の確認日で落ちる） */);
   assert.equal(KB.source.checked, KB.CHECKED);
   assert.match(KB.source.url, /^https:\/\/www\.nta\.go\.jp\/publication\/statistics\/kokuzeicho\/minkan2025\//);
   assert.deepEqual(KB.classes.map((c) => [c.upTo, c.count, c.pct]), [
