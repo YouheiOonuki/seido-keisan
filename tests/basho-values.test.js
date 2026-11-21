@@ -38,9 +38,10 @@ test('段の名前はポータルの凡例の字（全角の「〜」の前後�
   assert.deepEqual(V.SHINSUI.map((r) => r.label), ['〜 0.5m', '0.5m 〜 3m', '3m 〜 5m', '5m 〜 10m', '10m 〜 20m']);
 });
 
-test('出どころの字は「令和 8 年 5 月版」と図の番号', () => {
+test('出どころの字は図の番号と、版の確かめ方（第 1 章の表紙の版と第 3 章の取得日。Q-904）', () => {
   for (const row of V.SHINSUI) {
-    assert.match(row.source.name, /令和 8 年 5 月版/, row.label);
+    assert.match(row.source.name, /第 1 章の表紙は令和 8 年 5 月版。第 3 章は 2026-11-22 に取得/, row.label);
+    assert.doesNotMatch(row.source.name, /（令和 8 年 5 月版）第 3 章/, row.label);
     assert.match(row.source.name, /図 3-3/, row.label);
   }
 });
