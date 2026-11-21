@@ -275,7 +275,7 @@
     setText('sum-jitan', d.jitan.use ? (d.jitan.salary ? yen(d.jitan.salary) : 'あり') : 'なし');
   }
 
-  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen.js） ---
+  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen-parts.js） ---
   var setBar = window.ScreenParts.fixbar();
 
   // --- 月ごとの受け取りの棒（Q-481）: 棒は calc の months の receiptTotal、免除の月は棒の下に印。育休の終わりの月の印を左右に引く・← → で、#leaveEnd を 1 か月ずつ変える ---

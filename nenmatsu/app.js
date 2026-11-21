@@ -336,7 +336,7 @@
     setText('sum-jutaku', d.jutaku > 0 ? yen(d.jutaku) : 'なし');
   }
 
-  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen.js） ---
+  // --- 固定バー（SCREEN.md 1.1・D59）: 結果が出たあと、結果の数字が画面の外にあるときだけ上端に出す（../lib/screen-parts.js） ---
   var setBar = window.ScreenParts.fixbar();
 
   // 入力欄から離れたときの change でも呼ばれるので、中身が同じなら描き直さない
