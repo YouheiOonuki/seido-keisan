@@ -61,9 +61,9 @@ test('3 ページ: 声の箱（最初は隠す）・例外文・voice-input.js�
   assert.match(fs.readFileSync(path.join(ROOT, 'kogaku-ryoyohi', 'index.html'), 'utf8'), /name="place0" value="in"/);
 });
 
-test('3 ページの断り書き: 「外部には送信されません」と書かず、声を送ることと保存しないことを書く（D589・D595。guide は主語つき D665）', () => {
+test('3 ページの断り書き: 「外部には送信されません」と書かず、声を送ることと保存しないことを書く（D589・D595。主語つき D665）', () => {
   const SEND = '「声で入れる」を使った時だけ、録った声を文字にするためにサーバーへ送ります。';
-  const VOICE = { index: SEND + '声と文字は保存しません。', guide: SEND + 'サーバーは、声も文字も保存しません。' };
+  const VOICE = SEND + 'サーバーは、声も文字も保存しません。';
   for (const dir of Object.values(PAGES)) {
     const html = fs.readFileSync(path.join(ROOT, dir, 'index.html'), 'utf8');
     const guide = fs.readFileSync(path.join(ROOT, dir, 'guide.html'), 'utf8');
@@ -72,7 +72,7 @@ test('3 ページの断り書き: 「外部には送信されません」と書�
     assert.match(badge, /・入力はこの端末にだけ保存$/, `${dir} バッジ`);
     for (const [name, h] of [['index', html], ['guide', guide]]) {
       assert.doesNotMatch(h, /外部には送信されません|外部に送信しません/, `${dir}/${name}`);
-      assert.ok(h.includes('にだけ保存されます。' + VOICE[name]), `${dir}/${name} 声の文`);
+      assert.ok(h.includes('にだけ保存されます。' + VOICE), `${dir}/${name} 声の文`);
     }
   }
 });
