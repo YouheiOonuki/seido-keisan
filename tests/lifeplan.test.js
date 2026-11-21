@@ -640,3 +640,22 @@ test('Q-213: guide の出典一覧は同じ URL を 1 行にまとめて描く�
   for (const s of all) assert.ok(lis[urls.indexOf(s.url)].children[1].text.includes(s.where), s.key);
 });
 
+
+test('押す所: 年ごとの改定のボタンは 44 px・間 8 px、表の見出しと印刷ボタンの間は 8 px（Q-759）', () => {
+  const css = read('lifeplan/lifeplan.css');
+  const root = read('style.css');
+  assert.match(root, /--tap:\s*44px/);
+  assert.match(root, /--sp-2:\s*0\.5rem/);
+  const kb = css.match(/^\.kai-years\s*\{([^}]*)\}/m);
+  assert.ok(kb, '.kai-years の規則が無い');
+  assert.match(kb[1], /gap:\s*var\(--sp-2\)/);
+  const btn = css.match(/^\.kai-years button\s*\{([^}]*)\}/m);
+  assert.ok(btn, '.kai-years button の規則が無い');
+  assert.match(btn[1], /min-height:\s*var\(--tap\)/);
+  const act = css.match(/#rows-box \+ #lp-actions\s*\{([^}]*)\}/);
+  assert.ok(act, '#rows-box + #lp-actions の規則が無い');
+  assert.match(act[1], /margin-top:\s*var\(--sp-2\)/);
+  const html = read('lifeplan/index.html');
+  assert.match(html, /<\/details>\s*<div class="btn-row no-print" id="lp-actions"/, '#lp-actions が #rows-box のすぐ後に無い');
+  assert.match(html, /<details class="rels" id="rows-box">/);
+});

@@ -33,8 +33,8 @@ input[type="range"] { width: 100%; min-height: var(--tap); }
 .kid-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 .kid-row .kid-n { min-width: 4em; }
 .tl-kai { fill: var(--text); }
-.kai-years { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
-.kai-years button { font: inherit; font-size: 13px; padding: 6px 10px; min-height: 36px; border: 1px solid var(--text); border-radius: 6px; background: var(--card); color: var(--text); cursor: pointer; }
+.kai-years { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: 6px 0 2px; }   /* 押す所 44 px・間 8 px（Q-759） */
+.kai-years button { font: inherit; font-size: 13px; padding: 6px 10px; min-height: var(--tap); border: 1px solid var(--text); border-radius: 6px; background: var(--card); color: var(--text); cursor: pointer; }
 .kai-detail p { margin: 8px 0 2px; }
 .kai-detail ul { margin: 2px 0 4px; padding-left: 1.2em; }
 .tl-iryohi { fill: color-mix(in srgb, var(--accent) 55%, var(--card)); }   /* 年金（--ok）と分ける */
@@ -42,6 +42,7 @@ input[type="range"] { width: 100%; min-height: var(--tap); }
 .tl-ikukyu, .tl-legend .sw-ikukyu { fill: var(--card); stroke: var(--text); stroke-width: 2; background: var(--card); border: 2px solid var(--text); border-radius: 50%; }   /* 育休・産休の給付の印（子の行の、生まれた年の所に 1 つ） */
 #r-ikukyu:empty, #ikukyu-notes:empty { display: none; }
 #lp-box-msg:empty { display: none; }
+#rows-box + #lp-actions { margin-top: var(--sp-2); }   /* 表の見出しと印刷ボタンの間 8 px（Q-759。共通の .btn-row の上は 4 px） */
 #rows-print { display: none; }
 /* 印刷: A4 横 1 枚。入力欄・広告・固定バー・折りたたみの説明は消し（企画書 100 と同じ消し方）、
    左に結果と時間軸、右に年ごとの表（今の年齢から 100 歳まで最大 100 行を 1 枚に収める字の大きさ） */
