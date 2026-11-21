@@ -214,6 +214,7 @@ fieldset.card { min-width: 0; }
 .req legend + * { clear: both; }
 .result-card { scroll-margin-top: 56px; }   /* 固定バー（45px）で見出しが隠れないように */
 .result-card details.rels { margin: 0; }
+.result-card details.rels + details.rels { margin-top: var(--sp-2); }   /* 結果の中の折りたたみの見出しどうしの間 8 px（Q-710） */
 details.card.opt { padding: 0 var(--sp-4); margin-bottom: var(--sp-3); }
 details.card.opt[open] { padding-bottom: var(--sp-3); }
 details.card.opt[open] > summary { margin-bottom: var(--sp-2); }
