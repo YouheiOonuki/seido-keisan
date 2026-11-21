@@ -11,13 +11,37 @@ test('表の色は、標準の段の名前を返す', () => {
   for (const row of V.SHINSUI) {
     assert.deepEqual(B.classify([...row.rgb, 255], V.SHINSUI), { status: 'hit', label: row.label });
   }
-  assert.deepEqual(B.classify([247, 245, 169, 255], V.SHINSUI), { status: 'hit', label: '0.5m未満' });
-  assert.deepEqual(B.classify([255, 216, 192, 255], V.SHINSUI), { status: 'hit', label: '0.5〜3m' });
+  assert.deepEqual(B.classify([247, 245, 169, 255], V.SHINSUI), { status: 'hit', label: '〜 0.5m' });
+  assert.deepEqual(B.classify([255, 216, 192, 255], V.SHINSUI), { status: 'hit', label: '0.5m 〜 3m' });
+  assert.deepEqual(B.classify([255, 183, 183, 255], V.SHINSUI), { status: 'hit', label: '3m 〜 5m' });
+  assert.deepEqual(B.classify([255, 145, 145, 255], V.SHINSUI), { status: 'hit', label: '5m 〜 10m' });
+  assert.deepEqual(B.classify([242, 133, 201, 255], V.SHINSUI), { status: 'hit', label: '10m 〜 20m' });
 });
 
-test('表に無い色は unreadable（詳細版の段の値が無い 3〜5m・5〜10m の色、詳細版だけの色、1 だけずれた色）', () => {
-  for (const rgb of [[255, 183, 183], [255, 145, 145], [248, 225, 166], [247, 245, 170], [0, 0, 0]]) {
+test('表に無い色は unreadable（タイルを見ていない 20m 〜 の色、詳細版だけの色、1 だけずれた色）', () => {
+  for (const rgb of [[220, 122, 220], [248, 225, 166], [255, 255, 179], [0, 0, 0]]) {
     assert.deepEqual(B.classify([...rgb, 255], V.SHINSUI), { status: 'unreadable' }, rgb.join(','));
+  }
+  for (const row of V.SHINSUI) {
+    for (let i = 0; i < 3; i++) {
+      for (const d of [-1, 1]) {
+        const rgb = row.rgb.slice();
+        rgb[i] += d;
+        if (rgb[i] < 0 || rgb[i] > 255) continue;
+        assert.deepEqual(B.classify([...rgb, 255], V.SHINSUI), { status: 'unreadable' }, rgb.join(','));
+      }
+    }
+  }
+});
+
+test('段の名前はポータルの凡例の字（全角の「〜」の前後に半角の空白。D663）', () => {
+  assert.deepEqual(V.SHINSUI.map((r) => r.label), ['〜 0.5m', '0.5m 〜 3m', '3m 〜 5m', '5m 〜 10m', '10m 〜 20m']);
+});
+
+test('出どころの字は「令和 8 年 5 月版」と図の番号', () => {
+  for (const row of V.SHINSUI) {
+    assert.match(row.source.name, /令和 8 年 5 月版/, row.label);
+    assert.match(row.source.name, /図 3-3/, row.label);
   }
 });
 
