@@ -1,0 +1,78 @@
+{
+  "src": "reset-storage.js",
+  "prefixes": [
+    "seido-keisan_"
+  ],
+  "legacy": [],
+  "pagePrefixes": {
+    "dattai-ichiji/index.html": [
+      "seido-keisan_dattai_draft"
+    ],
+    "ikukyu/index.html": [
+      "seido-keisan_ikukyu_draft"
+    ],
+    "invoice/index.html": [
+      "seido-keisan_invoice_draft"
+    ],
+    "iryohi/index.html": [
+      "seido-keisan_iryohi_draft"
+    ],
+    "iryohi/meisai/index.html": [
+      "seido-keisan_box"
+    ],
+    "hikkoshi/index.html": [
+      "seido-keisan_box"
+    ],
+    "lifeplan/index.html": [
+      "seido-keisan_box"
+    ],
+    "nenmatsu/hoken/index.html": [
+      "seido-keisan_hoken_draft"
+    ],
+    "shobyo/index.html": [
+      "seido-keisan_shobyo_draft"
+    ],
+    "gensen/index.html": [
+      "seido-keisan_gensen_draft"
+    ],
+    "juminzei/index.html": [
+      "seido-keisan_juminzei_draft"
+    ],
+    "kogaku-ryoyohi/index.html": [
+      "seido-keisan_kogaku_draft"
+    ],
+    "koko-mushoka/index.html": [
+      "seido-keisan_koko_draft"
+    ],
+    "nenkin-kuriage/index.html": [
+      "seido-keisan_kuriage_draft"
+    ],
+    "nenmatsu/index.html": [
+      "seido-keisan_nenmatsu_draft"
+    ],
+    "shienkin/index.html": [
+      "seido-keisan_shienkin_draft"
+    ],
+    "en/pension-refund/index.html": [
+      "seido-keisan_dattai_draft"
+    ],
+    "en/take-home-pay/index.html": [
+      "seido-keisan_takehome_draft"
+    ],
+    "en/residence-tax/index.html": [
+      "seido-keisan_residencetax_draft"
+    ],
+    "en/childcare-leave/index.html": [
+      "seido-keisan_childcareleave_draft"
+    ],
+    "en/high-cost-medical/index.html": [
+      "seido-keisan_highcost_draft"
+    ],
+    "en/moving-checklist/index.html": [
+      "seido-keisan_movingchecklist_draft"
+    ]
+  },
+  "pageLegacy": {},
+  "inline": [],
+  "skipDirs": []
+}
