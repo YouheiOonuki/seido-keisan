@@ -85,7 +85,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .app-header > p { max-width: 40em; margin-left: auto; margin-right: auto; }
 .lang-switch { font-size: var(--fs-s); }
 .lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }
-@media (max-width: 480px) { .app-header h1 { font-size: var(--fs-l); } }   /* スマホは題を 1 段小さく（1.5 画面の線に入力を収めるため） */
 
 /* レイアウト */
 .app-main { max-width: 680px; margin: 0 auto; padding: var(--sp-4); }
