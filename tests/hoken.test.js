@@ -75,3 +75,39 @@ test('画面: 見出しに申告書の欄の名前（計算式Ⅰ・計算式Ⅱ
   const nen = fs.readFileSync(path.join(root, 'nenmatsu', 'index.html'), 'utf8');
   assert.match(nen, /href="\.\/hoken\/"/);
 });
+
+// Q-976（ROADMAP 7.260 の 3 の 1、D739）: title・description・使い方の最初の文が「上限」に答える。字の中の額は lib/tax2026.js の値と同じ
+test('title・description・使い方の最初の文の上限の額が、値のファイル（令和8年分）と同じ', () => {
+  const TAX = require('../lib/tax2026.js');
+  const v = TAX.years[TAX.CURRENT];
+  const man = n => (n / 10000) + '万円';
+  const read = f => fs.readFileSync(path.join(__dirname, '../nenmatsu/hoken', f), 'utf8');
+  const meta = (html) => ({
+    title: html.match(/<title>([^<]*)<\/title>/)[1],
+    desc: html.match(/<meta name="description" content="([^"]*)"/)[1],
+  });
+  const tool = meta(read('index.html'));
+  const guide = read('guide.html');
+  const g = meta(guide);
+  const firstP = guide.slice(guide.indexOf('<main')).match(/<p\b[^>]*>([\s\S]*?)<\/p>/)[1];
+  // 額: 新契約の各区分 4 万円（計算式Ⅰ）、旧契約 5 万円（計算式Ⅲ）、23 歳未満 6 万円（計算式Ⅱ）、生命保険料控除の合計 12 万円、地震保険料控除 5 万円
+  assert.equal(man(v.seimei.shiki1.cap), '4万円');
+  assert.equal(man(v.seimei.shiki3.cap), '5万円');
+  assert.equal(man(v.seimei.bothCapU23), '6万円');
+  assert.equal(man(v.seimei.total), '12万円');
+  assert.equal(man(v.jishin.total), '5万円');
+  assert.match(tool.title, new RegExp(`上限は新契約で各${man(v.seimei.shiki1.cap)}・計${man(v.seimei.total)}`));
+  assert.ok(tool.desc.includes(`生命保険料控除（上限${man(v.seimei.total)}）と地震保険料控除（上限${man(v.jishin.total)}）`));
+  assert.match(g.title, new RegExp(`^保険料控除の上限と計算方法（令和8年分）新契約は各${man(v.seimei.shiki1.cap)}`));
+  assert.ok(g.desc.includes(`新契約で各${man(v.seimei.shiki1.cap)}（旧契約は${man(v.seimei.shiki3.cap)}）、合計${man(v.seimei.total)}、地震保険料控除は${man(v.jishin.total)}`));
+  assert.ok(g.desc.includes(`一般の生命保険料は${man(v.seimei.bothCapU23)}`));
+  assert.equal(firstP, `令和8年分の上限は、生命保険料控除が合計${man(v.seimei.total)}（一般の生命保険料・介護医療保険料・個人年金保険料が新契約で各${man(v.seimei.shiki1.cap)}）、地震保険料控除が${man(v.jishin.total)}です。`);
+  // リンクは答えの次
+  assert.ok(guide.indexOf('▶ 保険料控除の計算（令和8年分）を使う') > guide.indexOf(firstP));
+  // D472 の長さ（title 本体 32 字・description 70〜120 字）
+  for (const m of [tool, g]) {
+    assert.ok([...m.title.replace(/｜yorozu-craft$/, '')].length <= 32, m.title);
+    const n = [...m.desc].length;
+    assert.ok(n >= 70 && n <= 120, `${n} ${m.desc}`);
+  }
+});
