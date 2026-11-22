@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>退職金の税金と手取りの計算（退職所得控除・住民税）｜yorozu-craft</title>
+  <meta name="description" content="退職金の額と勤続年数から、退職所得控除、所得税と復興特別所得税、住民税、手取りの目安を計算します。勤続 5 年以下の決まりと、退職所得の受給に関する申告書を出していない時の源泉徴収も並べて出します。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/seido-keisan/taishoku/">
+
+  <meta property="og:title" content="退職金の税金と手取りの計算｜制度の計算機｜yorozu-craft">
+  <meta property="og:description" content="退職金の額と勤続年数から、退職所得控除、所得税と復興特別所得税、住民税、手取りの目安を計算します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/seido-keisan/taishoku/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/seido-keisan/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "退職金の税金と手取りの計算",
+    "description": "退職金の額と勤続年数から、退職所得控除、所得税と復興特別所得税、住民税、手取りの目安を計算します。",
+    "url": "https://yorozu-craft.com/seido-keisan/taishoku/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense: サイト所有確認の meta だけ（脱退一時金の計算と同じ扱い） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./taishoku.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>退職金の税金と手取りの計算</h1>
+    <p class="subtitle">退職金から引かれる所得税と住民税、手取りを出します。</p>
+  </header>
+
+  <main class="app-main layout-2col">
+
+    <p class="badge" id="asof">国税庁と総務省の資料で計算・確認日 <span id="asof-date">2026年11月22日</span>・入れた額は保存も送信もしません</p>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <fieldset class="card req">
+        <legend>退職金と勤続年数</legend>
+        <div class="field">
+          <label for="amount">退職金の額（源泉徴収票の「支払金額」）</label>
+          <div class="money"><input type="number" id="amount" inputmode="numeric" min="0" step="1" value="25000000"><span class="unit">円</span><span class="yomi" id="amount-yomi" aria-hidden="true"></span></div>
+        </div>
+        <fieldset class="field">
+          <legend>勤続年数（源泉徴収票の「勤続年数」）</legend>
+          <div class="span-row">
+            <div class="num"><input type="number" id="years" inputmode="numeric" min="0" max="80" step="1" value="30" aria-label="勤続年数の年"><span class="unit">年</span></div>
+            <div class="num"><input type="number" id="months" inputmode="numeric" min="0" max="11" step="1" value="0" aria-label="勤続年数の月"><span class="unit">か月</span></div>
+          </div>
+        </fieldset>
+        <fieldset class="field" id="yakuin-box" hidden>
+          <legend>勤続 5 年以下の区分</legend>
+          <label class="inline"><input type="radio" name="yakuin" value="no" checked> 役員等ではない</label>
+          <label class="inline"><input type="radio" name="yakuin" value="yes"> 役員等</label>
+        </fieldset>
+      </fieldset>
+
+      <section class="card result-card" aria-labelledby="h-result" id="result-card">
+        <h2 id="h-result">手取りと税金の目安</h2>
+        <div class="result-main" aria-live="polite">
+          <p class="lead" id="r-lead">手取り</p>
+          <p class="big" id="r-big">—</p>
+          <p class="detail" id="r-detail"></p>
+        </div>
+
+        <div class="band" id="band" role="img" aria-label="">
+          <span class="seg seg-kojo" id="b-kojo"></span><span class="seg seg-half" id="b-half"></span><span class="seg seg-tax" id="b-tax"></span><span class="seg seg-rest" id="b-rest"></span>
+        </div>
+        <ul class="band-key">
+          <li><span class="key seg-kojo"></span>控除で消える分 <span id="k-kojo">—</span></li>
+          <li><span class="key seg-half"></span>1/2 で消える分 <span id="k-half">—</span></li>
+          <li><span class="key seg-tax"></span><span id="k-tax-name">税</span> <span id="k-tax">—</span></li>
+          <li><span class="key seg-rest"></span><span id="k-rest-name">手取り</span> <span id="k-rest">—</span></li>
+        </ul>
+
+        <div class="table-wrap" tabindex="0" role="region" aria-label="源泉徴収票の欄の並び">
+          <table class="cmp sum">
+            <tbody>
+              <tr><th scope="row">支払金額</th><td id="s-amount">—</td></tr>
+              <tr><th scope="row">源泉徴収税額（所得税及び復興特別所得税）</th><td id="s-gensen">—</td></tr>
+              <tr><th scope="row">特別徴収税額（市町村民税）</th><td id="s-shi">—</td></tr>
+              <tr><th scope="row">特別徴収税額（道府県民税）</th><td id="s-ken">—</td></tr>
+              <tr><th scope="row">退職所得控除額</th><td id="s-kojo">—</td></tr>
+              <tr><th scope="row">勤続年数</th><td id="s-years">—</td></tr>
+              <tr><th scope="row">課税退職所得金額</th><td id="s-kazei">—</td></tr>
+              <tr class="total"><th scope="row">手取り</th><td id="s-tedori">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>退職所得の受給に関する申告書</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="申告書の有無と源泉徴収税額">
+          <table class="cmp sum">
+            <thead><tr><th scope="col">申告書</th><th scope="col">源泉徴収税額</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">出した時</th><td id="sh-yes">—</td></tr>
+              <tr><th scope="row">出していない時（20.42%。確定申告で精算）</th><td id="sh-no">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>勤続年数が 1 年違う時</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="勤続年数が 1 年違う時">
+          <table class="cmp near">
+            <thead><tr><th scope="col">勤続年数</th><th scope="col">退職所得控除額</th><th scope="col">源泉徴収税額</th><th scope="col">住民税</th></tr></thead>
+            <tbody id="near"></tbody>
+          </table>
+        </div>
+
+        <p class="small">この計算は目安です。実際の額は税務署と市区町村が決めます。</p>
+      </section>
+    </form>
+
+    <details class="card opt" id="d-shogai">
+      <summary>障害が元の退職: <span class="opt-state" id="st-shogai">いいえ</span></summary>
+      <label class="inline"><input type="checkbox" id="shogai"> 障害者になったことが直接の原因で退職した</label>
+    </details>
+
+    <details class="card opt">
+      <summary>この計算機の対象外</summary>
+      <ul class="small">
+        <li class="link-row"><a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/gensen/2735.htm">No.2735 同じ年に2か所以上から退職手当等が支払われるとき（国税庁）</a></li>
+        <li class="link-row"><a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/gensen/2741.htm">No.2741 同じ年に一般退職手当等のほか、短期退職手当等や特定役員退職手当等がある場合（国税庁）</a></li>
+      </ul>
+    </details>
+
+    <!-- about-tool: 道具の説明（WRITING 1 章）。値は lib/taishoku-values.js の出典（国税庁 No.1420・No.2732・No.2260、総務省）にある事だけ -->
+    <details class="about-tool card opt no-print" id="about-tool">
+      <summary>この道具について（使い方・計算のしくみ・注意）</summary>
+      <h3>退職金の税金の計算でわかること</h3>
+      <p>退職金の額と勤続年数から、退職所得控除額、課税退職所得金額、所得税及び復興特別所得税、住民税（市町村民税・道府県民税）と手取りの目安を出します。欄の名前は、退職所得の源泉徴収票と同じです。</p>
+      <h3>使い方の要点</h3>
+      <ul>
+        <li>退職金の額は、源泉徴収される前の額（支払金額）です。</li>
+        <li>勤続年数の 1 年未満の端数は、1 年に切り上げて数えます。</li>
+        <li>勤続 5 年以下の時は、役員等かどうかで計算が変わります。</li>
+      </ul>
+      <h3>計算のしくみ</h3>
+      <p>退職所得控除額は、勤続 20 年以下は 40万円 × 勤続年数（80万円に満たない時は 80万円）、20 年を超えると 800万円 ＋ 70万円 ×（勤続年数 − 20 年）です。退職金から控除額を引いた額に 1/2 を掛け、1,000円未満を切り捨てた額に、所得税の速算表を当て、102.1% を掛けます。住民税は、退職所得の金額（退職金から控除額を引いた額の 1/2）の 6%（市町村民税）と 4%（道府県民税）で、それぞれ 100円未満を切り捨てます。</p>
+      <h3>注意</h3>
+      <p>勤続 5 年以下の役員等は 1/2 を掛けません。所得税では、勤続 5 年以下で役員等でない人は、控除を引いた後の 300万円を超える部分に 1/2 を掛けません。退職所得の受給に関する申告書を出していない時は、支払金額の 20.42% が源泉徴収され、確定申告で精算します。</p>
+    </details>
+    <!-- /about-tool -->
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">制度の計算機</a></li>
+        <li><a href="../nenmatsu/">年末調整の計算</a></li>
+        <li><a href="../juminzei/">住民税の計算</a></li>
+        <li><a href="../dattai-ichiji/">脱退一時金の計算</a></li>
+        <li><a href="./" aria-current="page">退職金の税金と手取りの計算</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <script src="../used.js"></script>
+  <script src="../lib/sokusan.js"></script>
+  <script src="../lib/taishoku-values.js"></script>
+  <script src="../lib/taishoku.js"></script>
+  <script src="./app.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
