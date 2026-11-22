@@ -122,7 +122,8 @@ for (const row of ROWS) {
     assert.equal(r.now.kazei, row.kazei);
     assert.equal(r.now.shotokuzei, row.tax);
     assert.equal(r.now.gensen, row.gensen);
-    assert.equal(r.now.tedori, row.in.amount - row.gensen);
+    // 住民税が出ない行（短期で 300万円を超える）は手取りも出さない
+    assert.equal(r.now.tedori, r.now.jumin ? row.in.amount - row.gensen - r.now.jumin.total : null);
   });
 }
 test('企画書 114 の 8 章: 申告書なし・800 万円 → 1,633,600円', () => {
@@ -181,11 +182,44 @@ test('帯の内訳は、足すと退職金の額', () => {
     assert.ok(b.rest >= 0, row.name);
   }
   const b = T.calc({ amount: 25000000, years: 30 }).now.band;
-  assert.deepEqual(b, { kojo: 15000000, half: 5000000, tax: 584522, rest: 4415478 });
+  assert.deepEqual(b, { kojo: 15000000, half: 5000000, tax: 584522 + 500000, rest: 3915478, jumin: true });
   const t = T.calc({ amount: 10000000, years: 4 }).now.band;           // 短期: 1/2 で消えるのは 150万円だけ
   assert.equal(t.half, 1500000);
   const k = T.calc({ amount: 10000000, years: 3, yakuin: true }).now.band;   // 特定役員: 1/2 で消える分は 0
   assert.equal(k.half, 0);
+});
+
+// --- 住民税（総務省 65871.html: 退職所得の金額 × 6%・4%、退職所得の金額は 1,000円未満・税額は各 100円未満を切り捨て） ---
+test('住民税: 勤続 30 年・2,500 万円 → 退職所得の金額 500万円、市町村民税 300,000円・道府県民税 200,000円', () => {
+  const r = T.calc({ amount: 25000000, years: 30 }).now;
+  assert.deepEqual(r.jumin, { kazei: 5000000, shi: 300000, ken: 200000, total: 500000 });
+  assert.equal(r.tedori, 25000000 - 584522 - 500000);
+});
+
+test('住民税: 1,000円未満と 100円未満の切り捨て（651,750 → 651,000、39,060 → 39,000、26,040 → 26,000）', () => {
+  const r = T.calc({ amount: 10003500, years: 21 }).now;   // 控除 870万円、差 1,303,500 × 1/2 = 651,750
+  assert.deepEqual(r.jumin, { kazei: 651000, shi: 39000, ken: 26000, total: 65000 });
+});
+
+test('住民税: 勤続 5 年以内の役員等は 1/2 にしない（勤続 3 年・1,000 万円 → 880万円 × 6%・4%）', () => {
+  const r = T.calc({ amount: 10000000, years: 3, yakuin: true }).now;
+  assert.deepEqual(r.jumin, { kazei: 8800000, shi: 528000, ken: 352000, total: 880000 });
+});
+
+test('住民税: 短期で 収入 − 控除 が 300万円以下は 1/2、300万円を超えると出さない（総務省のページに式が無い）', () => {
+  const a = T.calc({ amount: 5000000, years: 5 }).now;     // 差 300万円
+  assert.deepEqual(a.jumin, { kazei: 1500000, shi: 90000, ken: 60000, total: 150000 });
+  const b = T.calc({ amount: 5001000, years: 5 }).now;     // 差 300万1,000円
+  assert.equal(b.jumin, null);
+  assert.equal(b.tedori, null);
+  assert.equal(b.band.jumin, false);
+  assert.equal(b.band.tax, b.gensen);
+  assert.equal(b.band.kojo + b.band.half + b.band.tax + b.band.rest, 5001000);
+  assert.ok(T.calc({ amount: 5001000, years: 6 }).now.jumin);   // 6 年なら一般で出る
+});
+
+test('住民税: 控除の内なら 0円', () => {
+  assert.deepEqual(T.calc({ amount: 3000000, years: 10 }).now.jumin, { kazei: 0, shi: 0, ken: 0, total: 0 });
 });
 
 test('読めない入力は ready: false', () => {
@@ -201,6 +235,8 @@ test('値のファイルに出典と確認日がある', () => {
   const urls = V.SOURCES.map((s) => s.url);
   assert.ok(urls.includes('https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1420.htm'));
   assert.ok(urls.includes('https://www.nta.go.jp/taxes/shiraberu/taxanswer/gensen/2732.htm'));
+  assert.ok(urls.includes('https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/65871.html'));
+  assert.deepEqual(V.jumin, { shi: 6, ken: 4, unit: 1000, taxUnit: 100 });
 });
 
 test('新しい 3 つのファイルは外へ送らない（fetch・XMLHttpRequest・sendBeacon が 0）', () => {
