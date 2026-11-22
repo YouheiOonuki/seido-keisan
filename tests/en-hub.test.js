@@ -43,3 +43,17 @@ test('入口の内部リンクが実在する', () => {
     assert.ok(fs.existsSync(p.endsWith('/') ? p + 'index.html' : p), m[1]);
   }
 });
+
+test('Q-992: 本文の最初の文は何の一覧か。翻訳の断りはその後ろに 1 回（字は変えない）', () => {
+  const hub = read('en/index.html');
+  const main = hub.slice(hub.indexOf('<main'), hub.indexOf('</main>'));
+  const lead = 'Calculators for tax and benefits in Japan: take-home pay, residence tax, pension refund, childcare leave and high-cost medical care.';
+  const note = 'This is an English translation of the <a href="../" hreflang="ja">Japanese page</a>. If the two differ, the Japanese version prevails.';
+  const firstP = main.match(/<p[^>]*>([\s\S]*?)<\/p>/)[1];
+  assert.equal(firstP, lead);
+  assert.equal(hub.split('Japanese version prevails').length - 1, 1);
+  assert.ok(main.indexOf(note) > main.indexOf(lead));
+  assert.ok(hub.includes('<title>Japan Tax Calculator in English: Income Tax, Take-Home Pay｜yorozu-craft</title>'));
+  assert.ok(hub.includes('<h1>Japan Tax and Benefit Calculators</h1>'));
+  assert.ok(!hub.includes('application/ld+json'));
+});
