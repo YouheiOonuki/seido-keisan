@@ -440,3 +440,12 @@ test('図は calc の months を使うだけ（足し算・給付の式を持た
   assert.ok(sum > 0 && html.indexOf('id="izu-box"') > sum && html.indexOf('id="izu-box"') < html.indexOf('id="sched"'));
   assert.match(fs.readFileSync(path.join(__dirname, '..', 'style.css'), 'utf8'), /@media print \{ #izu-box \{ display: none; \} \}/);
 });
+
+// 型 A（yorozu-plans D896・Q-1138）: <main> の最初の段落は答えの文（見えている語「産休」が入る）。断り（上限額の日付・資料・確認日・送信しない）は字を変えずにその後ろ
+test('育休の画面: 最初の段落は答えの文、断りはその後ろ', () => {
+  const html = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'ikukyu', 'index.html'), 'utf8');
+  const main = html.slice(html.indexOf('<main'));
+  const first = main.match(/<p[^>]*>([\s\S]*?)<\/p>/)[1];
+  assert.strictEqual(first, '毎月の給与と出産予定日を入れると、産休・育休の間に受け取る出産手当金と育児休業給付金、休業中の手取りの目安が月ごとに出ます。');
+  assert.ok(main.indexOf(first) < main.indexOf('<p class="badge" id="asof">2026年8月1日からの上限額・法令と厚生労働省・協会けんぽの資料で計算・確認日'));
+});
