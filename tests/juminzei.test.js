@@ -593,3 +593,12 @@ test('図の .zu-* は kuriage.css の 1 か所だけ（住民税は kuriage.css
   assert.match(css, /^\.steps-wide-th th \{/m);
   for (const f of ['nenkin-kuriage/app.js', 'kogaku-ryoyohi/app.js']) assert.match(read(f), /t\.className = 'steps tbl steps-wide-th';/, f);
 });
+
+// 型 A（yorozu-plans D885・Q-1101）: <main> の最初の段落は title の問いに答える 1 文（「計算」の語が入る）。断り（制度の年度・確認日）は字を変えずにその後ろ
+test('住民税の画面: 最初の段落は答えの文、断りはその後ろ', () => {
+  const html = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'juminzei', 'index.html'), 'utf8');
+  const main = html.slice(html.indexOf('<main'));
+  const first = main.match(/<p[^>]*>([\s\S]*?)<\/p>/)[1];
+  assert.strictEqual(first, '令和8年の給与の収入と社会保険料を入れると、令和9年度の住民税の年額と6月からの毎月の目安を計算し、非課税になるかを判定します。');
+  assert.ok(main.indexOf(first) < main.indexOf('<p class="badge" id="asof">令和9年度の制度（地方税法・総務省の資料）で計算・確認日'));
+});
