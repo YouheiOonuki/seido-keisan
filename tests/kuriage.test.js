@@ -183,7 +183,13 @@ test('値の表と画面（広告なし D118）', () => {
     const h = fs.readFileSync(path.join(__dirname, '..', 'nenkin-kuriage', f), 'utf8');
     assert.ok(!/adsbygoogle\.js/.test(h), f + ' に広告のスクリプトがない');
     assert.ok(/google-adsense-account/.test(h), f + ' に所有確認の meta');
-    assert.ok(h.includes('このページは広告なし・登録なし・入力は端末の外に出ません。'), f + ' の先頭の定型文');
+    // 声を外へ送る道具の頭に「入力は端末の外に出ません」を置かない（Q-1252・D1096）
+    assert.ok(!h.includes('このページは広告なし・登録なし・入力は端末の外に出ません。'), f + ' に頭の定型文が無い');
+    assert.ok(!/class="noad"/.test(h), f + ' に noad の段落が無い');
+  }
+  {
+    const h = fs.readFileSync(path.join(__dirname, '..', 'nenkin-kuriage', 'index.html'), 'utf8');
+    assert.ok(h.includes('声の入力はサーバー（Cloudflare の AI）で文字にします。保存しません。ほかの入力は端末の外に出ません。'), '声の箱の下の字');
   }
 });
 
