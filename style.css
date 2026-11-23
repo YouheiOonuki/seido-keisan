@@ -93,6 +93,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .app-main { max-width: 680px; margin: 0 auto; padding: var(--sp-4); }
 .card { margin-bottom: var(--sp-4); }
 .card h2 { margin-bottom: var(--sp-3); }
+.result-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--sp-2); margin-bottom: var(--sp-3); }
+.result-head h2 { margin-bottom: 0; }
+.result-head .example-line { margin: 0; font-size: var(--fs-s); color: var(--muted); }   /* 例の値で計算した結果を出している間だけ（Q-1223） */
 .card h3 { margin: var(--sp-4) 0 var(--sp-1); }
 /* 結果などを app.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる */
 .js-loading .app-main { visibility: hidden; }

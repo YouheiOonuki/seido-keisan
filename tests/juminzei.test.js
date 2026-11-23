@@ -567,7 +567,7 @@ test('図の印（Q-509）: → を 5 回押す間、目盛りは同じで印は
   const fresh = JC.frame(J, st, R9, J.calc(J.normalizeInput(st), R9), 0);
   assert.equal(fresh.xMax, JC.frame(J, st, R9, J.calc(J.normalizeInput(st), R9)).xMax);
   const app = fs.readFileSync(path.join(__dirname, '..', 'juminzei', 'app.js'), 'utf8');
-  assert.match(app, /JC\.frame\(J, state, CUR, r, held\)/);
+  assert.match(app, /JC\.frame\(J, src, CUR, r, held\)/);
   assert.match(app, /markBtn\.addEventListener\('focus', function \(\) \{ if \(zu\) held = zu\.f\.xMax; \}\)/);
   assert.match(app, /markBtn\.addEventListener\('blur'[\s\S]{0,80}held = 0;/);
 });
