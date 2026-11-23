@@ -32,6 +32,11 @@
   var form = $('form');
   var state = N.normalizeInput(store.get(DRAFT, {}));
 
+  // --- 開いた時の例（Q-1223・D1060）: 入力が何も無い（保存した入力も無い）間は、入力欄の placeholder の例と同じ値で計算した結果を出す。入れたら今の動き ---
+  var EXAMPLE = { income: 5000000, withheld: 120000, shakai: 720000 };
+  var touched = false;   // 画面で 1 度でも入力が動いたら、入力が空に戻っても例は出さない
+  function exampleOn() { return !touched && !hasInput(); }
+
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
   function yomi(n) {
     n = Number(n) || 0;
@@ -193,10 +198,13 @@
   }
 
   function render() {
-    var d = N.normalizeInput(state);
+    var ex = exampleOn();
+    var d = N.normalizeInput(ex ? EXAMPLE : state);
     var r = N.calc(d, CUR);
     var p = N.calc(d, PREV);
     var msgs = [];
+    $('r-example').hidden = !ex;
+    $('r-example').textContent = ex ? '例: 給与 ' + EXAMPLE.income / 10000 + ' 万円・源泉徴収 ' + EXAMPLE.withheld / 10000 + ' 万円・社会保険料 ' + EXAMPLE.shakai / 10000 + ' 万円の場合' : '';
     var main = $('result-main');
     main.className = 'result-main';
 
@@ -237,9 +245,9 @@
     $('to-shaho').hidden = !(r.ok && d.income && d.spouse.has && d.spouse.amount > 0);
 
     // 「くわしく入れる」の summary に今の状態を出す（SCREEN.md 1.1 の 4）
-    updateSummaries(d);
-    // 固定バーの文言は結果の大きな数字と同じ。年調年税額だけのときは名前を付ける
-    setBar(!r.ok || !d.income ? '' : d.withheld ? $('r-big').textContent : '年調年税額 ' + yen(r.nenzei));
+    updateSummaries(N.normalizeInput(state));
+    // 固定バーの文言は結果の大きな数字と同じ。年調年税額だけのときは名前を付ける。例の結果は出さない
+    setBar(ex || !r.ok || !d.income ? '' : d.withheld ? $('r-big').textContent : '年調年税額 ' + yen(r.nenzei));
 
     var box = $('msgs');
     box.textContent = '';
@@ -346,6 +354,7 @@
     var sig = JSON.stringify(N.normalizeInput(state));
     if (sig === lastSig) return;
     lastSig = sig;
+    touched = true;
     render();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () { store.set(DRAFT, N.normalizeInput(state)); }, 300);

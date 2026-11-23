@@ -21,6 +21,11 @@
   var page = document.querySelector('main');
   var state = H.normalizeInput(store.get({}));
 
+  // --- 開いた時の例（Q-1223・D1060）: 入力が何も無い（保存した入力も無い）間は、入力欄の placeholder の例と同じ値で計算した結果を出す。入れたら今の動き ---
+  var EXAMPLE = { a: 80000 };
+  var touched = false;   // 画面で 1 度でも入力が動いたら、入力が空に戻っても例は出さない
+  function exampleOn() { return !touched && H.calc(state).empty; }
+
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
   function yomi(n) {
     n = Number(n) || 0;
@@ -73,7 +78,10 @@
 
   var shown = false;
   function render() {
-    var r = H.calc(state), s = r.shotoku, j = r.jumin;
+    var ex = exampleOn();
+    var r = H.calc(ex ? H.normalizeInput(EXAMPLE) : state), s = r.shotoku, j = r.jumin;
+    $('r-example').hidden = !ex;
+    $('r-example').textContent = ex ? '例: A 新保険料 ' + EXAMPLE.a / 10000 + ' 万円の場合' : '';
     var cols = Object.assign({}, s.cols);
     if ('㋑' in cols || '㋺' in cols || '㋩' in cols) cols['計'] = s.seimei;
     if ('Ⓑ' in cols || 'Ⓒ' in cols) cols['控除'] = s.jishin;
@@ -100,8 +108,8 @@
       tr.appendChild(th); tr.appendChild(td); tb.appendChild(tr);
     });
 
-    $('topbar-num').textContent = r.empty ? '—' : yen(s.total);
-    if (!r.empty) shown = true;
+    $('topbar-num').textContent = r.empty || ex ? '—' : yen(s.total);
+    if (!r.empty && !ex) shown = true;   // 例の結果は固定バーに出さない
     updateTopbar();
     window.yzUsed?.();
   }
@@ -118,6 +126,7 @@
     if (!el.dataset || !el.dataset.k) return;
     state[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value;
     state = H.normalizeInput(state);
+    touched = true;
     updateYomi();
     render();
     clearTimeout(saveTimer);
@@ -153,6 +162,7 @@
       if (!res.ok) { fileMsg(res.message); return; }
       if (!H.calc(state).empty && !window.confirm('今の入力内容を、ファイルの内容で置き換えます。よろしいですか？')) { fileMsg('読み込みをやめました。'); return; }
       state = res.data;
+      touched = true;
       fillForm();
       render();
       store.set(state);

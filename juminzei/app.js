@@ -33,6 +33,12 @@
   var form = $('form');
   var state = J.normalizeInput(store.get(DRAFT, {}));
 
+  // --- 開いた時の例（Q-1223・D1060）: 入力が何も無い（保存した入力も無い）間は、入力欄の placeholder の例と同じ値で計算した結果を出す。入れたら今の動き ---
+  var EXAMPLE = { income: 3000000, shakai: 450000 };
+  var touched = false;   // 画面で 1 度でも入力が動いたら、入力が空に戻っても例は出さない
+  function exampleOn() { return !touched && !hasInput(); }
+  function viewInput() { return J.normalizeInput(exampleOn() ? EXAMPLE : state); }
+
   function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
   function yomi(n) {
     n = Number(n) || 0;
@@ -217,9 +223,12 @@
   }
 
   function render() {
-    var d = J.normalizeInput(state);
+    var ex = exampleOn();
+    var d = ex ? viewInput() : J.normalizeInput(state);
     var r = J.calc(d, CUR);
     var p = J.calc(d, PREV);
+    $('r-example').hidden = !ex;
+    $('r-example').textContent = ex ? '例: 給与 ' + EXAMPLE.income / 10000 + ' 万円・社会保険料 ' + EXAMPLE.shakai / 10000 + ' 万円の場合' : '';
     var y = r.y;
     var msgs = [];
     var main = $('result-main');
@@ -251,10 +260,10 @@
     box.hidden = msgs.length === 0;
 
     // 「くわしく入れる」の summary に今の状態を出す（SCREEN.md 1.1 の 4）
-    updateSummaries(d);
-    // 固定バーの文言は結果の大きな数字に名前を付けたもの
-    setBar(!has ? '' : r.total === 0 ? '住民税 ' + $('r-big').textContent : '住民税（年額） ' + $('r-big').textContent);
-    drawZu(r, d);
+    updateSummaries(J.normalizeInput(state));
+    // 固定バーの文言は結果の大きな数字に名前を付けたもの。例の結果は出さない
+    setBar(!has || ex ? '' : r.total === 0 ? '住民税 ' + $('r-big').textContent : '住民税（年額） ' + $('r-big').textContent);
+    drawZu(r, d, ex ? d : state);
 
     // 均等割・所得割の判定
     judge('j-kinto', r.kintoHikazei, r.reasons.kinto, has);
@@ -377,12 +386,12 @@
     return e;
   }
   function man(v) { return v ? (v / 10000).toLocaleString('ja-JP') + '万' : '0'; }
-  function drawZu(r, d) {
+  function drawZu(r, d, src) {
     var box = $('jzu-box'), btn = $('jzu-mark'), old = $('jzu').querySelector('svg');
     var show = JC.shows(d);
     box.hidden = !show;
     if (!show) { if (old) old.remove(); zu = null; return; }
-    var f = JC.frame(J, state, CUR, r, held);
+    var f = JC.frame(J, src, CUR, r, held);
     var x = function (v) { return PL + (W - PL - PR) * v / f.xMax; };
     var y = function (v) { return PT + (H - PT - PB) * (1 - v / f.yMax); };
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img', class: 'zu', 'aria-label': '給与の収入と住民税（年額）' });
@@ -420,7 +429,7 @@
   }
   function tryIncome(v, compute) {
     var fi = $('income');
-    if (v === J.normalizeInput(state).income || !JC.allowed(J, v, fi.min, fi.max)) return false;   // 0 円と lib の上限の外へは動かない
+    if (v === viewInput().income || !JC.allowed(J, v, fi.min, fi.max)) return false;   // 0 円と lib の上限の外へは動かない
     setIncome(v);
     if (compute) runNow();
     return true;
@@ -430,7 +439,7 @@
     var step = JC.keyStep(e.key, e.shiftKey);
     if (!step || !zu) return;
     e.preventDefault();
-    var prev = held, v = J.normalizeInput(state).income + step;
+    var prev = held, v = viewInput().income + step;
     held = JC.growEnd(held || zu.f.xMax, v);   // 端に着いた次の → だけ、端を 2 倍にして描き直す
     if (!tryIncome(v, true)) held = prev;
   });
@@ -438,8 +447,8 @@
   markBtn.addEventListener('blur', function () {
     if (drag) return;
     held = 0;
-    var d = J.normalizeInput(state);
-    if (zu) drawZu(J.calc(d, CUR), d);   // 横の端を今の収入に合わせて描き直す（開き直した時と同じ端）
+    var d = viewInput();
+    if (zu) drawZu(J.calc(d, CUR), d, exampleOn() ? d : state);   // 横の端を今の収入に合わせて描き直す（開き直した時と同じ端）
   });
   markBtn.addEventListener('pointerdown', function (e) {
     if (e.button !== 0 || !zu) return;
@@ -496,6 +505,7 @@
     var sig = JSON.stringify(J.normalizeInput(state));
     if (sig === lastSig) return;
     lastSig = sig;
+    touched = true;
     render();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () { store.set(DRAFT, J.normalizeInput(state)); }, 300);
