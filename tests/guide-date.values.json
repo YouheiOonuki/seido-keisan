@@ -1,0 +1,41 @@
+{
+  "html": {
+    "dattai-ichiji/guide.html": "lib/dattai-values.js#CHECKED",
+    "en/childcare-leave/guide.html": "lib/ikukyu-values.js#CHECKED",
+    "en/high-cost-medical/guide.html": "lib/kogaku-values.js#CHECKED",
+    "en/moving-checklist/guide.html": "lib/moving-checklist-values.js#CHECKED",
+    "en/pension-refund/guide.html": "lib/dattai-values.js#CHECKED",
+    "en/residence-tax/guide.html": "lib/juminzei-values.js#CHECKED",
+    "en/take-home-pay/guide.html": [
+      "lib/take-home-values.js#CHECKED",
+      "lib/kyuyo-bunpu-values.js#CHECKED"
+    ],
+    "gensen/guide.html": "lib/gensen.js#CHECKED",
+    "hikkoshi/guide.html": "lib/hikkoshi-values.js#CHECKED",
+    "hikkoshi/index.html": "lib/hikkoshi-values.js#CHECKED",
+    "ikukyu/guide.html": "lib/ikukyu-values.js#CHECKED",
+    "ikukyu/index.html": "lib/ikukyu-values.js#CHECKED",
+    "invoice/guide.html": "lib/invoice-values.js#CHECKED",
+    "invoice/index.html": "lib/invoice-values.js#CHECKED",
+    "iryohi/guide.html": "lib/iryohi-values.js#CHECKED",
+    "iryohi/meisai/guide.html": "lib/iryohi-values.js#MEISAI.CHECKED",
+    "juminzei/guide.html": "lib/juminzei-values.js#CHECKED",
+    "juminzei/index.html": "lib/juminzei-values.js#CHECKED",
+    "kaitei/index.html": "lib/kaitei-values.js#CHECKED",
+    "kogaku-ryoyohi/guide.html": "lib/kogaku-values.js#CHECKED",
+    "koko-mushoka/guide.html": "lib/koko-values.js#CHECKED",
+    "koko-mushoka/index.html": "lib/koko-values.js#CHECKED",
+    "lifeplan/guide.html": [
+      "lib/kuriage-values.js#CHECKED",
+      "lib/lifeplan-values.js#CHECKED",
+      "lib/take-home-values.js#CHECKED"
+    ],
+    "nenkin-kuriage/guide.html": "lib/kuriage-values.js#CHECKED",
+    "nenmatsu/guide.html": "lib/tax2026.js#CHECKED",
+    "nenmatsu/hoken/guide.html": "lib/hoken.js#CHECKED",
+    "nenmatsu/index.html": "lib/tax2026.js#CHECKED",
+    "shienkin/guide.html": "lib/shienkin-values.js#CHECKED",
+    "shobyo/guide.html": "lib/shobyo.js#CHECKED",
+    "yobosesshu/guide.html": "lib/yobosesshu-values.js#CHECKED"
+  }
+}
