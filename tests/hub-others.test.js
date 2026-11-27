@@ -20,3 +20,27 @@ test('一覧: 「計算機の一覧」の下に h2「家計のほかの計算」
   assert.deepEqual(paths, ['/shaho-check/', '/loan-sim/', '/loan-sim/kinri/', '/denki-dai/', '/gakko-keisan/']);
   assert.equal(html.split('<h2 id="h-others">').length, 2, '家計のほかの計算は 1 つだけ');
 });
+
+// 名前と説明は、先のページの h1 と meta description の字そのまま（QUEUE Q-1303、D1162）。
+// 先の repo が隣（SIBLINGS_DIR、既定は ../..）に無い所では飛ばす。gakko-keisan は description に断りの字があるため写していない（Q-1303 の止める条件）。
+const siblings = process.env.SIBLINGS_DIR || path.join(__dirname, '..', '..');
+const targets = [
+  ['../shaho-check/', 'shaho-check/index.html'],
+  ['../loan-sim/', 'loan-sim/index.html'],
+  ['../loan-sim/kinri/', 'loan-sim/kinri/index.html'],
+  ['../denki-dai/', 'denki-dai/index.html'],
+];
+const hubBlock = html.slice(html.indexOf('<h2 id="h-others">'), html.indexOf('</section>', html.indexOf('<h2 id="h-others">')));
+
+for (const [href, file] of targets) {
+  const full = path.join(siblings, file);
+  test(`一覧: ${href} の名前と説明は先のページの h1・description と同じ`, { skip: !fs.existsSync(full) && '先の repo が隣に無い' }, () => {
+    const page = fs.readFileSync(full, 'utf8');
+    const h1 = page.match(/<h1[^>]*>([^<]*)<\/h1>/)[1];
+    const desc = page.match(/<meta name="description" content="([^"]*)"/)[1];
+    const row = hubBlock.match(new RegExp(String.raw`<a href="${href}">\s*<span class="name">([^<]*)</span>\s*<span class="desc">([^<]*)</span>`));
+    assert.ok(row, 'リンクの行');
+    assert.equal(row[1], h1);
+    assert.equal(row[2], desc);
+  });
+}
